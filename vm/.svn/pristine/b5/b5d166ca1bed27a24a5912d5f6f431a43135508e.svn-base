@@ -1,0 +1,125 @@
+package com.py.service;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.py.bean.Message;
+import com.py.bean.PavePlan;
+import com.py.bean.PaveRecord;
+import com.py.bean.PaveRecordDetail;
+import com.py.dao.MessageMapper;
+import com.py.dao.PavePlanMapper;
+import com.py.dao.PaveRecordDetailMapper;
+import com.py.dao.PaveRecordMapper;
+
+@Service
+public class OperatService {
+	@Autowired
+	private PavePlanMapper pavePlanMapper; //铺货计划
+	@Autowired
+	private PaveRecordMapper paveRecordMapper;//铺货记录
+	@Autowired
+	private PaveRecordDetailMapper paveRecordDetailMapper;//铺货记录详情
+	
+	
+	
+	/*************************************************** 铺货计划 ***********************************************************/
+	
+	public List<PavePlan> selectPavePlan() {
+		
+		PavePlan pavePlan = new PavePlan();
+		
+		return pavePlanMapper.selectVariousByExample(pavePlan);
+	}
+
+
+	/**
+	 * 保存铺货计划
+	 * @param request
+	 * @return
+	 * @throws ParseException 
+	 */
+	public int savePlan(HttpServletRequest request) throws ParseException {
+		String planTitle = request.getParameter("planTitle");
+		String planComit = request.getParameter("planComit");
+		String planTime = request.getParameter("planTime");
+		String pavePlanAdminId = request.getParameter("pavePlanAdminId");
+		
+		
+		
+		PavePlan pavePlan = new PavePlan();
+		pavePlan.setPavePlanTitle(planTitle);
+		pavePlan.setPavePlanComit(planComit);
+		pavePlan.setPavePlanTime(planTime);
+		pavePlan.setPavePlanAdminId(Integer.parseInt(pavePlanAdminId));
+		
+		int a = pavePlanMapper.insertSelective(pavePlan);
+		
+		
+		
+		return a;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*************************************************** 铺货记录 ***********************************************************/
+	
+
+	public List<PaveRecord> selectPaveRecord() {
+		
+		PaveRecord paveRecord = new PaveRecord();
+		
+		return paveRecordMapper.selectVariousByExample(paveRecord);
+	}
+
+
+	
+	
+	
+	/*************************************************** 铺货记录详情 ***********************************************************/
+	
+	
+	public List<PaveRecordDetail> PaveDetailById(Integer paveRecordId) {
+		
+		
+		PaveRecordDetail paveRecordDetail = new PaveRecordDetail();
+	
+		paveRecordDetail.setPaveRecordEtailRecordId(paveRecordId);
+		
+		return paveRecordDetailMapper.selectVariousByExample(paveRecordDetail);
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+
+}

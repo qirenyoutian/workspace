@@ -1,0 +1,662 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.User">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_number" jdbcType="VARCHAR" property="userNumber" />
+    <result column="user_account" jdbcType="VARCHAR" property="userAccount" />
+    <result column="user_pass_word" jdbcType="VARCHAR" property="userPassWord" />
+    <result column="user_nickname" jdbcType="VARCHAR" property="userNickname" />
+    <result column="user_gender" jdbcType="VARCHAR" property="userGender" />
+    <result column="user_full_name" jdbcType="VARCHAR" property="userFullName" />
+    <result column="user_id_number" jdbcType="VARCHAR" property="userIdNumber" />
+    <result column="user_head_portrait" jdbcType="VARCHAR" property="userHeadPortrait" />
+    <result column="user_balance" jdbcType="DOUBLE" property="userBalance" />
+    <result column="user_integral" jdbcType="DOUBLE" property="userIntegral" />
+    <result column="user_mailbox" jdbcType="VARCHAR" property="userMailbox" />
+    <result column="user_push_registration_id" jdbcType="VARCHAR" property="userPushRegistrationId" />
+    <result column="user_push_type" jdbcType="INTEGER" property="userPushType" />
+    <result column="user_creation_time" jdbcType="VARCHAR" property="userCreationTime" />
+    <result column="user_black" jdbcType="INTEGER" property="userBlack" />
+    <result column="user_status" jdbcType="INTEGER" property="userStatus" />
+    <result column="user_versions" jdbcType="INTEGER" property="userVersions" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, user_number, user_account, user_pass_word, user_nickname, user_gender, user_full_name, 
+    user_id_number, user_head_portrait, user_balance, user_integral, user_mailbox, user_push_registration_id, 
+    user_push_type, user_creation_time, user_black, user_status, user_versions
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.User">
+    insert into user (user_id, user_number, user_account, 
+      user_pass_word, user_nickname, user_gender, 
+      user_full_name, user_id_number, user_head_portrait, 
+      user_balance, user_integral, user_mailbox, 
+      user_push_registration_id, user_push_type, user_creation_time, 
+      user_black, user_status, user_versions
+      )
+    values (#{userId,jdbcType=INTEGER}, #{userNumber,jdbcType=VARCHAR}, #{userAccount,jdbcType=VARCHAR}, 
+      #{userPassWord,jdbcType=VARCHAR}, #{userNickname,jdbcType=VARCHAR}, #{userGender,jdbcType=VARCHAR}, 
+      #{userFullName,jdbcType=VARCHAR}, #{userIdNumber,jdbcType=VARCHAR}, #{userHeadPortrait,jdbcType=VARCHAR}, 
+      #{userBalance,jdbcType=DOUBLE}, #{userIntegral,jdbcType=DOUBLE}, #{userMailbox,jdbcType=VARCHAR}, 
+      #{userPushRegistrationId,jdbcType=VARCHAR}, #{userPushType,jdbcType=INTEGER}, #{userCreationTime,jdbcType=VARCHAR}, 
+      #{userBlack,jdbcType=INTEGER}, #{userStatus,jdbcType=INTEGER}, #{userVersions,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userNumber != null">
+        user_number,
+      </if>
+      <if test="userAccount != null">
+        user_account,
+      </if>
+      <if test="userPassWord != null">
+        user_pass_word,
+      </if>
+      <if test="userNickname != null">
+        user_nickname,
+      </if>
+      <if test="userGender != null">
+        user_gender,
+      </if>
+      <if test="userFullName != null">
+        user_full_name,
+      </if>
+      <if test="userIdNumber != null">
+        user_id_number,
+      </if>
+      <if test="userHeadPortrait != null">
+        user_head_portrait,
+      </if>
+      <if test="userBalance != null">
+        user_balance,
+      </if>
+      <if test="userIntegral != null">
+        user_integral,
+      </if>
+      <if test="userMailbox != null">
+        user_mailbox,
+      </if>
+      <if test="userPushRegistrationId != null">
+        user_push_registration_id,
+      </if>
+      <if test="userPushType != null">
+        user_push_type,
+      </if>
+      <if test="userCreationTime != null">
+        user_creation_time,
+      </if>
+      <if test="userBlack != null">
+        user_black,
+      </if>
+      <if test="userStatus != null">
+        user_status,
+      </if>
+      <if test="userVersions != null">
+        user_versions,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userNumber != null">
+        #{userNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userAccount != null">
+        #{userAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassWord != null">
+        #{userPassWord,jdbcType=VARCHAR},
+      </if>
+      <if test="userNickname != null">
+        #{userNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="userGender != null">
+        #{userGender,jdbcType=VARCHAR},
+      </if>
+      <if test="userFullName != null">
+        #{userFullName,jdbcType=VARCHAR},
+      </if>
+      <if test="userIdNumber != null">
+        #{userIdNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userHeadPortrait != null">
+        #{userHeadPortrait,jdbcType=VARCHAR},
+      </if>
+      <if test="userBalance != null">
+        #{userBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="userIntegral != null">
+        #{userIntegral,jdbcType=DOUBLE},
+      </if>
+      <if test="userMailbox != null">
+        #{userMailbox,jdbcType=VARCHAR},
+      </if>
+      <if test="userPushRegistrationId != null">
+        #{userPushRegistrationId,jdbcType=VARCHAR},
+      </if>
+      <if test="userPushType != null">
+        #{userPushType,jdbcType=INTEGER},
+      </if>
+      <if test="userCreationTime != null">
+        #{userCreationTime,jdbcType=VARCHAR},
+      </if>
+      <if test="userBlack != null">
+        #{userBlack,jdbcType=INTEGER},
+      </if>
+      <if test="userStatus != null">
+        #{userStatus,jdbcType=INTEGER},
+      </if>
+      <if test="userVersions != null">
+        #{userVersions,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.User">
+    update user
+    <set>
+      <if test="userNumber != null">
+        user_number = #{userNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userAccount != null">
+        user_account = #{userAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassWord != null">
+        user_pass_word = #{userPassWord,jdbcType=VARCHAR},
+      </if>
+      <if test="userNickname != null">
+        user_nickname = #{userNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="userGender != null">
+        user_gender = #{userGender,jdbcType=VARCHAR},
+      </if>
+      <if test="userFullName != null">
+        user_full_name = #{userFullName,jdbcType=VARCHAR},
+      </if>
+      <if test="userIdNumber != null">
+        user_id_number = #{userIdNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userHeadPortrait != null">
+        user_head_portrait = #{userHeadPortrait,jdbcType=VARCHAR},
+      </if>
+      <if test="userBalance != null">
+        user_balance = #{userBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="userIntegral != null">
+        user_integral = #{userIntegral,jdbcType=DOUBLE},
+      </if>
+      <if test="userMailbox != null">
+        user_mailbox = #{userMailbox,jdbcType=VARCHAR},
+      </if>
+      <if test="userPushRegistrationId != null">
+        user_push_registration_id = #{userPushRegistrationId,jdbcType=VARCHAR},
+      </if>
+      <if test="userPushType != null">
+        user_push_type = #{userPushType,jdbcType=INTEGER},
+      </if>
+      <if test="userCreationTime != null">
+        user_creation_time = #{userCreationTime,jdbcType=VARCHAR},
+      </if>
+      <if test="userBlack != null">
+        user_black = #{userBlack,jdbcType=INTEGER},
+      </if>
+      <if test="userStatus != null">
+        user_status = #{userStatus,jdbcType=INTEGER},
+      </if>
+      <if test="userVersions != null">
+        user_versions = user_versions + 1,
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER} and user_versions = #{userVersions,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.User">
+    update user
+    set user_number = #{userNumber,jdbcType=VARCHAR},
+      user_account = #{userAccount,jdbcType=VARCHAR},
+      user_pass_word = #{userPassWord,jdbcType=VARCHAR},
+      user_nickname = #{userNickname,jdbcType=VARCHAR},
+      user_gender = #{userGender,jdbcType=VARCHAR},
+      user_full_name = #{userFullName,jdbcType=VARCHAR},
+      user_id_number = #{userIdNumber,jdbcType=VARCHAR},
+      user_head_portrait = #{userHeadPortrait,jdbcType=VARCHAR},
+      user_balance = #{userBalance,jdbcType=DOUBLE},
+      user_integral = #{userIntegral,jdbcType=DOUBLE},
+      user_mailbox = #{userMailbox,jdbcType=VARCHAR},
+      user_push_registration_id = #{userPushRegistrationId,jdbcType=VARCHAR},
+      user_push_type = #{userPushType,jdbcType=INTEGER},
+      user_creation_time = #{userCreationTime,jdbcType=VARCHAR},
+      user_black = #{userBlack,jdbcType=INTEGER},
+      user_status = #{userStatus,jdbcType=INTEGER},
+      user_versions = user_versions + 1
+    where user_id = #{userId,jdbcType=INTEGER} and user_versions = #{userVersions,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimary" parameterType="com.py.bean.User" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where 1=1
+    <if test="userId != null">
+      and user_id = #{userId,jdbcType=INTEGER}
+    </if>
+    <if test="userNumber != null">
+      and user_number = #{userNumber,jdbcType=VARCHAR}
+    </if>
+    <if test="userAccount != null">
+      and user_account = #{userAccount,jdbcType=VARCHAR}
+    </if>
+    <if test="userPassWord != null">
+      and user_pass_word = #{userPassWord,jdbcType=VARCHAR}
+    </if>
+    <if test="userNickname != null">
+      and user_nickname = #{userNickname,jdbcType=VARCHAR}
+    </if>
+    <if test="userGender != null">
+      and user_gender = #{userGender,jdbcType=VARCHAR}
+    </if>
+    <if test="userFullName != null">
+      and user_full_name = #{userFullName,jdbcType=VARCHAR}
+    </if>
+    <if test="userIdNumber != null">
+      and user_id_number = #{userIdNumber,jdbcType=VARCHAR}
+    </if>
+    <if test="userHeadPortrait != null">
+      and user_head_portrait = #{userHeadPortrait,jdbcType=VARCHAR}
+    </if>
+    <if test="userBalance != null">
+      and user_balance = #{userBalance,jdbcType=DOUBLE}
+    </if>
+    <if test="userIntegral != null">
+      and user_integral = #{userIntegral,jdbcType=DOUBLE}
+    </if>
+    <if test="userMailbox != null">
+      and user_mailbox = #{userMailbox,jdbcType=VARCHAR}
+    </if>
+    <if test="userPushRegistrationId != null">
+      and user_push_registration_id = #{userPushRegistrationId,jdbcType=VARCHAR}
+    </if>
+    <if test="userPushType != null">
+      and user_push_type = #{userPushType,jdbcType=INTEGER}
+    </if>
+    <if test="userCreationTime != null">
+      and user_creation_time = #{userCreationTime,jdbcType=VARCHAR}
+    </if>
+    <if test="userBlack != null">
+      and  user_black = #{userBlack,jdbcType=INTEGER}
+    </if>
+    <if test="userStatus != null">
+      and user_status = #{userStatus,jdbcType=INTEGER}
+    </if>
+    <if test="userVersions != null">
+      and user_versions = #{userVersions,jdbcType=INTEGER}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.py.bean.User" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where 1=1
+    <if test="userId != null">
+      and user_id = #{userId,jdbcType=INTEGER}
+    </if>
+    <if test="userNumber != null">
+      and user_number = #{userNumber,jdbcType=VARCHAR}
+    </if>
+    <if test="userAccount != null">
+      and user_account like "%"#{userAccount,jdbcType=VARCHAR}"%"
+    </if>
+    <if test="userPassWord != null">
+      and user_pass_word = #{userPassWord,jdbcType=VARCHAR}
+    </if>
+    <if test="userNickname != null">
+      and user_nickname = #{userNickname,jdbcType=VARCHAR}
+    </if>
+    <if test="userGender != null">
+      and user_gender = #{userGender,jdbcType=VARCHAR}
+    </if>
+    <if test="userFullName != null">
+      and user_full_name = #{userFullName,jdbcType=VARCHAR}
+    </if>
+    <if test="userIdNumber != null">
+      and user_id_number = #{userIdNumber,jdbcType=VARCHAR}
+    </if>
+    <if test="userHeadPortrait != null">
+      and user_head_portrait = #{userHeadPortrait,jdbcType=VARCHAR}
+    </if>
+    <if test="userBalance != null">
+      and user_balance = #{userBalance,jdbcType=DOUBLE}
+    </if>
+    <if test="userIntegral != null">
+      and user_integral = #{userIntegral,jdbcType=DOUBLE}
+    </if>
+    <if test="userMailbox != null">
+      and user_mailbox = #{userMailbox,jdbcType=VARCHAR}
+    </if>
+    <if test="userPushRegistrationId != null">
+      and user_push_registration_id = #{userPushRegistrationId,jdbcType=VARCHAR}
+    </if>
+    <if test="userPushType != null">
+      and user_push_type = #{userPushType,jdbcType=INTEGER}
+    </if>
+    <if test="userCreationTime != null">
+      and user_creation_time = #{userCreationTime,jdbcType=VARCHAR}
+    </if>
+    <if test="userBlack != null">
+      and  user_black = #{userBlack,jdbcType=INTEGER}
+    </if>
+    <if test="userStatus != null">
+      and user_status = #{userStatus,jdbcType=INTEGER}
+    </if>
+    <if test="userVersions != null">
+      and user_versions = #{userVersions,jdbcType=INTEGER}
+    </if>
+    order by user_creation_time desc
+  </select>
+  
+  <!-- 交互查询 -->
+  
+   <resultMap id="BaseResultMapAndUser" type="com.py.bean.UserRecord">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_number" jdbcType="VARCHAR" property="userNumber" />
+    <result column="user_account" jdbcType="VARCHAR" property="userAccount" />
+    <result column="user_pass_word" jdbcType="VARCHAR" property="userPassWord" />
+    <result column="user_nickname" jdbcType="VARCHAR" property="userNickname" />
+    <result column="user_gender" jdbcType="VARCHAR" property="userGender" />
+    <result column="user_full_name" jdbcType="VARCHAR" property="userFullName" />
+    <result column="user_id_number" jdbcType="VARCHAR" property="userIdNumber" />
+    <result column="user_head_portrait" jdbcType="VARCHAR" property="userHeadPortrait" />
+    <result column="user_balance" jdbcType="DOUBLE" property="userBalance" />
+    <result column="user_integral" jdbcType="DOUBLE" property="userIntegral" />
+    <result column="user_mailbox" jdbcType="VARCHAR" property="userMailbox" />
+    <result column="user_push_registration_id" jdbcType="VARCHAR" property="userPushRegistrationId" />
+    <result column="user_push_type" jdbcType="INTEGER" property="userPushType" />
+    <result column="user_creation_time" jdbcType="VARCHAR" property="userCreationTime" />
+    <result column="user_black" jdbcType="INTEGER" property="userBlack" />
+    <result column="user_status" jdbcType="INTEGER" property="userStatus" />
+    <result column="user_versions" jdbcType="INTEGER" property="userVersions" />
+    	 <collection column="trading_record_user_id" ofType="com.py.bean.TradingRecordSingerCar" property="tratingRecord">  
+            <id column="trading_record_id" jdbcType="INTEGER" property="tradingRecordId" />
+		    <result column="trading_record_user_id" jdbcType="INTEGER" property="tradingRecordUserId" />
+		    <result column="trading_record_type" jdbcType="INTEGER" property="tradingRecordType" />
+		    <result column="trading_record_price" jdbcType="DOUBLE" property="tradingRecordPrice" />
+		    <result column="trading_record_status" jdbcType="INTEGER" property="tradingRecordStatus" />
+		    <result column="trading_record_des" jdbcType="VARCHAR" property="tradingRecordDes" />
+		    <result column="trading_record_bill" jdbcType="VARCHAR" property="tradingRecordBill" />
+		    <result column="transaction_id" jdbcType="VARCHAR" property="transactionId" />
+		    <result column="trading_record_time" jdbcType="TIMESTAMP" property="tradingRecordTime" />
+        	 <collection column="single_car_id" ofType="com.py.bean.SingleCar" property="singleCarList">  
+	            <id column="single_car_id" jdbcType="INTEGER" property="singleCarId" />
+			    <result column="single_car_camera_ip" jdbcType="VARCHAR" property="singleCarCameraIp" />
+			    <result column="single_car_route_name" jdbcType="VARCHAR" property="singleCarRouteName" />
+			    <result column="single_car_truck_space" jdbcType="VARCHAR" property="singleCarTruckSpace" />
+			    <result column="single_car_license_plate" jdbcType="VARCHAR" property="singleCarLicensePlate" />
+			    <result column="single_car_start_time" jdbcType="TIMESTAMP" property="singleCarStartTime" />
+			    <result column="single_car_end_time" jdbcType="TIMESTAMP" property="singleCarEndTime" />
+			    <result column="single_car_time" jdbcType="TIMESTAMP" property="singleCarTime" />
+			    <result column="single_car_price" jdbcType="DOUBLE" property="singleCarPrice" />
+			    <result column="single_car_type" jdbcType="INTEGER" property="singleCarType" />
+			</collection>
+		</collection>
+  </resultMap>
+  
+  <select id="queryAllTradingRecordAndUser" resultMap="BaseResultMapAndUser">
+		SELECT
+			*
+		FROM
+			USER t1,
+			trading_record t2,
+			single_car t3
+
+		WHERE
+			1 = 1
+			AND t2.trading_record_user_id = t1.user_id
+			AND t3.single_car_id = t2.trading_record_bill
+			order by trading_record_time desc
+			
+  </select>
+	<!-- 根据时间段查询 -->  
+  	<select id="selectAllIncomeByTime" parameterType="java.lang.String" resultMap="BaseResultMapAndUser">
+	    select 
+	    	*
+	    from 
+			USER t1,
+			trading_record t2,
+			single_car t3
+			
+		where 1=1
+	    <if test="startTime != null">
+	      and trading_record_time &gt;= #{startTime,jdbcType=TIMESTAMP}
+	    </if>
+		<if test="endTime != null">
+	      and trading_record_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+	    </if>
+	    	AND t2.trading_record_user_id = t1.user_id
+			AND t3.single_car_id = t2.trading_record_bill
+			order by trading_record_time desc
+	    
+	  </select>
+  <!-- 根据路段名称查询 -->
+  
+  <select id="selectAllSingleCarByRoute" parameterType="com.py.bean.SingleCar" resultMap="BaseResultMapAndUser">
+	    select 
+	    	*
+	    from 
+			USER t1,
+			trading_record t2,
+			single_car t3
+			
+		where 1=1
+	    	AND t2.trading_record_user_id = t1.user_id
+			AND t3.single_car_id = t2.trading_record_bill
+			<if test="singleCarRouteName != null">
+	        AND t3.single_car_route_name = #{singleCarRouteName,jdbcType=VARCHAR}
+	      	</if>
+			
+			order by trading_record_time desc
+	    
+	  </select>
+  <!-- 查询用户发票记录 -->
+  <resultMap id="BaseResultMapAndInvoice" type="com.py.bean.UserInvoice">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_number" jdbcType="VARCHAR" property="userNumber" />
+    <result column="user_account" jdbcType="VARCHAR" property="userAccount" />
+    <result column="user_pass_word" jdbcType="VARCHAR" property="userPassWord" />
+    <result column="user_nickname" jdbcType="VARCHAR" property="userNickname" />
+    <result column="user_gender" jdbcType="VARCHAR" property="userGender" />
+    <result column="user_full_name" jdbcType="VARCHAR" property="userFullName" />
+    <result column="user_id_number" jdbcType="VARCHAR" property="userIdNumber" />
+    <result column="user_head_portrait" jdbcType="VARCHAR" property="userHeadPortrait" />
+    <result column="user_balance" jdbcType="DOUBLE" property="userBalance" />
+    <result column="user_integral" jdbcType="DOUBLE" property="userIntegral" />
+    <result column="user_mailbox" jdbcType="VARCHAR" property="userMailbox" />
+    <result column="user_push_registration_id" jdbcType="VARCHAR" property="userPushRegistrationId" />
+    <result column="user_push_type" jdbcType="INTEGER" property="userPushType" />
+    <result column="user_creation_time" jdbcType="VARCHAR" property="userCreationTime" />
+    <result column="user_black" jdbcType="INTEGER" property="userBlack" />
+    <result column="user_status" jdbcType="INTEGER" property="userStatus" />
+    <result column="user_versions" jdbcType="INTEGER" property="userVersions" />
+  		<collection column="invoice_user_id" ofType="com.py.bean.Invoice" property="UserInvoice">
+  			<id column="invoice_id" jdbcType="INTEGER" property="invoiceId" />
+		    <result column="invoice_user_id" jdbcType="INTEGER" property="invoiceUserId" />
+		    <result column="invoice_type" jdbcType="INTEGER" property="invoiceType" />
+		    <result column="invoice_rise_type" jdbcType="INTEGER" property="invoiceRiseType" />
+		    <result column="invoice_rise_name" jdbcType="VARCHAR" property="invoiceRiseName" />
+		    <result column="invoice_duty_paragraph" jdbcType="VARCHAR" property="invoiceDutyParagraph" />
+		    <result column="invoice_content" jdbcType="VARCHAR" property="invoiceContent" />
+		    <result column="invoice_sum" jdbcType="DOUBLE" property="invoiceSum" />
+		    <result column="invoice_des" jdbcType="VARCHAR" property="invoiceDes" />
+		    <result column="invoice_receive_mode" jdbcType="INTEGER" property="invoiceReceiveMode" />
+		    <result column="invoice_mailbox" jdbcType="VARCHAR" property="invoiceMailbox" />
+		    <result column="invoice_addressee" jdbcType="VARCHAR" property="invoiceAddressee" />
+		    <result column="invoice_phone" jdbcType="VARCHAR" property="invoicePhone" />
+		    <result column="invoice_address" jdbcType="VARCHAR" property="invoiceAddress" />
+		    <result column="invoice_detailed_address" jdbcType="VARCHAR" property="invoiceDetailedAddress" />
+		    <result column="invoice_time" jdbcType="VARCHAR" property="invoiceTime" />
+		    <result column="invoice_status" jdbcType="INTEGER" property="invoiceStatus" />
+  		</collection>
+  </resultMap>
+  
+  <select id="selectExsampleWithInvoice" parameterType="com.py.bean.User" resultMap="BaseResultMapAndInvoice">
+	  	SELECT
+			*
+		FROM
+			USER u,
+			invoice i
+		WHERE
+			1 = 1
+	    <if test="userFullName != null">
+	      and u.user_full_name like "%"#{userFullName,jdbcType=VARCHAR}"%"
+	    </if>
+		AND u.user_id = i.invoice_user_id
+		ORDER BY
+			i.invoice_time DESC
+</select>
+<!-- 根据时间段查询发票 -->  
+  	<select id="selectAllInvoiceByTime" parameterType="java.lang.String" resultMap="BaseResultMapAndInvoice">
+	    select 
+	    	*
+	    from 
+			USER u,
+			invoice i
+			
+		where 1=1
+		    <if test="startTime != null">
+		      and i.invoice_time &gt;= #{startTime,jdbcType=VARCHAR}
+		    </if>
+			<if test="endTime != null">
+		      and i.invoice_time &lt;= #{endTime,jdbcType=VARCHAR}
+		    </if>
+	    	AND u.user_id = i.invoice_user_id
+		ORDER BY
+			i.invoice_time DESC
+	    
+	  </select>
+	 <!-- 根据发票类型查找 -->
+	 <select id="selectAllInvoiceByType" parameterType="com.py.bean.Invoice" resultMap="BaseResultMapAndInvoice">
+	    select 
+	    	*
+	    from 
+			USER u,
+			invoice i
+		where 1=1
+		<if test="invoiceType != null">
+	      and i.invoice_status = #{invoiceType,jdbcType=INTEGER}
+	    </if>
+	    AND u.user_id = i.invoice_user_id
+		ORDER BY
+			i.invoice_time DESC
+	    
+	  </select> 
+	  <!-- 根据Id更新审核状态 -->
+  	<update id="updateForStatusById" parameterType="java.lang.Integer">
+	  	UPDATE 
+	  		invoice
+	  	 SET 
+	  	 	<if test="status != null">
+		      	 invoice_status = #{status,jdbcType=INTEGER}
+		    </if>
+	  	 	
+	  	 WHERE 
+	  	 	<if test="invoiceId != null">
+		      	 invoice_id = #{invoiceId,jdbcType=INTEGER}
+		    </if>
+  	</update>
+	  
+	<select id="selectByTimeQuantum" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where 1=1
+    <if test="map.content != null">
+      and user_account like #{map.content,jdbcType=VARCHAR}
+    </if>
+    <if test="map.startTime != null">
+      and user_creation_time &gt; #{map.startTime}
+    </if>
+    <if test="map.endTime != null">
+      and user_creation_time &lt; #{map.endTime}
+    </if>
+    order by user_creation_time desc
+  </select>
+	  
+  <select id="selectByExampleTop10" parameterType="com.py.bean.User" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where 1 = 1
+    <if test="userId != null">
+      and user_id = #{userId,jdbcType=INTEGER}
+    </if>
+    <if test="userNumber != null">
+      and user_number = #{userNumber,jdbcType=VARCHAR}
+    </if>
+    <if test="userAccount != null">
+      and user_account like "%"#{userAccount,jdbcType=VARCHAR}"%"
+    </if>
+    <if test="userPassWord != null">
+      and user_pass_word = #{userPassWord,jdbcType=VARCHAR}
+    </if>
+    <if test="userNickname != null">
+      and user_nickname = #{userNickname,jdbcType=VARCHAR}
+    </if>
+    <if test="userGender != null">
+      and user_gender = #{userGender,jdbcType=VARCHAR}
+    </if>
+    <if test="userFullName != null">
+      and user_full_name = #{userFullName,jdbcType=VARCHAR}
+    </if>
+    <if test="userIdNumber != null">
+      and user_id_number = #{userIdNumber,jdbcType=VARCHAR}
+    </if>
+    <if test="userHeadPortrait != null">
+      and user_head_portrait = #{userHeadPortrait,jdbcType=VARCHAR}
+    </if>
+    <if test="userBalance != null">
+      and user_balance = #{userBalance,jdbcType=DOUBLE}
+    </if>
+    <if test="userIntegral != null">
+      and user_integral = #{userIntegral,jdbcType=DOUBLE}
+    </if>
+    <if test="userMailbox != null">
+      and user_mailbox = #{userMailbox,jdbcType=VARCHAR}
+    </if>
+    <if test="userPushRegistrationId != null">
+      and user_push_registration_id = #{userPushRegistrationId,jdbcType=VARCHAR}
+    </if>
+    <if test="userPushType != null">
+      and user_push_type = #{userPushType,jdbcType=INTEGER}
+    </if>
+    <if test="userCreationTime != null">
+      and user_creation_time = #{userCreationTime,jdbcType=VARCHAR}
+    </if>
+    <if test="userBlack != null">
+      and  user_black = #{userBlack,jdbcType=INTEGER}
+    </if>
+    <if test="userStatus != null">
+      and user_status = #{userStatus,jdbcType=INTEGER}
+    </if>
+    <if test="userVersions != null">
+      and user_versions = #{userVersions,jdbcType=INTEGER}
+    </if>
+    order by user_creation_time desc limit 5
+  </select>
+	
+	<select id="countUser" resultType="java.lang.Integer">
+    SELECT COUNT(user_id) FROM user
+  </select>
+	
+</mapper>

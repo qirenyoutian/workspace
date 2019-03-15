@@ -1,0 +1,59 @@
+package com.py.socket;
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+public class ServerThread extends Thread{
+
+	//private Socket client;
+    private PrintWriter out;
+    private  HashMap<String, Socket> clientList = new HashMap<>();
+    private String ip;
+
+    public ServerThread(HashMap<String, Socket> socketList,String ip) throws IOException{//Socket socket,
+        super();
+        //client = socket;
+        this.ip = ip;
+        clientList = socketList;
+        start();
+    }
+
+    @Override
+    public void run(){
+        Socket socket;
+        System.out.println("Client: "+getName()+" come in...");
+
+        //每当客户端连接上,就向相应的客户端进行回应
+        String xml = "<?xml version=\"1.0.0\" encoding=\"GB2312\" standalone=\"yes\" ?><IC><snap value=\"1\" /></IC>\r\n";
+        socket = clientList.get(ip);
+        if (socket!=null) {
+            try {
+                out = new PrintWriter(socket.getOutputStream());  //回复client的ID
+                out.println(xml);
+                out.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        /*Iterator<HashMap.Entry<String, Socket>> entries = clientList.entrySet().iterator();
+        while (entries.hasNext()){
+            HashMap.Entry<String, Socket> entry = entries.next(); 
+            System.out.println(entry.getKey());
+            if (!String.valueOf(entry.getKey()).equals("")) {
+                socket = entry.getValue();
+                if (socket!=null) {
+                    try {
+                        out = new PrintWriter(socket.getOutputStream());  //回复client的ID
+                        out.println(xml);
+                        out.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }*/
+    }
+	
+}

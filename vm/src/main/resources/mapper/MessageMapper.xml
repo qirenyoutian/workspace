@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.MessageMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Message">
+    <id column="message_id" jdbcType="INTEGER" property="messageId" />
+    <result column="message_type" jdbcType="INTEGER" property="messageType" />
+    <result column="message_staff_type" jdbcType="INTEGER" property="messageStaffType" />
+    <result column="message_content" jdbcType="VARCHAR" property="messageContent" />
+    <result column="message_admin_id" jdbcType="INTEGER" property="messageAdminId" />
+    <result column="message_read" jdbcType="INTEGER" property="messageRead" />
+    <result column="message_time" jdbcType="TIMESTAMP" property="messageTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    message_id, message_type, message_staff_type, message_content, message_admin_id, 
+    message_read, message_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from message
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from message
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.Message">
+    insert into message (message_id, message_type, message_staff_type, 
+      message_content, message_admin_id, message_read, 
+      message_time)
+    values (#{messageId,jdbcType=INTEGER}, #{messageType,jdbcType=INTEGER}, #{messageStaffType,jdbcType=INTEGER}, 
+      #{messageContent,jdbcType=VARCHAR}, #{messageAdminId,jdbcType=INTEGER}, #{messageRead,jdbcType=INTEGER}, 
+      #{messageTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.Message">
+    insert into message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="messageId != null">
+        message_id,
+      </if>
+      <if test="messageType != null">
+        message_type,
+      </if>
+      <if test="messageStaffType != null">
+        message_staff_type,
+      </if>
+      <if test="messageContent != null">
+        message_content,
+      </if>
+      <if test="messageAdminId != null">
+        message_admin_id,
+      </if>
+      <if test="messageRead != null">
+        message_read,
+      </if>
+      <if test="messageTime != null">
+        message_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="messageId != null">
+        #{messageId,jdbcType=INTEGER},
+      </if>
+      <if test="messageType != null">
+        #{messageType,jdbcType=INTEGER},
+      </if>
+      <if test="messageStaffType != null">
+        #{messageStaffType,jdbcType=INTEGER},
+      </if>
+      <if test="messageContent != null">
+        #{messageContent,jdbcType=VARCHAR},
+      </if>
+      <if test="messageAdminId != null">
+        #{messageAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="messageRead != null">
+        #{messageRead,jdbcType=INTEGER},
+      </if>
+      <if test="messageTime != null">
+        #{messageTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Message">
+    update message
+    <set>
+      <if test="messageType != null">
+        message_type = #{messageType,jdbcType=INTEGER},
+      </if>
+      <if test="messageStaffType != null">
+        message_staff_type = #{messageStaffType,jdbcType=INTEGER},
+      </if>
+      <if test="messageContent != null">
+        message_content = #{messageContent,jdbcType=VARCHAR},
+      </if>
+      <if test="messageAdminId != null">
+        message_admin_id = #{messageAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="messageRead != null">
+        message_read = #{messageRead,jdbcType=INTEGER},
+      </if>
+      <if test="messageTime != null">
+        message_time = #{messageTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Message">
+    update message
+    set message_type = #{messageType,jdbcType=INTEGER},
+      message_staff_type = #{messageStaffType,jdbcType=INTEGER},
+      message_content = #{messageContent,jdbcType=VARCHAR},
+      message_admin_id = #{messageAdminId,jdbcType=INTEGER},
+      message_read = #{messageRead,jdbcType=INTEGER},
+      message_time = #{messageTime,jdbcType=TIMESTAMP}
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+  
+  <!-- ByExample -->
+  <select id="selectByExample" parameterType="com.py.bean.Message" resultMap="BaseResultMap">
+  	 select *
+  	 from message
+  	 where 1=1
+  	  <if test="messageId != null">
+       	and message_id = #{messageId,jdbcType=INTEGER},
+      </if>
+  	  <if test="messageType != null">
+       	and message_type = #{messageType,jdbcType=INTEGER},
+      </if>
+      <if test="messageStaffType != null">
+        and message_staff_type = #{messageStaffType,jdbcType=INTEGER},
+      </if>
+      <if test="messageContent != null">
+        and message_content = #{messageContent,jdbcType=VARCHAR},
+      </if>
+      <if test="messageAdminId != null">
+        and message_admin_id = #{messageAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="messageRead != null">
+        and message_read = #{messageRead,jdbcType=INTEGER},
+      </if>
+      <if test="messageTime != null">
+        and message_time = #{messageTime,jdbcType=TIMESTAMP},
+      </if>
+  </select>
+  
+</mapper>

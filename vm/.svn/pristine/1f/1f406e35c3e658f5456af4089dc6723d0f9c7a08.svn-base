@@ -1,0 +1,32 @@
+package com.example.admin.serialdemo.Utils;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.v4.app.Fragment;
+import android.widget.Toast;
+
+/**
+ * Created by zrt on 2017/9/1 0001.
+ */
+
+public class BaseFragment extends Fragment {
+
+    public void enterActivity(Class<? extends Activity> c) {
+        startActivity(new Intent(getActivity(), c));
+    }
+
+    public void enterActivity(Class<? extends Activity> c,String value) {
+        Intent intent = new Intent(getActivity(),c);
+        intent.putExtra("value",value);
+        startActivity(intent);
+    }
+
+    public void showToast(CharSequence text) {
+        Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+    }
+
+    public SharedPreferences getSP() {
+        return getActivity().getSharedPreferences("config", 0);
+    }
+}

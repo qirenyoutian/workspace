@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.EquipmentClassifyMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.EquipmentClassify">
+    <id column="equipment_classify_id" jdbcType="INTEGER" property="equipmentClassifyId" />
+    <result column="equipment_classify_manufacturer" jdbcType="VARCHAR" property="equipmentClassifyManufacturer" />
+    <result column="equipment_classify_equipment_number" jdbcType="VARCHAR" property="equipmentClassifyEquipmentNumber" />
+    <result column="equipment_classify_equipment_size" jdbcType="VARCHAR" property="equipmentClassifyEquipmentSize" />
+    <result column="equipment_classify_name" jdbcType="VARCHAR" property="equipmentClassifyName" />
+    <result column="equipment_classify_row" jdbcType="INTEGER" property="equipmentClassifyRow" />
+    <result column="equipment_classify_line" jdbcType="INTEGER" property="equipmentClassifyLine" />
+    <result column="equipment_classify_create_time" jdbcType="TIMESTAMP" property="equipmentClassifyCreateTime" />
+    <result column="equipment_classify_update_time" jdbcType="TIMESTAMP" property="equipmentClassifyUpdateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    equipment_classify_id, equipment_classify_manufacturer, equipment_classify_equipment_number, 
+    equipment_classify_equipment_size, equipment_classify_name, equipment_classify_row, 
+    equipment_classify_line, equipment_classify_create_time, equipment_classify_update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from equipment_classify
+    where equipment_classify_id = #{equipmentClassifyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from equipment_classify
+    where equipment_classify_id = #{equipmentClassifyId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.EquipmentClassify">
+    insert into equipment_classify (equipment_classify_id, equipment_classify_manufacturer, 
+      equipment_classify_equipment_number, equipment_classify_equipment_size, 
+      equipment_classify_name, equipment_classify_row, 
+      equipment_classify_line, equipment_classify_create_time, 
+      equipment_classify_update_time)
+    values (#{equipmentClassifyId,jdbcType=INTEGER}, #{equipmentClassifyManufacturer,jdbcType=VARCHAR}, 
+      #{equipmentClassifyEquipmentNumber,jdbcType=VARCHAR}, #{equipmentClassifyEquipmentSize,jdbcType=VARCHAR}, 
+      #{equipmentClassifyName,jdbcType=VARCHAR}, #{equipmentClassifyRow,jdbcType=INTEGER}, 
+      #{equipmentClassifyLine,jdbcType=INTEGER}, #{equipmentClassifyCreateTime,jdbcType=TIMESTAMP}, 
+      #{equipmentClassifyUpdateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.EquipmentClassify">
+    insert into equipment_classify
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="equipmentClassifyId != null">
+        equipment_classify_id,
+      </if>
+      <if test="equipmentClassifyManufacturer != null">
+        equipment_classify_manufacturer,
+      </if>
+      <if test="equipmentClassifyEquipmentNumber != null">
+        equipment_classify_equipment_number,
+      </if>
+      <if test="equipmentClassifyEquipmentSize != null">
+        equipment_classify_equipment_size,
+      </if>
+      <if test="equipmentClassifyName != null">
+        equipment_classify_name,
+      </if>
+      <if test="equipmentClassifyRow != null">
+        equipment_classify_row,
+      </if>
+      <if test="equipmentClassifyLine != null">
+        equipment_classify_line,
+      </if>
+      <if test="equipmentClassifyCreateTime != null">
+        equipment_classify_create_time,
+      </if>
+      <if test="equipmentClassifyUpdateTime != null">
+        equipment_classify_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="equipmentClassifyId != null">
+        #{equipmentClassifyId,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentClassifyManufacturer != null">
+        #{equipmentClassifyManufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentClassifyEquipmentNumber != null">
+        #{equipmentClassifyEquipmentNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentClassifyEquipmentSize != null">
+        #{equipmentClassifyEquipmentSize,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentClassifyName != null">
+        #{equipmentClassifyName,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentClassifyRow != null">
+        #{equipmentClassifyRow,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentClassifyLine != null">
+        #{equipmentClassifyLine,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentClassifyCreateTime != null">
+        #{equipmentClassifyCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="equipmentClassifyUpdateTime != null">
+        #{equipmentClassifyUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.EquipmentClassify">
+    update equipment_classify
+    <set>
+      <if test="equipmentClassifyManufacturer != null">
+        equipment_classify_manufacturer = #{equipmentClassifyManufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentClassifyEquipmentNumber != null">
+        equipment_classify_equipment_number = #{equipmentClassifyEquipmentNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentClassifyEquipmentSize != null">
+        equipment_classify_equipment_size = #{equipmentClassifyEquipmentSize,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentClassifyName != null">
+        equipment_classify_name = #{equipmentClassifyName,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentClassifyRow != null">
+        equipment_classify_row = #{equipmentClassifyRow,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentClassifyLine != null">
+        equipment_classify_line = #{equipmentClassifyLine,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentClassifyCreateTime != null">
+        equipment_classify_create_time = #{equipmentClassifyCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="equipmentClassifyUpdateTime != null">
+        equipment_classify_update_time = #{equipmentClassifyUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where equipment_classify_id = #{equipmentClassifyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.EquipmentClassify">
+    update equipment_classify
+    set equipment_classify_manufacturer = #{equipmentClassifyManufacturer,jdbcType=VARCHAR},
+      equipment_classify_equipment_number = #{equipmentClassifyEquipmentNumber,jdbcType=VARCHAR},
+      equipment_classify_equipment_size = #{equipmentClassifyEquipmentSize,jdbcType=VARCHAR},
+      equipment_classify_name = #{equipmentClassifyName,jdbcType=VARCHAR},
+      equipment_classify_row = #{equipmentClassifyRow,jdbcType=INTEGER},
+      equipment_classify_line = #{equipmentClassifyLine,jdbcType=INTEGER},
+      equipment_classify_create_time = #{equipmentClassifyCreateTime,jdbcType=TIMESTAMP},
+      equipment_classify_update_time = #{equipmentClassifyUpdateTime,jdbcType=TIMESTAMP}
+    where equipment_classify_id = #{equipmentClassifyId,jdbcType=INTEGER}
+  </update>
+ 
+  <!-- 根据类型查找 -->
+  <select id="selectByExample" parameterType="com.py.bean.EquipmentClassify" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from equipment_classify
+	where 1=1
+	  <if test="equipmentClassifyId != null">
+        AND equipment_classify_id = #{equipmentClassifyId,jdbcType=INTEGER}
+      </if>
+	  <if test="equipmentClassifyName != null">
+        AND equipment_classify_name like "%"#{equipmentClassifyName,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="equipmentClassifyRow != null">
+        AND equipment_classify_row = #{equipmentClassifyRow,jdbcType=INTEGER}
+      </if>
+      <if test="equipmentClassifyLine != null">
+        AND equipment_classify_line = #{equipmentClassifyLine,jdbcType=INTEGER}
+      </if>
+      <if test="equipmentClassifyCreateTime != null">
+        AND equipment_classify_create_time = #{equipmentClassifyCreateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="equipmentClassifyUpdateTime != null">
+        AND equipment_classify_update_time = #{equipmentClassifyUpdateTime,jdbcType=TIMESTAMP}
+      </if>
+  </select>
+  <!-- 跟据数据循环删除 -->
+   <delete id="deleteByArray">
+  	DELETE
+	FROM
+		equipment_classify
+	WHERE
+		equipment_classify_id IN
+			<foreach close=")" collection="array" item="equipmentClassify" open="(" separator=","> 
+				#{equipmentClassify}
+			</foreach>
+  </delete>
+</mapper>

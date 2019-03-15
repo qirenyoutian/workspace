@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.SnapshotMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Snapshot">
+    <id column="snapshot_id" jdbcType="INTEGER" property="snapshotId" />
+    <result column="snapshot_camera_ip" jdbcType="VARCHAR" property="snapshotCameraIp" />
+    <result column="snapshot_single_car_details_id" jdbcType="INTEGER" property="snapshotSingleCarDetailsId" />
+    <result column="snapshot_time" jdbcType="TIMESTAMP" property="snapshotTime" />
+    <result column="snapshot_status" jdbcType="INTEGER" property="snapshotStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    snapshot_id, snapshot_camera_ip, snapshot_single_car_details_id, snapshot_time, snapshot_status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from snapshot
+    where snapshot_id = #{snapshotId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from snapshot
+    where snapshot_id = #{snapshotId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.Snapshot">
+    insert into snapshot (snapshot_id, snapshot_camera_ip, snapshot_single_car_details_id, 
+      snapshot_time, snapshot_status)
+    values (#{snapshotId,jdbcType=INTEGER}, #{snapshotCameraIp,jdbcType=VARCHAR}, #{snapshotSingleCarDetailsId,jdbcType=INTEGER}, 
+      #{snapshotTime,jdbcType=TIMESTAMP}, #{snapshotStatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.Snapshot">
+    insert into snapshot
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="snapshotId != null">
+        snapshot_id,
+      </if>
+      <if test="snapshotCameraIp != null">
+        snapshot_camera_ip,
+      </if>
+      <if test="snapshotSingleCarDetailsId != null">
+        snapshot_single_car_details_id,
+      </if>
+      <if test="snapshotTime != null">
+        snapshot_time,
+      </if>
+      <if test="snapshotStatus != null">
+        snapshot_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="snapshotId != null">
+        #{snapshotId,jdbcType=INTEGER},
+      </if>
+      <if test="snapshotCameraIp != null">
+        #{snapshotCameraIp,jdbcType=VARCHAR},
+      </if>
+      <if test="snapshotSingleCarDetailsId != null">
+        #{snapshotSingleCarDetailsId,jdbcType=INTEGER},
+      </if>
+      <if test="snapshotTime != null">
+        #{snapshotTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="snapshotStatus != null">
+        #{snapshotStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Snapshot">
+    update snapshot
+    <set>
+      <if test="snapshotCameraIp != null">
+        snapshot_camera_ip = #{snapshotCameraIp,jdbcType=VARCHAR},
+      </if>
+      <if test="snapshotSingleCarDetailsId != null">
+        snapshot_single_car_details_id = #{snapshotSingleCarDetailsId,jdbcType=INTEGER},
+      </if>
+      <if test="snapshotTime != null">
+        snapshot_time = #{snapshotTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="snapshotStatus != null">
+        snapshot_status = #{snapshotStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where snapshot_id = #{snapshotId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Snapshot">
+    update snapshot
+    set snapshot_camera_ip = #{snapshotCameraIp,jdbcType=VARCHAR},
+      snapshot_single_car_details_id = #{snapshotSingleCarDetailsId,jdbcType=INTEGER},
+      snapshot_time = #{snapshotTime,jdbcType=TIMESTAMP},
+      snapshot_status = #{snapshotStatus,jdbcType=INTEGER}
+    where snapshot_id = #{snapshotId,jdbcType=INTEGER}
+  </update>
+</mapper>

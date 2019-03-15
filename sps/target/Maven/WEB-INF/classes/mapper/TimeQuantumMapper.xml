@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.TimeQuantumMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.TimeQuantum">
+    <id column="time_quantum_id" jdbcType="INTEGER" property="timeQuantumId" />
+    <result column="time_quantum_billing_method_id" jdbcType="INTEGER" property="timeQuantumBillingMethodId" />
+    <result column="time_quantum_start_time" jdbcType="INTEGER" property="timeQuantumStartTime" />
+    <result column="time_quantum_end_time" jdbcType="INTEGER" property="timeQuantumEndTime" />
+    <result column="time_quantum_rate" jdbcType="DOUBLE" property="timeQuantumRate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    time_quantum_id, time_quantum_billing_method_id, time_quantum_start_time, time_quantum_end_time, 
+    time_quantum_rate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from time_quantum
+    where time_quantum_id = #{timeQuantumId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from time_quantum
+    where time_quantum_id = #{timeQuantumId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.TimeQuantum">
+    insert into time_quantum (time_quantum_id, time_quantum_billing_method_id, 
+      time_quantum_start_time, time_quantum_end_time, 
+      time_quantum_rate)
+    values (#{timeQuantumId,jdbcType=INTEGER}, #{timeQuantumBillingMethodId,jdbcType=INTEGER}, 
+      #{timeQuantumStartTime,jdbcType=INTEGER}, #{timeQuantumEndTime,jdbcType=INTEGER}, 
+      #{timeQuantumRate,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.TimeQuantum">
+    insert into time_quantum
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="timeQuantumId != null">
+        time_quantum_id,
+      </if>
+      <if test="timeQuantumBillingMethodId != null">
+        time_quantum_billing_method_id,
+      </if>
+      <if test="timeQuantumStartTime != null">
+        time_quantum_start_time,
+      </if>
+      <if test="timeQuantumEndTime != null">
+        time_quantum_end_time,
+      </if>
+      <if test="timeQuantumRate != null">
+        time_quantum_rate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="timeQuantumId != null">
+        #{timeQuantumId,jdbcType=INTEGER},
+      </if>
+      <if test="timeQuantumBillingMethodId != null">
+        #{timeQuantumBillingMethodId,jdbcType=INTEGER},
+      </if>
+      <if test="timeQuantumStartTime != null">
+        #{timeQuantumStartTime,jdbcType=INTEGER},
+      </if>
+      <if test="timeQuantumEndTime != null">
+        #{timeQuantumEndTime,jdbcType=INTEGER},
+      </if>
+      <if test="timeQuantumRate != null">
+        #{timeQuantumRate,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.TimeQuantum">
+    update time_quantum
+    <set>
+      <if test="timeQuantumBillingMethodId != null">
+        time_quantum_billing_method_id = #{timeQuantumBillingMethodId,jdbcType=INTEGER},
+      </if>
+      <if test="timeQuantumStartTime != null">
+        time_quantum_start_time = #{timeQuantumStartTime,jdbcType=INTEGER},
+      </if>
+      <if test="timeQuantumEndTime != null">
+        time_quantum_end_time = #{timeQuantumEndTime,jdbcType=INTEGER},
+      </if>
+      <if test="timeQuantumRate != null">
+        time_quantum_rate = #{timeQuantumRate,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where time_quantum_id = #{timeQuantumId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.TimeQuantum">
+    update time_quantum
+    set time_quantum_billing_method_id = #{timeQuantumBillingMethodId,jdbcType=INTEGER},
+      time_quantum_start_time = #{timeQuantumStartTime,jdbcType=INTEGER},
+      time_quantum_end_time = #{timeQuantumEndTime,jdbcType=INTEGER},
+      time_quantum_rate = #{timeQuantumRate,jdbcType=DOUBLE}
+    where time_quantum_id = #{timeQuantumId,jdbcType=INTEGER}
+  </update>
+</mapper>

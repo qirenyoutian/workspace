@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.EquipmentMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Equipment">
+    <id column="equipment_id" jdbcType="INTEGER" property="equipmentId" />
+    <result column="equipment_point_id" jdbcType="INTEGER" property="equipmentPointId" />
+    <result column="equipment_name" jdbcType="VARCHAR" property="equipmentName" />
+    <result column="equipment_number" jdbcType="VARCHAR" property="equipmentNumber" />
+    <result column="equipment_classify_id" jdbcType="INTEGER" property="equipmentClassifyId" />
+    <result column="equipment_status" jdbcType="INTEGER" property="equipmentStatus" />
+    <result column="equipment_status_information" jdbcType="VARCHAR" property="equipmentStatusInformation" />
+    <result column="equipment_wireless_upgrade" jdbcType="VARCHAR" property="equipmentWirelessUpgrade" />
+    <result column="equipment_legal_information" jdbcType="VARCHAR" property="equipmentLegalInformation" />
+    <result column="equipment_note" jdbcType="VARCHAR" property="equipmentNote" />
+    <result column="equipment_ip" jdbcType="VARCHAR" property="equipmentIp" />
+    <result column="equipment_android_version" jdbcType="VARCHAR" property="equipmentAndroidVersion" />
+    <result column="equipment_android_security_patch_level" jdbcType="VARCHAR" property="equipmentAndroidSecurityPatchLevel" />
+    <result column="equipment_baseband_version" jdbcType="VARCHAR" property="equipmentBasebandVersion" />
+    <result column="equipment_kernel_version" jdbcType="VARCHAR" property="equipmentKernelVersion" />
+    <result column="equipment_version_number" jdbcType="VARCHAR" property="equipmentVersionNumber" />
+    <result column="equipment_longitude" jdbcType="DOUBLE" property="equipmentLongitude" />
+    <result column="equipment_latitude" jdbcType="DOUBLE" property="equipmentLatitude" />
+    <result column="equipment_socket_key" jdbcType="VARCHAR" property="equipmentSocketKey" />
+    <result column="equipment_create_time" jdbcType="TIMESTAMP" property="equipmentCreateTime" />
+    <result column="equipment_change_time" jdbcType="TIMESTAMP" property="equipmentChangeTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    equipment_id, equipment_point_id, equipment_name, equipment_number, equipment_classify_id, 
+    equipment_status, equipment_status_information, equipment_wireless_upgrade, equipment_legal_information, 
+    equipment_note, equipment_ip, equipment_android_version, equipment_android_security_patch_level, 
+    equipment_baseband_version, equipment_kernel_version, equipment_version_number, equipment_longitude, 
+    equipment_latitude, equipment_socket_key, equipment_create_time, equipment_change_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from equipment
+    where equipment_id = #{equipmentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from equipment
+    where equipment_id = #{equipmentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="equipmentId" parameterType="com.py.bean.Equipment">
+    insert into equipment (equipment_id, equipment_point_id, equipment_name, 
+      equipment_number, equipment_classify_id, equipment_status, 
+      equipment_status_information, equipment_wireless_upgrade, 
+      equipment_legal_information, equipment_note, 
+      equipment_ip, equipment_android_version, equipment_android_security_patch_level, 
+      equipment_baseband_version, equipment_kernel_version, 
+      equipment_version_number, equipment_longitude, 
+      equipment_latitude, equipment_socket_key, equipment_create_time, 
+      equipment_change_time)
+    values (#{equipmentId,jdbcType=INTEGER}, #{equipmentPointId,jdbcType=INTEGER}, #{equipmentName,jdbcType=VARCHAR}, 
+      #{equipmentNumber,jdbcType=VARCHAR}, #{equipmentClassifyId,jdbcType=INTEGER}, #{equipmentStatus,jdbcType=INTEGER}, 
+      #{equipmentStatusInformation,jdbcType=VARCHAR}, #{equipmentWirelessUpgrade,jdbcType=VARCHAR}, 
+      #{equipmentLegalInformation,jdbcType=VARCHAR}, #{equipmentNote,jdbcType=VARCHAR}, 
+      #{equipmentIp,jdbcType=VARCHAR}, #{equipmentAndroidVersion,jdbcType=VARCHAR}, #{equipmentAndroidSecurityPatchLevel,jdbcType=VARCHAR}, 
+      #{equipmentBasebandVersion,jdbcType=VARCHAR}, #{equipmentKernelVersion,jdbcType=VARCHAR}, 
+      #{equipmentVersionNumber,jdbcType=VARCHAR}, #{equipmentLongitude,jdbcType=DOUBLE}, 
+      #{equipmentLatitude,jdbcType=DOUBLE}, #{equipmentSocketKey,jdbcType=VARCHAR}, #{equipmentCreateTime,jdbcType=TIMESTAMP}, 
+      #{equipmentChangeTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="equipmentId" parameterType="com.py.bean.Equipment">
+    insert into equipment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="equipmentId != null">
+        equipment_id,
+      </if>
+      <if test="equipmentPointId != null">
+        equipment_point_id,
+      </if>
+      <if test="equipmentName != null">
+        equipment_name,
+      </if>
+      <if test="equipmentNumber != null">
+        equipment_number,
+      </if>
+      <if test="equipmentClassifyId != null">
+        equipment_classify_id,
+      </if>
+      <if test="equipmentStatus != null">
+        equipment_status,
+      </if>
+      <if test="equipmentStatusInformation != null">
+        equipment_status_information,
+      </if>
+      <if test="equipmentWirelessUpgrade != null">
+        equipment_wireless_upgrade,
+      </if>
+      <if test="equipmentLegalInformation != null">
+        equipment_legal_information,
+      </if>
+      <if test="equipmentNote != null">
+        equipment_note,
+      </if>
+      <if test="equipmentIp != null">
+        equipment_ip,
+      </if>
+      <if test="equipmentAndroidVersion != null">
+        equipment_android_version,
+      </if>
+      <if test="equipmentAndroidSecurityPatchLevel != null">
+        equipment_android_security_patch_level,
+      </if>
+      <if test="equipmentBasebandVersion != null">
+        equipment_baseband_version,
+      </if>
+      <if test="equipmentKernelVersion != null">
+        equipment_kernel_version,
+      </if>
+      <if test="equipmentVersionNumber != null">
+        equipment_version_number,
+      </if>
+      <if test="equipmentLongitude != null">
+        equipment_longitude,
+      </if>
+      <if test="equipmentLatitude != null">
+        equipment_latitude,
+      </if>
+      <if test="equipmentSocketKey != null">
+        equipment_socket_key,
+      </if>
+      <if test="equipmentCreateTime != null">
+        equipment_create_time,
+      </if>
+      <if test="equipmentChangeTime != null">
+        equipment_change_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="equipmentId != null">
+        #{equipmentId,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentPointId != null">
+        #{equipmentPointId,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentName != null">
+        #{equipmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentNumber != null">
+        #{equipmentNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentClassifyId != null">
+        #{equipmentClassifyId,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentStatus != null">
+        #{equipmentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentStatusInformation != null">
+        #{equipmentStatusInformation,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentWirelessUpgrade != null">
+        #{equipmentWirelessUpgrade,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentLegalInformation != null">
+        #{equipmentLegalInformation,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentNote != null">
+        #{equipmentNote,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentIp != null">
+        #{equipmentIp,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentAndroidVersion != null">
+        #{equipmentAndroidVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentAndroidSecurityPatchLevel != null">
+        #{equipmentAndroidSecurityPatchLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentBasebandVersion != null">
+        #{equipmentBasebandVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentKernelVersion != null">
+        #{equipmentKernelVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentVersionNumber != null">
+        #{equipmentVersionNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentLongitude != null">
+        #{equipmentLongitude,jdbcType=DOUBLE},
+      </if>
+      <if test="equipmentLatitude != null">
+        #{equipmentLatitude,jdbcType=DOUBLE},
+      </if>
+      <if test="equipmentSocketKey != null">
+        #{equipmentSocketKey,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentCreateTime != null">
+        #{equipmentCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="equipmentChangeTime != null">
+        #{equipmentChangeTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Equipment">
+    update equipment
+    <set>
+      <if test="equipmentPointId != null">
+        equipment_point_id = #{equipmentPointId,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentName != null">
+        equipment_name = #{equipmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentNumber != null">
+        equipment_number = #{equipmentNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentClassifyId != null">
+        equipment_classify_id = #{equipmentClassifyId,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentStatus != null">
+        equipment_status = #{equipmentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentStatusInformation != null">
+        equipment_status_information = #{equipmentStatusInformation,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentWirelessUpgrade != null">
+        equipment_wireless_upgrade = #{equipmentWirelessUpgrade,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentLegalInformation != null">
+        equipment_legal_information = #{equipmentLegalInformation,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentNote != null">
+        equipment_note = #{equipmentNote,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentIp != null">
+        equipment_ip = #{equipmentIp,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentAndroidVersion != null">
+        equipment_android_version = #{equipmentAndroidVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentAndroidSecurityPatchLevel != null">
+        equipment_android_security_patch_level = #{equipmentAndroidSecurityPatchLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentBasebandVersion != null">
+        equipment_baseband_version = #{equipmentBasebandVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentKernelVersion != null">
+        equipment_kernel_version = #{equipmentKernelVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentVersionNumber != null">
+        equipment_version_number = #{equipmentVersionNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentLongitude != null">
+        equipment_longitude = #{equipmentLongitude,jdbcType=DOUBLE},
+      </if>
+      <if test="equipmentLatitude != null">
+        equipment_latitude = #{equipmentLatitude,jdbcType=DOUBLE},
+      </if>
+      <if test="equipmentSocketKey != null">
+        equipment_socket_key = #{equipmentSocketKey,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentCreateTime != null">
+        equipment_create_time = #{equipmentCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="equipmentChangeTime != null">
+        equipment_change_time = #{equipmentChangeTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where equipment_id = #{equipmentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Equipment">
+    update equipment
+    set equipment_point_id = #{equipmentPointId,jdbcType=INTEGER},
+      equipment_name = #{equipmentName,jdbcType=VARCHAR},
+      equipment_number = #{equipmentNumber,jdbcType=VARCHAR},
+      equipment_classify_id = #{equipmentClassifyId,jdbcType=INTEGER},
+      equipment_status = #{equipmentStatus,jdbcType=INTEGER},
+      equipment_status_information = #{equipmentStatusInformation,jdbcType=VARCHAR},
+      equipment_wireless_upgrade = #{equipmentWirelessUpgrade,jdbcType=VARCHAR},
+      equipment_legal_information = #{equipmentLegalInformation,jdbcType=VARCHAR},
+      equipment_note = #{equipmentNote,jdbcType=VARCHAR},
+      equipment_ip = #{equipmentIp,jdbcType=VARCHAR},
+      equipment_android_version = #{equipmentAndroidVersion,jdbcType=VARCHAR},
+      equipment_android_security_patch_level = #{equipmentAndroidSecurityPatchLevel,jdbcType=VARCHAR},
+      equipment_baseband_version = #{equipmentBasebandVersion,jdbcType=VARCHAR},
+      equipment_kernel_version = #{equipmentKernelVersion,jdbcType=VARCHAR},
+      equipment_version_number = #{equipmentVersionNumber,jdbcType=VARCHAR},
+      equipment_longitude = #{equipmentLongitude,jdbcType=DOUBLE},
+      equipment_latitude = #{equipmentLatitude,jdbcType=DOUBLE},
+      equipment_socket_key = #{equipmentSocketKey,jdbcType=VARCHAR},
+      equipment_create_time = #{equipmentCreateTime,jdbcType=TIMESTAMP},
+      equipment_change_time = #{equipmentChangeTime,jdbcType=TIMESTAMP}
+    where equipment_id = #{equipmentId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByPrimary" parameterType="com.py.bean.Equipment" resultMap="BaseResultMap">
+  	 select 
+    <include refid="Base_Column_List" />
+    from equipment
+    <where>
+    	<if test="equipmentId != null">
+  			and equipment_id = #{equipmentId,jdbcType=INTEGER}
+		</if>
+		<if test="equipmentName != null">
+			and equipment_name = #{equipmentName,jdbcType=VARCHAR}
+		</if>
+		<if test="equipmentNumber != null">
+			and equipment_number = #{equipmentNumber,jdbcType=VARCHAR}
+		</if>
+		<if test="equipmentClassifyId != null">
+			and equipment_classify_id = #{equipmentClassifyId,jdbcType=INTEGER}
+		</if>
+		<if test="equipmentStatus != null">
+			and equipment_status = #{equipmentStatus,jdbcType=INTEGER}
+		</if>
+		<if test="equipmentNote != null">
+			and equipment_note = #{equipmentNote,jdbcType=VARCHAR}
+		</if>
+		<if test="equipmentSocketKey != null">
+			and equipment_socket_key = #{equipmentSocketKey,jdbcType=VARCHAR}
+		</if>
+    </where>
+    order by equipment_create_time desc limit 1
+  </select>
+  
+  <!-- selectByExample -->
+  <select id="selectByExample" parameterType="com.py.bean.Equipment" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from equipment
+	where 1=1
+	<if test="equipmentId != null">
+		and equipment_id = #{equipmentId,jdbcType=INTEGER}
+	</if>
+	<if test="equipmentName != null">
+		and equipment_name = #{equipmentName,jdbcType=VARCHAR}
+	</if>
+	<if test="equipmentNumber != null">
+		and equipment_number = #{equipmentNumber,jdbcType=VARCHAR}
+	</if>
+	<if test="equipmentClassifyId != null">
+		and equipment_classify_id = #{equipmentClassifyId,jdbcType=INTEGER}
+	</if>
+	<if test="equipmentStatus != null">
+		and equipment_status = #{equipmentStatus,jdbcType=INTEGER}
+	</if>
+	<if test="equipmentNote != null">
+		and equipment_note = #{equipmentNote,jdbcType=VARCHAR}
+	</if>
+	<if test="equipmentSocketKey != null">
+		and equipment_socket_key = #{equipmentSocketKey,jdbcType=VARCHAR}
+	</if>
+	order by equipment_create_time desc
+  </select>
+  <!-- selectByEquipmentName -->
+  <select id="selectByEquipmentName" parameterType="com.py.bean.Equipment" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from equipment
+	where 1=1
+	<if test="equipmentId != null">
+		and equipment_id = #{equipmentId,jdbcType=INTEGER}
+	</if>
+	<if test="equipmentName != null">
+		and equipment_name = #{equipmentName,jdbcType=VARCHAR}
+	</if>
+	<if test="equipmentNumber != null">
+		and equipment_number = #{equipmentNumber,jdbcType=VARCHAR}
+	</if>
+	<if test="equipmentClassifyId != null">
+		and equipment_classify_id = #{equipmentClassifyId,jdbcType=INTEGER}
+	</if>
+	<if test="equipmentStatus != null">
+		and equipment_status = #{equipmentStatus,jdbcType=INTEGER}
+	</if>
+	<if test="equipmentNote != null">
+		and equipment_note = #{equipmentNote,jdbcType=VARCHAR}
+	</if>
+	<if test="equipmentSocketKey != null">
+		and equipment_socket_key = #{equipmentSocketKey,jdbcType=VARCHAR}
+	</if>
+  </select>
+  
+  <delete id="deleteByArray">
+  	DELETE
+	FROM
+		equipment
+	WHERE
+		equipment_id IN
+			<foreach close=")" collection="array" item="equipment" open="(" separator=","> 
+				#{equipment}
+			</foreach>
+  </delete>
+  
+  <resultMap id="BaseResultExtendMap" type="com.py.bean.Equipment">
+    <id column="equipment_id" jdbcType="INTEGER" property="equipmentId" />
+    <result column="equipment_point_id" jdbcType="INTEGER" property="equipmentPointId" />
+    <result column="equipment_name" jdbcType="VARCHAR" property="equipmentName" />
+    <result column="equipment_number" jdbcType="VARCHAR" property="equipmentNumber" />
+    <result column="equipment_classify_id" jdbcType="INTEGER" property="equipmentClassifyId" />
+    <result column="equipment_status" jdbcType="INTEGER" property="equipmentStatus" />
+    <result column="equipment_status_information" jdbcType="VARCHAR" property="equipmentStatusInformation" />
+    <result column="equipment_wireless_upgrade" jdbcType="VARCHAR" property="equipmentWirelessUpgrade" />
+    <result column="equipment_legal_information" jdbcType="VARCHAR" property="equipmentLegalInformation" />
+    <result column="equipment_note" jdbcType="VARCHAR" property="equipmentNote" />
+    <result column="equipment_ip" jdbcType="VARCHAR" property="equipmentIp" />
+    <result column="equipment_android_version" jdbcType="VARCHAR" property="equipmentAndroidVersion" />
+    <result column="equipment_android_security_patch_level" jdbcType="VARCHAR" property="equipmentAndroidSecurityPatchLevel" />
+    <result column="equipment_baseband_version" jdbcType="VARCHAR" property="equipmentBasebandVersion" />
+    <result column="equipment_kernel_version" jdbcType="VARCHAR" property="equipmentKernelVersion" />
+    <result column="equipment_version_number" jdbcType="VARCHAR" property="equipmentVersionNumber" />
+    <result column="equipment_longitude" jdbcType="DOUBLE" property="equipmentLongitude" />
+    <result column="equipment_latitude" jdbcType="DOUBLE" property="equipmentLatitude" />
+    <result column="equipment_socket_key" jdbcType="VARCHAR" property="equipmentSocketKey" />
+    <result column="equipment_create_time" jdbcType="TIMESTAMP" property="equipmentCreateTime" />
+    <result column="equipment_change_time" jdbcType="TIMESTAMP" property="equipmentChangeTime" />
+    <collection column="equipment_message_equipment_id" ofType="com.py.bean.EquipmentMessage" property="equipmentMessage">
+    	<id column="equipment_message_id" jdbcType="INTEGER" property="equipmentMessageId" />
+	    <result column="equipment_message_equipment_id" jdbcType="INTEGER" property="equipmentMessageEquipmentId" />
+	    <result column="equipment_message_signal_strength" jdbcType="INTEGER" property="equipmentMessageSignalStrength" />
+	    <result column="equipment_message_cpu_occupy" jdbcType="INTEGER" property="equipmentMessageCpuOccupy" />
+	    <result column="equipment_message_memory_occupy" jdbcType="INTEGER" property="equipmentMessageMemoryOccupy" />
+	    <result column="equipment_message_memory_size" jdbcType="DOUBLE" property="equipmentMessageMemorySize" />
+	    <result column="equipment_message_sd_capacity" jdbcType="DOUBLE" property="equipmentMessageSdCapacity" />
+	    <result column="equipment_message_battery_status" jdbcType="INTEGER" property="equipmentMessageBatteryStatus" />
+	    <result column="equipment_message_battery_capacity" jdbcType="INTEGER" property="equipmentMessageBatteryCapacity" />
+	    <result column="equipment_message_sim_status" jdbcType="INTEGER" property="equipmentMessageSimStatus" />
+	    <result column="equipment_message_imei_information" jdbcType="VARCHAR" property="equipmentMessageImeiInformation" />
+	    <result column="equipment_message_ip_address" jdbcType="VARCHAR" property="equipmentMessageIpAddress" />
+	    <result column="equipment_message_wlanmac_address" jdbcType="VARCHAR" property="equipmentMessageWlanmacAddress" />
+	    <result column="equipment_message_bluetooth_address" jdbcType="VARCHAR" property="equipmentMessageBluetoothAddress" />
+	    <result column="equipment_message_serial_number" jdbcType="VARCHAR" property="equipmentMessageSerialNumber" />
+	    <result column="equipment_message_versions" jdbcType="VARCHAR" property="equipmentMessageVersions" />
+	    <result column="equipment_message_create_time" jdbcType="TIMESTAMP" property="equipmentMessageCreateTime" />
+	    <result column="equipment_message_change_time" jdbcType="TIMESTAMP" property="equipmentMessageChangeTime" />
+    </collection>
+    <collection column="sideboard_equipment_id" ofType="com.py.bean.Sideboard" property="sideboard">
+    	<id column="sideboard_id" jdbcType="INTEGER" property="sideboardId" />
+	    <result column="sideboard_name" jdbcType="VARCHAR" property="sideboardName" />
+	    <result column="sideboard_equipment_id" jdbcType="INTEGER" property="sideboardEquipmentId" />
+	    <result column="sideboard_merchandise_synopsis_id" jdbcType="INTEGER" property="sideboardMerchandiseSynopsisId" />
+	    <result column="sideboard_inventory" jdbcType="VARCHAR" property="sideboardInventory" />
+	    <result column="sideboard_versions" jdbcType="INTEGER" property="sideboardVersions" />
+	    <result column="sideboard_create_time" jdbcType="TIMESTAMP" property="sideboardCreateTime" />
+	    <result column="sideboard_change_time" jdbcType="TIMESTAMP" property="sideboardChangeTime" />
+    </collection>
+    <collection column="aisle_equipment_id" ofType="com.py.bean.Aisle" property="aisles">
+    	<id column="aisle_id" jdbcType="INTEGER" property="aisleId" />
+	    <result column="aisle_equipment_id" jdbcType="INTEGER" property="aisleEquipmentId" />
+	    <result column="aisle_number" jdbcType="VARCHAR" property="aisleNumber" />
+	    <result column="aisle_status" jdbcType="VARCHAR" property="aisleStatus" />
+	    <result column="aisle_versions" jdbcType="INTEGER" property="aisleVersions" />
+	    <result column="aisle_create_time" jdbcType="TIMESTAMP" property="aisleCreateTime" />
+	    <result column="aisle_change_time" jdbcType="TIMESTAMP" property="aisleChangeTime" />
+	    <collection column="aisle_inventory_aisle_id" ofType="com.py.bean.AisleInventory" property="aisleInventorie">
+	    	<id column="aisle_inventory_id" jdbcType="INTEGER" property="aisleInventoryId" />
+		    <result column="aisle_inventory_aisle_id" jdbcType="INTEGER" property="aisleInventoryAisleId" />
+		    <result column="aisle_inventory_merchandise_id" jdbcType="INTEGER" property="aisleInventoryMerchandiseId" />
+		    <result column="aisle_inventory_count" jdbcType="INTEGER" property="aisleInventoryCount" />
+		    <result column="aisle_inventory_create_time" jdbcType="TIMESTAMP" property="aisleInventoryCreateTime" />
+		    <result column="aisle_inventory_update_time" jdbcType="TIMESTAMP" property="aisleInventoryUpdateTime" />
+	    </collection>
+    </collection>
+  </resultMap>
+  
+  <select id="selectAllEquipment" parameterType="com.py.bean.Equipment" resultMap="BaseResultExtendMap">
+  	SELECT
+		*
+	FROM
+		equipment e1
+	LEFT JOIN equipment_message e2 ON e1.equipment_id = e2.equipment_message_equipment_id
+	LEFT JOIN sideboard s1 ON s1.sideboard_equipment_id = e1.equipment_id
+	WHERE 1=1
+	<if test="equipmentNumber != null">
+		AND equipment_number = #{equipmentNumber,jdbcType=VARCHAR}
+	</if>
+  </select>
+  
+  <select id="selectByLongitudeAndLatitude" parameterType="java.lang.Double" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from equipment
+	<where>
+		<if test="d">
+			and equipment_longitude &gt; #{d,jdbcType=DOUBLE}
+		</if>
+		<if test="e">
+			and equipment_longitude &lt; #{e,jdbcType=DOUBLE}
+		</if>
+		<if test="f">
+			and equipment_latitude &gt; #{f,jdbcType=DOUBLE}
+		</if>
+		<if test="g">
+			and equipment_latitude &lt; #{g,jdbcType=DOUBLE}
+		</if>
+	</where>
+	order by equipment_create_time desc
+  </select>
+  
+</mapper>

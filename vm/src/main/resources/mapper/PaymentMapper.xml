@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.PaymentMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Payment">
+    <id column="payment_id" jdbcType="INTEGER" property="paymentId" />
+    <result column="payment_name" jdbcType="VARCHAR" property="paymentName" />
+    <result column="payment_create_time" jdbcType="TIMESTAMP" property="paymentCreateTime" />
+    <result column="payment_update_time" jdbcType="TIMESTAMP" property="paymentUpdateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    payment_id, payment_name, payment_create_time, payment_update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from payment
+    where payment_id = #{paymentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from payment
+    where payment_id = #{paymentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.Payment">
+    insert into payment (payment_id, payment_name, payment_create_time, 
+      payment_update_time)
+    values (#{paymentId,jdbcType=INTEGER}, #{paymentName,jdbcType=VARCHAR}, #{paymentCreateTime,jdbcType=TIMESTAMP}, 
+      #{paymentUpdateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.Payment">
+    insert into payment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="paymentId != null">
+        payment_id,
+      </if>
+      <if test="paymentName != null">
+        payment_name,
+      </if>
+      <if test="paymentCreateTime != null">
+        payment_create_time,
+      </if>
+      <if test="paymentUpdateTime != null">
+        payment_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="paymentId != null">
+        #{paymentId,jdbcType=INTEGER},
+      </if>
+      <if test="paymentName != null">
+        #{paymentName,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentCreateTime != null">
+        #{paymentCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paymentUpdateTime != null">
+        #{paymentUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Payment">
+    update payment
+    <set>
+      <if test="paymentName != null">
+        payment_name = #{paymentName,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentCreateTime != null">
+        payment_create_time = #{paymentCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paymentUpdateTime != null">
+        payment_update_time = #{paymentUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where payment_id = #{paymentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Payment">
+    update payment
+    set payment_name = #{paymentName,jdbcType=VARCHAR},
+      payment_create_time = #{paymentCreateTime,jdbcType=TIMESTAMP},
+      payment_update_time = #{paymentUpdateTime,jdbcType=TIMESTAMP}
+    where payment_id = #{paymentId,jdbcType=INTEGER}
+  </update>
+  <!-- 根据货道id查询支付方式 -->
+  <select id="getPaymentByAisleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	SELECT t.* FROM(
+    SELECT p.*
+	FROM aisle a LEFT JOIN aisle_inventory ai ON a.aisle_id = ai.aisle_inventory_aisle_id
+	LEFT JOIN merchandise m ON m.merchandise_id = ai.aisle_inventory_merchandise_id
+	LEFT JOIN commercial_tenant ct ON m.merchandise_commercial_tenant_number = ct.commercial_tenant_id
+	LEFT JOIN commercial_tenant_payment ctp ON ctp.commercial_tenant_payment_commercial_tenant_id = ct.commercial_tenant_id
+	LEFT JOIN payment p ON ctp.commercial_tenant_payment_payment_id = p.payment_id
+	WHERE a.aisle_id = #{aisle_id,jdbcType=INTEGER}
+    UNION ALL
+    SELECT DISTINCT  p.*
+	FROM  aisle a LEFT JOIN aisle_inventory ai ON a.aisle_id = ai.aisle_inventory_aisle_id
+	LEFT JOIN channel_merchandise cm ON ai.aisle_inventory_merchandise_id = cm.channel_merchandise_merchandise_id 
+	LEFT JOIN channel_payment cp ON cm.channel_merchandise_channel_id = cp.channel_payment_channel_id
+	LEFT JOIN payment p ON cp.channel_payment_payment_id = p.payment_id
+	WHERE a.aisle_id = #{aisle_id,jdbcType=INTEGER}
+	)t GROUP BY t.payment_id HAVING COUNT(t.payment_id)=2
+  </select>
+  <!-- 根据渠道和商户查询支付方式 -->
+  <select id="getPaymentByChannelIdAndCommercialTenantId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	SELECT
+		t.*
+	FROM
+		(
+			SELECT
+				p.*
+			FROM
+				commercial_tenant ct
+			LEFT JOIN commercial_tenant_payment ctp ON ct.commercial_tenant_id = ctp.commercial_tenant_payment_commercial_tenant_id
+			RIGHT JOIN payment p ON p.payment_id = ctp.commercial_tenant_payment_payment_id
+			WHERE
+				ct.commercial_tenant_id = #{commercialTenantId,jdbcType=INTEGER}
+			UNION ALL
+				SELECT DISTINCT
+					p.*
+				FROM
+					channel c
+				LEFT JOIN channel_payment cp ON c.channel_id = cp.channel_payment_channel_id
+				RIGHT JOIN payment p ON p.payment_id = cp.channel_payment_payment_id
+				WHERE
+					c.channel_id = #{channelId,jdbcType=INTEGER}
+		) t
+	GROUP BY
+		t.payment_id
+	HAVING
+		COUNT(t.payment_id) = 2
+  </select>
+  
+  <select id="selectByExample" parameterType="com.py.bean.Payment" resultMap="BaseResultMap">
+  		select * 
+  		from payment
+  		where 1=1
+  		  <if test="paymentId != null">
+        	and payment_id = #{paymentId,jdbcType=INTEGER}
+	      </if>
+  		  <if test="paymentName != null">
+        	and payment_name = #{paymentName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="paymentCreateTime != null">
+	        and payment_create_time = #{paymentCreateTime,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="paymentUpdateTime != null">
+	        and payment_update_time = #{paymentUpdateTime,jdbcType=TIMESTAMP}
+	      </if>
+  </select>
+  <select id="selectBySelective" parameterType="com.py.bean.Payment" resultMap="BaseResultMap">
+  		select * 
+  		from payment
+  		where 1=1
+  		  <if test="paymentId != null">
+        	and payment_id = #{paymentId,jdbcType=INTEGER}
+	      </if>
+  		  <if test="paymentName != null">
+        	and payment_name = #{paymentName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="paymentCreateTime != null">
+	        and payment_create_time = #{paymentCreateTime,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="paymentUpdateTime != null">
+	        and payment_update_time = #{paymentUpdateTime,jdbcType=TIMESTAMP}
+	      </if>
+  </select>
+  
+</mapper>

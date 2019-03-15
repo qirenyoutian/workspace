@@ -1,0 +1,66 @@
+package com.py.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.py.bean.Sideboard;
+import com.py.dao.BigWarehouseInventoryMapper;
+import com.py.dao.SideboardMapper;
+
+@Service
+public class InventoryService {
+	@Autowired
+	SideboardMapper sideboardMapper;
+	@Autowired
+	BigWarehouseInventoryMapper bInventoryMapper;
+	
+	
+	/***************************************** 边柜库存 *****************************************/
+	
+	/**
+	 * 根据设备Id查找边柜库存
+	 * @param equipmentId
+	 * @return
+	 */
+	public List<Sideboard> selectByEquipment(Integer equipmentId) {
+		
+		Sideboard sideboard = new Sideboard();
+		sideboard.setSideboardEquipmentId(equipmentId);
+		
+		
+		return sideboardMapper.findSideboard(sideboard);
+	}
+
+	/**
+	 * 根据 Selective 插入
+	 * @param sideboard
+	 * @return
+	 */
+	public int insertBySideborad(Sideboard sideboard) {
+		
+		
+		return sideboardMapper.insertSelective(sideboard);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+}

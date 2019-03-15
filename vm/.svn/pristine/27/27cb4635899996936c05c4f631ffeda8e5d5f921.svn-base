@@ -1,0 +1,189 @@
+package com.example.admin.serialdemo.Activity;
+
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.admin.serialdemo.R;
+import com.example.admin.serialdemo.Utils.Constant;
+import com.example.admin.serialdemo.Utils.BaseActivity;
+import com.example.admin.serialdemo.bean.TypeBean;
+import com.google.gson.Gson;
+import com.squareup.okhttp.Request;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+import static android.content.ContentValues.TAG;
+
+public class PaymentActivity extends BaseActivity {
+
+    @Bind(R.id.imageview_erweima)
+    ImageView imageviewErweima;
+    @Bind(R.id.mername)
+    TextView mername;
+    @Bind(R.id.merprice)
+    TextView merprice;
+    @Bind(R.id.xiangqing_back)
+    ImageView xiangqingBack;
+    @Bind(R.id.small)
+    ImageView small;
+    @Bind(R.id.qr_code)
+    ImageView qrCode;
+    @Bind(R.id.pay_method)
+    ListView payMethod;
+    List<TypeBean.ObjectBean> list = new ArrayList<>();
+    int code;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_payment);
+        ButterKnife.bind(this);
+        mername.setText(getIntent().getStringExtra("name"));
+        merprice.setText(getIntent().getStringExtra("money")+"/元");
+        initData();//获取支付方式
+    }
+
+    public void initData() {
+        final MyAdapter myAdapter = new MyAdapter();
+        payMethod.setAdapter(myAdapter);
+
+        OkHttpUtils.post()
+                .url(Constant.Pur)
+                .addParams("aisle_id", getIntent().getStringExtra("aisle_id"))//货道id
+                .build().execute(new StringCallback() {
+            @Override
+            public void onError(Request request, Exception e) { }
+
+            @Override
+            public void onResponse(String response) {
+                Log.i(TAG, "666 onResponse: "+response);
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    if ("100".equals(obj.getString("code"))) {
+                        TypeBean bankCardBean = new Gson().fromJson(response, TypeBean.class);
+                        list = bankCardBean.getObject();
+                        myAdapter.notifyDataSetChanged();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+    public void initData2(int code) {//生成二维码
+        Log.i(TAG, "=="+getIntent().getStringExtra("aisle_id")+"*****"+getIntent().getStringExtra("id"));
+        OkHttpUtils.post()
+                .url(Constant.Purcha)
+                .addParams("payment_id", String.valueOf(code))//支付方式id
+                .addParams("aisle_id", getIntent().getStringExtra("aisle_id"))//货道id
+                .addParams("merchandise_id", getIntent().getStringExtra("id"))//商品id
+                .build().execute(new StringCallback() {
+            @Override
+            public void onError(Request request, Exception e) { }
+
+            @Override
+            public void onResponse(String response) {
+                Log.i(TAG, "777onResponse: "+response);
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    if (obj.getString("code").equals("100")){
+                        if (obj.getString("object").equals(null)){
+                            Toast.makeText(PaymentActivity.this,"失败了",Toast.LENGTH_LONG).show();
+                        }else {
+                            Bitmap bitmap = CodeUtils.createImage(obj.getString("object"),140,140,null);
+                            //第一个参数是地址， 第二个和第三个是宽高，第四个需要一个bitmap，传null就行
+                            qrCode.setImageBitmap(bitmap);//imageview 是布局中放置二维码的组件id
+                        }
+//                        Glide.with(PaymentActivity.this).load(obj.getString("object")).into(qrCode);
+                    }else {
+                        JSONObject obj2 = obj.getJSONObject("extend");
+                        Toast.makeText(PaymentActivity.this,obj2.getString("msg"),Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    @OnClick({R.id.xiangqing_back})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.xiangqing_back:
+                finish();
+                break;
+        }
+    }
+
+    class MyAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return list.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(final int i, View view, ViewGroup viewGroup) {
+            if (view == null) {
+                view = LayoutInflater.from(PaymentActivity.this).inflate(R.layout.pay_list_item, null);
+            }
+
+            ((TextView) view.findViewById(R.id.pay_type_item)).setText(list.get(i).getPaymentName());
+
+            (view.findViewById(R.id.pay_type_item)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (list.get(i).getPaymentName().equals("融e购app")){
+                        small.setImageResource(R.drawable.rongegou);
+                        code = list.get(i).getPaymentId();
+                        initData2(code);
+                    }else  if (list.get(i).getPaymentName().equals("东航app")){
+                        small.setImageResource(R.drawable.donghang);
+                        code = list.get(i).getPaymentId();
+                        initData2(code);
+                    }else  if (list.get(i).getPaymentName().equals("支付宝")){
+                        small.setImageResource(R.mipmap.zhifubao);
+                        code = list.get(i).getPaymentId();
+                        initData2(code);
+                    }else  if (list.get(i).getPaymentName().equals("微信")){
+                        small.setImageResource(R.drawable.wechat);
+                        code = list.get(i).getPaymentId();
+                        initData2(code);
+                    }
+                }
+            });
+            return view;
+        }
+    }
+
+}

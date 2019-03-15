@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.CouponMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Coupon">
+    <id column="coupon_id" jdbcType="INTEGER" property="couponId" />
+    <result column="coupon_name" jdbcType="VARCHAR" property="couponName" />
+    <result column="coupon_image" jdbcType="VARCHAR" property="couponImage" />
+    <result column="coupon_full" jdbcType="DOUBLE" property="couponFull" />
+    <result column="coupon_par_value" jdbcType="DOUBLE" property="couponParValue" />
+    <result column="coupon_instructions" jdbcType="VARCHAR" property="couponInstructions" />
+    <result column="coupon_valid_time" jdbcType="INTEGER" property="couponValidTime" />
+    <result column="coupon_is_integral" jdbcType="INTEGER" property="couponIsIntegral" />
+    <result column="coupon_integral" jdbcType="INTEGER" property="couponIntegral" />
+    <result column="coupon_time" jdbcType="TIMESTAMP" property="couponTime" />
+    <result column="coupon_delfalg" jdbcType="INTEGER" property="couponDelfalg" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    coupon_id, coupon_name, coupon_image, coupon_full, coupon_par_value, coupon_instructions, 
+    coupon_valid_time, coupon_is_integral, coupon_integral, coupon_time, coupon_delfalg
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from coupon
+    where coupon_id = #{couponId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from coupon
+    where coupon_id = #{couponId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.Coupon">
+    insert into coupon (coupon_id, coupon_name, coupon_image, 
+      coupon_full, coupon_par_value, coupon_instructions, 
+      coupon_valid_time, coupon_is_integral, coupon_integral, 
+      coupon_time, coupon_delfalg)
+    values (#{couponId,jdbcType=INTEGER}, #{couponName,jdbcType=VARCHAR}, #{couponImage,jdbcType=VARCHAR}, 
+      #{couponFull,jdbcType=DOUBLE}, #{couponParValue,jdbcType=DOUBLE}, #{couponInstructions,jdbcType=VARCHAR}, 
+      #{couponValidTime,jdbcType=INTEGER}, #{couponIsIntegral,jdbcType=INTEGER}, #{couponIntegral,jdbcType=INTEGER}, 
+      #{couponTime,jdbcType=TIMESTAMP}, #{couponDelfalg,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.Coupon">
+    insert into coupon
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="couponId != null">
+        coupon_id,
+      </if>
+      <if test="couponName != null">
+        coupon_name,
+      </if>
+      <if test="couponImage != null">
+        coupon_image,
+      </if>
+      <if test="couponFull != null">
+        coupon_full,
+      </if>
+      <if test="couponParValue != null">
+        coupon_par_value,
+      </if>
+      <if test="couponInstructions != null">
+        coupon_instructions,
+      </if>
+      <if test="couponValidTime != null">
+        coupon_valid_time,
+      </if>
+      <if test="couponIsIntegral != null">
+        coupon_is_integral,
+      </if>
+      <if test="couponIntegral != null">
+        coupon_integral,
+      </if>
+      <if test="couponTime != null">
+        coupon_time,
+      </if>
+      <if test="couponDelfalg != null">
+        coupon_delfalg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="couponId != null">
+        #{couponId,jdbcType=INTEGER},
+      </if>
+      <if test="couponName != null">
+        #{couponName,jdbcType=VARCHAR},
+      </if>
+      <if test="couponImage != null">
+        #{couponImage,jdbcType=VARCHAR},
+      </if>
+      <if test="couponFull != null">
+        #{couponFull,jdbcType=DOUBLE},
+      </if>
+      <if test="couponParValue != null">
+        #{couponParValue,jdbcType=DOUBLE},
+      </if>
+      <if test="couponInstructions != null">
+        #{couponInstructions,jdbcType=VARCHAR},
+      </if>
+      <if test="couponValidTime != null">
+        #{couponValidTime,jdbcType=INTEGER},
+      </if>
+      <if test="couponIsIntegral != null">
+        #{couponIsIntegral,jdbcType=INTEGER},
+      </if>
+      <if test="couponIntegral != null">
+        #{couponIntegral,jdbcType=INTEGER},
+      </if>
+      <if test="couponTime != null">
+        #{couponTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponDelfalg != null">
+        #{couponDelfalg,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Coupon">
+    update coupon
+    <set>
+      <if test="couponName != null">
+        coupon_name = #{couponName,jdbcType=VARCHAR},
+      </if>
+      <if test="couponImage != null">
+        coupon_image = #{couponImage,jdbcType=VARCHAR},
+      </if>
+      <if test="couponFull != null">
+        coupon_full = #{couponFull,jdbcType=DOUBLE},
+      </if>
+      <if test="couponParValue != null">
+        coupon_par_value = #{couponParValue,jdbcType=DOUBLE},
+      </if>
+      <if test="couponInstructions != null">
+        coupon_instructions = #{couponInstructions,jdbcType=VARCHAR},
+      </if>
+      <if test="couponValidTime != null">
+        coupon_valid_time = #{couponValidTime,jdbcType=INTEGER},
+      </if>
+      <if test="couponIsIntegral != null">
+        coupon_is_integral = #{couponIsIntegral,jdbcType=INTEGER},
+      </if>
+      <if test="couponIntegral != null">
+        coupon_integral = #{couponIntegral,jdbcType=INTEGER},
+      </if>
+      <if test="couponTime != null">
+        coupon_time = #{couponTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponDelfalg != null">
+        coupon_delfalg = #{couponDelfalg,jdbcType=INTEGER},
+      </if>
+    </set>
+    where coupon_id = #{couponId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Coupon">
+    update coupon
+    set coupon_name = #{couponName,jdbcType=VARCHAR},
+      coupon_image = #{couponImage,jdbcType=VARCHAR},
+      coupon_full = #{couponFull,jdbcType=DOUBLE},
+      coupon_par_value = #{couponParValue,jdbcType=DOUBLE},
+      coupon_instructions = #{couponInstructions,jdbcType=VARCHAR},
+      coupon_valid_time = #{couponValidTime,jdbcType=INTEGER},
+      coupon_is_integral = #{couponIsIntegral,jdbcType=INTEGER},
+      coupon_integral = #{couponIntegral,jdbcType=INTEGER},
+      coupon_time = #{couponTime,jdbcType=TIMESTAMP},
+      coupon_delfalg = #{couponDelfalg,jdbcType=INTEGER}
+    where coupon_id = #{couponId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimary" parameterType="com.py.bean.Coupon" resultMap="BaseResultMap">
+  	select
+  	 <include refid="Base_Column_List" />
+  	 from coupon
+  	 where 1=1
+  	 <if test="couponId != null">
+  	 	and coupon_id = #{couponId,jdbcType=INTEGER}
+  	 </if>
+  	 <if test="couponName != null">
+  	 	and coupon_name = #{couponName,jdbcType=VARCHAR}
+  	 </if>
+  	 <if test="couponImage != null">
+  	 	and coupon_image = #{couponImage,jdbcType=VARCHAR}
+  	 </if>
+  	 <if test="couponFull != null">
+  	 	and coupon_full = #{couponFull,jdbcType=DOUBLE}
+  	 </if>
+  	 <if test="couponParValue != null">
+  	 	and coupon_par_value = #{couponParValue,jdbcType=DOUBLE}
+  	 </if>
+  	 <if test="couponInstructions != null">
+  	 	and coupon_instructions = #{couponInstructions,jdbcType=VARCHAR}
+  	 </if>
+  	 <if test="couponValidTime != null">
+  	 	and coupon_valid_time = #{couponValidTime,jdbcType=INTEGER}
+  	 </if>
+  	 <if test="couponIsIntegral != null">
+  	 	and coupon_is_integral = #{couponIsIntegral,jdbcType=INTEGER}
+  	 </if>
+  	 <if test="couponIntegral != null">
+  	 	and coupon_integral = #{couponIntegral,jdbcType=INTEGER}
+  	 </if>
+  	 <if test="couponTime != null">
+  	 	and coupon_time = #{couponTime,jdbcType=TIMESTAMP}
+  	 </if>
+  	 <if test="couponDelfalg != null">
+  	 	and coupon_delfalg = #{couponDelfalg,jdbcType=INTEGER}
+  	 </if>
+  </select>
+  <select id="selectByExample" parameterType="com.py.bean.Coupon" resultMap="BaseResultMap">
+  	select
+  	 <include refid="Base_Column_List" />
+  	 from coupon
+  	 where 1=1
+  	 <if test="couponId != null">
+  	 	and coupon_id = #{couponId,jdbcType=INTEGER}
+  	 </if>
+  	 <if test="couponName != null">
+  	 	and coupon_name = #{couponName,jdbcType=VARCHAR}
+  	 </if>
+  	 <if test="couponImage != null">
+  	 	and coupon_image = #{couponImage,jdbcType=VARCHAR}
+  	 </if>
+  	 <if test="couponFull != null">
+  	 	and coupon_full = #{couponFull,jdbcType=DOUBLE}
+  	 </if>
+  	 <if test="couponParValue != null">
+  	 	and coupon_par_value = #{couponParValue,jdbcType=DOUBLE}
+  	 </if>
+  	 <if test="couponInstructions != null">
+  	 	and coupon_instructions = #{couponInstructions,jdbcType=VARCHAR}
+  	 </if>
+  	 <if test="couponValidTime != null">
+  	 	and coupon_valid_time = #{couponValidTime,jdbcType=INTEGER}
+  	 </if>
+  	 <if test="couponIsIntegral != null">
+  	 	and coupon_is_integral = #{couponIsIntegral,jdbcType=INTEGER}
+  	 </if>
+  	 <if test="couponIntegral != null">
+  	 	and coupon_integral = #{couponIntegral,jdbcType=INTEGER}
+  	 </if>
+  	 <if test="couponTime != null">
+  	 	and coupon_time = #{couponTime,jdbcType=TIMESTAMP}
+  	 </if>
+  	 <if test="couponDelfalg != null">
+  	 	and coupon_delfalg = #{couponDelfalg,jdbcType=INTEGER}
+  	 </if>
+  </select>
+</mapper>

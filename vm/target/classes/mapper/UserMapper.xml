@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.User">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_account" jdbcType="VARCHAR" property="userAccount" />
+    <result column="user_pass_word" jdbcType="VARCHAR" property="userPassWord" />
+    <result column="user_nickname" jdbcType="VARCHAR" property="userNickname" />
+    <result column="user_full_name" jdbcType="VARCHAR" property="userFullName" />
+    <result column="user_head_portrait" jdbcType="VARCHAR" property="userHeadPortrait" />
+    <result column="user_balance" jdbcType="DOUBLE" property="userBalance" />
+    <result column="user_integral" jdbcType="DOUBLE" property="userIntegral" />
+    <result column="user_mailbox" jdbcType="VARCHAR" property="userMailbox" />
+    <result column="user_creation_time" jdbcType="VARCHAR" property="userCreationTime" />
+    <result column="user_black" jdbcType="INTEGER" property="userBlack" />
+    <result column="user_versions" jdbcType="INTEGER" property="userVersions" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, user_account, user_pass_word, user_nickname, user_full_name, user_head_portrait, 
+    user_balance, user_integral, user_mailbox, user_creation_time, user_black, user_versions
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.User">
+    insert into user (user_id, user_account, user_pass_word, 
+      user_nickname, user_full_name, user_head_portrait, 
+      user_balance, user_integral, user_mailbox, 
+      user_creation_time, user_black, user_versions
+      )
+    values (#{userId,jdbcType=INTEGER}, #{userAccount,jdbcType=VARCHAR}, #{userPassWord,jdbcType=VARCHAR}, 
+      #{userNickname,jdbcType=VARCHAR}, #{userFullName,jdbcType=VARCHAR}, #{userHeadPortrait,jdbcType=VARCHAR}, 
+      #{userBalance,jdbcType=DOUBLE}, #{userIntegral,jdbcType=DOUBLE}, #{userMailbox,jdbcType=VARCHAR}, 
+      #{userCreationTime,jdbcType=VARCHAR}, #{userBlack,jdbcType=INTEGER}, #{userVersions,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userAccount != null">
+        user_account,
+      </if>
+      <if test="userPassWord != null">
+        user_pass_word,
+      </if>
+      <if test="userNickname != null">
+        user_nickname,
+      </if>
+      <if test="userFullName != null">
+        user_full_name,
+      </if>
+      <if test="userHeadPortrait != null">
+        user_head_portrait,
+      </if>
+      <if test="userBalance != null">
+        user_balance,
+      </if>
+      <if test="userIntegral != null">
+        user_integral,
+      </if>
+      <if test="userMailbox != null">
+        user_mailbox,
+      </if>
+      <if test="userCreationTime != null">
+        user_creation_time,
+      </if>
+      <if test="userBlack != null">
+        user_black,
+      </if>
+      <if test="userVersions != null">
+        user_versions,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userAccount != null">
+        #{userAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassWord != null">
+        #{userPassWord,jdbcType=VARCHAR},
+      </if>
+      <if test="userNickname != null">
+        #{userNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="userFullName != null">
+        #{userFullName,jdbcType=VARCHAR},
+      </if>
+      <if test="userHeadPortrait != null">
+        #{userHeadPortrait,jdbcType=VARCHAR},
+      </if>
+      <if test="userBalance != null">
+        #{userBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="userIntegral != null">
+        #{userIntegral,jdbcType=DOUBLE},
+      </if>
+      <if test="userMailbox != null">
+        #{userMailbox,jdbcType=VARCHAR},
+      </if>
+      <if test="userCreationTime != null">
+        #{userCreationTime,jdbcType=VARCHAR},
+      </if>
+      <if test="userBlack != null">
+        #{userBlack,jdbcType=INTEGER},
+      </if>
+      <if test="userVersions != null">
+        #{userVersions,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.User">
+    update user
+    <set>
+      <if test="userAccount != null">
+        user_account = #{userAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassWord != null">
+        user_pass_word = #{userPassWord,jdbcType=VARCHAR},
+      </if>
+      <if test="userNickname != null">
+        user_nickname = #{userNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="userFullName != null">
+        user_full_name = #{userFullName,jdbcType=VARCHAR},
+      </if>
+      <if test="userHeadPortrait != null">
+        user_head_portrait = #{userHeadPortrait,jdbcType=VARCHAR},
+      </if>
+      <if test="userBalance != null">
+        user_balance = #{userBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="userIntegral != null">
+        user_integral = #{userIntegral,jdbcType=DOUBLE},
+      </if>
+      <if test="userMailbox != null">
+        user_mailbox = #{userMailbox,jdbcType=VARCHAR},
+      </if>
+      <if test="userCreationTime != null">
+        user_creation_time = #{userCreationTime,jdbcType=VARCHAR},
+      </if>
+      <if test="userBlack != null">
+        user_black = #{userBlack,jdbcType=INTEGER},
+      </if>
+      <if test="userVersions != null">
+        user_versions = user_versions + 1,
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER} AND user_versions = #{userVersions,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.User">
+    update user
+    set user_account = #{userAccount,jdbcType=VARCHAR},
+      user_pass_word = #{userPassWord,jdbcType=VARCHAR},
+      user_nickname = #{userNickname,jdbcType=VARCHAR},
+      user_full_name = #{userFullName,jdbcType=VARCHAR},
+      user_head_portrait = #{userHeadPortrait,jdbcType=VARCHAR},
+      user_balance = #{userBalance,jdbcType=DOUBLE},
+      user_integral = #{userIntegral,jdbcType=DOUBLE},
+      user_mailbox = #{userMailbox,jdbcType=VARCHAR},
+      user_creation_time = #{userCreationTime,jdbcType=VARCHAR},
+      user_black = #{userBlack,jdbcType=INTEGER},
+      user_versions = user_versions + 1
+    where user_id = #{userId,jdbcType=INTEGER} AND user_versions = #{userVersions,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByPrimary" parameterType="com.py.bean.User" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from user
+    <where>
+      <if test="userAccount != null">
+        and user_account = #{userAccount,jdbcType=VARCHAR}
+      </if>
+      <if test="userPassWord != null">
+        and user_pass_word = #{userPassWord,jdbcType=VARCHAR}
+      </if>
+      <if test="userNickname != null">
+        and user_nickname = #{userNickname,jdbcType=VARCHAR}
+      </if>
+      <if test="userFullName != null">
+        and user_full_name = #{userFullName,jdbcType=VARCHAR}
+      </if>
+      <if test="userHeadPortrait != null">
+        and user_head_portrait = #{userHeadPortrait,jdbcType=VARCHAR}
+      </if>
+      <if test="userBalance != null">
+        and user_balance = #{userBalance,jdbcType=DOUBLE}
+      </if>
+      <if test="userIntegral != null">
+        and user_integral = #{userIntegral,jdbcType=DOUBLE}
+      </if>
+      <if test="userMailbox != null">
+        and user_mailbox = #{userMailbox,jdbcType=VARCHAR}
+      </if>
+      <if test="userCreationTime != null">
+        and user_creation_time = #{userCreationTime,jdbcType=VARCHAR}
+      </if>
+      <if test="userBlack != null">
+        and user_black = #{userBlack,jdbcType=INTEGER}
+      </if>
+      <if test="userVersions != null">
+        and user_versions = #{userVersions,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+  
+</mapper>

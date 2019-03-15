@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.MonthCardBuyMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.MonthCardBuy">
+    <id column="month_card_buy_id" jdbcType="INTEGER" property="monthCardBuyId" />
+    <result column="month_card_buy_user_id" jdbcType="INTEGER" property="monthCardBuyUserId" />
+    <result column="month_card_id" jdbcType="INTEGER" property="monthCardId" />
+    <result column="month_card_buy_start_time" jdbcType="TIMESTAMP" property="monthCardBuyStartTime" />
+    <result column="month_card_buy_end_time" jdbcType="TIMESTAMP" property="monthCardBuyEndTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    month_card_buy_id, month_card_buy_user_id, month_card_id, month_card_buy_start_time, 
+    month_card_buy_end_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from month_card_buy
+    where month_card_buy_id = #{monthCardBuyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from month_card_buy
+    where month_card_buy_id = #{monthCardBuyId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.MonthCardBuy">
+    insert into month_card_buy (month_card_buy_id, month_card_buy_user_id, 
+      month_card_id, month_card_buy_start_time, month_card_buy_end_time
+      )
+    values (#{monthCardBuyId,jdbcType=INTEGER}, #{monthCardBuyUserId,jdbcType=INTEGER}, 
+      #{monthCardId,jdbcType=INTEGER}, #{monthCardBuyStartTime,jdbcType=TIMESTAMP}, #{monthCardBuyEndTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.MonthCardBuy">
+    insert into month_card_buy
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="monthCardBuyId != null">
+        month_card_buy_id,
+      </if>
+      <if test="monthCardBuyUserId != null">
+        month_card_buy_user_id,
+      </if>
+      <if test="monthCardId != null">
+        month_card_id,
+      </if>
+      <if test="monthCardBuyStartTime != null">
+        month_card_buy_start_time,
+      </if>
+      <if test="monthCardBuyEndTime != null">
+        month_card_buy_end_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="monthCardBuyId != null">
+        #{monthCardBuyId,jdbcType=INTEGER},
+      </if>
+      <if test="monthCardBuyUserId != null">
+        #{monthCardBuyUserId,jdbcType=INTEGER},
+      </if>
+      <if test="monthCardId != null">
+        #{monthCardId,jdbcType=INTEGER},
+      </if>
+      <if test="monthCardBuyStartTime != null">
+        #{monthCardBuyStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="monthCardBuyEndTime != null">
+        #{monthCardBuyEndTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.MonthCardBuy">
+    update month_card_buy
+    <set>
+      <if test="monthCardBuyUserId != null">
+        month_card_buy_user_id = #{monthCardBuyUserId,jdbcType=INTEGER},
+      </if>
+      <if test="monthCardId != null">
+        month_card_id = #{monthCardId,jdbcType=INTEGER},
+      </if>
+      <if test="monthCardBuyStartTime != null">
+        month_card_buy_start_time = #{monthCardBuyStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="monthCardBuyEndTime != null">
+        month_card_buy_end_time = #{monthCardBuyEndTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where month_card_buy_id = #{monthCardBuyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.MonthCardBuy">
+    update month_card_buy
+    set month_card_buy_user_id = #{monthCardBuyUserId,jdbcType=INTEGER},
+      month_card_id = #{monthCardId,jdbcType=INTEGER},
+      month_card_buy_start_time = #{monthCardBuyStartTime,jdbcType=TIMESTAMP},
+      month_card_buy_end_time = #{monthCardBuyEndTime,jdbcType=TIMESTAMP}
+    where month_card_buy_id = #{monthCardBuyId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimary" parameterType="com.py.bean.MonthCardBuy" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from month_card_buy
+  	where 1=1
+  	<if test="monthCardBuyId != null">
+  		and month_card_buy_id = #{monthCardBuyId,jdbcType=INTEGER}
+  	</if>
+  	<if test="monthCardBuyUserId != null">
+  		and month_card_buy_user_id = #{monthCardBuyUserId,jdbcType=INTEGER}
+  	</if>
+  	<if test="monthCardId != null">
+  		and month_card_id = #{monthCardId,jdbcType=DOUBLE}
+  	</if>
+  	<if test="monthCardBuyStartTime != null">
+  		and month_card_buy_start_time = #{monthCardBuyStartTime,jdbcType=TIMESTAMP}
+  	</if>
+  	<if test="monthCardBuyEndTime != null">
+  		and month_card_buy_end_time = #{monthCardBuyEndTime,jdbcType=TIMESTAMP}
+  	</if>
+  </select>
+  <select id="selectByExample" parameterType="com.py.bean.MonthCardBuy" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from month_card_buy
+  	where 1=1
+  	<if test="monthCardBuyId != null">
+  		and month_card_buy_id = #{monthCardBuyId,jdbcType=INTEGER}
+  	</if>
+  	<if test="monthCardBuyUserId != null">
+  		and month_card_buy_user_id = #{monthCardBuyUserId,jdbcType=INTEGER}
+  	</if>
+  	<if test="monthCardId != null">
+  		and month_card_id = #{monthCardId,jdbcType=DOUBLE}
+  	</if>
+  	<if test="monthCardBuyStartTime != null">
+  		and month_card_buy_start_time = #{monthCardBuyStartTime,jdbcType=TIMESTAMP}
+  	</if>
+  	<if test="monthCardBuyEndTime != null">
+  		and month_card_buy_end_time = #{monthCardBuyEndTime,jdbcType=TIMESTAMP}
+  	</if>
+  </select>
+  <select id="selectByPrimaryTop1" parameterType="com.py.bean.MonthCardBuy" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from month_card_buy
+  	where 1=1
+  	<if test="monthCardBuyUserId != null">
+  		and month_card_buy_user_id = #{monthCardBuyUserId,jdbcType=INTEGER}
+  	</if>
+  	<if test="monthCardId != null">
+  		and month_card_id = #{monthCardId,jdbcType=INTEGER}
+  	</if>
+  	<if test="monthCardBuyStartTime != null">
+  		and month_card_buy_start_time &gt; #{monthCardBuyStartTime,jdbcType=TIMESTAMP}
+  		and month_card_buy_end_time > #{monthCardBuyStartTime,jdbcType=TIMESTAMP} 
+  	</if>
+  	order by month_card_buy_start_time desc limit 1
+  </select>
+  
+  <select id="selectById" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  	SELECT
+		COUNT(month_card_id) AS count
+	FROM
+		month_card_buy
+	WHERE 1=1
+		<if test="monthCardId != null">
+		and	month_card_id = #{monthCardId,jdbcType = INTEGER}
+		</if>
+  </select>
+  
+  
+  <resultMap id="BaseResultRecordMap" type="com.py.bean.MonthCardRecord">
+    <id column="month_card_id" jdbcType="INTEGER" property="monthCardId" />
+    <result column="month_card_name" jdbcType="VARCHAR" property="monthCardName" />
+    <result column="month_card_route" jdbcType="INTEGER" property="monthCardRoute" />
+    <result column="month_card_price" jdbcType="DOUBLE" property="monthCardPrice" />
+    <result column="month_card_status" jdbcType="INTEGER" property="monthCardStatus" />
+    	<collection column="month_card_id" ofType="com.py.bean.MonthCardBuy" property="monthCardBuy">  
+            <id column="month_card_buy_id" jdbcType="INTEGER" property="monthCardBuyId" />
+		    <result column="month_card_buy_user_id" jdbcType="INTEGER" property="monthCardBuyUserId" />
+		    <result column="month_card_id" jdbcType="INTEGER" property="monthCardId" />
+		    <result column="month_card_buy_start_time" jdbcType="TIMESTAMP" property="monthCardBuyStartTime" />
+		    <result column="month_card_buy_end_time" jdbcType="TIMESTAMP" property="monthCardBuyEndTime" />
+        </collection>
+  </resultMap>
+  
+  <select id="selectByExampleRecord" parameterType="com.py.bean.MonthCardBuy" resultMap="BaseResultRecordMap">
+  	select *
+  	from month_card mc, month_card_buy mcb
+  	where mc.month_card_id = mcb.month_card_id
+  	<if test="monthCardBuyId != null">
+  		and mcb.month_card_buy_id = #{monthCardBuyId,jdbcType=INTEGER}
+  	</if>
+  	<if test="monthCardBuyUserId != null">
+  		and mcb.month_card_buy_user_id = #{monthCardBuyUserId,jdbcType=INTEGER}
+  	</if>
+  	<if test="monthCardId != null">
+  		and mcb.month_card_id = #{monthCardId,jdbcType=DOUBLE}
+  	</if>
+  	<if test="monthCardBuyStartTime != null">
+  		and mcb.month_card_buy_start_time = #{monthCardBuyStartTime,jdbcType=TIMESTAMP}
+  	</if>
+  	<if test="monthCardBuyEndTime != null">
+  		and mcb.month_card_buy_end_time = #{monthCardBuyEndTime,jdbcType=TIMESTAMP}
+  	</if>
+  </select>
+  
+  <resultMap id="BaseUserMonthCardMap" type="com.py.bean.UserMonthCard">
+  	<result column="month_card_name" jdbcType="VARCHAR" property="monthCardName" />
+    <result column="route_location_name" jdbcType="VARCHAR" property="routeName" />
+    <result column="month_card_buy_start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="month_card_buy_end_time" jdbcType="TIMESTAMP" property="endTime" />
+   </resultMap>
+  
+  <select id="getUserMonthCard" parameterType="java.lang.Integer" resultMap="BaseUserMonthCardMap">
+  	SELECT mc.month_card_name,r.route_location_name,mcb.month_card_buy_start_time,mcb.month_card_buy_end_time
+		FROM USER u LEFT JOIN month_card_buy mcb ON u.user_id = mcb.month_card_buy_user_id
+			LEFT JOIN month_card mc ON mc.month_card_id = mcb.month_card_id
+			LEFT JOIN route r ON mc.month_card_route = r.route_id 
+				WHERE u.user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  
+</mapper>

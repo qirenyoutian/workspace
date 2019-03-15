@@ -1,0 +1,177 @@
+package com.py.service;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.py.bean.Channel;
+import com.py.bean.CommercialTenant;
+import com.py.bean.Merchandise;
+import com.py.bean.MerchandiseClassify;
+import com.py.bean.Order;
+import com.py.bean.OrderSelectBy;
+import com.py.bean.Payment;
+import com.py.dao.MerchandiseMapper;
+import com.py.dao.OrderMapper;
+import com.py.dao.PaymentMapper;
+import com.py.util.ExcelUtils;
+
+
+@Service
+public class OrderService {
+	@Autowired
+	private OrderMapper orderMapper;
+	@Autowired
+	MerchandiseMapper merchandiseMapper;
+	@Autowired
+	PaymentMapper paymentMapper;
+	
+	public int deleteByPrimaryKey(Integer orderId) {
+		return orderMapper.deleteByPrimaryKey(orderId);
+	}
+
+	public int insert(Order record) {
+		return orderMapper.insert(record);
+	}
+
+	public int insertSelective(Order record) {
+		return orderMapper.insertSelective(record);
+	}
+
+	public Order selectByPrimaryKey(Integer orderId) {
+		return orderMapper.selectByPrimaryKey(orderId);
+	}
+
+	public int updateByPrimaryKeySelective(Order record) {
+		return orderMapper.updateByPrimaryKeySelective(record);
+	}
+
+	public int updateByPrimaryKey(Order record) {
+		return orderMapper.updateByPrimaryKey(record);
+	}
+
+	public List<Order> selectByExample(Order order) {
+		return orderMapper.selectByExample(order);
+	}
+
+	public Order selectByPrimary(Order order) {
+		return orderMapper.selectByPrimary(order);
+	}
+
+	public Order getPickupCode(Order order) {
+		return orderMapper.getPickupCode(order);
+	}
+
+	public List<Order> selectOrderByExample(String orderNumber, String orderPaymentId, String orderStatus, String createStartTime, String createEndTime, String updateStartTime, String updateEndTime) {
+		List<Order> orders = orderMapper.selectOrderByExample(orderNumber,orderPaymentId,orderStatus,createStartTime,createEndTime,updateStartTime,updateEndTime);
+		for (Order order : orders) {
+			order.setMerchandise(merchandiseMapper.selectByPrimaryKey(order.getOrderMerchandiseId()));
+			order.setPayment(paymentMapper.selectByPrimaryKey(order.getOrderPaymentId()));
+		}
+		return orders;
+	}
+
+	public List<Order> selectOrderByExample(OrderSelectBy orderSelectBy) {
+		
+		
+		List<Order> orders = orderMapper.selectOrderByExample(orderSelectBy);
+		for (Order order : orders) {
+			order.setMerchandise(merchandiseMapper.selectByPrimaryKey(order.getOrderMerchandiseId()));
+			order.setPayment(paymentMapper.selectByPrimaryKey(order.getOrderPaymentId()));
+		}
+		
+		
+		return orders;
+	}
+
+	public void ExportExcel(Integer area, Integer province, Integer city, Integer orderChannel, Integer orderPointName,
+			Integer orderStatus, Integer orderEquipmentName, Integer orderAisleNum, Integer orderMerchandiseName,
+			HttpServletResponse response) throws Exception {
+		
+		OrderSelectBy orderSelectBy = new OrderSelectBy();
+		orderSelectBy.setPointCity(city);						//城市
+		orderSelectBy.setPointDistrict(area);					//区域
+		orderSelectBy.setPointProvince(province);				//省份
+		orderSelectBy.setChannelId(orderChannel);				//渠道
+		orderSelectBy.setPointId(orderPointName);				//点位
+		orderSelectBy.setStatus(orderStatus);					//状态
+		orderSelectBy.setEquipmentId(orderEquipmentName);		//设备
+		orderSelectBy.setAisleId(orderAisleNum);				//货道
+		orderSelectBy.setMerchandiseId(orderMerchandiseName);	//商品
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		List<Order> orderList = orderMapper.selectOrderByExample(orderSelectBy);
+		
+		 String[] headers = {"订单编号","渠道订单编号","商品","数量","支付方式","订单状态","订单创建时间","支付时间" };  
+		 String fileName = "订单信息表";  
+		 List<Object[]> dataList = new ArrayList<Object[]>();
+		 for (int i = 0; i < orderList.size(); i++) {
+			 Order order = orderList.get(i);
+			 
+			 	Merchandise merchandise = order.getMerchandise();
+			 	Payment payment = order.getPayment();
+			 	
+				Object[] objs = new Object[headers.length];
+				objs[0] = (order.getOrderNumber()) == null ? "-" : order.getOrderNumber();
+				objs[1] = (order.getOrderChannelNumber()) == null ? "-" : order.getOrderChannelNumber();
+				if (merchandise == null) {
+					objs[2] = "-";
+				}else{
+					objs[2] = (merchandise.getMerchandiseName()) == null ? "-" : merchandise.getMerchandiseName();
+				}
+				objs[3] = (order.getOrderMerchandiseAmount()) == null ? "-" : order.getOrderMerchandiseAmount();
+				if (payment == null) {
+					objs[4] = "-";
+				}else{
+					objs[4] = (payment.getPaymentName()) == null ? "-" : payment.getPaymentName();
+				}
+				if (order.getOrderStatus() == null) {
+					objs[5] = "";
+				}else if(order.getOrderStatus() == 1){
+					objs[5] = "未付款";
+				}else if(order.getOrderStatus() == 2){
+					objs[5] = "待出货";
+				}else if(order.getOrderStatus() == 3){
+					objs[5] = "待确认收货";
+				}else if(order.getOrderStatus() == 4){
+					objs[5] = "交易完成";
+				}else if(order.getOrderStatus() == 5){
+					objs[5] = "取消交易";
+				}else if(order.getOrderStatus() == 6){
+					objs[5] = "交易关闭";
+				}else if(order.getOrderStatus() == 7){
+					objs[5] = "货道故障";
+				}else if(order.getOrderStatus() == 8){
+					objs[5] = "出货超时";
+				}
+				objs[6] = (order.getOrderCreateTime()) == null ? "-" : order.getOrderCreateTime();
+				objs[7] = (order.getOrderPaymentTime()) == null ? "-" : order.getOrderPaymentTime();
+				
+				dataList.add(objs);
+		}
+		
+      ExcelUtils ex = new ExcelUtils(fileName,headers,dataList);
+		
+		try{
+			OutputStream output = response.getOutputStream();
+          response.reset();
+          response.setHeader("Content-disposition",
+                  "attachment; filename=PersonList.xls");
+          response.setContentType("application/msexcel");
+          ex.export(output);
+          output.close();
+		
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+}

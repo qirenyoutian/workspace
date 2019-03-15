@@ -1,0 +1,140 @@
+package com.example.admin.serialdemo.Fragment;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.example.admin.serialdemo.Activity.PaymentActivity;
+import com.example.admin.serialdemo.Adapter.MyAdapter;
+import com.example.admin.serialdemo.Adapter.SubAdapter;
+import com.example.admin.serialdemo.Utils.BaseFragment;
+import com.example.admin.serialdemo.bean.ListOneBean;
+import com.example.admin.serialdemo.R;
+import com.example.admin.serialdemo.Utils.Constant;
+import com.google.gson.Gson;
+import com.squareup.okhttp.Request;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+import static android.content.ContentValues.TAG;
+
+/**
+ * 首页商品fragment
+ */
+public class Fragment_Page extends BaseFragment {
+
+    @Bind(R.id.maintain)
+    ImageView maintain;
+    private ListView listView;
+    private ListView subListView;
+    private MyAdapter myAdapter;
+    private SubAdapter subAdapter;
+    List<ListOneBean.ExtendBean.ClassifieBean> list = new ArrayList<>();
+    List<ListOneBean.ExtendBean.PageInfoBean.ListBean> cities = new ArrayList<>();
+    private View mView;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        mView = inflater.inflate(R.layout.fragment1, container, false);
+        ButterKnife.bind(this, mView);
+        listView =  mView.findViewById(R.id.listView);
+        subListView = mView.findViewById(R.id.subListView);
+
+        initData();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                // TODO Auto-generated method stub
+                subListView.setVisibility(View.VISIBLE);
+                myAdapter.setSelectedPosition(position);
+                myAdapter.notifyDataSetInvalidated();
+                subAdapter = new SubAdapter(getActivity(), cities);
+                subListView.setAdapter(subAdapter);
+                subListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                        //跳转到详情
+                        Intent intent = new Intent(getActivity(), PaymentActivity.class);
+                        intent.putExtra("name", cities.get(position).getMerchandiseName());
+                        intent.putExtra("money", String.valueOf(cities.get(position).getMerchandisePrice()));
+                        intent.putExtra("aisle_id", String.valueOf(cities.get(position).getAisleId()));//货道id
+                        intent.putExtra("id", String.valueOf(cities.get(position).getMerchandiseId()));//商品id
+                        startActivity(intent);
+                    }
+                });
+            }
+        });
+        return mView;
+    }
+
+    public void initData() {//获取商品分类的接口
+        OkHttpUtils.post()
+                .url(Constant.List)
+                .addParams("equipment_id", "20")//设备id
+                .addParams("pn", "1")//分页
+                .addParams("classify_id", "0")//分类id
+                .build().execute(new StringCallback() {
+            @Override
+            public void onError(Request request, Exception e) { }
+
+            @Override
+            public void onResponse(String response) {
+                Log.i(TAG, "222===onResponse: " + response);
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    if (obj.getString("code").equals("100")) {
+                        ListOneBean borrowRecoredBean = new Gson().fromJson(response, ListOneBean.class);
+                        list = borrowRecoredBean.getExtend().getClassifie();
+                        myAdapter = new MyAdapter(getActivity(), list);
+                        listView.setAdapter(myAdapter);
+
+                        cities = borrowRecoredBean.getExtend().getPageInfo().getList();
+                        subAdapter = new SubAdapter(getActivity(), cities);
+                        subListView.setAdapter(subAdapter);
+                        subListView.setVisibility(View.GONE);
+                    } else {
+                        maintain.setVisibility(View.VISIBLE);
+                        JSONObject obj2 = obj.getJSONObject(obj.getString("extend"));
+                        Toast.makeText(getActivity(), obj2.getString("msg"), Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+}
+
+
+
+
+

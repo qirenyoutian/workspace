@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.FeedbackMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Feedback">
+    <id column="feedback_id" jdbcType="INTEGER" property="feedbackId" />
+    <result column="feedback_admin_id" jdbcType="INTEGER" property="feedbackAdminId" />
+    <result column="feedback_point_id" jdbcType="INTEGER" property="feedbackPointId" />
+    <result column="feedback_maintenance_state" jdbcType="INTEGER" property="feedbackMaintenanceState" />
+    <result column="feedback_problem_description" jdbcType="VARCHAR" property="feedbackProblemDescription" />
+    <result column="feedback_image" jdbcType="VARCHAR" property="feedbackImage" />
+    <result column="feedback_read" jdbcType="INTEGER" property="feedbackRead" />
+    <result column="feedback_create_time" jdbcType="VARCHAR" property="feedbackCreateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    feedback_id, feedback_admin_id, feedback_point_id, feedback_maintenance_state, feedback_problem_description, 
+    feedback_image, feedback_read, feedback_create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from feedback
+    where feedback_id = #{feedbackId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from feedback
+    where feedback_id = #{feedbackId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.Feedback">
+    insert into feedback (feedback_id, feedback_admin_id, feedback_point_id, 
+      feedback_maintenance_state, feedback_problem_description, 
+      feedback_image, feedback_read, feedback_create_time
+      )
+    values (#{feedbackId,jdbcType=INTEGER}, #{feedbackAdminId,jdbcType=INTEGER}, #{feedbackPointId,jdbcType=INTEGER}, 
+      #{feedbackMaintenanceState,jdbcType=INTEGER}, #{feedbackProblemDescription,jdbcType=VARCHAR}, 
+      #{feedbackImage,jdbcType=VARCHAR}, #{feedbackRead,jdbcType=INTEGER}, #{feedbackCreateTime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.Feedback">
+    insert into feedback
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="feedbackId != null">
+        feedback_id,
+      </if>
+      <if test="feedbackAdminId != null">
+        feedback_admin_id,
+      </if>
+      <if test="feedbackPointId != null">
+        feedback_point_id,
+      </if>
+      <if test="feedbackMaintenanceState != null">
+        feedback_maintenance_state,
+      </if>
+      <if test="feedbackProblemDescription != null">
+        feedback_problem_description,
+      </if>
+      <if test="feedbackImage != null">
+        feedback_image,
+      </if>
+      <if test="feedbackRead != null">
+        feedback_read,
+      </if>
+      <if test="feedbackCreateTime != null">
+        feedback_create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="feedbackId != null">
+        #{feedbackId,jdbcType=INTEGER},
+      </if>
+      <if test="feedbackAdminId != null">
+        #{feedbackAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="feedbackPointId != null">
+        #{feedbackPointId,jdbcType=INTEGER},
+      </if>
+      <if test="feedbackMaintenanceState != null">
+        #{feedbackMaintenanceState,jdbcType=INTEGER},
+      </if>
+      <if test="feedbackProblemDescription != null">
+        #{feedbackProblemDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackImage != null">
+        #{feedbackImage,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackRead != null">
+        #{feedbackRead,jdbcType=INTEGER},
+      </if>
+      <if test="feedbackCreateTime != null">
+        #{feedbackCreateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Feedback">
+    update feedback
+    <set>
+      <if test="feedbackAdminId != null">
+        feedback_admin_id = #{feedbackAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="feedbackPointId != null">
+        feedback_point_id = #{feedbackPointId,jdbcType=INTEGER},
+      </if>
+      <if test="feedbackMaintenanceState != null">
+        feedback_maintenance_state = #{feedbackMaintenanceState,jdbcType=INTEGER},
+      </if>
+      <if test="feedbackProblemDescription != null">
+        feedback_problem_description = #{feedbackProblemDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackImage != null">
+        feedback_image = #{feedbackImage,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackRead != null">
+        feedback_read = #{feedbackRead,jdbcType=INTEGER},
+      </if>
+      <if test="feedbackCreateTime != null">
+        feedback_create_time = #{feedbackCreateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where feedback_id = #{feedbackId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Feedback">
+    update feedback
+    set feedback_admin_id = #{feedbackAdminId,jdbcType=INTEGER},
+      feedback_point_id = #{feedbackPointId,jdbcType=INTEGER},
+      feedback_maintenance_state = #{feedbackMaintenanceState,jdbcType=INTEGER},
+      feedback_problem_description = #{feedbackProblemDescription,jdbcType=VARCHAR},
+      feedback_image = #{feedbackImage,jdbcType=VARCHAR},
+      feedback_read = #{feedbackRead,jdbcType=INTEGER},
+      feedback_create_time = #{feedbackCreateTime,jdbcType=VARCHAR}
+    where feedback_id = #{feedbackId,jdbcType=INTEGER}
+  </update>
+</mapper>

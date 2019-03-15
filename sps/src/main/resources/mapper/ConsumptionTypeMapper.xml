@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.ConsumptionTypeMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.ConsumptionType">
+    <id column="consumption_type_id" jdbcType="INTEGER" property="consumptionTypeId" />
+    <result column="consumption_type_minimum_consumption" jdbcType="DOUBLE" property="consumptionTypeMinimumConsumption" />
+    <result column="consumption_type_maximum_consumption" jdbcType="DOUBLE" property="consumptionTypeMaximumConsumption" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    consumption_type_id, consumption_type_minimum_consumption, consumption_type_maximum_consumption
+  </sql>
+  <select id="selectByPrimary" parameterType="com.py.bean.ConsumptionType" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from consumption_type
+    where 1=1
+    <if test="consumptionTypeId != null">
+      and consumption_type_id = #{consumptionTypeId,jdbcType=INTEGER}
+    </if>
+    <if test="consumptionTypeMinimumConsumption != null">
+      and consumption_type_minimum_consumption = #{consumptionTypeMinimumConsumption,jdbcType=DOUBLE}
+    </if>
+    <if test="consumptionTypeMaximumConsumption != null">
+      and consumption_type_maximum_consumption = #{consumptionTypeMaximumConsumption,jdbcType=DOUBLE}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.py.bean.ConsumptionType" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from consumption_type
+    where 1=1
+    <if test="consumptionTypeId != null">
+      and consumption_type_id = #{consumptionTypeId,jdbcType=INTEGER}
+    </if>
+    <if test="consumptionTypeMinimumConsumption != null">
+      and consumption_type_minimum_consumption = #{consumptionTypeMinimumConsumption,jdbcType=DOUBLE}
+    </if>
+    <if test="consumptionTypeMaximumConsumption != null">
+      and consumption_type_maximum_consumption = #{consumptionTypeMaximumConsumption,jdbcType=DOUBLE}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from consumption_type
+    where consumption_type_id = #{consumptionTypeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.ConsumptionType">
+    insert into consumption_type (consumption_type_id, consumption_type_minimum_consumption, 
+      consumption_type_maximum_consumption)
+    values (#{consumptionTypeId,jdbcType=INTEGER}, #{consumptionTypeMinimumConsumption,jdbcType=DOUBLE}, 
+      #{consumptionTypeMaximumConsumption,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.ConsumptionType">
+    insert into consumption_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="consumptionTypeId != null">
+        consumption_type_id,
+      </if>
+      <if test="consumptionTypeMinimumConsumption != null">
+        consumption_type_minimum_consumption,
+      </if>
+      <if test="consumptionTypeMaximumConsumption != null">
+        consumption_type_maximum_consumption,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="consumptionTypeId != null">
+        #{consumptionTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="consumptionTypeMinimumConsumption != null">
+        #{consumptionTypeMinimumConsumption,jdbcType=DOUBLE},
+      </if>
+      <if test="consumptionTypeMaximumConsumption != null">
+        #{consumptionTypeMaximumConsumption,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.ConsumptionType">
+    update consumption_type
+    <set>
+      <if test="consumptionTypeMinimumConsumption != null">
+        consumption_type_minimum_consumption = #{consumptionTypeMinimumConsumption,jdbcType=DOUBLE},
+      </if>
+      <if test="consumptionTypeMaximumConsumption != null">
+        consumption_type_maximum_consumption = #{consumptionTypeMaximumConsumption,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where consumption_type_id = #{consumptionTypeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.ConsumptionType">
+    update consumption_type
+    set consumption_type_minimum_consumption = #{consumptionTypeMinimumConsumption,jdbcType=DOUBLE},
+      consumption_type_maximum_consumption = #{consumptionTypeMaximumConsumption,jdbcType=DOUBLE}
+    where consumption_type_id = #{consumptionTypeId,jdbcType=INTEGER}
+  </update>
+</mapper>

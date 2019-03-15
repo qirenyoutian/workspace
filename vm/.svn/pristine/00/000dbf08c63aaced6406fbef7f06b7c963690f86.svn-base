@@ -1,0 +1,64 @@
+package com.py.controller;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.hankcs.hanlp.dependency.nnparser.parser_dll;
+import com.py.bean.ChannelPayment;
+import com.py.bean.Payment;
+import com.py.bean.Point;
+import com.py.dao.PaymentMapper;
+import com.py.service.PaymentService;
+import com.py.service.SystemService;
+import com.py.util.Msg;
+
+@Controller
+public class SystemController {
+	@Autowired
+	private SystemService systemService;
+	@Autowired
+	private PaymentService paymentService;
+	
+	
+	
+	
+	/****************************************************** 支付方式管理 ***************************************************************/
+	
+	@RequestMapping("/getPaymentAll")
+	@ResponseBody
+	public Msg getPaymentAll(){
+		
+		Payment payment = new Payment();
+		
+		List<Payment> p = paymentService.selectByExample(payment);
+		
+		return Msg.success().add("pageInfo", p);
+	}
+	
+	
+	
+	/****************************************************** 点位管理 ***************************************************************/
+	
+	
+	//获取点位
+		@RequestMapping("/getPoint")
+		@ResponseBody
+		public Msg getPoint(HttpServletRequest request,@RequestParam("content")String content){
+			List<Point> pp = systemService.getPoint(content);
+			return Msg.success().add("msg", pp);
+		}
+	
+	
+	
+	
+	
+	
+
+}

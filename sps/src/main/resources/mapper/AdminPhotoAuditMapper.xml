@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.AdminPhotoAuditMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.AdminPhotoAudit">
+    <id column="admin_photo_audit_id" jdbcType="INTEGER" property="adminPhotoAuditId" />
+    <result column="admin_photo_audit_admin_id" jdbcType="INTEGER" property="adminPhotoAuditAdminId" />
+    <result column="admin_photo_audit_photo" jdbcType="VARCHAR" property="adminPhotoAuditPhoto" />
+    <result column="admin_photo_audit_upload_remarks" jdbcType="VARCHAR" property="adminPhotoAuditUploadRemarks" />
+    <result column="admin_photo_audit_upload_time" jdbcType="VARCHAR" property="adminPhotoAuditUploadTime" />
+    <result column="admin_photo_audit_state" jdbcType="INTEGER" property="adminPhotoAuditState" />
+    <result column="admin_photo_audit_result" jdbcType="INTEGER" property="adminPhotoAuditResult" />
+    <result column="admin_photo_audit_result_remarks" jdbcType="VARCHAR" property="adminPhotoAuditResultRemarks" />
+    <result column="admin_photo_audit_time" jdbcType="VARCHAR" property="adminPhotoAuditTime" />
+  </resultMap>
+  <resultMap id="WithBaseResultMap" type="com.py.bean.AdminPhotoAudit">
+    <id column="admin_photo_audit_id" jdbcType="INTEGER" property="adminPhotoAuditId" />
+    <result column="admin_photo_audit_admin_id" jdbcType="INTEGER" property="adminPhotoAuditAdminId" />
+    <result column="admin_photo_audit_photo" jdbcType="VARCHAR" property="adminPhotoAuditPhoto" />
+    <result column="admin_photo_audit_upload_remarks" jdbcType="VARCHAR" property="adminPhotoAuditUploadRemarks" />
+    <result column="admin_photo_audit_upload_time" jdbcType="VARCHAR" property="adminPhotoAuditUploadTime" />
+    <result column="admin_photo_audit_state" jdbcType="INTEGER" property="adminPhotoAuditState" />
+    <result column="admin_photo_audit_result" jdbcType="INTEGER" property="adminPhotoAuditResult" />
+    <result column="admin_photo_audit_result_remarks" jdbcType="VARCHAR" property="adminPhotoAuditResultRemarks" />
+    <result column="admin_photo_audit_time" jdbcType="VARCHAR" property="adminPhotoAuditTime" />
+  	<association javaType="com.py.bean.Admin" property="adminPhotoAuditAdmin">
+	   	<id column="admin_id" jdbcType="INTEGER" property="adminId" />
+	    <result column="admin_account" jdbcType="VARCHAR" property="adminAccount" />
+	    <result column="admin_pass_word" jdbcType="VARCHAR" property="adminPassWord" />
+	    <result column="admin_realname" jdbcType="VARCHAR" property="adminRealname" />
+	    <result column="admin_photo" jdbcType="VARCHAR" property="adminPhoto" />
+	    <result column="admin_email" jdbcType="VARCHAR" property="adminEmail" />
+	    <result column="admin_position" jdbcType="VARCHAR" property="adminPosition" />
+	    <result column="admin_creation_time" jdbcType="VARCHAR" property="adminCreationTime" />
+	    <result column="admin_location" jdbcType="VARCHAR" property="adminLocation" />
+	    <result column="admin_location_time" jdbcType="VARCHAR" property="adminLocationTime" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    admin_photo_audit_id, admin_photo_audit_admin_id, admin_photo_audit_photo, admin_photo_audit_upload_remarks, 
+    admin_photo_audit_upload_time, admin_photo_audit_state, admin_photo_audit_result, 
+    admin_photo_audit_result_remarks, admin_photo_audit_time
+  </sql>
+  <sql id="WithBase_Column_List">
+    apa.admin_photo_audit_id, apa.admin_photo_audit_admin_id, apa.admin_photo_audit_photo, apa.admin_photo_audit_upload_remarks, 
+    apa.admin_photo_audit_upload_time, apa.admin_photo_audit_state, apa.admin_photo_audit_result, 
+    apa.admin_photo_audit_result_remarks, apa.admin_photo_audit_time,
+    a.admin_id, a.admin_account, a.admin_pass_word, a.admin_realname, a.admin_photo, a.admin_email, 
+    a.admin_position, a.admin_creation_time, a.admin_location, a.admin_location_time
+  </sql>
+  <select id="selectByPrimary" parameterType="com.py.bean.AdminPhotoAudit" resultMap="WithBaseResultMap">
+    select 
+    <include refid="WithBase_Column_List" />
+    from admin_photo_audit apa
+    left join admin a on apa.admin_photo_audit_admin_id=a.admin_id
+    where 1=1
+    <if test="adminPhotoAuditId != null">
+      and apa.admin_photo_audit_id = #{adminPhotoAuditId,jdbcType=INTEGER}
+    </if>
+    <if test="adminPhotoAuditAdminId != null">
+      and apa.admin_photo_audit_admin_id = #{adminPhotoAuditAdminId,jdbcType=INTEGER}
+    </if>
+    <if test="adminPhotoAuditPhoto != null">
+      and apa.admin_photo_audit_photo = #{adminPhotoAuditPhoto,jdbcType=VARCHAR}
+    </if>
+    <if test="adminPhotoAuditUploadRemarks != null">
+      and apa.admin_photo_audit_upload_remarks = #{adminPhotoAuditUploadRemarks,jdbcType=VARCHAR}
+    </if>
+    <if test="adminPhotoAuditUploadTime != null">
+      and apa.admin_photo_audit_upload_time = #{adminPhotoAuditUploadTime,jdbcType=VARCHAR}
+    </if>
+    <if test="adminPhotoAuditState != null">
+      and apa.admin_photo_audit_state = #{adminPhotoAuditState,jdbcType=INTEGER}
+    </if>
+    <if test="adminPhotoAuditResult != null">
+      and apa.admin_photo_audit_result = #{adminPhotoAuditResult,jdbcType=INTEGER}
+    </if>
+    <if test="adminPhotoAuditResultRemarks != null">
+      and apa.admin_photo_audit_result_remarks = #{adminPhotoAuditResultRemarks,jdbcType=VARCHAR}
+    </if>
+    <if test="adminPhotoAuditTime != null">
+      and apa.admin_photo_audit_time = #{adminPhotoAuditTime,jdbcType=VARCHAR}
+    </if>
+    <if test="adminPhotoAuditAdmin != null">
+    	<if test="adminPhotoAuditAdmin.adminId != null">
+	      and a.admin_id = #{adminPhotoAuditAdmin.adminId,jdbcType=INTEGER}
+	    </if>
+	    <if test="adminPhotoAuditAdmin.adminAccount != null">
+	      and a.admin_account = #{adminPhotoAuditAdmin.adminAccount,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPhotoAuditAdmin.adminPassWord != null">
+	      and a.admin_pass_word = #{adminPhotoAuditAdmin.adminPassWord,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPhotoAuditAdmin.adminRealname != null">
+	      and a.admin_realname = #{adminPhotoAuditAdmin.adminRealname,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPhotoAuditAdmin.adminPhoto != null">
+	      and a.admin_photo = #{adminPhotoAuditAdmin.adminPhoto,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPhotoAuditAdmin.adminEmail != null">
+	      and a.admin_email = #{adminPhotoAuditAdmin.adminEmail,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPhotoAuditAdmin.adminPosition != null">
+	      and a.admin_position = #{adminPhotoAuditAdmin.adminPosition,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPhotoAuditAdmin.adminCreationTime != null">
+	      and a.admin_creation_time = #{adminPhotoAuditAdmin.adminCreationTime,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPhotoAuditAdmin.adminLocation != null">
+	      and a.admin_location = #{adminPhotoAuditAdmin.adminLocation,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPhotoAuditAdmin.adminLocationTime != null">
+	      and a.admin_location_time = #{adminPhotoAuditAdmin.adminLocationTime,jdbcType=VARCHAR}
+	    </if>
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.py.bean.AdminPhotoAudit" resultMap="WithBaseResultMap">
+    select 
+    <include refid="WithBase_Column_List" />
+    from admin_photo_audit apa
+    left join admin a on apa.admin_photo_audit_admin_id=a.admin_id
+    where 1=1
+    <if test="adminPhotoAuditId != null">
+      and apa.admin_photo_audit_id = #{adminPhotoAuditId,jdbcType=INTEGER}
+    </if>
+    <if test="adminPhotoAuditAdminId != null">
+      and apa.admin_photo_audit_admin_id = #{adminPhotoAuditAdminId,jdbcType=INTEGER}
+    </if>
+    <if test="adminPhotoAuditPhoto != null">
+      and apa.admin_photo_audit_photo = #{adminPhotoAuditPhoto,jdbcType=VARCHAR}
+    </if>
+    <if test="adminPhotoAuditUploadRemarks != null">
+      and apa.admin_photo_audit_upload_remarks = #{adminPhotoAuditUploadRemarks,jdbcType=VARCHAR}
+    </if>
+    <if test="adminPhotoAuditUploadTime != null">
+      and apa.admin_photo_audit_upload_time = #{adminPhotoAuditUploadTime,jdbcType=VARCHAR}
+    </if>
+    <if test="adminPhotoAuditState != null">
+      and apa.admin_photo_audit_state = #{adminPhotoAuditState,jdbcType=INTEGER}
+    </if>
+    <if test="adminPhotoAuditResult != null">
+      and apa.admin_photo_audit_result = #{adminPhotoAuditResult,jdbcType=INTEGER}
+    </if>
+    <if test="adminPhotoAuditResultRemarks != null">
+      and apa.admin_photo_audit_result_remarks = #{adminPhotoAuditResultRemarks,jdbcType=VARCHAR}
+    </if>
+    <if test="adminPhotoAuditTime != null">
+      and apa.admin_photo_audit_time = #{adminPhotoAuditTime,jdbcType=VARCHAR}
+    </if>
+    <if test="adminPhotoAuditAdmin != null">
+    	<if test="adminPhotoAuditAdmin.adminId != null">
+	      and a.admin_id = #{adminPhotoAuditAdmin.adminId,jdbcType=INTEGER}
+	    </if>
+	    <if test="adminPhotoAuditAdmin.adminAccount != null">
+	      and a.admin_account = #{adminPhotoAuditAdmin.adminAccount,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPhotoAuditAdmin.adminPassWord != null">
+	      and a.admin_pass_word = #{adminPhotoAuditAdmin.adminPassWord,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPhotoAuditAdmin.adminRealname != null">
+	      and a.admin_realname = #{adminPhotoAuditAdmin.adminRealname,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPhotoAuditAdmin.adminPhoto != null">
+	      and a.admin_photo = #{adminPhotoAuditAdmin.adminPhoto,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPhotoAuditAdmin.adminEmail != null">
+	      and a.admin_email = #{adminPhotoAuditAdmin.adminEmail,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPhotoAuditAdmin.adminPosition != null">
+	      and a.admin_position = #{adminPhotoAuditAdmin.adminPosition,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPhotoAuditAdmin.adminCreationTime != null">
+	      and a.admin_creation_time = #{adminPhotoAuditAdmin.adminCreationTime,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPhotoAuditAdmin.adminLocation != null">
+	      and a.admin_location = #{adminPhotoAuditAdmin.adminLocation,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPhotoAuditAdmin.adminLocationTime != null">
+	      and a.admin_location_time = #{adminPhotoAuditAdmin.adminLocationTime,jdbcType=VARCHAR}
+	    </if>
+    </if>
+    ORDER BY apa.admin_photo_audit_upload_time DESC
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from admin_photo_audit
+    where admin_photo_audit_id = #{adminPhotoAuditId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.AdminPhotoAudit">
+    insert into admin_photo_audit (admin_photo_audit_id, admin_photo_audit_admin_id, 
+      admin_photo_audit_photo, admin_photo_audit_upload_remarks, 
+      admin_photo_audit_upload_time, admin_photo_audit_state, 
+      admin_photo_audit_result, admin_photo_audit_result_remarks, 
+      admin_photo_audit_time)
+    values (#{adminPhotoAuditId,jdbcType=INTEGER}, #{adminPhotoAuditAdminId,jdbcType=INTEGER}, 
+      #{adminPhotoAuditPhoto,jdbcType=VARCHAR}, #{adminPhotoAuditUploadRemarks,jdbcType=VARCHAR}, 
+      #{adminPhotoAuditUploadTime,jdbcType=VARCHAR}, #{adminPhotoAuditState,jdbcType=INTEGER}, 
+      #{adminPhotoAuditResult,jdbcType=INTEGER}, #{adminPhotoAuditResultRemarks,jdbcType=VARCHAR}, 
+      #{adminPhotoAuditTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.AdminPhotoAudit">
+    insert into admin_photo_audit
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="adminPhotoAuditId != null">
+        admin_photo_audit_id,
+      </if>
+      <if test="adminPhotoAuditAdminId != null">
+        admin_photo_audit_admin_id,
+      </if>
+      <if test="adminPhotoAuditPhoto != null">
+        admin_photo_audit_photo,
+      </if>
+      <if test="adminPhotoAuditUploadRemarks != null">
+        admin_photo_audit_upload_remarks,
+      </if>
+      <if test="adminPhotoAuditUploadTime != null">
+        admin_photo_audit_upload_time,
+      </if>
+      <if test="adminPhotoAuditState != null">
+        admin_photo_audit_state,
+      </if>
+      <if test="adminPhotoAuditResult != null">
+        admin_photo_audit_result,
+      </if>
+      <if test="adminPhotoAuditResultRemarks != null">
+        admin_photo_audit_result_remarks,
+      </if>
+      <if test="adminPhotoAuditTime != null">
+        admin_photo_audit_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="adminPhotoAuditId != null">
+        #{adminPhotoAuditId,jdbcType=INTEGER},
+      </if>
+      <if test="adminPhotoAuditAdminId != null">
+        #{adminPhotoAuditAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="adminPhotoAuditPhoto != null">
+        #{adminPhotoAuditPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPhotoAuditUploadRemarks != null">
+        #{adminPhotoAuditUploadRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPhotoAuditUploadTime != null">
+        #{adminPhotoAuditUploadTime,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPhotoAuditState != null">
+        #{adminPhotoAuditState,jdbcType=INTEGER},
+      </if>
+      <if test="adminPhotoAuditResult != null">
+        #{adminPhotoAuditResult,jdbcType=INTEGER},
+      </if>
+      <if test="adminPhotoAuditResultRemarks != null">
+        #{adminPhotoAuditResultRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPhotoAuditTime != null">
+        #{adminPhotoAuditTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.AdminPhotoAudit">
+    update admin_photo_audit
+    <set>
+      <if test="adminPhotoAuditAdminId != null">
+        admin_photo_audit_admin_id = #{adminPhotoAuditAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="adminPhotoAuditPhoto != null">
+        admin_photo_audit_photo = #{adminPhotoAuditPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPhotoAuditUploadRemarks != null">
+        admin_photo_audit_upload_remarks = #{adminPhotoAuditUploadRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPhotoAuditUploadTime != null">
+        admin_photo_audit_upload_time = #{adminPhotoAuditUploadTime,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPhotoAuditState != null">
+        admin_photo_audit_state = #{adminPhotoAuditState,jdbcType=INTEGER},
+      </if>
+      <if test="adminPhotoAuditResult != null">
+        admin_photo_audit_result = #{adminPhotoAuditResult,jdbcType=INTEGER},
+      </if>
+      <if test="adminPhotoAuditResultRemarks != null">
+        admin_photo_audit_result_remarks = #{adminPhotoAuditResultRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPhotoAuditTime != null">
+        admin_photo_audit_time = #{adminPhotoAuditTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where admin_photo_audit_id = #{adminPhotoAuditId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.AdminPhotoAudit">
+    update admin_photo_audit
+    set admin_photo_audit_admin_id = #{adminPhotoAuditAdminId,jdbcType=INTEGER},
+      admin_photo_audit_photo = #{adminPhotoAuditPhoto,jdbcType=VARCHAR},
+      admin_photo_audit_upload_remarks = #{adminPhotoAuditUploadRemarks,jdbcType=VARCHAR},
+      admin_photo_audit_upload_time = #{adminPhotoAuditUploadTime,jdbcType=VARCHAR},
+      admin_photo_audit_state = #{adminPhotoAuditState,jdbcType=INTEGER},
+      admin_photo_audit_result = #{adminPhotoAuditResult,jdbcType=INTEGER},
+      admin_photo_audit_result_remarks = #{adminPhotoAuditResultRemarks,jdbcType=VARCHAR},
+      admin_photo_audit_time = #{adminPhotoAuditTime,jdbcType=VARCHAR}
+    where admin_photo_audit_id = #{adminPhotoAuditId,jdbcType=INTEGER}
+  </update>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</mapper>

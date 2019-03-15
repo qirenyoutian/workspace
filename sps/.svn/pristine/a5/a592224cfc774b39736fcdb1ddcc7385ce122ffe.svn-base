@@ -1,0 +1,20 @@
+package com.py.socket;
+
+import java.io.PrintStream;
+import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
+public class HairUtil {
+	//创建一个socket对象
+	//private Socket socket = null;
+	//创建一个hashMap，用来保存设备连接socket对象
+	public static Map<String, Socket> map = new HashMap<String, Socket>();
+	
+	public static void put(String key,byte b[]) throws Exception{
+		Socket socket = map.get(key);
+		if(socket != null){
+			PrintStream out = new PrintStream(socket.getOutputStream());
+			out.write(b, 0, b.length);
+		}
+	}
+}

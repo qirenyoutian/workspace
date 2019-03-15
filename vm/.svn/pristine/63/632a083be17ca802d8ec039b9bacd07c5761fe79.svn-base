@@ -1,0 +1,44 @@
+// Generated code from Butter Knife. Do not modify!
+package com.example.admin.serialdemo.Activity;
+
+import android.view.View;
+import butterknife.ButterKnife.Finder;
+import butterknife.ButterKnife.ViewBinder;
+
+public class PaymentActivity$$ViewBinder<T extends com.example.admin.serialdemo.Activity.PaymentActivity> implements ViewBinder<T> {
+  @Override public void bind(final Finder finder, final T target, Object source) {
+    View view;
+    view = finder.findRequiredView(source, 2131165277, "field 'imageviewErweima'");
+    target.imageviewErweima = finder.castView(view, 2131165277, "field 'imageviewErweima'");
+    view = finder.findRequiredView(source, 2131165289, "field 'mername'");
+    target.mername = finder.castView(view, 2131165289, "field 'mername'");
+    view = finder.findRequiredView(source, 2131165290, "field 'merprice'");
+    target.merprice = finder.castView(view, 2131165290, "field 'merprice'");
+    view = finder.findRequiredView(source, 2131165398, "field 'xiangqingBack' and method 'onViewClicked'");
+    target.xiangqingBack = finder.castView(view, 2131165398, "field 'xiangqingBack'");
+    view.setOnClickListener(
+      new butterknife.internal.DebouncingOnClickListener() {
+        @Override public void doClick(
+          android.view.View p0
+        ) {
+          target.onViewClicked(p0);
+        }
+      });
+    view = finder.findRequiredView(source, 2131165354, "field 'small'");
+    target.small = finder.castView(view, 2131165354, "field 'small'");
+    view = finder.findRequiredView(source, 2131165319, "field 'qrCode'");
+    target.qrCode = finder.castView(view, 2131165319, "field 'qrCode'");
+    view = finder.findRequiredView(source, 2131165308, "field 'payMethod'");
+    target.payMethod = finder.castView(view, 2131165308, "field 'payMethod'");
+  }
+
+  @Override public void unbind(T target) {
+    target.imageviewErweima = null;
+    target.mername = null;
+    target.merprice = null;
+    target.xiangqingBack = null;
+    target.small = null;
+    target.qrCode = null;
+    target.payMethod = null;
+  }
+}

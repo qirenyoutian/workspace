@@ -1,0 +1,19 @@
+package com.example.admin.serialdemo.Utils;
+
+/**
+ * Created by Administrator on 2017/6/6.
+ */
+public interface Constant {
+    String PORT = "ttyS3";//串口号
+    int BAUDRATE = 38400;//波特率
+
+    String Url = "http://192.168.1.109:8080/";//本地服务器地址
+//    String Url = "http://192.168.1.115/";//本地服务器地址
+//    String Url = "http://39.108.98.164/";//服务器地址
+    String List = Url +"getMerchandiseByEquipmentNumber";//首页列表
+    String Infomation = Url +"equipmentMessage";//实时上传设备信息
+    String Pur = Url +"getPayment";//获取支付方式
+    String Purcha = Url + "getQRCodeByUrl";//选择支付方式
+//    String Url = "http://39.108.98.164/getMerchandiseByEquipmentNumber";//服务器地址
+
+}

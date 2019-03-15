@@ -1,0 +1,31 @@
+@charset "utf-8";
+/* 你自己的样式 */
+
+/* 橘色*/
+.orange{
+	background-color:#fc8b05;
+	color:white;
+}
+.orange:HOVER{
+	background-color:#ff9f2d;
+	color: white;
+}
+/* 艳红色*/
+
+.ToRed{
+	background-color:#FF0000;
+	color:white;
+}
+.ToRed:HOVER{
+	background-color:#FF6347;
+	color: white;
+}
+
+
+/************************************************/
+.no-edit{
+	float: left;
+	font-size: 12px;
+	color: #e0e0e0;
+}
+

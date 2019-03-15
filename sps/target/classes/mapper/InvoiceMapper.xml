@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.InvoiceMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Invoice">
+    <id column="invoice_id" jdbcType="INTEGER" property="invoiceId" />
+    <result column="invoice_user_id" jdbcType="INTEGER" property="invoiceUserId" />
+    <result column="invoice_single_car_id" jdbcType="INTEGER" property="invoiceSingleCarId" />
+    <result column="invoice_type" jdbcType="INTEGER" property="invoiceType" />
+    <result column="invoice_rise_type" jdbcType="INTEGER" property="invoiceRiseType" />
+    <result column="invoice_rise_name" jdbcType="VARCHAR" property="invoiceRiseName" />
+    <result column="invoice_duty_paragraph" jdbcType="VARCHAR" property="invoiceDutyParagraph" />
+    <result column="invoice_content" jdbcType="VARCHAR" property="invoiceContent" />
+    <result column="invoice_sum" jdbcType="DOUBLE" property="invoiceSum" />
+    <result column="invoice_des" jdbcType="VARCHAR" property="invoiceDes" />
+    <result column="invoice_receive_mode" jdbcType="INTEGER" property="invoiceReceiveMode" />
+    <result column="invoice_mailbox" jdbcType="VARCHAR" property="invoiceMailbox" />
+    <result column="invoice_addressee" jdbcType="VARCHAR" property="invoiceAddressee" />
+    <result column="invoice_phone" jdbcType="VARCHAR" property="invoicePhone" />
+    <result column="invoice_address" jdbcType="VARCHAR" property="invoiceAddress" />
+    <result column="invoice_detailed_address" jdbcType="VARCHAR" property="invoiceDetailedAddress" />
+    <result column="invoice_time" jdbcType="VARCHAR" property="invoiceTime" />
+    <result column="invoice_status" jdbcType="INTEGER" property="invoiceStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    invoice_id, invoice_user_id, invoice_single_car_id, invoice_type, invoice_rise_type, 
+    invoice_rise_name, invoice_duty_paragraph, invoice_content, invoice_sum, invoice_des, 
+    invoice_receive_mode, invoice_mailbox, invoice_addressee, invoice_phone, invoice_address, 
+    invoice_detailed_address, invoice_time, invoice_status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from invoice
+    where invoice_id = #{invoiceId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from invoice
+    where invoice_id = #{invoiceId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.Invoice">
+    insert into invoice (invoice_id, invoice_user_id, invoice_single_car_id, 
+      invoice_type, invoice_rise_type, invoice_rise_name, 
+      invoice_duty_paragraph, invoice_content, invoice_sum, 
+      invoice_des, invoice_receive_mode, invoice_mailbox, 
+      invoice_addressee, invoice_phone, invoice_address, 
+      invoice_detailed_address, invoice_time, invoice_status
+      )
+    values (#{invoiceId,jdbcType=INTEGER}, #{invoiceUserId,jdbcType=INTEGER}, #{invoiceSingleCarId,jdbcType=INTEGER}, 
+      #{invoiceType,jdbcType=INTEGER}, #{invoiceRiseType,jdbcType=INTEGER}, #{invoiceRiseName,jdbcType=VARCHAR}, 
+      #{invoiceDutyParagraph,jdbcType=VARCHAR}, #{invoiceContent,jdbcType=VARCHAR}, #{invoiceSum,jdbcType=DOUBLE}, 
+      #{invoiceDes,jdbcType=VARCHAR}, #{invoiceReceiveMode,jdbcType=INTEGER}, #{invoiceMailbox,jdbcType=VARCHAR}, 
+      #{invoiceAddressee,jdbcType=VARCHAR}, #{invoicePhone,jdbcType=VARCHAR}, #{invoiceAddress,jdbcType=VARCHAR}, 
+      #{invoiceDetailedAddress,jdbcType=VARCHAR}, #{invoiceTime,jdbcType=VARCHAR}, #{invoiceStatus,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.Invoice">
+    insert into invoice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="invoiceId != null">
+        invoice_id,
+      </if>
+      <if test="invoiceUserId != null">
+        invoice_user_id,
+      </if>
+      <if test="invoiceSingleCarId != null">
+        invoice_single_car_id,
+      </if>
+      <if test="invoiceType != null">
+        invoice_type,
+      </if>
+      <if test="invoiceRiseType != null">
+        invoice_rise_type,
+      </if>
+      <if test="invoiceRiseName != null">
+        invoice_rise_name,
+      </if>
+      <if test="invoiceDutyParagraph != null">
+        invoice_duty_paragraph,
+      </if>
+      <if test="invoiceContent != null">
+        invoice_content,
+      </if>
+      <if test="invoiceSum != null">
+        invoice_sum,
+      </if>
+      <if test="invoiceDes != null">
+        invoice_des,
+      </if>
+      <if test="invoiceReceiveMode != null">
+        invoice_receive_mode,
+      </if>
+      <if test="invoiceMailbox != null">
+        invoice_mailbox,
+      </if>
+      <if test="invoiceAddressee != null">
+        invoice_addressee,
+      </if>
+      <if test="invoicePhone != null">
+        invoice_phone,
+      </if>
+      <if test="invoiceAddress != null">
+        invoice_address,
+      </if>
+      <if test="invoiceDetailedAddress != null">
+        invoice_detailed_address,
+      </if>
+      <if test="invoiceTime != null">
+        invoice_time,
+      </if>
+      <if test="invoiceStatus != null">
+        invoice_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="invoiceId != null">
+        #{invoiceId,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceUserId != null">
+        #{invoiceUserId,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceSingleCarId != null">
+        #{invoiceSingleCarId,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceType != null">
+        #{invoiceType,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceRiseType != null">
+        #{invoiceRiseType,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceRiseName != null">
+        #{invoiceRiseName,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceDutyParagraph != null">
+        #{invoiceDutyParagraph,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceContent != null">
+        #{invoiceContent,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceSum != null">
+        #{invoiceSum,jdbcType=DOUBLE},
+      </if>
+      <if test="invoiceDes != null">
+        #{invoiceDes,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceReceiveMode != null">
+        #{invoiceReceiveMode,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceMailbox != null">
+        #{invoiceMailbox,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceAddressee != null">
+        #{invoiceAddressee,jdbcType=VARCHAR},
+      </if>
+      <if test="invoicePhone != null">
+        #{invoicePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceAddress != null">
+        #{invoiceAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceDetailedAddress != null">
+        #{invoiceDetailedAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceTime != null">
+        #{invoiceTime,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceStatus != null">
+        #{invoiceStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Invoice">
+    update invoice
+    <set>
+      <if test="invoiceUserId != null">
+        invoice_user_id = #{invoiceUserId,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceSingleCarId != null">
+        invoice_single_car_id = #{invoiceSingleCarId,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceType != null">
+        invoice_type = #{invoiceType,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceRiseType != null">
+        invoice_rise_type = #{invoiceRiseType,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceRiseName != null">
+        invoice_rise_name = #{invoiceRiseName,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceDutyParagraph != null">
+        invoice_duty_paragraph = #{invoiceDutyParagraph,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceContent != null">
+        invoice_content = #{invoiceContent,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceSum != null">
+        invoice_sum = #{invoiceSum,jdbcType=DOUBLE},
+      </if>
+      <if test="invoiceDes != null">
+        invoice_des = #{invoiceDes,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceReceiveMode != null">
+        invoice_receive_mode = #{invoiceReceiveMode,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceMailbox != null">
+        invoice_mailbox = #{invoiceMailbox,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceAddressee != null">
+        invoice_addressee = #{invoiceAddressee,jdbcType=VARCHAR},
+      </if>
+      <if test="invoicePhone != null">
+        invoice_phone = #{invoicePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceAddress != null">
+        invoice_address = #{invoiceAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceDetailedAddress != null">
+        invoice_detailed_address = #{invoiceDetailedAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceTime != null">
+        invoice_time = #{invoiceTime,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceStatus != null">
+        invoice_status = #{invoiceStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where invoice_id = #{invoiceId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Invoice">
+    update invoice
+    set invoice_user_id = #{invoiceUserId,jdbcType=INTEGER},
+      invoice_single_car_id = #{invoiceSingleCarId,jdbcType=INTEGER},
+      invoice_type = #{invoiceType,jdbcType=INTEGER},
+      invoice_rise_type = #{invoiceRiseType,jdbcType=INTEGER},
+      invoice_rise_name = #{invoiceRiseName,jdbcType=VARCHAR},
+      invoice_duty_paragraph = #{invoiceDutyParagraph,jdbcType=VARCHAR},
+      invoice_content = #{invoiceContent,jdbcType=VARCHAR},
+      invoice_sum = #{invoiceSum,jdbcType=DOUBLE},
+      invoice_des = #{invoiceDes,jdbcType=VARCHAR},
+      invoice_receive_mode = #{invoiceReceiveMode,jdbcType=INTEGER},
+      invoice_mailbox = #{invoiceMailbox,jdbcType=VARCHAR},
+      invoice_addressee = #{invoiceAddressee,jdbcType=VARCHAR},
+      invoice_phone = #{invoicePhone,jdbcType=VARCHAR},
+      invoice_address = #{invoiceAddress,jdbcType=VARCHAR},
+      invoice_detailed_address = #{invoiceDetailedAddress,jdbcType=VARCHAR},
+      invoice_time = #{invoiceTime,jdbcType=VARCHAR},
+      invoice_status = #{invoiceStatus,jdbcType=INTEGER}
+    where invoice_id = #{invoiceId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimary" parameterType="com.py.bean.Invoice" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+    	from invoice
+    	where 1 =1 
+    	<if test="invoiceUserId != null">
+        and invoice_user_id = #{invoiceUserId,jdbcType=INTEGER}
+      </if>
+      <if test="invoiceSingleCarId != null">
+        and invoice_single_car_id = #{invoiceSingleCarId,jdbcType=INTEGER}
+      </if>
+      <if test="invoiceType != null">
+        and invoice_type = #{invoiceType,jdbcType=INTEGER}
+      </if>
+      <if test="invoiceRiseType != null">
+        and invoice_rise_type = #{invoiceRiseType,jdbcType=INTEGER}
+      </if>
+      <if test="invoiceRiseName != null">
+        and invoice_rise_name = #{invoiceRiseName,jdbcType=VARCHAR}
+      </if>
+      <if test="invoiceDutyParagraph != null">
+        and invoice_duty_paragraph = #{invoiceDutyParagraph,jdbcType=VARCHAR}
+      </if>
+      <if test="invoiceContent != null">
+        and invoice_content = #{invoiceContent,jdbcType=VARCHAR}
+      </if>
+      <if test="invoiceSum != null">
+        and invoice_sum = #{invoiceSum,jdbcType=DOUBLE}
+      </if>
+      <if test="invoiceDes != null">
+        and invoice_des = #{invoiceDes,jdbcType=VARCHAR}
+      </if>
+      <if test="invoiceReceiveMode != null">
+        and invoice_receive_mode = #{invoiceReceiveMode,jdbcType=INTEGER}
+      </if>
+      <if test="invoiceMailbox != null">
+        and invoice_mailbox = #{invoiceMailbox,jdbcType=VARCHAR}
+      </if>
+      <if test="invoiceAddressee != null">
+        and invoice_addressee = #{invoiceAddressee,jdbcType=VARCHAR}
+      </if>
+      <if test="invoicePhone != null">
+        and invoice_phone = #{invoicePhone,jdbcType=VARCHAR}
+      </if>
+      <if test="invoiceAddress != null">
+        and invoice_address = #{invoiceAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="invoiceDetailedAddress != null">
+        and invoice_detailed_address = #{invoiceDetailedAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="invoiceTime != null">
+        and invoice_time = #{invoiceTime,jdbcType=VARCHAR}
+      </if>
+      <if test="invoiceStatus != null">
+        and invoice_status = #{invoiceStatus,jdbcType=INTEGER}
+      </if>
+	</select>
+  
+	<select id="selectByExample" parameterType="com.py.bean.Invoice" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+    	from invoice
+    	where 1 =1 
+    	<if test="invoiceUserId != null">
+        and invoice_user_id = #{invoiceUserId,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceSingleCarId != null">
+        and invoice_single_car_id = #{invoiceSingleCarId,jdbcType=INTEGER}
+      </if>
+      <if test="invoiceType != null">
+        and invoice_type = #{invoiceType,jdbcType=INTEGER}
+      </if>
+      <if test="invoiceRiseType != null">
+        and invoice_rise_type = #{invoiceRiseType,jdbcType=INTEGER}
+      </if>
+      <if test="invoiceRiseName != null">
+        and invoice_rise_name = #{invoiceRiseName,jdbcType=VARCHAR}
+      </if>
+      <if test="invoiceDutyParagraph != null">
+        and invoice_duty_paragraph = #{invoiceDutyParagraph,jdbcType=VARCHAR}
+      </if>
+      <if test="invoiceContent != null">
+        and invoice_content = #{invoiceContent,jdbcType=VARCHAR}
+      </if>
+      <if test="invoiceSum != null">
+        and invoice_sum = #{invoiceSum,jdbcType=DOUBLE}
+      </if>
+      <if test="invoiceDes != null">
+        and invoice_des = #{invoiceDes,jdbcType=VARCHAR}
+      </if>
+      <if test="invoiceReceiveMode != null">
+        and invoice_receive_mode = #{invoiceReceiveMode,jdbcType=INTEGER}
+      </if>
+      <if test="invoiceMailbox != null">
+        and invoice_mailbox = #{invoiceMailbox,jdbcType=VARCHAR}
+      </if>
+      <if test="invoiceAddressee != null">
+        and invoice_addressee = #{invoiceAddressee,jdbcType=VARCHAR}
+      </if>
+      <if test="invoicePhone != null">
+        and invoice_phone = #{invoicePhone,jdbcType=VARCHAR}
+      </if>
+      <if test="invoiceAddress != null">
+        and invoice_address = #{invoiceAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="invoiceDetailedAddress != null">
+        and invoice_detailed_address = #{invoiceDetailedAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="invoiceTime != null">
+        and invoice_time = #{invoiceTime,jdbcType=VARCHAR}
+      </if>
+      <if test="invoiceStatus != null">
+        and invoice_status = #{invoiceStatus,jdbcType=INTEGER}
+      </if>
+	</select>
+	
+ <!-- &lt;resultMap id="BaseResultMapAndTradingRecord" type="com.py.bean.Invoice"&gt;
+    &lt;id column="invoice_id" jdbcType="INTEGER" property="invoiceId" /&gt;
+    &lt;result column="invoice_user_id" jdbcType="INTEGER" property="invoiceUserId" /&gt;
+    &lt;result column="invoice_type" jdbcType="INTEGER" property="invoiceType" /&gt;
+    &lt;result column="invoice_rise_type" jdbcType="INTEGER" property="invoiceRiseType" /&gt;
+    &lt;result column="invoice_rise_name" jdbcType="VARCHAR" property="invoiceRiseName" /&gt;
+    &lt;result column="invoice_duty_paragraph" jdbcType="VARCHAR" property="invoiceDutyParagraph" /&gt;
+    &lt;result column="invoice_content" jdbcType="VARCHAR" property="invoiceContent" /&gt;
+    &lt;result column="invoice_sum" jdbcType="DOUBLE" property="invoiceSum" /&gt;
+    &lt;result column="invoice_des" jdbcType="VARCHAR" property="invoiceDes" /&gt;
+    &lt;result column="invoice_receive_mode" jdbcType="INTEGER" property="invoiceReceiveMode" /&gt;
+    &lt;result column="invoice_mailbox" jdbcType="VARCHAR" property="invoiceMailbox" /&gt;
+    &lt;result column="invoice_addressee" jdbcType="VARCHAR" property="invoiceAddressee" /&gt;
+    &lt;result column="invoice_phone" jdbcType="VARCHAR" property="invoicePhone" /&gt;
+    &lt;result column="invoice_address" jdbcType="VARCHAR" property="invoiceAddress" /&gt;
+    &lt;result column="invoice_detailed_address" jdbcType="VARCHAR" property="invoiceDetailedAddress" /&gt;
+    &lt;result column="invoice_time" jdbcType="VARCHAR" property="invoiceTime" /&gt;
+    &lt;result column="invoice_status" jdbcType="INTEGER" property="invoiceStatus" /&gt;
+    	&lt;association property="tradingrecordAndInvoice" javaType="com.py.bean.TradingRecord"&gt;
+    		&lt;id column="trading_record_id" jdbcType="INTEGER" property="tradingRecordId" /&gt;
+		    &lt;result column="trading_record_user_id" jdbcType="INTEGER" property="tradingRecordUserId" /&gt;
+		    &lt;result column="trading_record_type" jdbcType="INTEGER" property="tradingRecordType" /&gt;
+		    &lt;result column="trading_record_price" jdbcType="DOUBLE" property="tradingRecordPrice" /&gt;
+		    &lt;result column="trading_record_status" jdbcType="INTEGER" property="tradingRecordStatus" /&gt;
+		    &lt;result column="trading_record_des" jdbcType="VARCHAR" property="tradingRecordDes" /&gt;
+		    &lt;result column="trading_record_bill" jdbcType="VARCHAR" property="tradingRecordBill" /&gt;
+		    &lt;result column="transaction_id" jdbcType="VARCHAR" property="transactionId" /&gt;
+		    &lt;result column="trading_record_time" jdbcType="TIMESTAMP" property="tradingRecordTime" /&gt;
+    	&lt;/association&gt;
+  &lt;/resultMap&gt;
+
+&lt;select id="selectInvoiceByroute" resultMap="java.lang.Integer"&gt;
+	
+&lt;/select&gt; -->
+  
+</mapper>

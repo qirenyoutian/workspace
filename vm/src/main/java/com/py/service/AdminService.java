@@ -1,0 +1,269 @@
+package com.py.service;
+
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.py.bean.Admin;
+import com.py.bean.AdminAndRole;
+import com.py.bean.AdminPoint;
+import com.py.bean.AdminRole;
+import com.py.bean.Role;
+import com.py.dao.AdminMapper;
+import com.py.dao.AdminPointMapper;
+import com.py.dao.AdminRoleMapper;
+import com.py.dao.RoleMapper;
+import com.py.util.MD5;
+import com.py.util.Msg;
+
+@Service
+public class AdminService{
+	@Autowired
+	private AdminMapper adminMapper;
+	@Autowired
+	private AdminRoleMapper adminRoleMapper;
+	@Autowired
+	private RoleMapper roleMapper;
+	@Autowired
+	private AdminPointMapper adminPointMapper;
+	
+	
+	
+	public int deleteByPrimaryKey(Integer adminId) {
+		return adminMapper.deleteByPrimaryKey(adminId);
+	}
+
+	public int insert(Admin record) {
+		return adminMapper.insert(record);
+	}
+
+	public int insertSelective(Admin record) {
+		return adminMapper.insertSelective(record);
+	}
+
+	public Admin selectByPrimaryKey(Integer adminId) {
+		return adminMapper.selectByPrimaryKey(adminId);
+	}
+
+	public int updateByPrimaryKeySelective(Admin record) {
+		return adminMapper.updateByPrimaryKeySelective(record);
+	}
+
+	public int updateByPrimaryKey(Admin record) {
+		return adminMapper.updateByPrimaryKey(record);
+	}
+
+	public Msg selectByPrimary(Admin admin,HttpServletRequest request) {
+		Admin a = adminMapper.selectByPrimary(admin);
+		if (a != null) {
+			AdminRole ar = adminRoleMapper.selectByPrimaryKey(a.getAdminId());
+			Role rr = roleMapper.selectByPrimaryKey(ar.getAdminRoleRoleId());
+			
+			SimpleDateFormat fomat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			String time = fomat.format(a.getAdminCreationTime());
+			HttpSession session = request.getSession();
+			session.setAttribute("adminRole", rr.getRoleName());
+			session.setAttribute("adminId", a.getAdminId());
+			session.setAttribute("adminAccount", a.getAdminAccount());
+			session.setAttribute("adminPassword", a.getAdminPassword());
+			session.setAttribute("adminRealname", a.getAdminRealname());
+			session.setAttribute("adminPhonenum", a.getAdminPhonenum());
+			session.setAttribute("adminEmail", a.getAdminEmail());
+			session.setAttribute("roleId", ar.getAdminRoleRoleId());
+			session.setAttribute("adminCreateTime", time);
+			return Msg.success().add("msg", "登录成功");
+		}
+		return Msg.fail().add("msg", "登录失败，账号或密码错误！");
+	}
+	public List<Admin> selectByExample(Admin admin) {
+		List<Admin> a = adminMapper.selectByExample(admin);
+		return a;
+	}
+
+	public List<Admin> selectByTimeAndContent(String content,HttpServletResponse response) throws UnsupportedEncodingException {
+		
+		List<Admin> adminlist = null;
+		Admin admin =new Admin();
+		if (!content.equals("") && !content.equals(" ") && !content.equals(null)) {
+			byte[] a=content.getBytes("ISO-8859-1");//用tomcat的格式（iso-8859-1）方式去读。
+			String name=new String(a,"utf-8");//采用utf-8去接string
+			response.setContentType("text/html;charset=utf-8");
+			admin.setAdminRealname(name);
+		}
+			adminlist = adminMapper.selectAdminAndRole(admin);
+		return adminlist;
+	}
+
+	public int saveAdmin(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		String adminAccount = request.getParameter("adminName");
+		String adminPassword = request.getParameter("password");
+		String phonenum = request.getParameter("phone");
+		String realname = request.getParameter("realname");
+		String eamil = request.getParameter("email");
+		/*String roleId = request.getParameter("adminRole");*/
+		
+		
+		
+		String pwd = MD5.string2MD5(adminPassword);
+		
+		Admin admin = new Admin();
+		admin.setAdminAccount(adminAccount);
+		admin.setAdminPassword(pwd);
+		admin.setAdminPhonenum(phonenum);
+		admin.setAdminRealname(realname);
+		admin.setAdminEmail(eamil);
+		admin.setAdminCreationTime(new Date());
+		
+		int a = adminMapper.insertSelective(admin);
+		
+		
+		return a;
+	}
+
+	public Admin checkAdmin(Admin admin) {
+		// TODO Auto-generated method stub
+		return adminMapper.selectByPrimary(admin);
+	}
+
+	public List<Admin> selectOperaByExample(Admin admin) {
+		
+		
+		return adminMapper.selectOperaByExample(admin);
+	}
+
+	public Msg saveAdminRole(Integer adminId, Integer roleId) {
+		
+		AdminRole ar = new AdminRole();
+		ar.setAdminRoleAdminId(adminId);
+		ar.setAdminRoleRoleId(roleId);
+		
+		Admin admin = new Admin();
+		admin.setAdminId(adminId);
+		List<AdminAndRole> admin2 = adminRoleMapper.selectAdminByAdminId(admin);
+		if (!admin2.isEmpty() && !admin2.equals(null)) {
+			int i = adminRoleMapper.updateByPrimaryKeySelective(ar);
+			if (i == 1) {
+				return Msg.success();
+			} else {
+				return Msg.fail();
+			}
+		}else{
+			int i = adminRoleMapper.insertSelective(ar);
+			if (i == 1) {
+				return Msg.success();
+			} else {
+				return Msg.fail();
+			}
+		}
+	}
+	/**
+	 * 删除admin
+	 * @param adminId
+	 * @param adminIds
+	 * @return
+	 */
+	public Msg deleteAdmin(Integer adminId, String[] adminIds) {
+		
+		
+		if (adminId == 0) { 											//判断 adminId 是否为0  0即是批量删除
+			int a = adminMapper.deleteByArray(adminIds); 				//先根据ids删除admin
+			if (a == 1) {												//如果删除成功
+				for (String ids : adminIds) {							//解析ids
+					AdminRole admin = adminRoleMapper.selectAdminRoleByAdminId(Integer.parseInt(ids)); //使用ids查找角色关系表
+					if (admin != null) {								//如果不为空
+						int b = adminRoleMapper.deleteByAdminId(Integer.parseInt(ids));//则根据此ID删除关系表的数据
+						if (b == 1) {									//1：删除成功
+							return Msg.success();						//处理成功
+						}else{
+							return Msg.fail();							//否则处理失败
+						}
+					}
+					return Msg.success();								//如果查找admin为空也是处理成功
+				}
+			}
+			return Msg.fail();											//不=1 则是处理失败
+			
+		}else{															//adminId != 0 则是单个删除
+			int a = adminMapper.deleteByPrimaryKey(adminId);			//根据Id删除
+			if (a == 1) {
+				AdminRole admin = adminRoleMapper.selectAdminRoleByAdminId(adminId);// 根据id查找角色关联表
+				if (admin != null) {
+					int b = adminRoleMapper.deleteByAdminId(adminId);	//不为空则删除
+					if (b == 1) {
+						return Msg.success();							//=1则处理成功
+					}else{
+						return Msg.fail();								//否则处理失败
+					}
+				}
+				return Msg.success();									//否则如果角色关联找不到也是处理成功
+			} else {
+				return Msg.fail();										// a != 1 则处理失败
+			}
+			
+		}
+		
+		
+	}
+
+	public List<Admin> selectAdminAndRole(Admin admin) {
+		
+		return adminMapper.selectAdminAndRole(admin);
+		
+	}
+	/**
+	 * 修改管理员信息
+	 * @param request
+	 * @return
+	 */
+	public int updateAdmin(HttpServletRequest request) {
+		String adminId = request.getParameter("adminId");
+		String realname = request.getParameter("realname");
+		String password = request.getParameter("password");
+		String phone = request.getParameter("phone");
+		String email = request.getParameter("email");
+		String pointId = request.getParameter("point");
+		
+		Admin admin = new Admin();
+		admin.setAdminEmail(email);
+		admin.setAdminId(Integer.parseInt(adminId));
+		admin.setAdminPhonenum(phone);
+		admin.setAdminPassword(password);
+		admin.setAdminRealname(realname);
+		
+		int i = adminMapper.updateByPrimaryKeySelective(admin);
+		if (i == 1) {
+			if (!pointId.equals(0) && !pointId.equals("0")) {
+				AdminPoint adminPoint = adminPointMapper.selectByAdminId(Integer.parseInt(adminId));
+				if (adminPoint != null) {
+					adminPoint.setAdminPointPointId(Integer.parseInt(pointId));
+					i = adminPointMapper.updateByPrimaryKeySelective(adminPoint);
+					return i;
+				}else{
+					AdminPoint ap = new AdminPoint();
+					SimpleDateFormat format = new SimpleDateFormat("HHmmssSSSS");
+					ap.setAdminPointPointId(Integer.parseInt(pointId));
+					ap.setAdminPointAdminId(Integer.parseInt(adminId));
+					ap.setAdminPointCreateDate(new Date());
+					ap.setAmdinPointNum(format.format(new Date()));
+					i = adminPointMapper.insertSelective(ap);
+					return i;
+				}
+			}
+			
+			
+		}
+		
+		
+		return i;
+	}
+
+}

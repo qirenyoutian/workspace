@@ -1,0 +1,421 @@
+package com.py.controller;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.sql.rowset.serial.SerialBlob;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.py.bean.Merchandise;
+import com.py.bean.MerchandiseClassify;
+import com.py.service.MerchandiseService;
+import com.py.util.CommonUtil;
+import com.py.util.ImportExcelUtil2;
+import com.py.util.Msg;
+import com.py.util.UUIDUtils;
+
+@Controller
+public class MerchandiseController {
+
+	@Autowired
+	private MerchandiseService merchandiseService;
+	
+	/**
+	 * 获取所有的商品
+	 * @param pn
+	 * @param startTime
+	 * @param endTime
+	 * @param content
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	@RequestMapping("/getCommodityAll")
+	@ResponseBody
+	public Msg getCommodityAll(@RequestParam(value = "pn", defaultValue = "1") Integer pn,
+			@RequestParam("startTime")String startTime,
+			@RequestParam("endTime")String endTime,
+			@RequestParam("content")String content,
+			@RequestParam("commoName")String commoName,
+			@RequestParam("status")String status,
+			@RequestParam("type")String type,
+			@RequestParam("from")String from,
+			HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException {
+		PageHelper.startPage(pn, 10);
+		
+		List<Merchandise> menuList = null;
+		Merchandise Merchandise = new Merchandise();
+		if (!content.equals("") && !content.equals(" ") && !content.equals(null)) {
+			/*byte[] b = content.getBytes("ISO-8859-1");//用tomcat的格式（iso-8859-1）方式去读。
+			String string = new String(b,"utf-8");//采用utf-8去接string
+			response.setContentType("text/html;charset=utf-8");//设置页面的字符编码
+*/			Merchandise.setMerchandiseName(content);
+			menuList = merchandiseService.selectByExample(Merchandise);
+		}else if (!commoName.equals("") && !commoName.equals(" ") && !commoName.equals(null)) {//判断商户名为空
+			
+			Merchandise.setMerchandiseCommercialTenantNumber(commoName);
+			menuList = merchandiseService.selectByExample(Merchandise);
+		}else if(!startTime.equals("") && !startTime.equals(" ") && !startTime.equals(null) && !endTime.equals("") && !endTime.equals(" ") && !endTime.equals(null)){
+			
+			menuList = merchandiseService.selectByTime(startTime, endTime);
+		}else if(!status.equals("") && !status.equals(" ") && !status.equals(null) && !status.equals(0)){//判断状态值为空
+			
+			Merchandise.setMerchandiseStatus(Integer.parseInt(status));
+			menuList = merchandiseService.selectByExample(Merchandise);
+		}else if(!type.equals("") && !type.equals(" ") && !type.equals(null)){//判断商品类型为空
+			
+			Merchandise.setMerchandiseClassify(Integer.parseInt(type));
+			menuList = merchandiseService.selectByExample(Merchandise);
+		}else if(!from.equals("") && !from.equals(" ") && !from.equals(null) && !from.equals(0)){//判断商品来源为空
+			
+			Merchandise.setMerchandiseInformationComefrom(Integer.parseInt(from));
+			menuList = merchandiseService.selectByExample(Merchandise);
+			
+		}else{
+			
+			menuList = merchandiseService.selectByExample(Merchandise);
+		}	
+			
+		PageInfo<Merchandise> page = new PageInfo<Merchandise>(menuList, 5);
+		return Msg.success().add("pageInfo", page);
+	}
+	
+	
+	/**
+	 * 商品增加保存
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/saveMerchandise")
+	@ResponseBody
+	public Msg saveMerchandise(
+			@RequestParam("merchandiseName")String merchandiseName,
+			@RequestParam("CommercialTenantName")String CommercialTenantName,
+			@RequestParam("merchandiseClassify")Integer merchandiseClassify,
+			@RequestParam("merchandisePrice")Double merchandisePrice,
+			@RequestParam("merchandiseFrom")Integer merchandiseFrom,
+			@RequestParam("file01")MultipartFile file01,
+			@RequestParam("file02")MultipartFile file02,
+			@RequestParam("file03")MultipartFile file03,
+			HttpServletRequest request){
+		
+		if(merchandiseName == null || "".equals(merchandiseName)) {
+			return Msg.fail().add("msg", "请填写商品名称");
+		}
+		if(CommercialTenantName == null || "".equals(CommercialTenantName)) {
+			return Msg.fail().add("msg", "请填商户编号");
+		}
+		if(merchandiseClassify == null) {
+			return Msg.fail().add("msg", "请选择商品类型");
+		}
+		if(merchandisePrice == null || merchandisePrice == 0) {
+			return Msg.fail().add("msg", "请填写价格");
+		}
+		if(file01 == null || file01.getSize() == 0) {
+			return Msg.fail().add("msg", "请上传商品列表图片");
+		}
+		if(file02 == null || file02.getSize() == 0) {
+			return Msg.fail().add("msg", "请上传商品详情图片");
+		}
+		if(file03 == null || file03.getSize() == 0) {
+			return Msg.fail().add("msg", "请上h5页面商品图片");
+		}
+		
+		Merchandise merchandise = new Merchandise();
+		merchandise.setMerchandiseName(merchandiseName);
+		merchandise.setMerchandiseNumber(UUIDUtils.getUUID());
+		merchandise.setMerchandiseCommercialTenantNumber(CommercialTenantName);
+		merchandise.setMerchandiseClassify(merchandiseClassify);
+		merchandise.setMerchandisePrice(merchandisePrice);
+		merchandise.setMerchandiseInformationComefrom(merchandiseFrom);
+		merchandise.setMerchandiseTime(new Date());
+		
+		String path = null;
+		
+		try {
+			path = CommonUtil.saveFile(file01);
+			merchandise.setMerchandiseImageUrl(path);
+		} catch (IllegalStateException e) {
+			return Msg.fail().add("msg", "商品图片上传失败");
+		} catch (IOException e) {
+			return Msg.fail().add("msg", "商品图片上传失败");
+		}
+	
+		try {
+			path = CommonUtil.saveFile(file02);
+			merchandise.setMerchandiseExhibitionImageUrl(path);
+		} catch (IllegalStateException e) {
+			return Msg.fail().add("msg", "商品图片上传失败");
+		} catch (IOException e) {
+			return Msg.fail().add("msg", "商品图片上传失败");
+		}
+		
+		try {
+			path = CommonUtil.saveFile(file03);
+			merchandise.setMerchandiseH5ImageUrl(path);
+		} catch (IllegalStateException e) {
+			return Msg.fail().add("msg", "商品图片上传失败");
+		} catch (IOException e) {
+			return Msg.fail().add("msg", "商品图片上传失败");
+		}
+		
+		merchandiseService.insertSelective(merchandise);
+		
+		return Msg.success();
+	}
+	
+	
+	//商品修改
+	@RequestMapping("/updateMerchandise")
+	@ResponseBody
+	public Msg updateMerchandise(
+			@RequestParam("merchandiseId")Integer merchandiseId,
+			@RequestParam("merchandiseName")String merchandiseName,
+			@RequestParam("merchandiseClassify")Integer merchandiseClassify,
+			@RequestParam("merchandisePrice")Double merchandisePrice,
+			@RequestParam("merchandiseCommercialTenantNumber_update_input")String CommercialTenantNumber,
+			@RequestParam("file01")MultipartFile file01,
+			@RequestParam("file02")MultipartFile file02,
+			@RequestParam("file03")MultipartFile file03 ){
+		
+		Merchandise merchandise = new Merchandise();
+		merchandise.setMerchandiseId(merchandiseId);
+		merchandise.setMerchandiseName(merchandiseName);
+		merchandise.setMerchandiseClassify(merchandiseClassify);
+		merchandise.setMerchandisePrice(merchandisePrice);
+		merchandise.setMerchandiseCommercialTenantNumber(CommercialTenantNumber);
+		merchandise.setMerchandiseUpdateTime(new Date());
+		
+		
+		String path = null;
+		if(file01 != null && file01.getSize() > 0) {
+			try {
+				path = CommonUtil.saveFile(file01);
+				merchandise.setMerchandiseImageUrl(path);
+			} catch (IllegalStateException e) {
+				return Msg.fail().add("msg", "商品图片上传失败");
+			} catch (Exception e) {
+				return Msg.fail().add("msg", "商品图片上传失败");
+			}
+		}
+		if(file02 != null && file02.getSize() > 0) {
+			try {
+				path = CommonUtil.saveFile(file02);
+				merchandise.setMerchandiseExhibitionImageUrl(path);
+			} catch (IllegalStateException e) {
+				return Msg.fail().add("msg", "商品图片上传失败");
+			} catch (Exception e) {
+				return Msg.fail().add("msg", "商品图片上传失败");
+			}
+		}
+		if(file03 != null && file03.getSize() > 0) {
+			try {
+				path = CommonUtil.saveFile(file03);
+				merchandise.setMerchandiseH5ImageUrl(path);
+			} catch (IllegalStateException e) {
+				return Msg.fail().add("msg", "商品图片上传失败");
+			} catch (Exception e) {
+				return Msg.fail().add("msg", "商品图片上传失败");
+			}
+		}
+		
+		merchandiseService.updateByPrimaryKeySelective(merchandise);
+		
+		return Msg.success();
+	}
+	
+	/**
+	 * 商品上架
+	 * @param merchandiseId
+	 * @param status
+	 * @return
+	 */
+	@RequestMapping("/updateStatus")
+	@ResponseBody
+	public Msg updateStatus(@RequestParam("merchandiseId")Integer merchandiseId,
+							@RequestParam("status")Integer status){
+		
+		
+		Merchandise merchandise = new Merchandise();
+		merchandise.setMerchandiseStatus(status);
+		merchandise.setMerchandiseId(merchandiseId);
+		merchandise.setMerchandiseUploadTime(new Date());
+		merchandiseService.updateByPrimaryKeySelective(merchandise);
+		
+		if (status == 1) {
+			return Msg.success().add("msg", "上架成功！");
+		}else{
+			return Msg.success().add("msg", "下架成功！");
+		}
+	}
+	
+	
+	
+	/**
+	 * 删除方法
+	 * @param ids
+	 * @return
+	 */
+	@RequestMapping("/deleteMerchandise")
+	@ResponseBody
+	public Msg deleteMenu(@RequestParam("merchandiseId")Integer merchandiseId, @RequestParam("merchandiseIds")String[] merchandiseIds){
+		
+		merchandiseService.deleteById(merchandiseId,merchandiseIds);
+		
+		return Msg.success();
+	}
+	
+
+	
+	
+	/**
+	 * 根据id查询单列
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/getMerchandiseById")//getMerchandiseById
+	@ResponseBody
+	public Msg getMerchandiseById(@RequestParam("merchandiseId")Integer id){
+		Merchandise merchandise = new Merchandise();
+		merchandise.setMerchandiseId(id);
+		Merchandise m = merchandiseService.selectByPrimary(merchandise);
+		if(m != null){
+			return Msg.success().add("menu", m);
+		}else{
+			return Msg.fail().add("va_msg", "未找到该菜单信息");
+		}
+	}
+	/**
+	 * 根据编号查询商品
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/getMerchandiseByNum")//getMerchandiseById
+	@ResponseBody
+	public Msg getMerchandiseByNum(@RequestParam("merchandiseNum")String num){
+		Merchandise merchandise = new Merchandise();
+		merchandise.setMerchandiseNumber(num);
+		List<Merchandise> m = merchandiseService.selectByExample(merchandise);
+		
+		if(m.isEmpty()){
+			return Msg.fail().add("msg", "未找到该商品信息");
+		}else{
+			for (Merchandise m2 : m) {
+				int a = m2.getMerchandiseStatus();
+				if (a == 0) {
+					return Msg.fail().add("msg", "该商品未上架");
+				}
+			}
+		}
+		return Msg.success().add("list", m);
+		
+	}
+	
+	/**
+	 * 根据商户Id查询商品
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/getMerchandiseByCommercialId")//getMerchandiseById
+	@ResponseBody
+	public Msg getMerchandiseByCommercialId(@RequestParam("commercialTenantId")String commercialTenantId){
+		Merchandise merchandise = new Merchandise();
+		merchandise.setMerchandiseCommercialTenantNumber(commercialTenantId);
+		List<Merchandise> m = merchandiseService.selectByStatus(merchandise);
+		return Msg.success().add("list", m);
+		
+	}
+	
+	
+	//删除商品
+	@RequestMapping("/deleteCommodityAll")
+	@ResponseBody
+	public Msg deleteCommodityAll(@RequestParam("roleId")Integer roleId,HttpServletRequest request){
+		
+		int a = merchandiseService.deleteByPrimaryKey(roleId);
+		
+		
+		return Msg.success().add("status", a);
+	}
+	
+	@RequestMapping("/InportExcel")
+	@ResponseBody
+	public void InportExcel(@RequestParam("file")String filePath) throws IOException, SQLException{
+
+		//Blob b = new SerialBlob(filePath.getBytes("GBK"));//String 转 blob
+		//String blobString = new String(b.getBytes(1, (int) b.length()),"GBK");//blob 转 String
+		
+		File file = new File(filePath);
+		
+        List<List<Object>> dataList = ImportExcelUtil2.importExcel(file);  
+        for (int i = 1; i < dataList.size(); i++) {
+            /*for (int j = 0; j < dataList.get(i).size(); j++) {
+                System.out.println(dataList.get(1));
+                //System.out.println(dataList.get(j));
+            }*/
+        	
+        	
+            System.out.println("------------------");
+        }
+		
+	}
+	
+	
+	
+	
+	
+	/*********************************************************** 商品分类 *****************************************************************/
+	
+	
+	/**
+	 * 获取商品分类信息
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/getClassify")
+	public Msg getClassify() {
+		List<MerchandiseClassify> list = merchandiseService.getClassify(new MerchandiseClassify());
+		return Msg.success(list);
+	}
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}

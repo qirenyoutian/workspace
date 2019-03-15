@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pywl.projectwl.project.mapper.ClockinMapper">
+  <resultMap id="BaseResultMap" type="com.pywl.project.bean.Clockin">
+    <id column="clockin_id" jdbcType="INTEGER" property="clockinId" />
+    <result column="clockin_admin_id" jdbcType="INTEGER" property="clockinAdminId" />
+    <result column="clockin_type" jdbcType="INTEGER" property="clockinType" />
+    <result column="clockin_time" jdbcType="TIMESTAMP" property="clockinTime" />
+    <result column="clockin_place" jdbcType="VARCHAR" property="clockinPlace" />
+    <result column="clockin_picture" jdbcType="VARCHAR" property="clockinPicture" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    clockin_id, clockin_admin_id, clockin_type, clockin_time, clockin_place, clockin_picture
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from clockin
+    where clockin_id = #{clockinId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from clockin
+    where clockin_id = #{clockinId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pywl.project.bean.Clockin">
+    insert into clockin (clockin_id, clockin_admin_id, clockin_type, 
+      clockin_time, clockin_place, clockin_picture
+      )
+    values (#{clockinId,jdbcType=INTEGER}, #{clockinAdminId,jdbcType=INTEGER}, #{clockinType,jdbcType=INTEGER}, 
+      #{clockinTime,jdbcType=TIMESTAMP}, #{clockinPlace,jdbcType=VARCHAR}, #{clockinPicture,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pywl.project.bean.Clockin">
+    insert into clockin
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="clockinId != null">
+        clockin_id,
+      </if>
+      <if test="clockinAdminId != null">
+        clockin_admin_id,
+      </if>
+      <if test="clockinType != null">
+        clockin_type,
+      </if>
+      <if test="clockinTime != null">
+        clockin_time,
+      </if>
+      <if test="clockinPlace != null">
+        clockin_place,
+      </if>
+      <if test="clockinPicture != null">
+        clockin_picture,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="clockinId != null">
+        #{clockinId,jdbcType=INTEGER},
+      </if>
+      <if test="clockinAdminId != null">
+        #{clockinAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="clockinType != null">
+        #{clockinType,jdbcType=INTEGER},
+      </if>
+      <if test="clockinTime != null">
+        #{clockinTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clockinPlace != null">
+        #{clockinPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="clockinPicture != null">
+        #{clockinPicture,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pywl.project.bean.Clockin">
+    update clockin
+    <set>
+      <if test="clockinAdminId != null">
+        clockin_admin_id = #{clockinAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="clockinType != null">
+        clockin_type = #{clockinType,jdbcType=INTEGER},
+      </if>
+      <if test="clockinTime != null">
+        clockin_time = #{clockinTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clockinPlace != null">
+        clockin_place = #{clockinPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="clockinPicture != null">
+        clockin_picture = #{clockinPicture,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where clockin_id = #{clockinId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pywl.project.bean.Clockin">
+    update clockin
+    set clockin_admin_id = #{clockinAdminId,jdbcType=INTEGER},
+      clockin_type = #{clockinType,jdbcType=INTEGER},
+      clockin_time = #{clockinTime,jdbcType=TIMESTAMP},
+      clockin_place = #{clockinPlace,jdbcType=VARCHAR},
+      clockin_picture = #{clockinPicture,jdbcType=VARCHAR}
+    where clockin_id = #{clockinId,jdbcType=INTEGER}
+  </update>
+    <select id="selectByExample" parameterType="com.pywl.project.bean.Clockin" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from clockin
+    where 1=1
+    <if test="clockinId != null">
+      and clockin_id = #{clockinId,jdbcType=INTEGER}
+    </if>
+    <if test="clockinAdminId != null">
+      and clockin_admin_id = #{clockinAdminId,jdbcType=INTEGER}
+    </if>
+    <if test="clockinType != null">
+      and clockin_type = #{clockinType,jdbcType=INTEGER}
+    </if>
+    <if test="clockinTime != null">
+      and clockin_time = #{clockinTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="clockinPlace != null">
+      and clockin_place = #{clockinPlace,jdbcType=VARCHAR}
+    </if>
+    <if test="clockinPicture != null">
+       and clockin_picture = #{clockinPicture,jdbcType=VARCHAR}
+     </if>
+    order by clockin_time desc
+    
+  </select>
+
+	<!-- 查询当天 -->
+  <select id="findToDay" parameterType="com.pywl.project.bean.Clockin" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from clockin
+	where 1=1
+	<if test="clockinId != null">
+      and clockin_id = #{clockinId,jdbcType=INTEGER}
+    </if>
+    <if test="clockinAdminId != null">
+      and clockin_admin_id = #{clockinAdminId,jdbcType=INTEGER}
+    </if>
+    <if test="clockinType != null">
+      and clockin_type = #{clockinType,jdbcType=INTEGER}
+    </if>
+    <if test="clockinTime != null">
+      and clockin_time = #{clockinTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="clockinPlace != null">
+      and clockin_place = #{clockinPlace,jdbcType=VARCHAR}
+    </if>
+    <if test="clockinPicture != null">
+       and clockin_picture = #{clockinPicture,jdbcType=VARCHAR}
+     </if>
+    and DATEDIFF(clockin_time,NOW()) = 0
+  </select>
+  
+  
+  <select id="findByClockinTime" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	SELECT
+	<include refid="Base_Column_List" />
+  	FROM clockin 
+  	WHERE 1=1
+  	<if test="clockinAdminId != null">
+       and clockin_admin_id = #{clockinAdminId}
+    </if>
+  	<if test="clockinTime != null">
+  		and clockin_time LIKE '${clockinTime}%'
+  	</if> 
+  	order by clockin_time desc
+  </select>
+</mapper>

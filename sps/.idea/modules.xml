@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/sps.iml" filepath="$PROJECT_DIR$/sps.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../vm/vend.iml" filepath="$PROJECT_DIR$/../vm/vend.iml" />
+    </modules>
+  </component>
+</project>

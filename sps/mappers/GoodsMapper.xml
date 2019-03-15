@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pywl.project.mapper.GoodsMapper">
+ <resultMap id="GoodsMapResult" type="com.pywl.project.bean.Goods">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="goods_price" jdbcType="VARCHAR" property="goodsPrice" />
+    <result column="goods_title" jdbcType="VARCHAR" property="goodsTitle" />
+    <result column="goods_details" jdbcType="VARCHAR" property="goodsDetails" />
+    <result column="is_find" jdbcType="VARCHAR" property="isFind"/>
+  </resultMap>
+	<select id="selectGoods" parameterType="com.pywl.project.bean.Goods" resultMap="GoodsMapResult">
+		SELECT * FROM goods
+		WHERE 1=1
+		<if test="isFind != null and isFind != ''">
+		AND
+		is_find=#{isFind}
+		</if>
+		<if test="id!=null and id!=''">
+		AND
+		id=#{id}
+		</if>
+		<if test="goodsName!=null and goodsName!=''">
+		AND
+		goods_name like CONCAT('%',#{goodsName},'%')
+		</if>
+		<if test="goodsPrice!=null and goodsPrice!=''">
+		AND
+		goods_price like CONCAT('%',#{goodsPrice},'%')
+		</if>
+		<if test="goodsDetails!=null and goodsDetails!=''">
+		AND
+		goods_details like CONCAT('%',#{goodsDetails},'%')
+		</if>
+	</select>
+	
+	<!--	void insertGoods(Goods goods);  -->
+	<insert id="insertGoods" parameterType="com.pywl.project.bean.Goods">
+	INSERT INTO goods(goods_name,goods_price,goods_title,goods_details,is_find) VALUES(
+	#{goodsName},#{goodsPrice},#{goodsTitle},#{goodsDetails},#{isFind})
+	</insert>
+	
+<!--void updateGoods(Goods goods);  -->
+	<update id="updateGoods" parameterType="com.pywl.project.bean.Goods">
+	UPDATE goods
+	<set>
+	<if test="goodsName!=null and goodsName!=''">
+	goods_name=#{goodsName},
+	</if>
+	<if test="goodsPrice!=null and goodsPrice!=''">
+	goods_price =#{goodsPrice},
+	</if>
+	<if test="goodsTitle!=null and goodsTitle!=''">
+	goods_title=#{goodsTitle},
+	</if>
+	<if test="goodsDetails!=null and goodsDetails!=''">
+	goods_details=#{goodsDetails},
+	</if>
+	</set>
+	WHERE id=#{id}
+	</update>
+	
+	<!-- 	void delGoods(Long id); -->
+	<delete id="delGoods" parameterType="java.lang.Long">
+	DELETE FROM goods WHERE id=#{id}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.AdminMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Admin">
+    <id column="admin_id" jdbcType="INTEGER" property="adminId" />
+    <result column="admin_account" jdbcType="VARCHAR" property="adminAccount" />
+    <result column="admin_password" jdbcType="VARCHAR" property="adminPassword" />
+    <result column="admin_realname" jdbcType="VARCHAR" property="adminRealname" />
+    <result column="admin_phonenum" jdbcType="VARCHAR" property="adminPhonenum" />
+    <result column="admin_email" jdbcType="VARCHAR" property="adminEmail" />
+    <result column="admin_registration_id" jdbcType="VARCHAR" property="adminRegistrationId" />
+    <result column="admin_registration_type" jdbcType="INTEGER" property="adminRegistrationType" />
+    <result column="admin_position" jdbcType="VARCHAR" property="adminPosition" />
+    <result column="admin_position_time" jdbcType="TIMESTAMP" property="adminPositionTime" />
+    <result column="admin_creation_time" jdbcType="TIMESTAMP" property="adminCreationTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    admin_id, admin_account, admin_password, admin_realname, admin_phonenum, admin_email, 
+    admin_registration_id, admin_registration_type, admin_position, admin_position_time, 
+    admin_creation_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from admin
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from admin
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.Admin">
+    insert into admin (admin_id, admin_account, admin_password, 
+      admin_realname, admin_phonenum, admin_email, 
+      admin_registration_id, admin_registration_type, 
+      admin_position, admin_position_time, admin_creation_time
+      )
+    values (#{adminId,jdbcType=INTEGER}, #{adminAccount,jdbcType=VARCHAR}, #{adminPassword,jdbcType=VARCHAR}, 
+      #{adminRealname,jdbcType=VARCHAR}, #{adminPhonenum,jdbcType=INTEGER}, #{adminEmail,jdbcType=VARCHAR}, 
+      #{adminRegistrationId,jdbcType=VARCHAR}, #{adminRegistrationType,jdbcType=INTEGER}, 
+      #{adminPosition,jdbcType=VARCHAR}, #{adminPositionTime,jdbcType=TIMESTAMP}, #{adminCreationTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.Admin">
+    insert into admin
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="adminId != null">
+        admin_id,
+      </if>
+      <if test="adminAccount != null">
+        admin_account,
+      </if>
+      <if test="adminPassword != null">
+        admin_password,
+      </if>
+      <if test="adminRealname != null">
+        admin_realname,
+      </if>
+      <if test="adminPhonenum != null">
+        admin_phonenum,
+      </if>
+      <if test="adminEmail != null">
+        admin_email,
+      </if>
+      <if test="adminRegistrationId != null">
+        admin_registration_id,
+      </if>
+      <if test="adminRegistrationType != null">
+        admin_registration_type,
+      </if>
+      <if test="adminPosition != null">
+        admin_position,
+      </if>
+      <if test="adminPositionTime != null">
+        admin_position_time,
+      </if>
+      <if test="adminCreationTime != null">
+        admin_creation_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="adminId != null">
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="adminAccount != null">
+        #{adminAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPassword != null">
+        #{adminPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="adminRealname != null">
+        #{adminRealname,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPhonenum != null">
+        #{adminPhonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="adminEmail != null">
+        #{adminEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="adminRegistrationId != null">
+        #{adminRegistrationId,jdbcType=VARCHAR},
+      </if>
+      <if test="adminRegistrationType != null">
+        #{adminRegistrationType,jdbcType=INTEGER},
+      </if>
+      <if test="adminPosition != null">
+        #{adminPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPositionTime != null">
+        #{adminPositionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminCreationTime != null">
+        #{adminCreationTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Admin">
+    update admin
+    <set>
+      <if test="adminAccount != null">
+        admin_account = #{adminAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPassword != null">
+        admin_password = #{adminPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="adminRealname != null">
+        admin_realname = #{adminRealname,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPhonenum != null">
+        admin_phonenum = #{adminPhonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="adminEmail != null">
+        admin_email = #{adminEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="adminRegistrationId != null">
+        admin_registration_id = #{adminRegistrationId,jdbcType=VARCHAR},
+      </if>
+      <if test="adminRegistrationType != null">
+        admin_registration_type = #{adminRegistrationType,jdbcType=INTEGER},
+      </if>
+      <if test="adminPosition != null">
+        admin_position = #{adminPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPositionTime != null">
+        admin_position_time = #{adminPositionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminCreationTime != null">
+        admin_creation_time = #{adminCreationTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Admin">
+    update admin
+    set admin_account = #{adminAccount,jdbcType=VARCHAR},
+      admin_password = #{adminPassword,jdbcType=VARCHAR},
+      admin_realname = #{adminRealname,jdbcType=VARCHAR},
+      admin_phonenum = #{adminPhonenum,jdbcType=VARCHAR},
+      admin_email = #{adminEmail,jdbcType=VARCHAR},
+      admin_registration_id = #{adminRegistrationId,jdbcType=VARCHAR},
+      admin_registration_type = #{adminRegistrationType,jdbcType=INTEGER},
+      admin_position = #{adminPosition,jdbcType=VARCHAR},
+      admin_position_time = #{adminPositionTime,jdbcType=TIMESTAMP},
+      admin_creation_time = #{adminCreationTime,jdbcType=TIMESTAMP}
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </update>
+  	 <select id="selectByPrimary" parameterType="com.py.bean.Admin" resultMap="BaseResultMap">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from admin
+	    where 1=1
+	    <if test="adminId != null">
+	      and admin_id = #{adminId,jdbcType=INTEGER}
+	    </if>
+	    <if test="adminAccount != null">
+	      and admin_account = #{adminAccount,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPassword != null">
+	      and admin_password = #{adminPassword,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRealname != null">
+	      and admin_realname = #{adminRealname,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPhonenum != null">
+	      and admin_phonenum = #{adminPhonenum,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminEmail != null">
+	      and admin_email = #{adminEmail,jdbcType=VARCHAR}
+	    </if>
+	</select>
+  	 <select id="selectByExample" parameterType="com.py.bean.Admin" resultMap="BaseResultMap">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from admin
+	    where 1=1
+	    <if test="adminId != null">
+	      and admin_id = #{adminId,jdbcType=INTEGER}
+	    </if>
+	    <if test="adminAccount != null">
+	      and admin_account like "%"#{adminAccount,jdbcType=VARCHAR}"%"
+	    </if>
+	    <if test="adminPassword != null">
+	      and admin_password = #{adminPassword,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRealname != null">
+	      and admin_realname like "%"#{adminRealname,jdbcType=VARCHAR}"%"
+	    </if>
+	    <if test="adminPhonenum != null">
+	      and admin_phonenum = #{adminPhonenum,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminEmail != null">
+	      and admin_email = #{adminEmail,jdbcType=VARCHAR}
+	    </if>
+	</select>
+	<select id="selectByTime" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select * 
+		from admin
+		where 1=1
+		<if test="startTime != null">
+			and admin_creation_time	&gt; #{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and admin_creation_time	&lt; #{endTime,jdbcType=TIMESTAMP}
+		</if>
+		
+	</select>
+	
+	<select id="selectOperaByExample" parameterType="com.py.bean.Admin" resultMap="BaseResultMap">
+	    SELECT
+			a1.*
+		FROM
+			admin a1
+		LEFT JOIN admin_role ar ON ar.admin_role_admin_id = a1.admin_id
+		where ar.admin_role_role_id = 2
+	    <if test="adminId != null">
+	      and admin_id = #{adminId,jdbcType=INTEGER}
+	    </if>
+	    <if test="adminAccount != null">
+	      and admin_account like "%"#{adminAccount,jdbcType=VARCHAR}"%"
+	    </if>
+	    <if test="adminPassword != null">
+	      and admin_password = #{adminPassword,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRealname != null">
+	      and admin_realname like "%"#{adminRealname,jdbcType=VARCHAR}"%"
+	    </if>
+	    <if test="adminPhonenum != null">
+	      and admin_phonenum = #{adminPhonenum,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminEmail != null">
+	      and admin_email = #{adminEmail,jdbcType=VARCHAR}
+	    </if>
+	</select>
+	<!-- 批量删除 -->
+  <delete id="deleteByArray">
+  	DELETE
+	FROM
+		admin
+	WHERE
+		admin_id IN
+			<foreach close=")" collection="array" item="admin" open="(" separator=","> 
+				#{admin}
+			</foreach>
+  </delete>
+	
+	
+	<resultMap id="BaseResultMapVariety" type="com.py.bean.Admin">
+    <id column="admin_id" jdbcType="INTEGER" property="adminId" />
+    <result column="admin_account" jdbcType="VARCHAR" property="adminAccount" />
+    <result column="admin_password" jdbcType="VARCHAR" property="adminPassword" />
+    <result column="admin_realname" jdbcType="VARCHAR" property="adminRealname" />
+    <result column="admin_phonenum" jdbcType="VARCHAR" property="adminPhonenum" />
+    <result column="admin_email" jdbcType="VARCHAR" property="adminEmail" />
+    <result column="admin_registration_id" jdbcType="VARCHAR" property="adminRegistrationId" />
+    <result column="admin_registration_type" jdbcType="INTEGER" property="adminRegistrationType" />
+    <result column="admin_position" jdbcType="VARCHAR" property="adminPosition" />
+    <result column="admin_position_time" jdbcType="TIMESTAMP" property="adminPositionTime" />
+    <result column="admin_creation_time" jdbcType="TIMESTAMP" property="adminCreationTime" />
+    <collection column="role_id" ofType="com.py.bean.Role" property="role">
+    	<id column="role_id" jdbcType="INTEGER" property="roleId" />
+	    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+	    <result column="role_detail" jdbcType="VARCHAR" property="roleDetail" />
+	    <result column="role_createtime" jdbcType="TIMESTAMP" property="roleCreatetime" />
+    </collection>
+    <collection column="point_id" ofType="com.py.bean.Point" property="point">
+    	 <id column="point_id" jdbcType="INTEGER" property="pointId" />
+	    <result column="point_name" jdbcType="VARCHAR" property="pointName" />
+	    <result column="point_province" jdbcType="INTEGER" property="pointProvince" />
+	    <result column="point_city" jdbcType="INTEGER" property="pointCity" />
+	    <result column="point_district" jdbcType="INTEGER" property="pointDistrict" />
+	    <result column="point_address" jdbcType="VARCHAR" property="pointAddress" />
+	    <result column="point_create_time" jdbcType="TIMESTAMP" property="pointCreateTime" />
+	    <result column="point_change_time" jdbcType="TIMESTAMP" property="pointChangeTime" />
+    </collection>
+  </resultMap>
+	<select id="selectAdminAndRole" parameterType="com.py.bean.Admin" resultMap="BaseResultMapVariety">
+	    SELECT
+			*
+		FROM
+			admin a1
+		LEFT JOIN (
+			SELECT
+				*
+			FROM
+				admin_role ar
+			RIGHT JOIN role r1 ON r1.role_id = ar.admin_role_role_id
+		) a2 ON a2.admin_role_admin_id = a1.admin_id
+		LEFT JOIN (
+			SELECT
+				*
+			FROM
+				admin_point ap
+			LEFT JOIN point p1 ON p1.point_id = ap.admin_point_point_id
+		) a3 ON a3.admin_point_admin_id = a1.admin_id
+		where 1=1
+	    <if test="adminId != null">
+	      and a1.admin_id = #{adminId,jdbcType=INTEGER}
+	    </if>
+	    <if test="adminAccount != null">
+	      and a1.admin_account like "%"#{adminAccount,jdbcType=VARCHAR}"%"
+	    </if>
+	    <if test="adminPassword != null">
+	      and a1.admin_password = #{adminPassword,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRealname != null">
+	      and a1.admin_realname like "%"#{adminRealname,jdbcType=VARCHAR}"%"
+	    </if>
+	    <if test="adminPhonenum != null">
+	      and a1.admin_phonenum = #{adminPhonenum,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminEmail != null">
+	      and a1.admin_email = #{adminEmail,jdbcType=VARCHAR}
+	    </if>
+	</select>
+	
+	
+</mapper>

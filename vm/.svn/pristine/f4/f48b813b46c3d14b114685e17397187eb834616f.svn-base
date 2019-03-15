@@ -1,0 +1,126 @@
+package com.py.controller;
+
+import java.text.ParseException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.py.bean.PavePlan;
+import com.py.bean.PaveRecord;
+import com.py.bean.PaveRecordDetail;
+import com.py.service.OperatService;
+import com.py.util.Msg;
+
+@Controller
+public class OperatController {
+	@Autowired
+	private OperatService operatService;
+	
+	//铺货计划
+	//铺货计划记录
+	//跟办问题
+	//
+	
+	/********************************************************* 铺货计划 *************************************************************/
+	
+	/**
+	 * 获取铺货计划
+	 * @return
+	 */
+	@RequestMapping("/getPavePlan")
+	@ResponseBody
+	public Msg getPavePlan(@RequestParam(value="pn",defaultValue="1")Integer pn){
+		
+		PageHelper.startPage(pn, 10);
+		List<PavePlan> pp = operatService.selectPavePlan();
+		
+		PageInfo<PavePlan> pglist = new PageInfo<PavePlan>(pp,5);
+		
+		return Msg.success().add("pageInfo", pglist);
+	}
+	
+	
+	/**
+	 * 保存铺货计划
+	 * @return
+	 * @throws ParseException 
+	 */
+	@RequestMapping("/savePlan")
+	@ResponseBody
+	public Msg savePlan(HttpServletRequest request) throws ParseException{
+		
+		String planTitle = request.getParameter("planTitle");
+		String planTime = request.getParameter("planTime");
+		
+		if (planTitle.equals("") || planTitle.equals(null) || planTitle.equals(" ")) {
+			return Msg.fail().add("msg", "计划标题不能为空!");
+		}
+		if (planTime.equals("") || planTime.equals(null) || planTime.equals(" ")) {
+			return Msg.fail().add("msg", "计划时间不能为空!");
+		}else{
+			String time1 = planTime.substring(0, 1);
+			String time2 = "";
+			if (planTime.length() > 1) {
+				time2 = planTime.substring(2, 3);
+			}	
+			if (!time1.equals("周")) {
+				if(!time2.equals("日")){
+					return Msg.fail().add("msg", "计划时间格式不正确!");
+				}
+			}
+		}
+		
+		operatService.savePlan(request);
+		
+		
+		return Msg.success();
+	}
+	
+	
+	
+	
+	
+	
+	
+	/********************************************************* 铺货计划记录 *************************************************************/
+	
+	/**
+	 * 获取铺货计划记录
+	 * @return
+	 */
+	@RequestMapping("/getPaveRecord")
+	@ResponseBody
+	public Msg getPaveRecord(@RequestParam(value="pn",defaultValue="1")Integer pn){
+		
+		PageHelper.startPage(pn, 10);
+		List<PaveRecord> pp = operatService.selectPaveRecord();
+		
+		PageInfo<PaveRecord> pglist = new PageInfo<PaveRecord>(pp,5);
+		
+		return Msg.success().add("pageInfo", pglist);
+	}
+	
+	/**
+	 * 根据记录ID获取记录详情
+	 * @param paveRecordId
+	 * @return
+	 */
+	@RequestMapping("/getPaveDetail")
+	@ResponseBody
+	public Msg getPaveDetail(@RequestParam("paveRecordId")Integer paveRecordId){
+		
+		List<PaveRecordDetail> pc = operatService.PaveDetailById(paveRecordId);
+		
+		return Msg.success().add("list", pc);
+	}
+	
+	
+}

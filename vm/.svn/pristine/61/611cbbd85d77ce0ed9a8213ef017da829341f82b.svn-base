@@ -1,0 +1,223 @@
+/*
+ * This file is auto-generated.  DO NOT MODIFY.
+ * Original file: H:\\SerialDemo\\app\\src\\main\\aidl\\com\\example\\admin\\serialdemo\\ISocketServiceInterface.aidl
+ */
+package com.example.admin.serialdemo;
+// Declare any non-default types here with import statements
+//负责连接Socket的Service服务于客户端交互的接口
+
+public interface ISocketServiceInterface extends android.os.IInterface
+{
+/** Local-side IPC implementation stub class. */
+public static abstract class Stub extends android.os.Binder implements com.example.admin.serialdemo.ISocketServiceInterface
+{
+private static final java.lang.String DESCRIPTOR = "com.example.admin.serialdemo.ISocketServiceInterface";
+/** Construct the stub at attach it to the interface. */
+public Stub()
+{
+this.attachInterface(this, DESCRIPTOR);
+}
+/**
+ * Cast an IBinder object into an com.example.admin.serialdemo.ISocketServiceInterface interface,
+ * generating a proxy if needed.
+ */
+public static com.example.admin.serialdemo.ISocketServiceInterface asInterface(android.os.IBinder obj)
+{
+if ((obj==null)) {
+return null;
+}
+android.os.IInterface iin = obj.queryLocalInterface(DESCRIPTOR);
+if (((iin!=null)&&(iin instanceof com.example.admin.serialdemo.ISocketServiceInterface))) {
+return ((com.example.admin.serialdemo.ISocketServiceInterface)iin);
+}
+return new com.example.admin.serialdemo.ISocketServiceInterface.Stub.Proxy(obj);
+}
+@Override public android.os.IBinder asBinder()
+{
+return this;
+}
+@Override public boolean onTransact(int code, android.os.Parcel data, android.os.Parcel reply, int flags) throws android.os.RemoteException
+{
+switch (code)
+{
+case INTERFACE_TRANSACTION:
+{
+reply.writeString(DESCRIPTOR);
+return true;
+}
+case TRANSACTION_connectSocket:
+{
+data.enforceInterface(DESCRIPTOR);
+this.connectSocket();
+reply.writeNoException();
+return true;
+}
+case TRANSACTION_disConnectSocket:
+{
+data.enforceInterface(DESCRIPTOR);
+this.disConnectSocket();
+reply.writeNoException();
+return true;
+}
+case TRANSACTION_sendMessage:
+{
+data.enforceInterface(DESCRIPTOR);
+com.example.admin.serialdemo.bean.SocketMessage _arg0;
+if ((0!=data.readInt())) {
+_arg0 = com.example.admin.serialdemo.bean.SocketMessage.CREATOR.createFromParcel(data);
+}
+else {
+_arg0 = null;
+}
+this.sendMessage(_arg0);
+reply.writeNoException();
+return true;
+}
+case TRANSACTION_addMessageListener:
+{
+data.enforceInterface(DESCRIPTOR);
+com.example.admin.serialdemo.ISocketMessageListener _arg0;
+_arg0 = com.example.admin.serialdemo.ISocketMessageListener.Stub.asInterface(data.readStrongBinder());
+this.addMessageListener(_arg0);
+reply.writeNoException();
+return true;
+}
+case TRANSACTION_removeMessageListener:
+{
+data.enforceInterface(DESCRIPTOR);
+com.example.admin.serialdemo.ISocketMessageListener _arg0;
+_arg0 = com.example.admin.serialdemo.ISocketMessageListener.Stub.asInterface(data.readStrongBinder());
+this.removeMessageListener(_arg0);
+reply.writeNoException();
+return true;
+}
+}
+return super.onTransact(code, data, reply, flags);
+}
+private static class Proxy implements com.example.admin.serialdemo.ISocketServiceInterface
+{
+private android.os.IBinder mRemote;
+Proxy(android.os.IBinder remote)
+{
+mRemote = remote;
+}
+@Override public android.os.IBinder asBinder()
+{
+return mRemote;
+}
+public java.lang.String getInterfaceDescriptor()
+{
+return DESCRIPTOR;
+}
+//连接Socket
+
+@Override public void connectSocket() throws android.os.RemoteException
+{
+android.os.Parcel _data = android.os.Parcel.obtain();
+android.os.Parcel _reply = android.os.Parcel.obtain();
+try {
+_data.writeInterfaceToken(DESCRIPTOR);
+mRemote.transact(Stub.TRANSACTION_connectSocket, _data, _reply, 0);
+_reply.readException();
+}
+finally {
+_reply.recycle();
+_data.recycle();
+}
+}
+//断开连接
+
+@Override public void disConnectSocket() throws android.os.RemoteException
+{
+android.os.Parcel _data = android.os.Parcel.obtain();
+android.os.Parcel _reply = android.os.Parcel.obtain();
+try {
+_data.writeInterfaceToken(DESCRIPTOR);
+mRemote.transact(Stub.TRANSACTION_disConnectSocket, _data, _reply, 0);
+_reply.readException();
+}
+finally {
+_reply.recycle();
+_data.recycle();
+}
+}
+//发送消息到服务器
+
+@Override public void sendMessage(com.example.admin.serialdemo.bean.SocketMessage message) throws android.os.RemoteException
+{
+android.os.Parcel _data = android.os.Parcel.obtain();
+android.os.Parcel _reply = android.os.Parcel.obtain();
+try {
+_data.writeInterfaceToken(DESCRIPTOR);
+if ((message!=null)) {
+_data.writeInt(1);
+message.writeToParcel(_data, 0);
+}
+else {
+_data.writeInt(0);
+}
+mRemote.transact(Stub.TRANSACTION_sendMessage, _data, _reply, 0);
+_reply.readException();
+}
+finally {
+_reply.recycle();
+_data.recycle();
+}
+}
+//添加消息监听
+
+@Override public void addMessageListener(com.example.admin.serialdemo.ISocketMessageListener listener) throws android.os.RemoteException
+{
+android.os.Parcel _data = android.os.Parcel.obtain();
+android.os.Parcel _reply = android.os.Parcel.obtain();
+try {
+_data.writeInterfaceToken(DESCRIPTOR);
+_data.writeStrongBinder((((listener!=null))?(listener.asBinder()):(null)));
+mRemote.transact(Stub.TRANSACTION_addMessageListener, _data, _reply, 0);
+_reply.readException();
+}
+finally {
+_reply.recycle();
+_data.recycle();
+}
+}
+//取消监听
+
+@Override public void removeMessageListener(com.example.admin.serialdemo.ISocketMessageListener listener) throws android.os.RemoteException
+{
+android.os.Parcel _data = android.os.Parcel.obtain();
+android.os.Parcel _reply = android.os.Parcel.obtain();
+try {
+_data.writeInterfaceToken(DESCRIPTOR);
+_data.writeStrongBinder((((listener!=null))?(listener.asBinder()):(null)));
+mRemote.transact(Stub.TRANSACTION_removeMessageListener, _data, _reply, 0);
+_reply.readException();
+}
+finally {
+_reply.recycle();
+_data.recycle();
+}
+}
+}
+static final int TRANSACTION_connectSocket = (android.os.IBinder.FIRST_CALL_TRANSACTION + 0);
+static final int TRANSACTION_disConnectSocket = (android.os.IBinder.FIRST_CALL_TRANSACTION + 1);
+static final int TRANSACTION_sendMessage = (android.os.IBinder.FIRST_CALL_TRANSACTION + 2);
+static final int TRANSACTION_addMessageListener = (android.os.IBinder.FIRST_CALL_TRANSACTION + 3);
+static final int TRANSACTION_removeMessageListener = (android.os.IBinder.FIRST_CALL_TRANSACTION + 4);
+}
+//连接Socket
+
+public void connectSocket() throws android.os.RemoteException;
+//断开连接
+
+public void disConnectSocket() throws android.os.RemoteException;
+//发送消息到服务器
+
+public void sendMessage(com.example.admin.serialdemo.bean.SocketMessage message) throws android.os.RemoteException;
+//添加消息监听
+
+public void addMessageListener(com.example.admin.serialdemo.ISocketMessageListener listener) throws android.os.RemoteException;
+//取消监听
+
+public void removeMessageListener(com.example.admin.serialdemo.ISocketMessageListener listener) throws android.os.RemoteException;
+}

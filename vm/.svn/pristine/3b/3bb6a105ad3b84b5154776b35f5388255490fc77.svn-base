@@ -1,0 +1,91 @@
+package com.py.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.py.bean.Admin;
+import com.py.bean.AdminPoint;
+import com.py.bean.AdminRole;
+import com.py.bean.Order;
+import com.py.bean.Sideboard;
+import com.py.dao.AdminMapper;
+import com.py.dao.AdminPointMapper;
+import com.py.dao.AdminRoleMapper;
+import com.py.dao.OrderMapper;
+import com.py.dao.RoleMapper;
+import com.py.dao.SideboardMapper;
+import com.py.util.Msg;
+import com.py.util.QRCodeUtil;
+
+@Service
+public class AppletService {
+
+	@Autowired
+	OrderMapper orderMapper;
+	@Autowired
+	SideboardMapper sideboardMapper;
+	@Autowired
+	AdminMapper adminMapper;
+	@Autowired
+	AdminRoleMapper adminRoleMapper;
+	@Autowired
+	RoleMapper roleMapper;
+	@Autowired
+	AdminPointMapper adminPointMapper;
+	
+	
+	public List<Sideboard> findSideboard(Sideboard sideboard) {
+		return sideboardMapper.findSideboard(sideboard);
+	}
+	
+	/**
+	 * 获取取货码
+	 * @param order
+	 * @return
+	 */
+	public Order getPickupCode(Order order) {
+		order = orderMapper.getPickupCode(order);
+		
+		if(order != null) {
+			order.setOrderPickupCode(QRCodeUtil.producePickupCode());
+			orderMapper.updateByPrimaryKeySelective(order);
+		}
+		
+		return order;
+	}
+
+	public Admin selectByAdminPrimary(Admin admin) {
+		return adminMapper.selectByPrimary(admin);
+	}
+
+	/**
+	 * 销售报表
+	 * @param id
+	 * @return
+	 */
+	public Msg salesReport(Integer adminId,String month) {
+		Msg msg = Msg.success();
+		Admin admin = adminMapper.selectByPrimaryKey(adminId);
+		if(admin != null) {
+			AdminRole adminRole =  adminRoleMapper.selectAdminRoleByAdminId(admin.getAdminId());
+			if(adminRole != null) {
+				Integer pointId = null; 
+				if(adminRole.getAdminRoleId() == 2) {//运营人员
+					AdminPoint adminPoint = adminPointMapper.selectByAdminId(admin.getAdminId());
+					if(adminPoint != null) {
+						pointId = adminPoint.getAdminPointId();
+					}
+				}
+				List<Order> orders = orderMapper.salesReportByPointId(pointId,month);
+				for (Order order : orders) {
+					
+				}
+			}
+		}
+		
+		return msg;
+	}
+
+}

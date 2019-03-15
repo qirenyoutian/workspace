@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.RouteMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Route">
+    <id column="route_id" jdbcType="INTEGER" property="routeId" />
+    <result column="route_location_name" jdbcType="VARCHAR" property="routeLocationName" />
+    <result column="route_longitude" jdbcType="DOUBLE" property="routeLongitude" />
+    <result column="route_latitude" jdbcType="DOUBLE" property="routeLatitude" />
+    <result column="route_billing_method_type" jdbcType="INTEGER" property="routeBillingMethodType" />
+    <result column="route_billing_method_id" jdbcType="INTEGER" property="routeBillingMethodId" />
+    <result column="route_time" jdbcType="TIMESTAMP" property="routeTime" />
+    <result column="route_delfalg" jdbcType="INTEGER" property="routeDelfalg" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    route_id, route_location_name, route_longitude, route_latitude, route_billing_method_type, 
+    route_billing_method_id, route_time, route_delfalg
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from route
+    where route_id = #{routeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from route
+    where route_id = #{routeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.Route">
+    insert into route (route_id, route_location_name, route_longitude, 
+      route_latitude, route_billing_method_type, route_billing_method_id, 
+      route_time, route_delfalg)
+    values (#{routeId,jdbcType=INTEGER}, #{routeLocationName,jdbcType=VARCHAR}, #{routeLongitude,jdbcType=DOUBLE}, 
+      #{routeLatitude,jdbcType=DOUBLE}, #{routeBillingMethodType,jdbcType=INTEGER}, #{routeBillingMethodId,jdbcType=INTEGER}, 
+      #{routeTime,jdbcType=TIMESTAMP}, #{routeDelfalg,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.Route">
+    insert into route
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="routeId != null">
+        route_id,
+      </if>
+      <if test="routeLocationName != null">
+        route_location_name,
+      </if>
+      <if test="routeLongitude != null">
+        route_longitude,
+      </if>
+      <if test="routeLatitude != null">
+        route_latitude,
+      </if>
+      <if test="routeBillingMethodType != null">
+        route_billing_method_type,
+      </if>
+      <if test="routeBillingMethodId != null">
+        route_billing_method_id,
+      </if>
+      <if test="routeTime != null">
+        route_time,
+      </if>
+      <if test="routeDelfalg != null">
+        route_delfalg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="routeId != null">
+        #{routeId,jdbcType=INTEGER},
+      </if>
+      <if test="routeLocationName != null">
+        #{routeLocationName,jdbcType=VARCHAR},
+      </if>
+      <if test="routeLongitude != null">
+        #{routeLongitude,jdbcType=DOUBLE},
+      </if>
+      <if test="routeLatitude != null">
+        #{routeLatitude,jdbcType=DOUBLE},
+      </if>
+      <if test="routeBillingMethodType != null">
+        #{routeBillingMethodType,jdbcType=INTEGER},
+      </if>
+      <if test="routeBillingMethodId != null">
+        #{routeBillingMethodId,jdbcType=INTEGER},
+      </if>
+      <if test="routeTime != null">
+        #{routeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="routeDelfalg != null">
+        #{routeDelfalg,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Route">
+    update route
+    <set>
+      <if test="routeLocationName != null">
+        route_location_name = #{routeLocationName,jdbcType=VARCHAR},
+      </if>
+      <if test="routeLongitude != null">
+        route_longitude = #{routeLongitude,jdbcType=DOUBLE},
+      </if>
+      <if test="routeLatitude != null">
+        route_latitude = #{routeLatitude,jdbcType=DOUBLE},
+      </if>
+      <if test="routeBillingMethodType != null">
+        route_billing_method_type = #{routeBillingMethodType,jdbcType=INTEGER},
+      </if>
+      <if test="routeBillingMethodId != null">
+        route_billing_method_id = #{routeBillingMethodId,jdbcType=INTEGER},
+      </if>
+      <if test="routeTime != null">
+        route_time = #{routeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="routeDelfalg != null">
+        route_delfalg = #{routeDelfalg,jdbcType=INTEGER},
+      </if>
+    </set>
+    where route_id = #{routeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Route">
+    update route
+    set route_location_name = #{routeLocationName,jdbcType=VARCHAR},
+      route_longitude = #{routeLongitude,jdbcType=DOUBLE},
+      route_latitude = #{routeLatitude,jdbcType=DOUBLE},
+      route_billing_method_type = #{routeBillingMethodType,jdbcType=INTEGER},
+      route_billing_method_id = #{routeBillingMethodId,jdbcType=INTEGER},
+      route_time = #{routeTime,jdbcType=TIMESTAMP},
+      route_delfalg = #{routeDelfalg,jdbcType=INTEGER}
+    where route_id = #{routeId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimary" parameterType="com.py.bean.Route" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from route
+    where 1=1
+    <if test="routeId != null">
+      and route_id = #{routeId,jdbcType=INTEGER}
+    </if>
+    <if test="routeLocationName != null">
+      and route_location_name = #{routeLocationName,jdbcType=VARCHAR}
+    </if>
+    <if test="routeLongitude != null">
+      and route_longitude = #{routeLongitude,jdbcType=DOUBLE}
+    </if>
+    <if test="routeLatitude != null">
+      and route_latitude = #{routeLatitude,jdbcType=DOUBLE}
+    </if>
+    <if test="routeBillingMethodType != null">
+       and route_billing_method_type = #{routeBillingMethodType,jdbcType=INTEGER}
+     </if>
+    <if test="routeBillingMethodId != null">
+      and route_billing_method_id = #{routeBillingMethodId,jdbcType=INTEGER}
+    </if>
+    <if test="routeTime != null">
+      and route_time = #{routeTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="routeDelfalg != null">
+      and route_delfalg = #{routeDelfalg,jdbcType=INTEGER}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.py.bean.Route" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from route
+    where 1=1
+    <if test="routeId != null">
+      and route_id = #{routeId,jdbcType=INTEGER}
+    </if>
+    <if test="routeLocationName != null">
+      and route_location_name = #{routeLocationName,jdbcType=VARCHAR}
+    </if>
+    <if test="routeLongitude != null">
+      and route_longitude = #{routeLongitude,jdbcType=DOUBLE}
+    </if>
+    <if test="routeLatitude != null">
+      and route_latitude = #{routeLatitude,jdbcType=DOUBLE}
+    </if>
+    <if test="routeBillingMethodType != null">
+       and route_billing_method_type = #{routeBillingMethodType,jdbcType=INTEGER}
+     </if>
+    <if test="routeBillingMethodId != null">
+      and route_billing_method_id = #{routeBillingMethodId,jdbcType=INTEGER}
+    </if>
+    <if test="routeTime != null">
+      and route_time = #{routeTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="routeDelfalg != null">
+      and route_delfalg = #{routeDelfalg,jdbcType=INTEGER}
+    </if>
+  </select>
+  <select id="selectByRange" parameterType="com.py.bean.Geography" resultMap="BaseResultMapAndRoute">
+ 	SELECT 
+ 	*
+	FROM route r LEFT JOIN camera c ON r.route_id = c.camera_route_id
+	LEFT JOIN truck_space ts ON c.camera_id = ts.truck_space_camera_id
+	where r.route_delfalg = 0 and ts.truck_space_status = 0
+	<if test="log_left != null">
+		<if test="log_right != null">
+			and r.route_longitude between #{log_left} and #{log_right}
+		</if>
+	</if>
+	<if test="lat_left != null">
+		<if test="lat_right != null">
+			and r.route_latitude between #{lat_left} and #{lat_right}
+		</if>
+	</if>
+  </select>
+  
+    <!-- 交互查询 -->
+   <resultMap id="BaseResultMapAndRoute" type="com.py.bean.RouteAndRecord">
+     <id column="route_id" jdbcType="INTEGER" property="routeId" />
+    <result column="route_location_name" jdbcType="VARCHAR" property="routeLocationName" />
+    <result column="route_longitude" jdbcType="DOUBLE" property="routeLongitude" />
+    <result column="route_latitude" jdbcType="DOUBLE" property="routeLatitude" />
+    <result column="route_billing_method_type" jdbcType="INTEGER" property="routeBillingMethodType" />
+    <result column="route_billing_method_id" jdbcType="INTEGER" property="routeBillingMethodId" />
+    <result column="route_time" jdbcType="TIMESTAMP" property="routeTime" />
+    <result column="delfalg" jdbcType="INTEGER" property="delfalg" />
+   	<collection column="camera_route_id" ofType="com.py.bean.CameraExtend" property="cameraExtends">
+   		<id column="camera_id" jdbcType="INTEGER" property="cameraId" />
+	    <result column="camera_name" jdbcType="VARCHAR" property="cameraName" />
+	    <result column="camera_ip" jdbcType="VARCHAR" property="cameraIp" />
+	    <result column="camera_mem_total" jdbcType="INTEGER" property="cameraMemTotal" />
+	    <result column="camera_mem_used" jdbcType="INTEGER" property="cameraMemUsed" />
+	    <result column="camera_mem_free" jdbcType="INTEGER" property="cameraMemFree" />
+	    <result column="camera_cpu_rate" jdbcType="DOUBLE" property="cameraCpuRate" />
+	    <result column="camera_app" jdbcType="INTEGER" property="cameraApp" />
+	    <result column="camera_RTMP" jdbcType="VARCHAR" property="cameraRTMP" />
+	    <result column="camera_lng" jdbcType="DOUBLE" property="cameraLng" />
+	    <result column="camera_lat" jdbcType="DOUBLE" property="cameraLat" />
+	    <result column="camera_status" jdbcType="INTEGER" property="cameraStatus" />
+	    <result column="camera_route_id" jdbcType="INTEGER" property="cameraRouteId" />
+	    	<collection column="truck_space_camera_id" ofType="com.py.bean.TruckSpaceRecord" property="truckSpaceRecords">  
+            <id column="truck_space_id" jdbcType="INTEGER" property="truckSpaceId" />
+		    <result column="truck_space_name" jdbcType="VARCHAR" property="truckSpaceName" />
+		    <result column="truck_space_camera_id" jdbcType="INTEGER" property="truckSpaceCameraId" />
+		    <result column="truck_space_status" jdbcType="INTEGER" property="truckSpaceStatus" />
+		    <result column="truck_space_time" jdbcType="TIMESTAMP" property="truckSpaceTime" />
+		    <result column="versions" jdbcType="INTEGER" property="versions" />
+		    <result column="delfalg" jdbcType="INTEGER" property="delfalg" />
+            	<collection column="single_car_truck_space_id" ofType="com.py.bean.SingleCarRecord" property="singleCarRecord"> 
+		            <id column="single_car_id" jdbcType="INTEGER" property="singleCarId" />
+				    <result column="single_car_camera_ip" jdbcType="VARCHAR" property="singleCarCameraIp" />
+				    <result column="single_car_route_name" jdbcType="VARCHAR" property="singleCarRouteName" />
+				    <result column="single_car_truck_space" jdbcType="VARCHAR" property="singleCarTruckSpace" />
+				    <result column="single_car_license_plate" jdbcType="VARCHAR" property="singleCarLicensePlate" />
+				    <result column="single_car_start_time" jdbcType="TIMESTAMP" property="singleCarStartTime" />
+				    <result column="single_car_end_time" jdbcType="TIMESTAMP" property="singleCarEndTime" />
+				    <result column="single_car_time" jdbcType="TIMESTAMP" property="singleCarTime" />
+				    <result column="single_car_price" jdbcType="DOUBLE" property="singleCarPrice" />
+				    <result column="single_car_type" jdbcType="INTEGER" property="singleCarType" />
+				    	<collection column="bill" ofType="com.py.bean.TradingRecord" property="tratingRecord">  
+				           <id column="trading_record_id" jdbcType="INTEGER" property="tradingRecordId" />
+						    <result column="trading_record_user_id" jdbcType="INTEGER" property="tradingRecordUserId" />
+						    <result column="trading_record_type" jdbcType="INTEGER" property="tradingRecordType" />
+						    <result column="trading_record_price" jdbcType="DOUBLE" property="tradingRecordPrice" />
+						    <result column="trading_record_status" jdbcType="INTEGER" property="tradingRecordStatus" />
+						    <result column="trading_record_des" jdbcType="VARCHAR" property="tradingRecordDes" />
+						    <result column="trading_record_bill" jdbcType="VARCHAR" property="tradingRecordBill" />
+						    <result column="transaction_id" jdbcType="VARCHAR" property="transactionId" />
+						    <result column="trading_record_time" jdbcType="TIMESTAMP" property="tradingRecordTime" />
+				       </collection>
+	        	</collection> 
+	        </collection>
+   	</collection>
+  </resultMap>
+  <!-- 查询3个月内的收入和路段 -->
+  <select id="queryThreeMonthTradingRecordAndRoute" resultMap="BaseResultMapAndRoute">
+		SELECT
+			*
+		FROM
+			route r
+		LEFT JOIN single_car s ON s.single_car_route_name = r.route_location_name
+		LEFT JOIN camera c ON c.camera_ip = s.single_car_camera_ip
+		LEFT JOIN trading_record t2 ON s.single_car_id = t2.trading_record_bill
+		
+		where
+		t2.trading_record_status = 1
+		and trading_record_time &gt;= DATE_ADD(NOW(), INTERVAL - 3 MONTH)
+		
+  </select>
+  <!-- 查询所有路段和收入 -->
+   <select id="queryAllTradingRecordAndRoute" resultMap="BaseResultMapAndRoute">
+		SELECT
+			*
+		FROM
+			route r
+		LEFT JOIN single_car s ON s.single_car_route_name = r.route_location_name
+		LEFT JOIN camera c ON c.camera_ip = s.single_car_camera_ip
+		LEFT JOIN trading_record t2 ON s.single_car_id = t2.trading_record_bill
+  </select>
+  <!-- 查询停车次数 -->
+  <select id="selectFrequencyForRoute" parameterType="java.lang.String" resultType="com.py.bean.IncomeCount">
+		SELECT
+			r.route_location_name 'routeName',COUNT(s.single_car_route_name)'count',SUM(t2.trading_record_price)'sum'
+		FROM
+			route r
+		LEFT JOIN single_car s ON s.single_car_route_name = r.route_location_name
+		LEFT JOIN trading_record t2 ON s.single_car_id = t2.trading_record_bill
+		and t2.trading_record_status = 1
+		<if test="routeName != null">
+			AND s.single_car_route_name = #{routeName,jdbcType=VARCHAR}
+		</if>
+		AND t2.trading_record_time &gt;= DATE_ADD(NOW(), INTERVAL - 3 MONTH)
+  </select>
+  <!-- 单个查询路段的合计 -->
+
+
+
+
+  <!-- 查询所有路段的合计 -->
+  
+  
+  
+  <resultMap id="BaseResultRouteMap" type="com.py.bean.RouteRecord">
+     <id column="route_id" jdbcType="INTEGER" property="routeId" />
+    <result column="route_location_name" jdbcType="VARCHAR" property="routeLocationName" />
+    <result column="route_longitude" jdbcType="DOUBLE" property="routeLongitude" />
+    <result column="route_latitude" jdbcType="DOUBLE" property="routeLatitude" />
+    <result column="route_billing_method_type" jdbcType="INTEGER" property="routeBillingMethodType" />
+    <result column="route_billing_method_id" jdbcType="INTEGER" property="routeBillingMethodId" />
+    <result column="route_time" jdbcType="TIMESTAMP" property="routeTime" />
+    <result column="delfalg" jdbcType="INTEGER" property="delfalg" />
+     <collection column="camera_route_id" ofType="com.py.bean.CameraRecord" property="cameraRecords"> 
+        <id column="camera_id" jdbcType="INTEGER" property="cameraId" />
+	    <result column="camera_name" jdbcType="VARCHAR" property="cameraName" />
+	    <result column="camera_ip" jdbcType="VARCHAR" property="cameraIp" />
+	    <result column="camera_mem_total" jdbcType="INTEGER" property="cameraMemTotal" />
+	    <result column="camera_mem_used" jdbcType="INTEGER" property="cameraMemUsed" />
+	    <result column="camera_mem_free" jdbcType="INTEGER" property="cameraMemFree" />
+	    <result column="camera_cpu_rate" jdbcType="DOUBLE" property="cameraCpuRate" />
+	    <result column="camera_app" jdbcType="INTEGER" property="cameraApp" />
+	    <result column="camera_RTMP" jdbcType="VARCHAR" property="cameraRTMP" />
+	    <result column="camera_lng" jdbcType="DOUBLE" property="cameraLng" />
+	    <result column="camera_lat" jdbcType="DOUBLE" property="cameraLat" />
+	    <result column="camera_status" jdbcType="INTEGER" property="cameraStatus" />
+	    <result column="camera_route_id" jdbcType="INTEGER" property="cameraRouteId" />
+	    <collection column="truck_space_camera_id" ofType="com.py.bean.TruckSpace" property="truckSpaces">  
+		     <id column="truck_space_id" jdbcType="INTEGER" property="truckSpaceId" />
+			 <result column="truck_space_name" jdbcType="VARCHAR" property="truckSpaceName" />
+			 <result column="truck_space_camera_id" jdbcType="INTEGER" property="truckSpaceCameraId" />
+			 <result column="truck_space_status" jdbcType="INTEGER" property="truckSpaceStatus" />
+			 <result column="truck_space_time" jdbcType="TIMESTAMP" property="truckSpaceTime" />
+			 <result column="versions" jdbcType="INTEGER" property="versions" />
+			 <result column="delfalg" jdbcType="INTEGER" property="delfalg" />
+     	</collection>
+     </collection>
+     <collection column="billing_method_id" ofType="com.py.bean.BillingMethod" property="billingMethod">
+     	<id column="billing_method_id" jdbcType="INTEGER" property="billingMethodId" />
+     	<result column="billing_method_name" jdbcType="VARCHAR" property="billingMethodName" />
+	    <result column="billing_method_start_price" jdbcType="DOUBLE" property="billingMethodStartPrice" />
+	    <result column="billing_method_start_minutes" jdbcType="INTEGER" property="billingMethodStartMinutes" />
+	    <result column="billing_method_free_minutes" jdbcType="INTEGER" property="billingMethodFreeMinutes" />
+	    <result column="billing_method_minimum_consumption" jdbcType="DOUBLE" property="billingMethodMinimumConsumption" />
+	    <result column="billing_method_maximum_consumption" jdbcType="DOUBLE" property="billingMethodMaximumConsumption" />
+	    <result column="billing_method_timeout_threshold" jdbcType="INTEGER" property="billingMethodTimeoutThreshold" />
+     </collection>
+  </resultMap>
+  
+  <select id="queryAllRouteRecord" parameterType="com.py.bean.Route" resultMap="BaseResultRouteMap">
+		SELECT
+			*
+		FROM
+			route r
+		LEFT JOIN camera c ON r.route_id = c.camera_route_id
+		LEFT JOIN truck_space ts ON c.camera_id = ts.truck_space_camera_id
+		LEFT JOIN billing_method bm ON r.route_billing_method_id = bm.billing_method_id
+		
+		where 1 = 1
+		<if test="routeId != null">
+			and route_id = #{routeId,jdbcType=INTEGER}
+		</if>
+  </select>
+  
+  <select id="selectRouteRecord" parameterType="com.py.bean.Route" resultMap="BaseResultRouteMap">
+		SELECT
+			*
+		FROM
+			route r
+		LEFT JOIN camera c ON r.route_id = c.camera_route_id
+		LEFT JOIN truck_space ts ON c.camera_id = ts.truck_space_camera_id
+		LEFT JOIN billing_method bm ON r.route_billing_method_id = bm.billing_method_id
+		
+		where 1 = 1
+		<if test="routeId != null">
+			and route_id = #{routeId,jdbcType=INTEGER}
+		</if>
+  </select>
+  
+  <resultMap id="BaseRouteInvoiceMap" type="com.py.bean.RouteInvoice">
+     <id column="route_id" jdbcType="INTEGER" property="routeId" />
+    <result column="route_location_name" jdbcType="VARCHAR" property="routeLocationName" />
+    <result column="route_longitude" jdbcType="DOUBLE" property="routeLongitude" />
+    <result column="route_latitude" jdbcType="DOUBLE" property="routeLatitude" />
+    <result column="route_billing_method_type" jdbcType="INTEGER" property="routeBillingMethodType" />
+    <result column="route_billing_method_id" jdbcType="INTEGER" property="routeBillingMethodId" />
+    <result column="route_time" jdbcType="TIMESTAMP" property="routeTime" />
+    <result column="delfalg" jdbcType="INTEGER" property="delfalg" />
+   	 <collection column="single_car_route_name" ofType="com.py.bean.SingleCarRecord" property="singleCarRecords">  
+	     <id column="single_car_id" jdbcType="INTEGER" property="singleCarId" />
+	    <result column="single_car_camera_ip" jdbcType="VARCHAR" property="singleCarCameraIp" />
+	    <result column="single_car_route_name" jdbcType="VARCHAR" property="singleCarRouteName" />
+	    <result column="single_car_truck_space" jdbcType="VARCHAR" property="singleCarTruckSpace" />
+	    <result column="single_car_license_plate" jdbcType="VARCHAR" property="singleCarLicensePlate" />
+	    <result column="single_car_start_time" jdbcType="TIMESTAMP" property="singleCarStartTime" />
+	    <result column="single_car_end_time" jdbcType="TIMESTAMP" property="singleCarEndTime" />
+	    <result column="single_car_time" jdbcType="TIMESTAMP" property="singleCarTime" />
+	    <result column="single_car_price" jdbcType="DOUBLE" property="singleCarPrice" />
+	    <result column="single_car_type" jdbcType="INTEGER" property="singleCarType" />
+	    <collection column="trading_record_bill" ofType="com.py.bean.TradingRecord" property="tratingRecord">
+	    	<id column="trading_record_id" jdbcType="INTEGER" property="tradingRecordId" />
+		    <result column="trading_record_user_id" jdbcType="INTEGER" property="tradingRecordUserId" />
+		    <result column="trading_record_type" jdbcType="INTEGER" property="tradingRecordType" />
+		    <result column="trading_record_price" jdbcType="DOUBLE" property="tradingRecordPrice" />
+		    <result column="trading_record_status" jdbcType="INTEGER" property="tradingRecordStatus" />
+		    <result column="trading_record_des" jdbcType="VARCHAR" property="tradingRecordDes" />
+		    <result column="trading_record_bill" jdbcType="VARCHAR" property="tradingRecordBill" />
+		    <result column="transaction_id" jdbcType="VARCHAR" property="transactionId" />
+		    <result column="trading_record_time" jdbcType="TIMESTAMP" property="tradingRecordTime" />
+	    </collection>
+     </collection>
+  </resultMap>
+  
+  <select id="routeInvoice" parameterType="java.lang.Integer" resultMap="BaseRouteInvoiceMap">
+  	select *
+  	from  route r left join (invoice i left join single_car sc on sc.single_car_id = i.invoice_single_car_id)
+  	on r.route_location_name = sc.single_car_route_name 
+  	<if test="routeId != null">
+  		where r.route_id = #{routeId,jdbcType=INTEGER}
+  	</if>
+  </select>
+  
+  <select id="routeSingleCar" parameterType="java.util.Map" resultMap="BaseRouteInvoiceMap">
+  	select *
+  	from  route r 
+  	left join single_car sc on r.route_location_name = sc.single_car_route_name 
+  	left join trading_record t2 ON sc.single_car_id = t2.trading_record_bill
+		and t2.trading_record_status = 1
+		<if test="map.startTime == null">
+			  	<if test="map.endTime == null">
+			  		and sc.single_car_time &gt; DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
+			  	</if>
+		  	</if>
+		<where>
+		  	<if test="map.routeId != null">
+		  	 and r.route_id = #{map.routeId,jdbcType=INTEGER}
+		  	</if>
+		  	<if test="map.startTime != null">
+		  		and sc.single_car_time &gt; #{map.startTime}
+		  	</if>
+		  	<if test="map.endTime != null">
+		  		and sc.single_car_time &lt; #{map.endTime}
+		  	</if>
+		</where>
+  </select>
+  
+</mapper>

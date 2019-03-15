@@ -1,0 +1,109 @@
+package com.py.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.py.bean.Admin;
+import com.py.bean.User;
+import com.py.service.AdminService;
+import com.py.service.AppletService;
+import com.py.service.UserService;
+import com.py.util.CommonUtil;
+import com.py.util.Msg;
+import com.py.util.OfTime;
+import com.py.util.SMSBean;
+import com.py.util.UUIDUtils;
+
+@Controller
+public class AppletLoginController {
+
+	@Autowired
+	UserService userService;
+	@Autowired
+	AppletService appletService;
+	@Autowired
+	AdminService adminService;
+	
+	
+	/**
+	 * 登录注册
+	 * @param phonenum
+	 * @param code
+	 * @param request
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/login",method=RequestMethod.POST)
+	public Msg login(@RequestParam("phonenum")String phonenum,@RequestParam("code")String code){
+		if(phonenum == null) {
+			return Msg.fail().add("mag", "电话号码不能为空");
+		}
+		if(code == null) {
+			return Msg.fail().add("mag", "请输入验证码");
+		}
+		String string = CommonUtil.verifyMobileCode(phonenum, code );
+		if(string != null) {
+			return Msg.fail().add("msg", string);
+		}
+		SMSBean smsBean = (SMSBean) CommonUtil.MSG_MAP.get(phonenum);
+		if(smsBean != null) {
+			CommonUtil.MSG_MAP.remove(phonenum);
+		}
+		
+		Admin admin = new Admin();
+		admin.setAdminAccount(phonenum);
+		admin = appletService.selectByAdminPrimary(admin);
+		if(admin != null) {//登录成功
+			smsBean = new SMSBean(admin.getAdminId(),admin.getAdminAccount(),UUIDUtils.getUUID(),null);
+			CommonUtil.MSG_MAP.put(admin.getAdminAccount(), smsBean);
+		}else {
+			User user = new User();
+			user.setUserAccount(phonenum);
+			
+			User findUser = userService.selectByPrimary(user);
+			
+			if(findUser != null) {//登录成功
+				smsBean = new SMSBean(findUser.getUserId() ,findUser.getUserAccount(),UUIDUtils.getUUID(),null);
+				CommonUtil.MSG_MAP.put(findUser.getUserAccount(), smsBean);
+			}
+			user.setUserCreationTime(OfTime.getLongTime());
+			try {
+				userService.insertSelective(user);
+			} catch (Exception e) {
+				return Msg.fail().add("mag", "注册失败");
+			}
+		}
+		
+		Msg msg = Msg.success();
+		msg.add("token", smsBean.getValue());
+		msg.add("phonenum", phonenum);
+		
+		return Msg.success();
+	}
+	
+	
+	/**
+	 * 退出登录
+	 * @param phonenum
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/dropOut",method=RequestMethod.POST)
+	public Msg dropOut(@RequestParam("phonenum")String phonenum) {
+		SMSBean smsBean = (SMSBean) CommonUtil.MSG_MAP.get(phonenum);
+		if(smsBean != null) {
+			User findUser = userService.selectByPrimaryKey(smsBean.getId());
+			try {
+				userService.updateByPrimaryKeySelective(findUser);
+			} catch (Exception e) {
+			}
+		}
+		CommonUtil.MSG_MAP.remove(phonenum);
+		return Msg.success();
+	}
+	
+}

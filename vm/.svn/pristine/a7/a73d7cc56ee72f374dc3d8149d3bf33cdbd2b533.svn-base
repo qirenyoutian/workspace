@@ -1,0 +1,35 @@
+package com.py.socket;
+
+import java.io.PrintStream;
+import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
+
+public class HairUtil {
+	//创建一个socket对象
+	//private Socket socket = null;
+	//创建一个hashMap，用来保存设备连接socket对象
+	public static Map<String, Socket> map = new HashMap<String, Socket>();
+	
+	public static boolean put(String str,String key){
+		Socket socket = map.get(key);
+		if(socket != null){
+			PrintStream out;
+			try {
+				out = new PrintStream(socket.getOutputStream());
+				out.println(str);
+				System.out.println("向安卓发送--"+str);
+				return true;
+			} catch (Exception e) {
+				return false;
+			}
+		}
+		return false;
+	}
+	
+	public static String replaceSpecialStr(String str) {
+        str.replaceAll("[^0-9a-zA-Z\u4e00-\u9fa5.，,。？“”]+","");
+        str = str.trim();
+        return str;
+    } 
+}

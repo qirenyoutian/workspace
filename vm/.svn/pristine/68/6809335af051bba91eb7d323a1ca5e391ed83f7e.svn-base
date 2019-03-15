@@ -1,0 +1,148 @@
+package com.py.service;
+
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.py.bean.Admin;
+import com.py.bean.AdminRole;
+import com.py.bean.Role;
+import com.py.dao.AdminMapper;
+import com.py.dao.AdminRoleMapper;
+import com.py.dao.RoleMapper;
+import com.py.util.Msg;
+
+@Service
+public class AdminService{
+	@Autowired
+	AdminMapper adminMapper;
+	@Autowired
+	AdminRoleMapper adminRoleMapper;
+	@Autowired
+	RoleMapper roleMapper;
+	
+	
+	public int deleteByPrimaryKey(Integer adminId) {
+		return adminMapper.deleteByPrimaryKey(adminId);
+	}
+
+	public int insert(Admin record) {
+		return adminMapper.insert(record);
+	}
+
+	public int insertSelective(Admin record) {
+		return adminMapper.insertSelective(record);
+	}
+
+	public Admin selectByPrimaryKey(Integer adminId) {
+		return adminMapper.selectByPrimaryKey(adminId);
+	}
+
+	public int updateByPrimaryKeySelective(Admin record) {
+		return adminMapper.updateByPrimaryKeySelective(record);
+	}
+
+	public int updateByPrimaryKey(Admin record) {
+		return adminMapper.updateByPrimaryKey(record);
+	}
+
+	public Msg selectByPrimary(Admin admin,HttpServletRequest request) {
+		Admin a = adminMapper.selectByPrimary(admin);
+		if (a != null) {
+			AdminRole ar = adminRoleMapper.selectByPrimaryKey(a.getAdminId());
+			Role rr = roleMapper.selectByPrimaryKey(ar.getAdminRoleRoleId());
+			
+			SimpleDateFormat fomat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			String time = fomat.format(a.getAdminCreationTime());
+			HttpSession session = request.getSession();
+			session.setAttribute("adminRole", rr.getRoleName());
+			session.setAttribute("adminId", a.getAdminId());
+			session.setAttribute("adminAccount", a.getAdminAccount());
+			session.setAttribute("adminPassword", a.getAdminPassword());
+			session.setAttribute("adminRealname", a.getAdminRealname());
+			session.setAttribute("adminPhonenum", a.getAdminPhonenum());
+			session.setAttribute("adminEmail", a.getAdminEmail());
+			session.setAttribute("adminCreateTime", time);
+			return Msg.success().add("msg", "登录成功");
+		}
+		return Msg.fail().add("msg", "登录失败，账号或密码错误！");
+	}
+	public List<Admin> selectByExample(Admin admin) {
+		List<Admin> a = adminMapper.selectByExample(admin);
+		return a;
+	}
+
+	public List<Admin> selectByTimeAndContent(String startTime, String endTime, String content,HttpServletResponse response) throws UnsupportedEncodingException {
+		
+		List<Admin> adminlist = null;
+		Admin admin =new Admin();
+		if (!content.equals("") && !content.equals(" ") && !content.equals(null)) {
+			byte[] a=content.getBytes("ISO-8859-1");//用tomcat的格式（iso-8859-1）方式去读。
+			String name=new String(a,"utf-8");//采用utf-8去接string
+			response.setContentType("text/html;charset=utf-8");
+			admin.setAdminRealname(name);
+			adminlist = adminMapper.selectByExample(admin);
+		}else if(!startTime.equals("") && !startTime.equals(" ") && !startTime.equals(null) && !endTime.equals("") && !endTime.equals(" ") && !endTime.equals(null)){
+			adminlist = adminMapper.selectByTime(startTime, endTime);
+		}else{
+			adminlist = adminMapper.selectByExample(admin);
+		}
+		return adminlist;
+	}
+
+	public int saveAdmin(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		String adminAccount = request.getParameter("adminName");
+		String adminPassword = request.getParameter("password");
+		String phonenum = request.getParameter("phone");
+		String realname = request.getParameter("realname");
+		String eamil = request.getParameter("email");
+		/*String roleId = request.getParameter("adminRole");*/
+		
+		
+		Admin admin = new Admin();
+		admin.setAdminAccount(adminAccount);
+		admin.setAdminPassword(adminPassword);
+		admin.setAdminPhonenum(phonenum);
+		admin.setAdminRealname(realname);
+		admin.setAdminEmail(eamil);
+		admin.setAdminCreationTime(new Date());
+		
+		int a = adminMapper.insertSelective(admin);
+		//保存角色
+		/*if (a != 2) {
+			Admin admin2 = new Admin();
+			admin2.setAdminAccount(adminAccount);
+			List<Admin> aa = adminMapper.selectByExample(admin2);
+			Integer adminid = null;
+			for (Admin admin3 : aa) {
+				adminid = admin3.getAdminId();
+			}
+			AdminAndRole adminRole = new AdminAndRole();
+			adminRole.setAdminRoleAdminId(adminid);
+			adminRole.setAdminRoleRoleId(Integer.valueOf(roleId));
+			
+			a = adminRoleMapper.insertSelective(adminRole);
+			
+		}*/
+		
+		return a;
+	}
+
+	public Admin checkAdmin(Admin admin) {
+		// TODO Auto-generated method stub
+		return adminMapper.selectByPrimary(admin);
+	}
+	
+
+		
+
+}

@@ -1,0 +1,64 @@
+package com.example.admin.serialdemo.Fragment;
+
+import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.example.admin.serialdemo.Utils.BaseFragment;
+import com.example.admin.serialdemo.R;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+/**
+ * 客服fragment
+ */
+public class Fragment_Customer extends BaseFragment {
+
+    @Bind(R.id.dialing)
+    TextView dialing;
+    private View mView;
+    private LinearLayoutManager mManager;
+    private int page = 1;
+    private SwipeRefreshLayout srLayout;
+    private TextView time;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        mView = inflater.inflate(R.layout.fragment3, container, false);
+        ButterKnife.bind(this, mView);
+
+        time = (TextView) mView.findViewById(R.id.time);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");// HH:mm:ss
+        //获取当前时间
+        Date date = new Date(System.currentTimeMillis());
+        time.setText(simpleDateFormat.format(date));
+
+        return mView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+
+    }
+}
+
+
+
+
+

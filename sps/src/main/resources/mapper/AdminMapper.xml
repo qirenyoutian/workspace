@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.AdminMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Admin">
+    <id column="admin_id" jdbcType="INTEGER" property="adminId" />
+    <result column="admin_account" jdbcType="VARCHAR" property="adminAccount" />
+    <result column="admin_pass_word" jdbcType="VARCHAR" property="adminPassWord" />
+    <result column="admin_realname" jdbcType="VARCHAR" property="adminRealname" />
+    <result column="admin_photo" jdbcType="VARCHAR" property="adminPhoto" />
+    <result column="admin_email" jdbcType="VARCHAR" property="adminEmail" />
+    <result column="admin_registration_id" jdbcType="VARCHAR" property="adminRegistrationId" />
+    <result column="admin_registration_type" jdbcType="INTEGER" property="adminRegistrationType" />
+    <result column="admin_position" jdbcType="VARCHAR" property="adminPosition" />
+    <result column="admin_creation_time" jdbcType="VARCHAR" property="adminCreationTime" />
+    <result column="admin_location" jdbcType="VARCHAR" property="adminLocation" />
+    <result column="admin_location_time" jdbcType="VARCHAR" property="adminLocationTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    admin_id, admin_account, admin_pass_word, admin_realname, admin_photo, admin_email, 
+    admin_registration_id, admin_registration_type, admin_position, admin_creation_time, 
+    admin_location, admin_location_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from admin
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from admin
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.Admin">
+    insert into admin (admin_id, admin_account, admin_pass_word, 
+      admin_realname, admin_photo, admin_email, 
+      admin_registration_id, admin_registration_type, 
+      admin_position, admin_creation_time, admin_location, 
+      admin_location_time)
+    values (#{adminId,jdbcType=INTEGER}, #{adminAccount,jdbcType=VARCHAR}, #{adminPassWord,jdbcType=VARCHAR}, 
+      #{adminRealname,jdbcType=VARCHAR}, #{adminPhoto,jdbcType=VARCHAR}, #{adminEmail,jdbcType=VARCHAR}, 
+      #{adminRegistrationId,jdbcType=VARCHAR}, #{adminRegistrationType,jdbcType=INTEGER}, 
+      #{adminPosition,jdbcType=VARCHAR}, #{adminCreationTime,jdbcType=VARCHAR}, #{adminLocation,jdbcType=VARCHAR}, 
+      #{adminLocationTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.Admin">
+    insert into admin
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="adminId != null">
+        admin_id,
+      </if>
+      <if test="adminAccount != null">
+        admin_account,
+      </if>
+      <if test="adminPassWord != null">
+        admin_pass_word,
+      </if>
+      <if test="adminRealname != null">
+        admin_realname,
+      </if>
+      <if test="adminPhoto != null">
+        admin_photo,
+      </if>
+      <if test="adminEmail != null">
+        admin_email,
+      </if>
+      <if test="adminRegistrationId != null">
+        admin_registration_id,
+      </if>
+      <if test="adminRegistrationType != null">
+        admin_registration_type,
+      </if>
+      <if test="adminPosition != null">
+        admin_position,
+      </if>
+      <if test="adminCreationTime != null">
+        admin_creation_time,
+      </if>
+      <if test="adminLocation != null">
+        admin_location,
+      </if>
+      <if test="adminLocationTime != null">
+        admin_location_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="adminId != null">
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="adminAccount != null">
+        #{adminAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPassWord != null">
+        #{adminPassWord,jdbcType=VARCHAR},
+      </if>
+      <if test="adminRealname != null">
+        #{adminRealname,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPhoto != null">
+        #{adminPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="adminEmail != null">
+        #{adminEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="adminRegistrationId != null">
+        #{adminRegistrationId,jdbcType=VARCHAR},
+      </if>
+      <if test="adminRegistrationType != null">
+        #{adminRegistrationType,jdbcType=INTEGER},
+      </if>
+      <if test="adminPosition != null">
+        #{adminPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="adminCreationTime != null">
+        #{adminCreationTime,jdbcType=VARCHAR},
+      </if>
+      <if test="adminLocation != null">
+        #{adminLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="adminLocationTime != null">
+        #{adminLocationTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Admin">
+    update admin
+    <set>
+      <if test="adminAccount != null">
+        admin_account = #{adminAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPassWord != null">
+        admin_pass_word = #{adminPassWord,jdbcType=VARCHAR},
+      </if>
+      <if test="adminRealname != null">
+        admin_realname = #{adminRealname,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPhoto != null">
+        admin_photo = #{adminPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="adminEmail != null">
+        admin_email = #{adminEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="adminRegistrationId != null">
+        admin_registration_id = #{adminRegistrationId,jdbcType=VARCHAR},
+      </if>
+      <if test="adminRegistrationType != null">
+        admin_registration_type = #{adminRegistrationType,jdbcType=INTEGER},
+      </if>
+      <if test="adminPosition != null">
+        admin_position = #{adminPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="adminCreationTime != null">
+        admin_creation_time = #{adminCreationTime,jdbcType=VARCHAR},
+      </if>
+      <if test="adminLocation != null">
+        admin_location = #{adminLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="adminLocationTime != null">
+        admin_location_time = #{adminLocationTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Admin">
+    update admin
+    set admin_account = #{adminAccount,jdbcType=VARCHAR},
+      admin_pass_word = #{adminPassWord,jdbcType=VARCHAR},
+      admin_realname = #{adminRealname,jdbcType=VARCHAR},
+      admin_photo = #{adminPhoto,jdbcType=VARCHAR},
+      admin_email = #{adminEmail,jdbcType=VARCHAR},
+      admin_registration_id = #{adminRegistrationId,jdbcType=VARCHAR},
+      admin_registration_type = #{adminRegistrationType,jdbcType=INTEGER},
+      admin_position = #{adminPosition,jdbcType=VARCHAR},
+      admin_creation_time = #{adminCreationTime,jdbcType=VARCHAR},
+      admin_location = #{adminLocation,jdbcType=VARCHAR},
+      admin_location_time = #{adminLocationTime,jdbcType=VARCHAR}
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </update>
+	  <select id="selectByPrimary" parameterType="com.py.bean.Admin" resultMap="BaseResultMap">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from admin
+	    where 1=1
+	    <if test="adminId != null">
+	      and admin_id = #{adminId,jdbcType=INTEGER}
+	    </if>
+	    <if test="adminAccount != null">
+	      and admin_account = #{adminAccount,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPassWord != null">
+	      and admin_pass_word = #{adminPassWord,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRealname != null">
+	      and admin_realname = #{adminRealname,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPhoto != null">
+	      and admin_photo = #{adminPhoto,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminEmail != null">
+	      and admin_email = #{adminEmail,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPosition != null">
+	      and admin_position = #{adminPosition,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminCreationTime != null">
+	      and admin_creation_time = #{adminCreationTime,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminLocation != null">
+	      and admin_location = #{adminLocation,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminLocationTime != null">
+	      and admin_location_time = #{adminLocationTime,jdbcType=VARCHAR}
+	    </if>
+	  </select>
+	  <select id="selectByExample" parameterType="com.py.bean.Admin" resultMap="BaseResultMap">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from admin
+	    where 1=1
+	    <if test="adminId != null">
+	      and admin_id = #{adminId,jdbcType=INTEGER}
+	    </if>
+	    <if test="adminAccount != null">
+	      and admin_account = #{adminAccount,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPassWord != null">
+	      and admin_pass_word = #{adminPassWord,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRealname != null">
+	      and admin_realname = #{adminRealname,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPhoto != null">
+	      and admin_photo = #{adminPhoto,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminEmail != null">
+	      and admin_email = #{adminEmail,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPosition != null">
+	      and admin_position = #{adminPosition,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminCreationTime != null">
+	      and admin_creation_time = #{adminCreationTime,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminLocation != null">
+	      and admin_location = #{adminLocation,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminLocationTime != null">
+	      and admin_location_time = #{adminLocationTime,jdbcType=VARCHAR}
+	    </if>
+	  </select>
+  
+   		<!-- 交互查询 -->
+  
+	   	<resultMap id="BaseResultMapAndAdmin" type="com.py.bean.AdminClockInAndClockinTime">
+	   	<id column="admin_id" jdbcType="INTEGER" property="adminId" />
+	    <result column="admin_account" jdbcType="VARCHAR" property="adminAccount" />
+	    <result column="admin_pass_word" jdbcType="VARCHAR" property="adminPassWord" />
+	    <result column="admin_realname" jdbcType="VARCHAR" property="adminRealname" />
+	    <result column="admin_photo" jdbcType="VARCHAR" property="adminPhoto" />
+	    <result column="admin_email" jdbcType="VARCHAR" property="adminEmail" />
+	    <result column="admin_registration_id" jdbcType="VARCHAR" property="adminRegistrationId" />
+	    <result column="admin_registration_type" jdbcType="INTEGER" property="adminRegistrationType" />
+	    <result column="admin_position" jdbcType="VARCHAR" property="adminPosition" />
+	    <result column="admin_creation_time" jdbcType="VARCHAR" property="adminCreationTime" />
+	    <result column="admin_location" jdbcType="VARCHAR" property="adminLocation" />
+	    <result column="admin_location_time" jdbcType="VARCHAR" property="adminLocationTime" />
+	    	 <collection column="clockin_admin_id" ofType="com.py.bean.Clockin" property="adminClockin">  
+	            <id column="clockin_id" jdbcType="INTEGER" property="clockinId" />
+			    <result column="clockin_admin_id" jdbcType="INTEGER" property="clockinAdminId" />
+			    <result column="clockin_type" jdbcType="INTEGER" property="clockinType" />
+			    <result column="clockin_time" jdbcType="TIMESTAMP" property="clockinTime" />
+			    <result column="clockin_place" jdbcType="VARCHAR" property="clockinPlace" />
+	        </collection>
+				  <collection ofType="com.py.bean.ClockinTime" property="adminClockinTime">
+					    <id column="clockin_time_id" jdbcType="INTEGER" property="clockinTimeId" />
+					    <result column="clockin_time_officeTime" jdbcType="TIME" property="clockinTimeOfficetime" />
+					    <result column="clockin_time_closingTime" jdbcType="TIME" property="clockinTimeClosingtime" />
+				  </collection>
+	  </resultMap>
+
+	  <select id="selectAdminAndClockByTime" parameterType="java.lang.String" resultMap="BaseResultMapAndAdmin">
+	    select 
+	    	*
+	    from 
+			clockin t1,
+			admin t2,
+			clockin_time
+		where 1=1
+	    <if test="startTime != null">
+	      and clockin_time &gt;= #{startTime,jdbcType=TIMESTAMP}
+	    </if>
+		<if test="endTime != null">
+	      and clockin_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+	    </if>
+	    and admin_id = clockin_admin_id
+	    
+	    order by clockin_time desc
+	    
+	  </select>
+	  <select id="selectByExampleWithTimeAndClockin" parameterType="com.py.bean.AdminClockInAndClockinTime" resultMap="BaseResultMapAndAdmin">
+    		select 
+	   			 *
+	    	from 
+		    	clockin t1,
+				admin t2,
+				clockin_time
+	   		where 1=1
+	    <if test="adminId != null">
+	      and admin_id = #{adminId,jdbcType=INTEGER}
+	    </if>
+	    <if test="adminAccount != null">
+	      and admin_account = #{adminAccount,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPassWord != null">
+	      and admin_pass_word = #{adminPassWord,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRealname != null">
+	      and admin_realname like "%"#{adminRealname,jdbcType=VARCHAR}"%"
+	    </if>
+	    <if test="adminPhoto != null">
+	      and admin_photo = #{adminPhoto,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminEmail != null">
+	      and admin_email = #{adminEmail,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminPosition != null">
+	      and admin_position = #{adminPosition,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminCreationTime != null">
+	      and admin_creation_time = #{adminCreationTime,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminLocation != null">
+	      and admin_location = #{adminLocation,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminLocationTime != null">
+	      and admin_location_time = #{adminLocationTime,jdbcType=VARCHAR}
+	    </if>
+	    
+	    and admin_id = clockin_admin_id
+	    
+	    order by clockin_time desc
+	    
+  </select>
+	  
+	  
+  
+</mapper>

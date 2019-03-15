@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.PaveRecordDetailMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.PaveRecordDetail">
+    <id column="pave_record_detail_id" jdbcType="INTEGER" property="paveRecordDetailId" />
+    <result column="pave_record_detail_equipment_id" jdbcType="INTEGER" property="paveRecordDetailEquipmentId" />
+    <result column="pave_record_detail_aisle_id" jdbcType="INTEGER" property="paveRecordDetailAisleId" />
+    <result column="pave_record_detail_old_inventory" jdbcType="VARCHAR" property="paveRecordDetailOldInventory" />
+    <result column="pave_record_detail_new_inventory" jdbcType="VARCHAR" property="paveRecordDetailNewInventory" />
+    <result column="pave_record_detail_sideboard_id" jdbcType="INTEGER" property="paveRecordDetailSideboardId" />
+    <result column="pave_record_etail_before_photo" jdbcType="VARCHAR" property="paveRecordEtailBeforePhoto" />
+    <result column="pave_record_etail_after_photo" jdbcType="VARCHAR" property="paveRecordEtailAfterPhoto" />
+    <result column="pave_record_etail_record_id" jdbcType="INTEGER" property="paveRecordEtailRecordId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    pave_record_detail_id, pave_record_detail_equipment_id, pave_record_detail_aisle_id, 
+    pave_record_detail_old_inventory, pave_record_detail_new_inventory, pave_record_detail_sideboard_id, 
+    pave_record_etail_before_photo, pave_record_etail_after_photo, pave_record_etail_record_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pave_record_detail
+    where pave_record_detail_id = #{paveRecordDetailId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pave_record_detail
+    where pave_record_detail_id = #{paveRecordDetailId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.PaveRecordDetail">
+    insert into pave_record_detail (pave_record_detail_id, pave_record_detail_equipment_id, 
+      pave_record_detail_aisle_id, pave_record_detail_old_inventory, 
+      pave_record_detail_new_inventory, pave_record_detail_sideboard_id, 
+      pave_record_etail_before_photo, pave_record_etail_after_photo, 
+      pave_record_etail_record_id)
+    values (#{paveRecordDetailId,jdbcType=INTEGER}, #{paveRecordDetailEquipmentId,jdbcType=INTEGER}, 
+      #{paveRecordDetailAisleId,jdbcType=INTEGER}, #{paveRecordDetailOldInventory,jdbcType=VARCHAR}, 
+      #{paveRecordDetailNewInventory,jdbcType=VARCHAR}, #{paveRecordDetailSideboardId,jdbcType=INTEGER}, 
+      #{paveRecordEtailBeforePhoto,jdbcType=VARCHAR}, #{paveRecordEtailAfterPhoto,jdbcType=VARCHAR}, 
+      #{paveRecordEtailRecordId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.PaveRecordDetail">
+    insert into pave_record_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="paveRecordDetailId != null">
+        pave_record_detail_id,
+      </if>
+      <if test="paveRecordDetailEquipmentId != null">
+        pave_record_detail_equipment_id,
+      </if>
+      <if test="paveRecordDetailAisleId != null">
+        pave_record_detail_aisle_id,
+      </if>
+      <if test="paveRecordDetailOldInventory != null">
+        pave_record_detail_old_inventory,
+      </if>
+      <if test="paveRecordDetailNewInventory != null">
+        pave_record_detail_new_inventory,
+      </if>
+      <if test="paveRecordDetailSideboardId != null">
+        pave_record_detail_sideboard_id,
+      </if>
+      <if test="paveRecordEtailBeforePhoto != null">
+        pave_record_etail_before_photo,
+      </if>
+      <if test="paveRecordEtailAfterPhoto != null">
+        pave_record_etail_after_photo,
+      </if>
+      <if test="paveRecordEtailRecordId != null">
+        pave_record_etail_record_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="paveRecordDetailId != null">
+        #{paveRecordDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="paveRecordDetailEquipmentId != null">
+        #{paveRecordDetailEquipmentId,jdbcType=INTEGER},
+      </if>
+      <if test="paveRecordDetailAisleId != null">
+        #{paveRecordDetailAisleId,jdbcType=INTEGER},
+      </if>
+      <if test="paveRecordDetailOldInventory != null">
+        #{paveRecordDetailOldInventory,jdbcType=VARCHAR},
+      </if>
+      <if test="paveRecordDetailNewInventory != null">
+        #{paveRecordDetailNewInventory,jdbcType=VARCHAR},
+      </if>
+      <if test="paveRecordDetailSideboardId != null">
+        #{paveRecordDetailSideboardId,jdbcType=INTEGER},
+      </if>
+      <if test="paveRecordEtailBeforePhoto != null">
+        #{paveRecordEtailBeforePhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="paveRecordEtailAfterPhoto != null">
+        #{paveRecordEtailAfterPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="paveRecordEtailRecordId != null">
+        #{paveRecordEtailRecordId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.PaveRecordDetail">
+    update pave_record_detail
+    <set>
+      <if test="paveRecordDetailEquipmentId != null">
+        pave_record_detail_equipment_id = #{paveRecordDetailEquipmentId,jdbcType=INTEGER},
+      </if>
+      <if test="paveRecordDetailAisleId != null">
+        pave_record_detail_aisle_id = #{paveRecordDetailAisleId,jdbcType=INTEGER},
+      </if>
+      <if test="paveRecordDetailOldInventory != null">
+        pave_record_detail_old_inventory = #{paveRecordDetailOldInventory,jdbcType=VARCHAR},
+      </if>
+      <if test="paveRecordDetailNewInventory != null">
+        pave_record_detail_new_inventory = #{paveRecordDetailNewInventory,jdbcType=VARCHAR},
+      </if>
+      <if test="paveRecordDetailSideboardId != null">
+        pave_record_detail_sideboard_id = #{paveRecordDetailSideboardId,jdbcType=INTEGER},
+      </if>
+      <if test="paveRecordEtailBeforePhoto != null">
+        pave_record_etail_before_photo = #{paveRecordEtailBeforePhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="paveRecordEtailAfterPhoto != null">
+        pave_record_etail_after_photo = #{paveRecordEtailAfterPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="paveRecordEtailRecordId != null">
+        pave_record_etail_record_id = #{paveRecordEtailRecordId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where pave_record_detail_id = #{paveRecordDetailId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.PaveRecordDetail">
+    update pave_record_detail
+    set pave_record_detail_equipment_id = #{paveRecordDetailEquipmentId,jdbcType=INTEGER},
+      pave_record_detail_aisle_id = #{paveRecordDetailAisleId,jdbcType=INTEGER},
+      pave_record_detail_old_inventory = #{paveRecordDetailOldInventory,jdbcType=VARCHAR},
+      pave_record_detail_new_inventory = #{paveRecordDetailNewInventory,jdbcType=VARCHAR},
+      pave_record_detail_sideboard_id = #{paveRecordDetailSideboardId,jdbcType=INTEGER},
+      pave_record_etail_before_photo = #{paveRecordEtailBeforePhoto,jdbcType=VARCHAR},
+      pave_record_etail_after_photo = #{paveRecordEtailAfterPhoto,jdbcType=VARCHAR},
+      pave_record_etail_record_id = #{paveRecordEtailRecordId,jdbcType=INTEGER}
+    where pave_record_detail_id = #{paveRecordDetailId,jdbcType=INTEGER}
+  </update>
+  
+   <!-- ByExample -->
+  <select id="selectByExample" parameterType="com.py.bean.PaveRecord" resultMap="BaseResultMap">
+  	 select *
+  	 from pave_record_detail
+  	 where 1=1
+  	  <if test="paveRecordDetailId != null">
+        and pave_record_detail_id = #{paveRecordDetailId,jdbcType=INTEGER}
+      </if>
+  	 <if test="paveRecordDetailEquipmentId != null">
+        and pave_record_detail_equipment_id = #{paveRecordDetailEquipmentId,jdbcType=INTEGER}
+      </if>
+      <if test="paveRecordDetailAisleId != null">
+        and pave_record_detail_aisle_id = #{paveRecordDetailAisleId,jdbcType=INTEGER}
+      </if>
+      <if test="paveRecordDetailOldInventory != null">
+        and pave_record_detail_old_inventory = #{paveRecordDetailOldInventory,jdbcType=VARCHAR}
+      </if>
+      <if test="paveRecordDetailNewInventory != null">
+        and pave_record_detail_new_inventory = #{paveRecordDetailNewInventory,jdbcType=VARCHAR}
+      </if>
+      <if test="paveRecordDetailSideboardId != null">
+        and pave_record_detail_sideboard_id = #{paveRecordDetailSideboardId,jdbcType=INTEGER}
+      </if>
+      <if test="paveRecordEtailBeforePhoto != null">
+        and pave_record_etail_before_photo = #{paveRecordEtailBeforePhoto,jdbcType=VARCHAR}
+      </if>
+      <if test="paveRecordEtailAfterPhoto != null">
+        and pave_record_etail_after_photo = #{paveRecordEtailAfterPhoto,jdbcType=VARCHAR}
+      </if>
+      <if test="paveRecordEtailRecordId != null">
+        and pave_record_etail_record_id = #{paveRecordEtailRecordId,jdbcType=INTEGER}
+      </if>
+  </select>
+  
+  <resultMap id="BaseResultMapVarious" type="com.py.bean.PaveRecordDetail">
+     <id column="pave_record_detail_id" jdbcType="INTEGER" property="paveRecordDetailId" />
+    <result column="pave_record_detail_equipment_id" jdbcType="INTEGER" property="paveRecordDetailEquipmentId" />
+    <result column="pave_record_detail_aisle_id" jdbcType="INTEGER" property="paveRecordDetailAisleId" />
+    <result column="pave_record_detail_old_inventory" jdbcType="VARCHAR" property="paveRecordDetailOldInventory" />
+    <result column="pave_record_detail_new_inventory" jdbcType="VARCHAR" property="paveRecordDetailNewInventory" />
+    <result column="pave_record_detail_sideboard_id" jdbcType="INTEGER" property="paveRecordDetailSideboardId" />
+    <result column="pave_record_etail_before_photo" jdbcType="VARCHAR" property="paveRecordEtailBeforePhoto" />
+    <result column="pave_record_etail_after_photo" jdbcType="VARCHAR" property="paveRecordEtailAfterPhoto" />
+    <result column="pave_record_etail_record_id" jdbcType="INTEGER" property="paveRecordEtailRecordId" />
+    <collection column="equipment_id" ofType="com.py.bean.Equipment" property="equipments">
+    	<id column="equipment_id" jdbcType="INTEGER" property="equipmentId" />
+	    <result column="equipment_point_id" jdbcType="INTEGER" property="equipmentPointId" />
+	    <result column="equipment_name" jdbcType="VARCHAR" property="equipmentName" />
+	    <result column="equipment_number" jdbcType="VARCHAR" property="equipmentNumber" />
+	    <result column="equipment_classify_id" jdbcType="INTEGER" property="equipmentClassifyId" />
+	    <result column="equipment_status" jdbcType="INTEGER" property="equipmentStatus" />
+	    <result column="equipment_status_information" jdbcType="VARCHAR" property="equipmentStatusInformation" />
+	    <result column="equipment_wireless_upgrade" jdbcType="VARCHAR" property="equipmentWirelessUpgrade" />
+	    <result column="equipment_legal_information" jdbcType="VARCHAR" property="equipmentLegalInformation" />
+	    <result column="equipment_note" jdbcType="VARCHAR" property="equipmentNote" />
+	    <result column="equipment_ip" jdbcType="VARCHAR" property="equipmentIp" />
+	    <result column="equipment_android_version" jdbcType="VARCHAR" property="equipmentAndroidVersion" />
+	    <result column="equipment_android_security_patch_level" jdbcType="VARCHAR" property="equipmentAndroidSecurityPatchLevel" />
+	    <result column="equipment_baseband_version" jdbcType="VARCHAR" property="equipmentBasebandVersion" />
+	    <result column="equipment_kernel_version" jdbcType="VARCHAR" property="equipmentKernelVersion" />
+	    <result column="equipment_version_number" jdbcType="VARCHAR" property="equipmentVersionNumber" />
+	    <result column="equipment_longitude" jdbcType="DOUBLE" property="equipmentLongitude" />
+    	<result column="equipment_latitude" jdbcType="DOUBLE" property="equipmentLatitude" />
+	    <result column="equipment_socket_key" jdbcType="VARCHAR" property="equipmentSocketKey" />
+	    <result column="equipment_create_time" jdbcType="TIMESTAMP" property="equipmentCreateTime" />
+	    <result column="equipment_change_time" jdbcType="TIMESTAMP" property="equipmentChangeTime" />
+	     <collection column="aisle_id" ofType="com.py.bean.Aisle" property="aisles">
+	    	<id column="aisle_id" jdbcType="INTEGER" property="aisleId" />
+		    <result column="aisle_equipment_id" jdbcType="INTEGER" property="aisleEquipmentId" />
+		    <result column="aisle_abscissa" jdbcType="INTEGER" property="aisleAbscissa" />
+		    <result column="aisle_ordinate" jdbcType="INTEGER" property="aisleOrdinate" />
+		    <result column="aisle_number" jdbcType="VARCHAR" property="aisleNumber" />
+		    <result column="aisle_status" jdbcType="INTEGER" property="aisleStatus" />
+		    <result column="aisle_versions" jdbcType="INTEGER" property="aisleVersions" />
+		    <result column="aisle_create_time" jdbcType="TIMESTAMP" property="aisleCreateTime" />
+		    <result column="aisle_change_time" jdbcType="TIMESTAMP" property="aisleChangeTime" />
+    	</collection>
+    </collection>
+  </resultMap>
+  
+  <!-- ByExample -->
+  <select id="selectVariousByExample" parameterType="com.py.bean.PaveRecord" resultMap="BaseResultMapVarious">
+  	 SELECT
+		*
+	FROM
+		pave_record_detail pr
+	LEFT JOIN equipment e1 ON e1.equipment_id = pr.pave_record_detail_equipment_id
+	LEFT JOIN aisle a1 ON a1.aisle_id = pr.pave_record_detail_aisle_id AND a1.aisle_equipment_id = e1.equipment_id
+  	 where 1=1
+  	   <if test="paveRecordDetailId != null">
+        and pave_record_detail_id = #{paveRecordDetailId,jdbcType=INTEGER}
+      </if>
+  	 <if test="paveRecordDetailEquipmentId != null">
+        and pave_record_detail_equipment_id = #{paveRecordDetailEquipmentId,jdbcType=INTEGER}
+      </if>
+      <if test="paveRecordDetailAisleId != null">
+        and pave_record_detail_aisle_id = #{paveRecordDetailAisleId,jdbcType=INTEGER}
+      </if>
+      <if test="paveRecordDetailOldInventory != null">
+        and pave_record_detail_old_inventory = #{paveRecordDetailOldInventory,jdbcType=VARCHAR}
+      </if>
+      <if test="paveRecordDetailNewInventory != null">
+        and pave_record_detail_new_inventory = #{paveRecordDetailNewInventory,jdbcType=VARCHAR}
+      </if>
+      <if test="paveRecordDetailSideboardId != null">
+        and pave_record_detail_sideboard_id = #{paveRecordDetailSideboardId,jdbcType=INTEGER}
+      </if>
+      <if test="paveRecordEtailBeforePhoto != null">
+        and pave_record_etail_before_photo = #{paveRecordEtailBeforePhoto,jdbcType=VARCHAR}
+      </if>
+      <if test="paveRecordEtailAfterPhoto != null">
+        and pave_record_etail_after_photo = #{paveRecordEtailAfterPhoto,jdbcType=VARCHAR}
+      </if>
+      <if test="paveRecordEtailRecordId != null">
+        and pave_record_etail_record_id = #{paveRecordEtailRecordId,jdbcType=INTEGER}
+      </if>
+  </select>
+  
+ 
+</mapper>

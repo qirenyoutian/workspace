@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pywl.project.mapper.GroupingMapper">
+  <resultMap id="BaseResultMap" type="com.pywl.project.bean.Grouping">
+    <id column="grouping_id" jdbcType="INTEGER" property="groupingId" />
+    <result column="grouping_name" jdbcType="VARCHAR" property="groupingName" />
+    <result column="grouping_details" jdbcType="VARCHAR" property="groupingDetails" />
+    <result column="grouping_create_time" jdbcType="VARCHAR" property="groupingCreateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    grouping_id, grouping_name, grouping_details, grouping_create_time
+  </sql>
+  <select id="selectByPrimary" parameterType="com.pywl.project.bean.Grouping" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from grouping
+    where 1=1
+    <if test="groupingId != null">
+      and grouping_id = #{groupingId,jdbcType=INTEGER}
+    </if>
+    <if test="groupingName != null">
+      and grouping_name = #{groupingName,jdbcType=VARCHAR}
+    </if>
+    <if test="groupingDetails != null">
+      and grouping_details = #{groupingDetails,jdbcType=VARCHAR}
+    </if>
+    <if test="groupingCreateTime != null">
+      and grouping_create_time = #{groupingCreateTime,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.pywl.project.bean.Grouping" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from grouping
+    where 1=1
+    <if test="groupingId != null">
+      and grouping_id = #{groupingId,jdbcType=INTEGER}
+    </if>
+    <if test="groupingName != null">
+      and grouping_name = #{groupingName,jdbcType=VARCHAR}
+    </if>
+    <if test="groupingDetails != null">
+      and grouping_details = #{groupingDetails,jdbcType=VARCHAR}
+    </if>
+    <if test="groupingCreateTime != null">
+      and grouping_create_time = #{groupingCreateTime,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from grouping
+    where grouping_id = #{groupingId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pywl.project.bean.Grouping">
+    insert into grouping (grouping_id, grouping_name, grouping_details, 
+      grouping_create_time)
+    values (#{groupingId,jdbcType=INTEGER}, #{groupingName,jdbcType=VARCHAR}, #{groupingDetails,jdbcType=VARCHAR}, 
+      #{groupingCreateTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pywl.project.bean.Grouping">
+    insert into grouping
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="groupingId != null">
+        grouping_id,
+      </if>
+      <if test="groupingName != null">
+        grouping_name,
+      </if>
+      <if test="groupingDetails != null">
+        grouping_details,
+      </if>
+      <if test="groupingCreateTime != null">
+        grouping_create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="groupingId != null">
+        #{groupingId,jdbcType=INTEGER},
+      </if>
+      <if test="groupingName != null">
+        #{groupingName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupingDetails != null">
+        #{groupingDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="groupingCreateTime != null">
+        #{groupingCreateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pywl.project.bean.Grouping">
+    update grouping
+    <set>
+      <if test="groupingName != null">
+        grouping_name = #{groupingName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupingDetails != null">
+        grouping_details = #{groupingDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="groupingCreateTime != null">
+        grouping_create_time = #{groupingCreateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where grouping_id = #{groupingId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pywl.project.bean.Grouping">
+    update grouping
+    set grouping_name = #{groupingName,jdbcType=VARCHAR},
+      grouping_details = #{groupingDetails,jdbcType=VARCHAR},
+      grouping_create_time = #{groupingCreateTime,jdbcType=VARCHAR}
+    where grouping_id = #{groupingId,jdbcType=INTEGER}
+  </update>
+</mapper>

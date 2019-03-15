@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.ClockinTimeMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.ClockinTime">
+    <id column="clockin_time_id" jdbcType="INTEGER" property="clockinTimeId" />
+    <result column="clockin_time_officeTime" jdbcType="TIME" property="clockinTimeOfficetime" />
+    <result column="clockin_time_closingTime" jdbcType="TIME" property="clockinTimeClosingtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    clockin_time_id, clockin_time_officeTime, clockin_time_closingTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from clockin_time
+    where clockin_time_id = #{clockinTimeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from clockin_time
+    where clockin_time_id = #{clockinTimeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.ClockinTime">
+    insert into clockin_time (clockin_time_id, clockin_time_officeTime, 
+      clockin_time_closingTime)
+    values (#{clockinTimeId,jdbcType=INTEGER}, #{clockinTimeOfficetime,jdbcType=TIME}, 
+      #{clockinTimeClosingtime,jdbcType=TIME})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.ClockinTime">
+    insert into clockin_time
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="clockinTimeId != null">
+        clockin_time_id,
+      </if>
+      <if test="clockinTimeOfficetime != null">
+        clockin_time_officeTime,
+      </if>
+      <if test="clockinTimeClosingtime != null">
+        clockin_time_closingTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="clockinTimeId != null">
+        #{clockinTimeId,jdbcType=INTEGER},
+      </if>
+      <if test="clockinTimeOfficetime != null">
+        #{clockinTimeOfficetime,jdbcType=TIME},
+      </if>
+      <if test="clockinTimeClosingtime != null">
+        #{clockinTimeClosingtime,jdbcType=TIME},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.ClockinTime">
+    update clockin_time
+    <set>
+      <if test="clockinTimeOfficetime != null">
+        clockin_time_officeTime = #{clockinTimeOfficetime,jdbcType=TIME},
+      </if>
+      <if test="clockinTimeClosingtime != null">
+        clockin_time_closingTime = #{clockinTimeClosingtime,jdbcType=TIME},
+      </if>
+    </set>
+    where clockin_time_id = #{clockinTimeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.ClockinTime">
+    update clockin_time
+    	set clockin_time_officeTime = #{clockinTimeOfficetime,jdbcType=TIME},
+    	
+      		clockin_time_closingTime = #{clockinTimeClosingtime,jdbcType=TIME}
+      		
+    	where clockin_time_id = #{clockinTimeId,jdbcType=INTEGER}
+  </update>
+	<select id="selectAllTime" resultMap="BaseResultMap">
+		
+		select 
+			*
+		from
+			clockin_time
+		
+	</select>
+  
+</mapper>

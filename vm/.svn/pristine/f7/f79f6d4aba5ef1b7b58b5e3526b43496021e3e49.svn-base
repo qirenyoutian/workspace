@@ -1,0 +1,35 @@
+package com.py.bean;
+
+import java.util.Date;
+
+public class Banner {
+    private Integer bannerId;
+
+    private String bannerPic;
+
+    private Date bannerCreateTime;
+
+    public Integer getBannerId() {
+        return bannerId;
+    }
+
+    public void setBannerId(Integer bannerId) {
+        this.bannerId = bannerId;
+    }
+
+    public String getBannerPic() {
+        return bannerPic;
+    }
+
+    public void setBannerPic(String bannerPic) {
+        this.bannerPic = bannerPic == null ? null : bannerPic.trim();
+    }
+
+    public Date getBannerCreateTime() {
+        return bannerCreateTime;
+    }
+
+    public void setBannerCreateTime(Date bannerCreateTime) {
+        this.bannerCreateTime = bannerCreateTime;
+    }
+}

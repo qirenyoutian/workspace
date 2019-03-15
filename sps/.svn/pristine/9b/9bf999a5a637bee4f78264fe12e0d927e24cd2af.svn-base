@@ -1,0 +1,53 @@
+package com.py.bean;
+
+public class BillingMethodHour {
+    private Integer billingMethodHourId;
+
+    private Integer billingMethodHourFreeMinutes;
+
+    private Double billingMethodHourStartPrice;
+
+    private Integer billingMethodHourDayPrice;
+
+    private Double billingMethodHourAddPrice;
+
+    public Integer getBillingMethodHourId() {
+        return billingMethodHourId;
+    }
+
+    public void setBillingMethodHourId(Integer billingMethodHourId) {
+        this.billingMethodHourId = billingMethodHourId;
+    }
+
+    public Integer getBillingMethodHourFreeMinutes() {
+        return billingMethodHourFreeMinutes;
+    }
+
+    public void setBillingMethodHourFreeMinutes(Integer billingMethodHourFreeMinutes) {
+        this.billingMethodHourFreeMinutes = billingMethodHourFreeMinutes;
+    }
+
+    public Double getBillingMethodHourStartPrice() {
+        return billingMethodHourStartPrice;
+    }
+
+    public void setBillingMethodHourStartPrice(Double billingMethodHourStartPrice) {
+        this.billingMethodHourStartPrice = billingMethodHourStartPrice;
+    }
+
+    public Integer getBillingMethodHourDayPrice() {
+        return billingMethodHourDayPrice;
+    }
+
+    public void setBillingMethodHourDayPrice(Integer billingMethodHourDayPrice) {
+        this.billingMethodHourDayPrice = billingMethodHourDayPrice;
+    }
+
+    public Double getBillingMethodHourAddPrice() {
+        return billingMethodHourAddPrice;
+    }
+
+    public void setBillingMethodHourAddPrice(Double billingMethodHourAddPrice) {
+        this.billingMethodHourAddPrice = billingMethodHourAddPrice;
+    }
+}

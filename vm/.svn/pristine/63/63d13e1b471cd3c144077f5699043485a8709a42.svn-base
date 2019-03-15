@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.PointMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Point">
+    <id column="point_id" jdbcType="INTEGER" property="pointId" />
+    <result column="point_name" jdbcType="VARCHAR" property="pointName" />
+    <result column="point_province" jdbcType="INTEGER" property="pointProvince" />
+    <result column="point_city" jdbcType="INTEGER" property="pointCity" />
+    <result column="point_district" jdbcType="INTEGER" property="pointDistrict" />
+    <result column="point_address" jdbcType="VARCHAR" property="pointAddress" />
+    <result column="point_create_time" jdbcType="TIMESTAMP" property="pointCreateTime" />
+    <result column="point_change_time" jdbcType="TIMESTAMP" property="pointChangeTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    point_id, point_name, point_province, point_city, point_district, point_address, 
+    point_create_time, point_change_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `point`
+    where point_id = #{pointId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from `point`
+    where point_id = #{pointId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.Point">
+    insert into point (point_id, point_name, point_province, 
+      point_city, point_district, point_address, 
+      point_create_time, point_change_time)
+    values (#{pointId,jdbcType=INTEGER}, #{pointName,jdbcType=VARCHAR}, #{pointProvince,jdbcType=INTEGER}, 
+      #{pointCity,jdbcType=INTEGER}, #{pointDistrict,jdbcType=INTEGER}, #{pointAddress,jdbcType=VARCHAR}, 
+      #{pointCreateTime,jdbcType=TIMESTAMP}, #{pointChangeTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="pointId"  parameterType="com.py.bean.Point" >
+    insert into point
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pointId != null">
+        point_id,
+      </if>
+      <if test="pointName != null">
+        point_name,
+      </if>
+      <if test="pointProvince != null">
+        point_province,
+      </if>
+      <if test="pointCity != null">
+        point_city,
+      </if>
+      <if test="pointDistrict != null">
+        point_district,
+      </if>
+      <if test="pointAddress != null">
+        point_address,
+      </if>
+      <if test="pointCreateTime != null">
+        point_create_time,
+      </if>
+      <if test="pointChangeTime != null">
+        point_change_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pointId != null">
+        #{pointId,jdbcType=INTEGER},
+      </if>
+      <if test="pointName != null">
+        #{pointName,jdbcType=VARCHAR},
+      </if>
+      <if test="pointProvince != null">
+        #{pointProvince,jdbcType=INTEGER},
+      </if>
+      <if test="pointCity != null">
+        #{pointCity,jdbcType=INTEGER},
+      </if>
+      <if test="pointDistrict != null">
+        #{pointDistrict,jdbcType=INTEGER},
+      </if>
+      <if test="pointAddress != null">
+        #{pointAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="pointCreateTime != null">
+        #{pointCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pointChangeTime != null">
+        #{pointChangeTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective"  parameterType="com.py.bean.Point">
+    update point
+    <set>
+      <if test="pointName != null">
+        point_name = #{pointName,jdbcType=VARCHAR},
+      </if>
+      <if test="pointProvince != null">
+        point_province = #{pointProvince,jdbcType=INTEGER},
+      </if>
+      <if test="pointCity != null">
+        point_city = #{pointCity,jdbcType=INTEGER},
+      </if>
+      <if test="pointDistrict != null">
+        point_district = #{pointDistrict,jdbcType=INTEGER},
+      </if>
+      <if test="pointAddress != null">
+        point_address = #{pointAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="pointCreateTime != null">
+        point_create_time = #{pointCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pointChangeTime != null">
+        point_change_time = #{pointChangeTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where point_id = #{pointId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Point">
+    update point
+    set point_name = #{pointName,jdbcType=VARCHAR},
+      point_province = #{pointProvince,jdbcType=INTEGER},
+      point_city = #{pointCity,jdbcType=INTEGER},
+      point_district = #{pointDistrict,jdbcType=INTEGER},
+      point_address = #{pointAddress,jdbcType=VARCHAR},
+      point_create_time = #{pointCreateTime,jdbcType=TIMESTAMP},
+      point_change_time = #{pointChangeTime,jdbcType=TIMESTAMP}
+    where point_id = #{pointId,jdbcType=INTEGER}
+  </update>
+  
+  <resultMap id="BaseResultExtendMap" type="com.py.bean.Point">
+    <id column="point_id" jdbcType="INTEGER" property="pointId" />
+    <result column="point_name" jdbcType="VARCHAR" property="pointName" />
+    <result column="point_province" jdbcType="INTEGER" property="pointProvince" />
+    <result column="point_city" jdbcType="INTEGER" property="pointCity" />
+    <result column="point_district" jdbcType="INTEGER" property="pointDistrict" />
+    <result column="point_address" jdbcType="VARCHAR" property="pointAddress" />
+    <result column="point_create_time" jdbcType="TIMESTAMP" property="pointCreateTime" />
+    <result column="point_change_time" jdbcType="TIMESTAMP" property="pointChangeTime" />
+    <collection property="equipments" column="equipment_point_id" ofType="com.py.bean.Equipment">
+    	<id column="equipment_id" jdbcType="INTEGER" property="equipmentId" />
+		<result column="equipment_point_id" jdbcType="INTEGER" property="equipmentPointId" />
+		<result column="equipment_name" jdbcType="VARCHAR" property="equipmentName" />
+		<result column="equipment_number" jdbcType="VARCHAR" property="equipmentNumber" />
+		<result column="equipment_classify_id"  jdbcType="INTEGER" property="equipmentClassifyId" />
+		<result column="equipment_status" jdbcType="INTEGER" property="equipmentStatus" />
+		<result column="equipment_status_information" jdbcType="VARCHAR" property="equipmentStatusInformation" />
+		<result column="equipment_wireless_upgrade" jdbcType="VARCHAR" property="equipmentWirelessUpgrade" />
+		<result column="equipment_legal_information" jdbcType="VARCHAR" property="equipmentLegalInformation" />
+		<result column="equipment_note" jdbcType="VARCHAR" property="equipmentNote" />
+		<result column="equipment_ip" jdbcType="VARCHAR" property="equipmentIp" />
+		<result column="equipment_android_version" jdbcType="VARCHAR" property="equipmentAndroidVersion" />
+		<result column="equipment_android_security_patch_level" jdbcType="VARCHAR" property="equipmentAndroidSecurityPatchLevel" />
+		<result column="equipment_baseband_version" jdbcType="VARCHAR" property="equipmentBasebandVersion" />
+		<result column="equipment_kernel_version" jdbcType="VARCHAR" property="equipmentKernelVersion" />
+		<result column="equipment_version_number" jdbcType="VARCHAR" property="equipmentVersionNumber" />
+		<result column="equipment_socket_key" jdbcType="VARCHAR" property="equipmentSocketKey" />
+		<result column="equipment_create_time" jdbcType="TIMESTAMP" property="equipmentCreateTime" />
+		<result column="equipment_change_time" jdbcType="TIMESTAMP" property="equipmentChangeTime" />
+	    <collection property="equipmentClassify" column="equipment_classify_id" ofType="com.py.bean.EquipmentClassify">
+	    	<id column="equipment_classify_id" jdbcType="INTEGER" property="equipmentClassifyId" />
+		    <result column="equipment_classify_name" jdbcType="VARCHAR" property="equipmentClassifyName" />
+		    <result column="equipment_classify_row" jdbcType="INTEGER" property="equipmentClassifyRow" />
+		    <result column="equipment_classify_line" jdbcType="INTEGER" property="equipmentClassifyLine" />
+		    <result column="equipment_classify_create_time" jdbcType="TIMESTAMP" property="equipmentClassifyCreateTime" />
+		    <result column="equipment_classify_update_time" jdbcType="TIMESTAMP" property="equipmentClassifyUpdateTime" />
+	    </collection>
+    </collection>
+    <collection column="id" ofType="com.py.bean.Area" property="areas">
+    	<id column="id" jdbcType="INTEGER" property="id" />
+	    <result column="parent" jdbcType="INTEGER" property="parent" />
+	    <result column="type" jdbcType="CHAR" property="type" />
+	    <result column="name" jdbcType="VARCHAR" property="name" />
+	    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    </collection>
+    <collection column="channel_id" ofType="com.py.bean.Channel" property="channel">
+    	<id column="channel_id" jdbcType="INTEGER" property="channelId" />
+	    <result column="channel_name" jdbcType="VARCHAR" property="channelName" />
+	    <result column="channel_contact" jdbcType="VARCHAR" property="channelContact" />
+	    <result column="channel_contact_way" jdbcType="VARCHAR" property="channelContactWay" />
+	    <result column="channel_style" jdbcType="VARCHAR" property="channelStyle" />
+	    <result column="channel_pay_type" jdbcType="VARCHAR" property="channelPayType" />
+	    <result column="channel_single_interface_address" jdbcType="VARCHAR" property="channelSingleInterfaceAddress" />
+	    <result column="channel_checkstand_address" jdbcType="VARCHAR" property="channelCheckstandAddress" />
+	    <result column="channel_create_time" jdbcType="TIMESTAMP" property="channelCreateTime" />
+	    <result column="channel_change_time" jdbcType="TIMESTAMP" property="channelChangeTime" />
+    </collection>
+  </resultMap>
+  
+  <select id="selectByPrimary" parameterType="com.py.bean.Point" resultMap="BaseResultExtendMap">
+  	SELECT
+	<include refid="Base_Column_List" />
+	FROM `point`
+	<where>
+		<if test="pointId != null">
+	       and point_id = #{pointId,jdbcType=INTEGER}
+	     </if>
+	  	 <if test="pointName != null">
+	       and point_name like "%"#{pointName,jdbcType=VARCHAR}"%"
+	     </if>
+	     <if test="pointProvince != null">
+	       and point_province = #{pointProvince,jdbcType=INTEGER}
+	     </if>
+	     <if test="pointCity != null">
+	       and point_city = #{pointCity,jdbcType=INTEGER}
+	     </if>
+	     <if test="pointDistrict != null">
+	       and point_district = #{pointDistrict,jdbcType=INTEGER}
+	     </if>
+	     <if test="pointAddress != null">
+	       and point_address = #{pointAddress,jdbcType=VARCHAR}
+	     </if>
+	     <if test="pointCreateTime != null">
+	       and point_create_time = #{pointCreateTime,jdbcType=TIMESTAMP}
+	     </if>
+	     <if test="pointChangeTime != null">
+	       and point_change_time = #{pointChangeTime,jdbcType=TIMESTAMP}
+	     </if>
+	</where>
+	order by point_create_time desc limit 1
+  </select>
+  
+  <select id="selectByExample" parameterType="com.py.bean.Point" resultMap="BaseResultExtendMap">
+	SELECT
+	<include refid="Base_Column_List" />
+	FROM `point`
+	<where>
+		<if test="pointId != null">
+	       and point_id = #{pointId,jdbcType=INTEGER}
+	     </if>
+	  	 <if test="pointName != null">
+	       and point_name like "%"#{pointName,jdbcType=VARCHAR}"%"
+	     </if>
+	     <if test="pointProvince != null">
+	       and point_province = #{pointProvince,jdbcType=INTEGER}
+	     </if>
+	     <if test="pointCity != null">
+	       and point_city = #{pointCity,jdbcType=INTEGER}
+	     </if>
+	     <if test="pointDistrict != null">
+	       and point_district = #{pointDistrict,jdbcType=INTEGER}
+	     </if>
+	     <if test="pointAddress != null">
+	       and point_address = #{pointAddress,jdbcType=VARCHAR}
+	     </if>
+	     <if test="pointCreateTime != null">
+	       and point_create_time = #{pointCreateTime,jdbcType=TIMESTAMP}
+	     </if>
+	     <if test="pointChangeTime != null">
+	       and point_change_time = #{pointChangeTime,jdbcType=TIMESTAMP}
+	     </if>
+	</where>
+	order by point_create_time desc
+  </select>
+  
+  <select id="selectByExampleInEquipment" resultMap="BaseResultExtendMap" parameterType="com.py.bean.Equipment">
+		SELECT
+			p1.*,e1.*,e2.equipment_classify_name,e2.equipment_classify_id 'fff'
+		FROM
+			`point` p1
+		RIGHT JOIN equipment e1 ON e1.equipment_point_id = p1.point_id
+		LEFT JOIN equipment_classify e2 ON e2.equipment_classify_id = e1.equipment_classify_id
+		WHERE
+			1 = 1
+		<if test="equipmentNumber != null">
+			AND e1.equipment_number = #{equipmentNumber,jdbcType=VARCHAR}
+		</if>
+		<if test="equipmentName != null">
+			AND e1.equipment_name like "%"#{equipmentName,jdbcType=VARCHAR}"%"
+		</if>
+		ORDER BY
+			e1.equipment_create_time DESC,
+			e1.equipment_change_time DESC
+  </select>
+  
+   <select id="selectByTime" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" /> 
+		from `point`
+		where 1=1
+		<if test="startTime != null">
+			and point_create_time &gt; #{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and point_change_time &lt; #{endTime,jdbcType=TIMESTAMP}
+		</if>
+	</select>
+  <!-- 批量删除 -->
+  <delete id="deleteByPointIds" parameterType="java.lang.Integer">
+    delete from `point`
+    where point_id in (
+        <foreach collection="ids" item="id" separator=",">
+            #{id}
+        </foreach>
+        )  
+  </delete>
+  
+</mapper>

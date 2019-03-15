@@ -1,0 +1,749 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Order">
+    <id column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
+    <result column="order_channel_number" jdbcType="VARCHAR" property="orderChannelNumber" />
+    <result column="order_user_name" jdbcType="VARCHAR" property="orderUserName" />
+    <result column="order_point_id" jdbcType="INTEGER" property="orderPointId" />
+    <result column="order_equipment_id" jdbcType="INTEGER" property="orderEquipmentId" />
+    <result column="order_aisle_id" jdbcType="INTEGER" property="orderAisleId" />
+    <result column="order_channel_merchandise_id" jdbcType="INTEGER" property="orderChannelMerchandiseId" />
+    <result column="order_merchandise_id" jdbcType="INTEGER" property="orderMerchandiseId" />
+    <result column="order_merchandise_amount" jdbcType="INTEGER" property="orderMerchandiseAmount" />
+    <result column="order_payment_id" jdbcType="INTEGER" property="orderPaymentId" />
+    <result column="order_price" jdbcType="DOUBLE" property="orderPrice" />
+    <result column="order_pickup_code" jdbcType="VARCHAR" property="orderPickupCode" />
+    <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
+    <result column="order_return_number" jdbcType="INTEGER" property="orderReturnNumber" />
+    <result column="order_return_schedule" jdbcType="INTEGER" property="orderReturnSchedule" />
+    <result column="order_versions" jdbcType="INTEGER" property="orderVersions" />
+    <result column="order_create_time" jdbcType="VARCHAR" property="orderCreateTime" />
+    <result column="order_payment_time" jdbcType="VARCHAR" property="orderPaymentTime" />
+    <result column="order_update_time" jdbcType="VARCHAR" property="orderUpdateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    order_id, order_number, order_channel_number, order_user_name, order_point_id, order_equipment_id, 
+    order_aisle_id, order_channel_merchandise_id, order_merchandise_id, order_merchandise_amount, 
+    order_payment_id, order_price, order_pickup_code, order_status, order_return_number, 
+    order_return_schedule, order_versions, order_create_time, order_payment_time, order_update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `order`
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from `order`
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="orderId" parameterType="com.py.bean.Order">
+    insert into `order` (order_id, order_number, order_channel_number, 
+      order_user_name, order_point_id, order_equipment_id, 
+      order_aisle_id, order_channel_merchandise_id, 
+      order_merchandise_id, order_merchandise_amount, 
+      order_payment_id, order_price, order_pickup_code, 
+      order_status, order_return_number, order_return_schedule, 
+      order_versions, order_create_time, order_payment_time, 
+      order_update_time)
+    values (#{orderId,jdbcType=INTEGER}, #{orderNumber,jdbcType=VARCHAR}, #{orderChannelNumber,jdbcType=VARCHAR}, 
+      #{orderUserName,jdbcType=VARCHAR}, #{orderPointId,jdbcType=INTEGER}, #{orderEquipmentId,jdbcType=INTEGER}, 
+      #{orderAisleId,jdbcType=INTEGER}, #{orderChannelMerchandiseId,jdbcType=INTEGER}, 
+      #{orderMerchandiseId,jdbcType=INTEGER}, #{orderMerchandiseAmount,jdbcType=INTEGER}, 
+      #{orderPaymentId,jdbcType=INTEGER}, #{orderPrice,jdbcType=DOUBLE}, #{orderPickupCode,jdbcType=VARCHAR}, 
+      #{orderStatus,jdbcType=INTEGER}, #{orderReturnNumber,jdbcType=INTEGER}, #{orderReturnSchedule,jdbcType=INTEGER}, 
+      #{orderVersions,jdbcType=INTEGER}, #{orderCreateTime,jdbcType=VARCHAR}, #{orderPaymentTime,jdbcType=VARCHAR}, 
+      #{orderUpdateTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="orderId" parameterType="com.py.bean.Order">
+    insert into `order`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="orderNumber != null">
+        order_number,
+      </if>
+      <if test="orderChannelNumber != null">
+        order_channel_number,
+      </if>
+      <if test="orderUserName != null">
+        order_user_name,
+      </if>
+      <if test="orderPointId != null">
+        order_point_id,
+      </if>
+      <if test="orderEquipmentId != null">
+        order_equipment_id,
+      </if>
+      <if test="orderAisleId != null">
+        order_aisle_id,
+      </if>
+      <if test="orderChannelMerchandiseId != null">
+        order_channel_merchandise_id,
+      </if>
+      <if test="orderMerchandiseId != null">
+        order_merchandise_id,
+      </if>
+      <if test="orderMerchandiseAmount != null">
+        order_merchandise_amount,
+      </if>
+      <if test="orderPaymentId != null">
+        order_payment_id,
+      </if>
+      <if test="orderPrice != null">
+        order_price,
+      </if>
+      <if test="orderPickupCode != null">
+        order_pickup_code,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="orderReturnNumber != null">
+        order_return_number,
+      </if>
+      <if test="orderReturnSchedule != null">
+        order_return_schedule,
+      </if>
+      <if test="orderVersions != null">
+        order_versions,
+      </if>
+      <if test="orderCreateTime != null">
+        order_create_time,
+      </if>
+      <if test="orderPaymentTime != null">
+        order_payment_time,
+      </if>
+      <if test="orderUpdateTime != null">
+        order_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNumber != null">
+        #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderChannelNumber != null">
+        #{orderChannelNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderUserName != null">
+        #{orderUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPointId != null">
+        #{orderPointId,jdbcType=INTEGER},
+      </if>
+      <if test="orderEquipmentId != null">
+        #{orderEquipmentId,jdbcType=INTEGER},
+      </if>
+      <if test="orderAisleId != null">
+        #{orderAisleId,jdbcType=INTEGER},
+      </if>
+      <if test="orderChannelMerchandiseId != null">
+        #{orderChannelMerchandiseId,jdbcType=INTEGER},
+      </if>
+      <if test="orderMerchandiseId != null">
+        #{orderMerchandiseId,jdbcType=INTEGER},
+      </if>
+      <if test="orderMerchandiseAmount != null">
+        #{orderMerchandiseAmount,jdbcType=INTEGER},
+      </if>
+      <if test="orderPaymentId != null">
+        #{orderPaymentId,jdbcType=INTEGER},
+      </if>
+      <if test="orderPrice != null">
+        #{orderPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="orderPickupCode != null">
+        #{orderPickupCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="orderReturnNumber != null">
+        #{orderReturnNumber,jdbcType=INTEGER},
+      </if>
+      <if test="orderReturnSchedule != null">
+        #{orderReturnSchedule,jdbcType=INTEGER},
+      </if>
+      <if test="orderVersions != null">
+        #{orderVersions,jdbcType=INTEGER},
+      </if>
+      <if test="orderCreateTime != null">
+        #{orderCreateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPaymentTime != null">
+        #{orderPaymentTime,jdbcType=VARCHAR},
+      </if>
+      <if test="orderUpdateTime != null">
+        #{orderUpdateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Order">
+    update `order`
+    <set>
+      <if test="orderNumber != null">
+        order_number = #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderChannelNumber != null">
+        order_channel_number = #{orderChannelNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderUserName != null">
+        order_user_name = #{orderUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPointId != null">
+        order_point_id = #{orderPointId,jdbcType=INTEGER},
+      </if>
+      <if test="orderEquipmentId != null">
+        order_equipment_id = #{orderEquipmentId,jdbcType=INTEGER},
+      </if>
+      <if test="orderAisleId != null">
+        order_aisle_id = #{orderAisleId,jdbcType=INTEGER},
+      </if>
+      <if test="orderChannelMerchandiseId != null">
+        order_channel_merchandise_id = #{orderChannelMerchandiseId,jdbcType=INTEGER},
+      </if>
+      <if test="orderMerchandiseId != null">
+        order_merchandise_id = #{orderMerchandiseId,jdbcType=INTEGER},
+      </if>
+      <if test="orderMerchandiseAmount != null">
+        order_merchandise_amount = #{orderMerchandiseAmount,jdbcType=INTEGER},
+      </if>
+      <if test="orderPaymentId != null">
+        order_payment_id = #{orderPaymentId,jdbcType=INTEGER},
+      </if>
+      <if test="orderPrice != null">
+        order_price = #{orderPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="orderPickupCode != null">
+        order_pickup_code = #{orderPickupCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="orderReturnNumber != null">
+        order_return_number = #{orderReturnNumber,jdbcType=INTEGER},
+      </if>
+      <if test="orderReturnSchedule != null">
+        order_return_schedule = #{orderReturnSchedule,jdbcType=INTEGER},
+      </if>
+      <if test="orderVersions != null">
+        order_versions = order_versions + 1,
+      </if>
+      <if test="orderCreateTime != null">
+        order_create_time = #{orderCreateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPaymentTime != null">
+        order_payment_time = #{orderPaymentTime,jdbcType=VARCHAR},
+      </if>
+      <if test="orderUpdateTime != null">
+        order_update_time = #{orderUpdateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where order_versions = #{orderVersions,jdbcType=INTEGER} and order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Order">
+    update `order`
+    set order_number = #{orderNumber,jdbcType=VARCHAR},
+      order_channel_number = #{orderChannelNumber,jdbcType=VARCHAR},
+      order_user_name = #{orderUserName,jdbcType=VARCHAR},
+      order_point_id = #{orderPointId,jdbcType=INTEGER},
+      order_equipment_id = #{orderEquipmentId,jdbcType=INTEGER},
+      order_aisle_id = #{orderAisleId,jdbcType=INTEGER},
+      order_channel_merchandise_id = #{orderChannelMerchandiseId,jdbcType=INTEGER},
+      order_merchandise_id = #{orderMerchandiseId,jdbcType=INTEGER},
+      order_merchandise_amount = #{orderMerchandiseAmount,jdbcType=INTEGER},
+      order_payment_id = #{orderPaymentId,jdbcType=INTEGER},
+      order_price = #{orderPrice,jdbcType=DOUBLE},
+      order_pickup_code = #{orderPickupCode,jdbcType=VARCHAR},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      order_return_number = #{orderReturnNumber,jdbcType=INTEGER},
+      order_return_schedule = #{orderReturnSchedule,jdbcType=INTEGER},
+      order_versions = order_versions + 1,
+      order_create_time = #{orderCreateTime,jdbcType=VARCHAR},
+      order_payment_time = #{orderPaymentTime,jdbcType=VARCHAR},
+      order_update_time = #{orderUpdateTime,jdbcType=VARCHAR}
+    where order_versions = #{orderVersions,jdbcType=INTEGER} and order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByPrimary" parameterType="com.py.bean.Order" resultMap="BaseResultMap">
+  	 select 
+    <include refid="Base_Column_List" />
+    from `order`
+    <where>
+      <if test="orderId != null">
+        and order_id = #{orderId,jdbcType=INTEGER}
+      </if>
+      <if test="orderNumber != null">
+        and order_number = #{orderNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="orderChannelNumber != null">
+        and order_channel_number = #{orderChannelNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="orderUserName != null">
+        and order_user_name = #{orderUserName,jdbcType=VARCHAR}
+      </if>
+      <if test="orderEquipmentId != null">
+        and order_equipment_id = #{orderEquipmentId,jdbcType=INTEGER}
+      </if>
+      <if test="orderAisleId != null">
+        and order_aisle_id = #{orderAisleId,jdbcType=INTEGER}
+      </if>
+      <if test="orderChannelMerchandiseId != null">
+        and order_channel_merchandise_id = #{orderChannelMerchandiseId,jdbcType=INTEGER}
+      </if>
+      <if test="orderMerchandiseId != null">
+        and order_merchandise_id = #{orderMerchandiseId,jdbcType=INTEGER}
+      </if>
+      <if test="orderMerchandiseAmount != null">
+        and order_merchandise_amount = #{orderMerchandiseAmount,jdbcType=INTEGER}
+      </if>
+      <if test="orderPaymentId != null">
+        and order_payment_id = #{orderPaymentId,jdbcType=INTEGER}
+      </if>
+      <if test="orderPickupCode != null">
+        and order_pickup_code = #{orderPickupCode,jdbcType=VARCHAR}
+      </if>
+      <if test="orderStatus != null">
+        and order_status = #{orderStatus,jdbcType=INTEGER}
+      </if>
+      <if test="orderReturnNumber != null">
+        and order_return_number = #{orderReturnNumber,jdbcType=INTEGER}
+      </if>
+      <if test="orderReturnSchedule != null">
+        and order_return_schedule = #{orderReturnSchedule,jdbcType=INTEGER}
+      </if>
+      <if test="orderVersions != null">
+        and order_versions = #{orderVersions,jdbcType=INTEGER}
+      </if>
+      <if test="orderCreateTime != null">
+        and order_create_time = #{orderCreateTime,jdbcType=VARCHAR}
+      </if>
+      <if test="orderPaymentTime != null">
+        and order_payment_time = #{orderPaymentTime,jdbcType=VARCHAR}
+      </if>
+      <if test="orderUpdateTime != null">
+        and order_update_time = #{orderUpdateTime,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  
+  <select id="selectByExample" parameterType="com.py.bean.Order" resultMap="BaseResultMap">
+  	 select 
+    <include refid="Base_Column_List" />
+    from `order`
+    <where>
+      <if test="orderId != null">
+        and order_id = #{orderId,jdbcType=INTEGER}
+      </if>
+      <if test="orderNumber != null">
+        and order_number = #{orderNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="orderChannelNumber != null">
+        and order_channel_number = #{orderChannelNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="orderUserName != null">
+        and order_user_name = #{orderUserName,jdbcType=VARCHAR}
+      </if>
+      <if test="orderEquipmentId != null">
+        and order_equipment_id = #{orderEquipmentId,jdbcType=INTEGER}
+      </if>
+      <if test="orderAisleId != null">
+        and order_aisle_id = #{orderAisleId,jdbcType=INTEGER}
+      </if>
+      <if test="orderChannelMerchandiseId != null">
+        and order_channel_merchandise_id = #{orderChannelMerchandiseId,jdbcType=INTEGER}
+      </if>
+      <if test="orderMerchandiseId != null">
+        and order_merchandise_id = #{orderMerchandiseId,jdbcType=INTEGER}
+      </if>
+      <if test="orderMerchandiseAmount != null">
+        and order_merchandise_amount = #{orderMerchandiseAmount,jdbcType=INTEGER}
+      </if>
+      <if test="orderPaymentId != null">
+        and order_payment_id = #{orderPaymentId,jdbcType=INTEGER}
+      </if>
+      <if test="orderPickupCode != null">
+        and order_pickup_code = #{orderPickupCode,jdbcType=VARCHAR}
+      </if>
+      <if test="orderStatus != null">
+        and order_status = #{orderStatus,jdbcType=INTEGER}
+      </if>
+      <if test="orderReturnNumber != null">
+        and order_return_number = #{orderReturnNumber,jdbcType=INTEGER}
+      </if>
+      <if test="orderReturnSchedule != null">
+        and order_return_schedule = #{orderReturnSchedule,jdbcType=INTEGER}
+      </if>
+      <if test="orderVersions != null">
+        and order_versions = #{orderVersions,jdbcType=INTEGER}
+      </if>
+      <if test="orderCreateTime != null">
+        and order_create_time = #{orderCreateTime,jdbcType=VARCHAR}
+      </if>
+      <if test="orderPaymentTime != null">
+        and order_payment_time = #{orderPaymentTime,jdbcType=VARCHAR}
+      </if>
+      <if test="orderUpdateTime != null">
+        and order_update_time = #{orderUpdateTime,jdbcType=VARCHAR}
+      </if>
+    </where>
+    ORDER BY order_create_time DESC
+  </select>
+  
+  <!-- 获取取货码 -->
+  <select id="getPickupCode" parameterType="com.py.bean.Order" resultMap="BaseResultMap">
+  	 select 
+    <include refid="Base_Column_List" />
+    from `order`
+    where order_status = 3
+    <if test="orderEquipmentId != null">
+      and order_equipment_id = #{orderEquipmentId,jdbcType=INTEGER}
+    </if>
+    <if test="orderMerchandiseId != null">
+      and order_merchandise_id = #{order_merchandise_id,jdbcType=INTEGER}
+    </if>
+    <if test="orderAisleId != null">
+      and order_aisle_id = #{orderAisleId,jdbcType=INTEGER}
+    </if>
+    ORDER BY order_create_time DESC limit 1
+  </select>
+  
+  <resultMap id="BaseResultMapVariety" type="com.py.bean.Order">
+    <id column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
+    <result column="order_channel_number" jdbcType="VARCHAR" property="orderChannelNumber" />
+    <result column="order_user_name" jdbcType="VARCHAR" property="orderUserName" />
+    <result column="order_point_id" jdbcType="INTEGER" property="orderPointId" />
+    <result column="order_equipment_id" jdbcType="INTEGER" property="orderEquipmentId" />
+    <result column="order_aisle_id" jdbcType="INTEGER" property="orderAisleId" />
+    <result column="order_channel_merchandise_id" jdbcType="INTEGER" property="orderChannelMerchandiseId" />
+    <result column="order_merchandise_id" jdbcType="INTEGER" property="orderMerchandiseId" />
+    <result column="order_merchandise_amount" jdbcType="INTEGER" property="orderMerchandiseAmount" />
+    <result column="order_payment_id" jdbcType="INTEGER" property="orderPaymentId" />
+    <result column="order_price" jdbcType="DOUBLE" property="orderPrice" />
+    <result column="order_pickup_code" jdbcType="VARCHAR" property="orderPickupCode" />
+    <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
+    <result column="order_return_number" jdbcType="INTEGER" property="orderReturnNumber" />
+    <result column="order_return_schedule" jdbcType="INTEGER" property="orderReturnSchedule" />
+    <result column="order_versions" jdbcType="INTEGER" property="orderVersions" />
+    <result column="order_create_time" jdbcType="VARCHAR" property="orderCreateTime" />
+    <result column="order_payment_time" jdbcType="VARCHAR" property="orderPaymentTime" />
+    <result column="order_update_time" jdbcType="VARCHAR" property="orderUpdateTime" />
+    <collection column="merchandise_id" ofType="com.py.bean.Merchandise" property="merchandise">
+    	 <id column="merchandise_id" jdbcType="INTEGER" property="merchandiseId" />
+	    <result column="merchandise_name" jdbcType="VARCHAR" property="merchandiseName" />
+	    <result column="merchandise_number" jdbcType="VARCHAR" property="merchandiseNumber" />
+	    <result column="merchandise_commercial_tenant_number" jdbcType="VARCHAR" property="merchandiseCommercialTenantNumber" />
+	    <result column="merchandise_classify" jdbcType="INTEGER" property="merchandiseClassify" />
+	    <result column="merchandise_price" jdbcType="DOUBLE" property="merchandisePrice" />
+	    <result column="merchandise_image_url" jdbcType="VARCHAR" property="merchandiseImageUrl" />
+	    <result column="merchandise_exhibition_image_url" jdbcType="VARCHAR" property="merchandiseExhibitionImageUrl" />
+	    <result column="merchandise_information_comefrom" jdbcType="INTEGER" property="merchandiseInformationComefrom" />
+	    <result column="merchandise_h5_image_url" jdbcType="VARCHAR" property="merchandiseH5ImageUrl" />
+	    <result column="merchandise_status" jdbcType="INTEGER" property="merchandiseStatus" />
+	    <result column="merchandise_time" jdbcType="TIMESTAMP" property="merchandiseTime" />
+	    <result column="merchandise_upload_time" jdbcType="TIMESTAMP" property="merchandiseUploadTime" />
+	    <result column="merchandise_update_time" jdbcType="TIMESTAMP" property="merchandiseUpdateTime" />
+    </collection>
+    <collection column="payment_id" ofType="com.py.bean.Payment" property="payment">
+    	<id column="payment_id" jdbcType="INTEGER" property="paymentId" />
+	    <result column="payment_name" jdbcType="VARCHAR" property="paymentName" />
+	    <result column="payment_create_time" jdbcType="TIMESTAMP" property="paymentCreateTime" />
+	    <result column="payment_update_time" jdbcType="TIMESTAMP" property="paymentUpdateTime" />
+    </collection>
+  </resultMap>
+  
+  
+  
+  <select id="selectOrderByExample" parameterType="com.py.bean.OrderSelectBy" resultMap="BaseResultMapVariety">
+	SELECT
+		*
+	FROM
+		`order` o
+	LEFT JOIN point p1 ON p1.point_id = o.order_point_id
+	LEFT JOIN equipment e1 ON e1.equipment_id = o.order_equipment_id
+	LEFT JOIN merchandise m1 ON m1.merchandise_id = o.order_merchandise_id
+	LEFT JOIN aisle_inventory ai ON ai.aisle_inventory_merchandise_id = m1.merchandise_id
+	LEFT JOIN (
+		SELECT
+			*
+		FROM
+			channel_merchandise cm
+		LEFT JOIN channel ON channel_id = cm.channel_merchandise_channel_id
+	) c1 ON c1.channel_merchandise_id = o.order_channel_merchandise_id
+	<where>
+		<if test="pointProvince != null">
+			and p1.point_province = #{pointProvince,jdbcType=INTEGER}
+		</if>
+		<if test="pointCity != null">
+			and p1.point_city = #{pointCity,jdbcType=INTEGER}
+		</if>
+		<if test="pointDistrict != null">
+			and p1.point_district = #{pointDistrict,jdbcType=INTEGER}
+		</if>
+		<if test="channelId != null">
+			and c1.channel_id = #{channelId,jdbcType=INTEGER}
+		</if>
+		<if test="pointId != null">
+			and o.order_point_id = #{pointId,jdbcType=INTEGER}
+		</if>
+		<if test="status != null">
+			and o.order_status = #{status,jdbcType=INTEGER}
+		</if>
+		<if test="equipmentId != null">
+			and o.order_equipment_id = #{equipmentId,jdbcType=INTEGER}
+		</if>
+		<if test="aisleId != null">
+			and ai.aisle_inventory_aisle_id = #{aisleId,jdbcType=INTEGER}
+		</if>
+		<if test="merchandiseId != null">
+			and o.order_merchandise_id = #{merchandiseId,jdbcType=INTEGER}
+		</if>
+	</where>
+	order by order_update_time desc
+   </select>
+  <!-- 销售量 -->
+  <select id="getSalesReportCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(order_id)
+    from `order`
+    where order_status = 4
+    <if test="startTime != null">
+		and order_create_time &gt; #{startTime,jdbcType=VARCHAR}
+	</if>
+	<if test="endTime != null">
+		and order_create_time &lt; #{endTime,jdbcType=VARCHAR}
+	</if>
+  </select>
+  <!-- 销售额 -->
+  <select id="getSalesReportSum" parameterType="java.lang.String" resultType="java.lang.Double">
+    select sum(order_price)
+    from `order`
+    where order_status = 4
+    <if test="startTime != null">
+		and order_create_time &gt; #{startTime,jdbcType=VARCHAR}
+	</if>
+	<if test="endTime != null">
+		and order_create_time &lt; #{endTime,jdbcType=VARCHAR}
+	</if>
+  </select>
+  <!-- 销售报表 -->
+  <select id="getSalesReport" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from `order`
+    where order_status = 4
+    <if test="startTime != null">
+		and order_create_time &gt; #{startTime,jdbcType=VARCHAR}
+	</if>
+	<if test="endTime != null">
+		and order_create_time &lt; #{endTime,jdbcType=VARCHAR}
+	</if>
+	order by order_create_time desc
+  </select>
+  
+  <resultMap id="PointReportMap" type="com.py.bean.PointReport">
+    <result column="point_id" jdbcType="INTEGER" property="pointId" />
+    <result column="point_name" jdbcType="VARCHAR" property="pointName" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="sum" jdbcType="DOUBLE" property="sum" />
+  </resultMap>
+  
+   <!-- 点位报表 -->
+  <select id="pointReport" parameterType="java.lang.String" resultMap="PointReportMap">
+     SELECT
+		p.point_id,
+		p.point_name,
+		COUNT(o.order_id) count,
+		SUM(o.order_price) sum
+	FROM
+		point p
+	LEFT JOIN `order` o ON o.order_point_id = p.point_id
+	GROUP BY
+		p.point_id
+    <if test="startTime != null">
+		and o.order_create_time &gt; #{startTime,jdbcType=VARCHAR}
+	</if>
+	<if test="endTime != null">
+		and o.order_create_time &lt; #{endTime,jdbcType=VARCHAR}
+	</if>
+	<if test="type == 0">
+		order by `sum` desc
+	</if>
+	<if test="type == 1">
+		order by `count` desc
+	</if>
+  </select>
+  
+  <!-- 点位报表——后管用 -->
+  <select id="getPointReport" parameterType="java.lang.String" resultMap="PointReportMap">
+    SELECT
+		p.point_id,
+		p.point_name,
+		COUNT(o.order_id) count,
+		SUM(o.order_price) sum
+	FROM
+		point p
+	LEFT JOIN `order` o ON o.order_point_id = p.point_id
+    <if test="startTime != null">
+		and o.order_create_time &gt; #{startTime,jdbcType=VARCHAR}
+	</if>
+	<if test="endTime != null">
+		and o.order_create_time &lt; #{endTime,jdbcType=VARCHAR}
+	</if>
+	GROUP BY
+		p.point_id
+  </select>
+  
+  <resultMap id="EquipmentReportMap" type="com.py.bean.Order">
+    <id column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="order_price" jdbcType="DOUBLE" property="orderPrice" />
+    <result column="order_create_time" jdbcType="VARCHAR" property="orderCreateTime" />
+    <collection column="equipment_id" ofType="com.py.bean.Equipment" property="equipment">
+    	<id column="equipment_id" jdbcType="INTEGER" property="equipmentId" />
+	    <result column="equipment_name" jdbcType="VARCHAR" property="equipmentName" />
+    </collection>
+  </resultMap>
+  
+  <!-- 某点位下的设备报表 -->
+  <select id="equipmentReport" parameterType="java.lang.String" resultMap="EquipmentReportMap">
+	   SELECT
+		o.order_id,
+		o.order_price,
+		o.order_create_time,
+		e.equipment_id,
+		e.equipment_name
+	FROM
+		`order` o
+	LEFT JOIN `equipment` e ON e.equipment_id = o.order_equipment_id
+	WHERE
+		o.order_status = 4
+	GROUP BY e.equipment_id
+	<if test="pointId != null">
+		and o.order_point_id = #{pointId,jdbcType=INTEGER}
+	</if>
+    <if test="startTime != null">
+		and o.order_create_time &gt; #{startTime,jdbcType=VARCHAR}
+	</if>
+	<if test="endTime != null">
+		and o.order_create_time &lt; #{endTime,jdbcType=VARCHAR}
+	</if>
+	order by o.order_create_time desc
+  </select>
+  
+  <resultMap id="CommercialTenantReportMap" type="com.py.bean.CommercialTenantReport">
+    <result column="commercial_tenant_id" jdbcType="INTEGER" property="commercialTenantId" />
+    <result column="commercial_tenant_name" jdbcType="VARCHAR" property="commercialTenantName" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="sum" jdbcType="DOUBLE" property="sum" />
+  </resultMap>
+  
+  <!-- 商户报表——后管用 -->
+  <select id="getCommercialTenantReport" parameterType="java.lang.String" resultMap="CommercialTenantReportMap">
+    SELECT ct.commercial_tenant_id,ct.commercial_tenant_name,COUNT(o.order_id) `count`,SUM(o.order_price) `sum`
+	FROM commercial_tenant ct LEFT JOIN merchandise m ON m.merchandise_commercial_tenant_number = ct.commercial_tenant_id
+	LEFT JOIN `order` o ON o.order_merchandise_id = m.merchandise_id
+	WHERE o.order_status = 4 
+	GROUP BY ct.commercial_tenant_id
+    <if test="startTime != null">
+		and o.order_create_time &gt; #{startTime,jdbcType=VARCHAR}
+	</if>
+	<if test="endTime != null">
+		and o.order_create_time &lt; #{endTime,jdbcType=VARCHAR}
+	</if>
+  </select>
+  
+  <!-- 商户报表 -->
+  <select id="commercialTenantReport" parameterType="java.lang.String" resultMap="CommercialTenantReportMap">
+    SELECT ct.commercial_tenant_id,ct.commercial_tenant_name,COUNT(o.order_id) `count`,SUM(o.order_price) `sum`
+	FROM commercial_tenant ct LEFT JOIN merchandise m ON m.merchandise_commercial_tenant_number = ct.commercial_tenant_id
+	LEFT JOIN `order` o ON o.order_merchandise_id = m.merchandise_id
+	WHERE o.order_status = 4 
+	GROUP BY ct.commercial_tenant_id
+    <if test="startTime != null">
+		and o.order_create_time &gt; #{startTime,jdbcType=VARCHAR}
+	</if>
+	<if test="endTime != null">
+		and o.order_create_time &lt; #{endTime,jdbcType=VARCHAR}
+	</if>
+	<if test="type == 0">
+		order by `sum` desc
+	</if>
+	<if test="type == 1">
+		order by `count` desc
+	</if>
+  </select>
+  
+  <resultMap id="CommercialMerchandiseReportMap" type="com.py.bean.Order">
+    <id column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="name" jdbcType="VARCHAR" property="orderUserName" />
+    <result column="order_price" jdbcType="DOUBLE" property="orderPrice" />
+    <result column="order_create_time" jdbcType="VARCHAR" property="orderCreateTime" />
+  </resultMap>
+  
+  <!-- 某商户的商品在点位的销售报表 -->
+  <select id="commercialMerchandiseReport" parameterType="java.lang.String" resultMap="CommercialMerchandiseReportMap">
+    SELECT o.order_id,o.order_price,o.order_create_time,CONCAT(p.point_name,'-',m.merchandise_name) `name`
+	FROM  `order` o 
+	LEFT JOIN merchandise m ON o.order_merchandise_id = m.merchandise_id
+	LEFT JOIN `point` p ON p.point_id = o.order_point_id
+	WHERE o.order_status = 4
+	GROUP BY `name`
+	<if test="commercialTenantId != null">
+		and m.merchandise_commercial_tenant_number = #{commercialTenantId,jdbcType=INTEGER}
+	</if>
+    <if test="startTime != null">
+		and o.order_create_time &gt; #{startTime,jdbcType=VARCHAR}
+	</if>
+	<if test="endTime != null">
+		and o.order_create_time &lt; #{endTime,jdbcType=VARCHAR}
+	</if>
+	order by o.order_create_time desc
+  </select>
+  
+  <resultMap id="MerchandiseReportMap" type="com.py.bean.MerchandiseReport">
+    <result column="merchandise_id" jdbcType="INTEGER" property="merchandiseId" />
+    <result column="merchandise_name" jdbcType="VARCHAR" property="merchandiseName" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="sum" jdbcType="DOUBLE" property="sum" />
+  </resultMap>
+  
+  <!-- 商品报表——后管用 -->
+  <select id="getMerchandiseReport" parameterType="java.lang.String" resultMap="MerchandiseReportMap">
+    SELECT m.merchandise_id,m.merchandise_name,COUNT(o.order_id) `count`,SUM(o.order_price) `sum`
+	FROM merchandise m LEFT JOIN `order` o ON o.order_merchandise_id = m.merchandise_id
+	WHERE o.order_status = 4 
+	GROUP BY m.merchandise_id
+    <if test="startTime != null">
+		and o.order_create_time &gt; #{startTime,jdbcType=VARCHAR}
+	</if>
+	<if test="endTime != null">
+		and o.order_create_time &lt; #{endTime,jdbcType=VARCHAR}
+	</if>
+  </select>
+  <!-- 商品报表 -->
+  <select id="merchandiseReport" parameterType="java.lang.String" resultMap="MerchandiseReportMap">
+    SELECT m.merchandise_id,m.merchandise_name,COUNT(o.order_id) `count`,SUM(o.order_price) `sum`
+	FROM merchandise m LEFT JOIN `order` o ON o.order_merchandise_id = m.merchandise_id
+	WHERE o.order_status = 4 
+	GROUP BY m.merchandise_id
+    <if test="startTime != null">
+		and o.order_create_time &gt; #{startTime,jdbcType=VARCHAR}
+	</if>
+	<if test="endTime != null">
+		and o.order_create_time &lt; #{endTime,jdbcType=VARCHAR}
+	</if>
+	<if test="type == 0">
+		order by `sum` desc
+	</if>
+	<if test="type == 1">
+		order by `count` desc
+	</if>
+  </select>
+  
+</mapper>

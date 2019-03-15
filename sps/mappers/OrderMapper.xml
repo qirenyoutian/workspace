@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pywl.project.mapper.OrderMapper">
+	<select id="getAllOrder" parameterType="com.pywl.project.bean.Page" resultType="com.pywl.project.bean.Order">
+	SELECT id,user_id as userId,phone,order_name as orderName,order_price as orderPrice,name_of_consignee as nameOfConsignee,
+	address,create_user as createUser,create_time as createTime,modify_user as modifyUser,modify_time as modifyTime,order_id as orderId
+	,order_status as orderStatus,courier
+	FROM pywl_order
+	WHERE 1=1
+	<if test="content!=null and content!=''">
+	AND
+	phone like concat('%',#{content},'%')
+	</if>
+	<if test="startTime !=null and startTime !='' and endTime !=null and endTime!=''">
+	AND
+	create_time between startTime and endTime
+	</if>
+	order by create_time desc
+	</select>
+	
+	
+	<!-- void delOrder(String id); -->
+	<delete id="delOrder" parameterType="java.lang.String">
+	DELETE FROM pywl_order WHERE id=#{id}
+	</delete>
+	
+	<!-- void addOrder(Order order); -->
+	<insert id="addOrder" parameterType="com.pywl.project.bean.Order">
+	INSERT INTO pywl_order(id,order_name,order_price,user_id,name_of_consignee,create_user,create_time,modify_user,modify_time,phone,address,courier,order_status) values(
+	#{id},#{orderName},#{orderPrice},#{userId},#{nameOfConsignee},#{createUser},#{createTime},#{modifyUser},#{modifyTime},#{phone},#{address},#{courier},${orderStatus}
+	)
+	</insert>
+	
+	<select id="getOrderById" parameterType="java.lang.String" resultType="com.pywl.project.bean.Order">
+	SELECT id,user_id as userId,phone,order_name as orderName,order_price as orderPrice,name_of_consignee as nameOfConsignee,
+	address,create_user as createUser,create_time as createTime,modify_user as modifyUser,modify_time as modifyTime,order_id as orderId
+	,order_status as orderStatus,courier
+	FROM pywl_order
+	WHERE 
+	id=#{id}
+	</select>
+	
+	<update id="updateMapper" parameterType="com.pywl.project.bean.Order">
+	UPDATE pywl_order
+	<set>
+		<if test="orderId!=null and orderId!=''">
+			order_id=#{orderId},
+		</if>
+		<if test="phone !=null and phone !=''">
+			phone=#{phone},
+		</if>
+		<if test="address !=null and address !=''">
+			address=#{address},
+		</if>
+		<if test="nameOfConsignee!=null and nameOfConsignee!=''">
+			name_of_consignee=#{nameOfConsignee},
+		</if>
+		<if test="orderStatus!=null and orderStatus!=''">
+			order_status=#{prderStatus},
+		</if>
+		<if test="courier!=null and courier!=''">
+			courier=#{courier},
+		</if>
+	</set>
+	WHERE id=#{id}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

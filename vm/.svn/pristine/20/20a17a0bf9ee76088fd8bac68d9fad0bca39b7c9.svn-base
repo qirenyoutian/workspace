@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.BannerMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Banner">
+    <id column="banner_id" jdbcType="INTEGER" property="bannerId" />
+    <result column="banner_pic" jdbcType="VARCHAR" property="bannerPic" />
+    <result column="banner_create_time" jdbcType="TIMESTAMP" property="bannerCreateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    banner_id, banner_pic, banner_create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from banner
+    where banner_id = #{bannerId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from banner
+    where banner_id = #{bannerId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.Banner">
+    insert into banner (banner_id, banner_pic, banner_create_time
+      )
+    values (#{bannerId,jdbcType=INTEGER}, #{bannerPic,jdbcType=VARCHAR}, #{bannerCreateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.Banner">
+    insert into banner
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bannerId != null">
+        banner_id,
+      </if>
+      <if test="bannerPic != null">
+        banner_pic,
+      </if>
+      <if test="bannerCreateTime != null">
+        banner_create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bannerId != null">
+        #{bannerId,jdbcType=INTEGER},
+      </if>
+      <if test="bannerPic != null">
+        #{bannerPic,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerCreateTime != null">
+        #{bannerCreateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Banner">
+    update banner
+    <set>
+      <if test="bannerPic != null">
+        banner_pic = #{bannerPic,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerCreateTime != null">
+        banner_create_time = #{bannerCreateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where banner_id = #{bannerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Banner">
+    update banner
+    set banner_pic = #{bannerPic,jdbcType=VARCHAR},
+      banner_create_time = #{bannerCreateTime,jdbcType=TIMESTAMP}
+    where banner_id = #{bannerId,jdbcType=INTEGER}
+  </update>
+  <select id="selectBannerAll" resultMap="BaseResultMap">
+  	select * from banner where 1=1
+  </select>
+  
+  
+</mapper>

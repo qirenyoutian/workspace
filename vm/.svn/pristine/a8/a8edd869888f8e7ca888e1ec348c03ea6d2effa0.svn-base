@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.AlipayMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Alipay">
+    <id column="alipay_id" jdbcType="INTEGER" property="alipayId" />
+    <result column="commercial_tenant_id" jdbcType="INTEGER" property="commercialTenantId" />
+    <result column="app_id" jdbcType="VARCHAR" property="appId" />
+    <result column="private_key" jdbcType="VARCHAR" property="privateKey" />
+    <result column="zfb_public_key" jdbcType="VARCHAR" property="zfbPublicKey" />
+    <result column="crete_time" jdbcType="VARCHAR" property="creteTime" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    alipay_id, commercial_tenant_id, app_id, private_key, zfb_public_key, crete_time, 
+    update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `alipay`
+    where alipay_id = #{alipayId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from `alipay`
+    where alipay_id = #{alipayId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.Alipay">
+    insert into `alipay` (alipay_id, commercial_tenant_id, app_id, 
+      private_key, zfb_public_key, crete_time, 
+      update_time)
+    values (#{alipayId,jdbcType=INTEGER}, #{commercialTenantId,jdbcType=INTEGER}, #{appId,jdbcType=VARCHAR}, 
+      #{privateKey,jdbcType=VARCHAR}, #{zfbPublicKey,jdbcType=VARCHAR}, #{creteTime,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.Alipay">
+    insert into `alipay`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="alipayId != null">
+        alipay_id,
+      </if>
+      <if test="commercialTenantId != null">
+        commercial_tenant_id,
+      </if>
+      <if test="appId != null">
+        app_id,
+      </if>
+      <if test="privateKey != null">
+        private_key,
+      </if>
+      <if test="zfbPublicKey != null">
+        zfb_public_key,
+      </if>
+      <if test="creteTime != null">
+        crete_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="alipayId != null">
+        #{alipayId,jdbcType=INTEGER},
+      </if>
+      <if test="commercialTenantId != null">
+        #{commercialTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="appId != null">
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="privateKey != null">
+        #{privateKey,jdbcType=VARCHAR},
+      </if>
+      <if test="zfbPublicKey != null">
+        #{zfbPublicKey,jdbcType=VARCHAR},
+      </if>
+      <if test="creteTime != null">
+        #{creteTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Alipay">
+    update `alipay`
+    <set>
+      <if test="commercialTenantId != null">
+        commercial_tenant_id = #{commercialTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="appId != null">
+        app_id = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="privateKey != null">
+        private_key = #{privateKey,jdbcType=VARCHAR},
+      </if>
+      <if test="zfbPublicKey != null">
+        zfb_public_key = #{zfbPublicKey,jdbcType=VARCHAR},
+      </if>
+      <if test="creteTime != null">
+        crete_time = #{creteTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where alipay_id = #{alipayId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Alipay">
+    update `alipay`
+    set commercial_tenant_id = #{commercialTenantId,jdbcType=INTEGER},
+      app_id = #{appId,jdbcType=VARCHAR},
+      private_key = #{privateKey,jdbcType=VARCHAR},
+      zfb_public_key = #{zfbPublicKey,jdbcType=VARCHAR},
+      crete_time = #{creteTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR}
+    where alipay_id = #{alipayId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByCommercialTenantId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `alipay`
+    where commercial_tenant_id = #{commercialTenantId,jdbcType=INTEGER}
+    order by create_time desc limit 1
+  </select>
+  
+</mapper>

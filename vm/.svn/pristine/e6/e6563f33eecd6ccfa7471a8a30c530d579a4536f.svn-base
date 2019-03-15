@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.WeixinMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Weixin">
+    <id column="weixin_id" jdbcType="INTEGER" property="weixinId" />
+    <result column="commercial_tenant_id" jdbcType="INTEGER" property="commercialTenantId" />
+    <result column="app_id" jdbcType="VARCHAR" property="appId" />
+    <result column="mch_id" jdbcType="VARCHAR" property="mchId" />
+    <result column="api_key" jdbcType="VARCHAR" property="apiKey" />
+    <result column="app_secret" jdbcType="VARCHAR" property="appSecret" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    weixin_id, commercial_tenant_id, app_id, mch_id, api_key, app_secret, create_time, 
+    update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `weixin`
+    where weixin_id = #{weixinId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from `weixin`
+    where weixin_id = #{weixinId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.Weixin">
+    insert into `weixin` (weixin_id, commercial_tenant_id, app_id, 
+      mch_id, api_key, app_secret, 
+      create_time, update_time)
+    values (#{weixinId,jdbcType=INTEGER}, #{commercialTenantId,jdbcType=INTEGER}, #{appId,jdbcType=VARCHAR}, 
+      #{mchId,jdbcType=VARCHAR}, #{apiKey,jdbcType=VARCHAR}, #{appSecret,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.Weixin">
+    insert into `weixin`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="weixinId != null">
+        weixin_id,
+      </if>
+      <if test="commercialTenantId != null">
+        commercial_tenant_id,
+      </if>
+      <if test="appId != null">
+        app_id,
+      </if>
+      <if test="mchId != null">
+        mch_id,
+      </if>
+      <if test="apiKey != null">
+        api_key,
+      </if>
+      <if test="appSecret != null">
+        app_secret,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="weixinId != null">
+        #{weixinId,jdbcType=INTEGER},
+      </if>
+      <if test="commercialTenantId != null">
+        #{commercialTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="appId != null">
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="mchId != null">
+        #{mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="apiKey != null">
+        #{apiKey,jdbcType=VARCHAR},
+      </if>
+      <if test="appSecret != null">
+        #{appSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Weixin">
+    update `weixin`
+    <set>
+      <if test="commercialTenantId != null">
+        commercial_tenant_id = #{commercialTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="appId != null">
+        app_id = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="mchId != null">
+        mch_id = #{mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="apiKey != null">
+        api_key = #{apiKey,jdbcType=VARCHAR},
+      </if>
+      <if test="appSecret != null">
+        app_secret = #{appSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where weixin_id = #{weixinId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Weixin">
+    update `weixin`
+    set commercial_tenant_id = #{commercialTenantId,jdbcType=INTEGER},
+      app_id = #{appId,jdbcType=VARCHAR},
+      mch_id = #{mchId,jdbcType=VARCHAR},
+      api_key = #{apiKey,jdbcType=VARCHAR},
+      app_secret = #{appSecret,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR}
+    where weixin_id = #{weixinId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByCommercialTenantId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `weixin`
+    where commercial_tenant_id = #{commercialTenantId,jdbcType=INTEGER}
+  </select>
+  
+</mapper>

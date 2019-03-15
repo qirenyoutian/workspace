@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.ChannelMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Channel">
+    <id column="channel_id" jdbcType="INTEGER" property="channelId" />
+    <result column="channel_name" jdbcType="VARCHAR" property="channelName" />
+    <result column="channel_contact" jdbcType="VARCHAR" property="channelContact" />
+    <result column="channel_contact_way" jdbcType="VARCHAR" property="channelContactWay" />
+    <result column="channel_style" jdbcType="VARCHAR" property="channelStyle" />
+    <result column="channel_pay_type" jdbcType="VARCHAR" property="channelPayType" />
+    <result column="channel_single_interface_address" jdbcType="VARCHAR" property="channelSingleInterfaceAddress" />
+    <result column="channel_checkstand_address" jdbcType="VARCHAR" property="channelCheckstandAddress" />
+    <result column="channel_create_time" jdbcType="TIMESTAMP" property="channelCreateTime" />
+    <result column="channel_change_time" jdbcType="TIMESTAMP" property="channelChangeTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    channel_id, channel_name, channel_contact, channel_contact_way, channel_style, channel_pay_type, 
+    channel_single_interface_address, channel_checkstand_address, channel_create_time, 
+    channel_change_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from channel
+    where channel_id = #{channelId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from channel
+    where channel_id = #{channelId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.Channel">
+    insert into channel (channel_id, channel_name, channel_contact, 
+      channel_contact_way, channel_style, channel_pay_type, 
+      channel_single_interface_address, channel_checkstand_address, 
+      channel_create_time, channel_change_time
+      )
+    values (#{channelId,jdbcType=INTEGER}, #{channelName,jdbcType=VARCHAR}, #{channelContact,jdbcType=VARCHAR}, 
+      #{channelContactWay,jdbcType=VARCHAR}, #{channelStyle,jdbcType=VARCHAR}, #{channelPayType,jdbcType=VARCHAR}, 
+      #{channelSingleInterfaceAddress,jdbcType=VARCHAR}, #{channelCheckstandAddress,jdbcType=VARCHAR}, 
+      #{channelCreateTime,jdbcType=TIMESTAMP}, #{channelChangeTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="channelId" parameterType="com.py.bean.Channel">
+    insert into channel
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="channelId != null">
+        channel_id,
+      </if>
+      <if test="channelName != null">
+        channel_name,
+      </if>
+      <if test="channelContact != null">
+        channel_contact,
+      </if>
+      <if test="channelContactWay != null">
+        channel_contact_way,
+      </if>
+      <if test="channelStyle != null">
+        channel_style,
+      </if>
+      <if test="channelPayType != null">
+        channel_pay_type,
+      </if>
+      <if test="channelSingleInterfaceAddress != null">
+        channel_single_interface_address,
+      </if>
+      <if test="channelCheckstandAddress != null">
+        channel_checkstand_address,
+      </if>
+      <if test="channelCreateTime != null">
+        channel_create_time,
+      </if>
+      <if test="channelChangeTime != null">
+        channel_change_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="channelId != null">
+        #{channelId,jdbcType=INTEGER},
+      </if>
+      <if test="channelName != null">
+        #{channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="channelContact != null">
+        #{channelContact,jdbcType=VARCHAR},
+      </if>
+      <if test="channelContactWay != null">
+        #{channelContactWay,jdbcType=VARCHAR},
+      </if>
+      <if test="channelStyle != null">
+        #{channelStyle,jdbcType=VARCHAR},
+      </if>
+      <if test="channelPayType != null">
+        #{channelPayType,jdbcType=VARCHAR},
+      </if>
+      <if test="channelSingleInterfaceAddress != null">
+        #{channelSingleInterfaceAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="channelCheckstandAddress != null">
+        #{channelCheckstandAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="channelCreateTime != null">
+        #{channelCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="channelChangeTime != null">
+        #{channelChangeTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Channel">
+    update channel
+    <set>
+      <if test="channelName != null">
+        channel_name = #{channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="channelContact != null">
+        channel_contact = #{channelContact,jdbcType=VARCHAR},
+      </if>
+      <if test="channelContactWay != null">
+        channel_contact_way = #{channelContactWay,jdbcType=VARCHAR},
+      </if>
+      <if test="channelStyle != null">
+        channel_style = #{channelStyle,jdbcType=VARCHAR},
+      </if>
+      <if test="channelPayType != null">
+        channel_pay_type = #{channelPayType,jdbcType=VARCHAR},
+      </if>
+      <if test="channelSingleInterfaceAddress != null">
+        channel_single_interface_address = #{channelSingleInterfaceAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="channelCheckstandAddress != null">
+        channel_checkstand_address = #{channelCheckstandAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="channelCreateTime != null">
+        channel_create_time = #{channelCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="channelChangeTime != null">
+        channel_change_time = #{channelChangeTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where channel_id = #{channelId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Channel">
+    update channel
+    set channel_name = #{channelName,jdbcType=VARCHAR},
+      channel_contact = #{channelContact,jdbcType=VARCHAR},
+      channel_contact_way = #{channelContactWay,jdbcType=VARCHAR},
+      channel_style = #{channelStyle,jdbcType=VARCHAR},
+      channel_pay_type = #{channelPayType,jdbcType=VARCHAR},
+      channel_single_interface_address = #{channelSingleInterfaceAddress,jdbcType=VARCHAR},
+      channel_checkstand_address = #{channelCheckstandAddress,jdbcType=VARCHAR},
+      channel_create_time = #{channelCreateTime,jdbcType=TIMESTAMP},
+      channel_change_time = #{channelChangeTime,jdbcType=TIMESTAMP}
+    where channel_id = #{channelId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByExample" parameterType="com.py.bean.Channel" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Channel
+    where 1=1
+    <if test="channelId != null">
+      and channel_id = #{channelId,jdbcType=INTEGER}
+    </if>
+    <if test="channelName != null">
+      and channel_name like "%"#{channelName,jdbcType=VARCHAR}"%"
+    </if>
+    <if test="channelContact != null">
+      and channel_contact = #{channelContact,jdbcType=VARCHAR}
+    </if>
+    <if test="channelContactWay != null">
+      and channel_contact_way = #{channelContactWay,jdbcType=VARCHAR}
+    </if>
+    <if test="channelStyle != null">
+      and channel_style = #{channelStyle,jdbcType=VARCHAR}
+    </if>
+    <if test="channelPayType != null">
+      and channel_pay_type= #{channelPayType,jdbcType=INTEGER}
+    </if>
+    <if test="channelSingleInterfaceAddress != null">
+      and channel_single_interface_address = #{channelSingleInterfaceAddress,jdbcType=VARCHAR}
+    </if>
+    <if test="channelCheckstandAddress != null">
+      and channel_checkstand_address = #{channelCheckstandAddress,jdbcType=VARCHAR}
+    </if>
+    <if test="channelCreateTime != null">
+      and channel_create_time = #{channelCreateTime,jdbcType=VARCHAR}
+    </if>
+    <if test="channelChangeTime != null">
+      and channel_change_time = #{channelChangeTime,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <!-- 批量删除 -->
+  <delete id="deleteByArray">
+  	DELETE
+	FROM
+		Channel
+	WHERE
+		channel_id IN
+			<foreach close=")" collection="array" item="Channel" open="(" separator=","> 
+				#{Channel}
+			</foreach>
+  </delete>
+  
+  <!-- 根据时间查找 -->
+   <select id="selectByTime" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select * 
+		from Channel
+		where 1=1
+		<if test="startTime != null">
+			and channel_create_time &gt; #{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and channel_create_time &lt; #{endTime,jdbcType=TIMESTAMP}
+		</if>
+	</select>
+
+    <resultMap id="BaseResultMapAndPayType" type="com.py.bean.Channel">
+	    	<id column="channel_id" jdbcType="INTEGER" property="channelId" />
+		    <result column="channel_name" jdbcType="VARCHAR" property="channelName" />
+		    <result column="channel_contact" jdbcType="VARCHAR" property="channelContact" />
+		    <result column="channel_contact_way" jdbcType="VARCHAR" property="channelContactWay" />
+		    <result column="channel_style" jdbcType="VARCHAR" property="channelStyle" />
+		    <result column="channel_pay_type" jdbcType="VARCHAR" property="channelPayType" />
+		    <result column="channel_single_interface_address" jdbcType="VARCHAR" property="channelSingleInterfaceAddress" />
+		    <result column="channel_checkstand_address" jdbcType="VARCHAR" property="channelCheckstandAddress" />
+		    <result column="channel_create_time" jdbcType="TIMESTAMP" property="channelCreateTime" />
+		    <result column="channel_change_time" jdbcType="TIMESTAMP" property="channelChangeTime" />
+		    <collection property="payments" column="payment_id" ofType="com.py.bean.Payment">
+		    	<id column="payment_id" jdbcType="INTEGER" property="paymentId" />
+			    <result column="payment_name" jdbcType="VARCHAR" property="paymentName" />
+			    <result column="payment_create_time" jdbcType="TIMESTAMP" property="paymentCreateTime" />
+			    <result column="payment_update_time" jdbcType="TIMESTAMP" property="paymentUpdateTime" />
+		    </collection>
+  	</resultMap>
+  
+  
+  <select id="selectPayTypeByChannelId" parameterType="java.lang.Integer" resultMap="BaseResultMapAndPayType">
+  		SELECT
+			*
+		FROM
+			(
+				SELECT
+					*
+				FROM
+					channel_payment p
+				WHERE
+					p.channel_payment_channel_id = #{channelId}
+			) a
+		LEFT JOIN payment p1 ON p1.payment_id = a.channel_payment_payment_id
+  	
+  </select>
+  <select id="selectChannelAndPaymentByChannelId" parameterType="java.lang.Integer" resultMap="BaseResultMapAndPayType">
+  		SELECT
+			*
+		FROM
+			channel c1
+		LEFT JOIN (
+			SELECT
+				*
+			FROM
+				channel_payment c2
+			RIGHT JOIN payment p1 ON p1.payment_id = c2.channel_payment_payment_id
+		) c2
+		ON c2.channel_payment_channel_id = c1.channel_id
+		WHERE c1.channel_id = #{channelId}
+  </select>
+  
+  
+</mapper>

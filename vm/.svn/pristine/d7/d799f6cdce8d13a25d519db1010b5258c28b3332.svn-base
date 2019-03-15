@@ -1,0 +1,363 @@
+package com.py.service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.py.bean.Admin;
+import com.py.bean.AdminRole;
+import com.py.bean.Aisle;
+import com.py.bean.AisleInventory;
+import com.py.bean.AisleMerchandise;
+import com.py.bean.CommercialMerchandiseReport;
+import com.py.bean.CommercialTenantReport;
+import com.py.bean.Equipment;
+import com.py.bean.EquipmentReport;
+import com.py.bean.Merchandise;
+import com.py.bean.MerchandiseReport;
+import com.py.bean.Order;
+import com.py.bean.Point;
+import com.py.bean.PointReport;
+import com.py.bean.User;
+import com.py.dao.AdminMapper;
+import com.py.dao.AdminPointMapper;
+import com.py.dao.AdminRoleMapper;
+import com.py.dao.AisleMapper;
+import com.py.dao.ChannelMerchandiseMapper;
+import com.py.dao.EquipmentMapper;
+import com.py.dao.MerchandiseMapper;
+import com.py.dao.OrderMapper;
+import com.py.dao.PointMapper;
+import com.py.dao.RoleMapper;
+import com.py.dao.SideboardMapper;
+import com.py.dao.UserMapper;
+import com.py.util.CommonUtil;
+import com.py.util.Msg;
+import com.py.util.OfTime;
+import com.py.util.QRCodeUtil;
+import com.py.util.SMSBean;
+import com.py.util.UUIDUtils;
+
+@Service
+public class AppletService {
+
+	@Autowired
+	OrderMapper orderMapper;
+	@Autowired
+	SideboardMapper sideboardMapper;
+	@Autowired
+	AdminMapper adminMapper;
+	@Autowired
+	AdminRoleMapper adminRoleMapper;
+	@Autowired
+	RoleMapper roleMapper;
+	@Autowired
+	AdminPointMapper adminPointMapper;
+	@Autowired
+	UserMapper userMapper;
+	@Autowired
+	EquipmentMapper equipmentMapper;
+	@Autowired
+	PointMapper pointMapper;
+	@Autowired
+	AisleMapper aisleMapper;
+	@Autowired
+	ChannelMerchandiseMapper channelMerchandiseMapper;
+	@Autowired
+	MerchandiseMapper merchandiseMapper;
+	
+	/**
+	 * 找回密码
+	 * @param phonenum
+	 * @param password
+	 * @return
+	 */
+	public String retrievePassword(String phonenum,String password) {
+		User user = new User();
+		user.setUserAccount(phonenum);
+		User findUser = userMapper.selectByPrimary(user);
+		if(findUser == null) {
+			return "该号码未注册";
+		}else {
+			findUser.setUserPassWord(password);
+		}
+		userMapper.updateByPrimaryKeySelective(findUser);
+		return null;
+	}
+	
+	/**
+	 * 登录
+	 * @param phonenum
+	 * @param password
+	 * @return
+	 */
+	public Msg login(String phonenum, String password) {
+		SMSBean smsBean = (SMSBean) CommonUtil.MSG_MAP.get(phonenum);
+		if(smsBean != null) {
+			CommonUtil.MSG_MAP.remove(phonenum);
+		}
+		
+		Msg msg = Msg.success();
+		
+		Admin admin = new Admin();
+		admin.setAdminAccount(phonenum);
+		admin.setAdminPassword(password);
+		admin = adminMapper.selectByPrimary(admin);
+		if(admin != null) {//管理员或运营人员
+			
+			SMSBean bean = new SMSBean(admin.getAdminId() ,admin.getAdminAccount(),UUIDUtils.getUUID(),null);
+			CommonUtil.MSG_MAP.put(admin.getAdminAccount(), bean);
+			
+			AdminRole adminRole =  adminRoleMapper.selectAdminRoleByAdminId(admin.getAdminId());
+			if(adminRole != null) {
+				if(adminRole.getAdminRoleId() == 2) {//运营人员
+					msg.add("page", "operation");
+				}else {
+					msg.add("page", "admin");
+				}
+			}
+			msg.add("token", bean.getValue());
+			msg.add("phonenum", admin.getAdminAccount());
+			
+		}else {//用户
+			User user = new User();
+			user.setUserAccount(phonenum);
+			user.setUserPassWord(password);
+			user = userMapper.selectByPrimary(user);
+			if(user != null) {
+				SMSBean bean = new SMSBean(user.getUserId() ,user.getUserAccount(),UUIDUtils.getUUID(),null);
+				CommonUtil.MSG_MAP.put(user.getUserAccount(), bean);
+				
+				msg.add("token", bean.getValue());
+				msg.add("phonenum", user.getUserAccount());
+				msg.add("page", "user");
+				
+			}else {
+				return Msg.fail().add("msg", "账号或密码错误");
+			}
+		}
+		return msg;
+	}
+	
+	/**
+	 * 注册
+	 * @param user
+	 * @return
+	 */
+	public String register(User user) {
+		User findUser = userMapper.selectByPrimary(user);
+		if(findUser != null) {
+			return "该号码已注册过";
+		}
+		user.setUserCreationTime(OfTime.getLongTime());
+		userMapper.insertSelective(user);
+		return null;
+	}
+	
+	/**
+	 * 获取点位和货道信息
+	 * @param longitude
+	 * @param latitude
+	 * @return
+	 */
+	public Msg findPointAndAisle(Double longitude,Double latitude) {
+		
+		Equipment equipment = equipmentMapper.selectByLongitudeAndLatitude(longitude - 0.001,longitude + 0.001,latitude - 0.001,latitude + 0.001);
+		
+		Point point = null;
+		List<AisleMerchandise> list = new ArrayList<AisleMerchandise>();
+		if(equipment != null) {
+			point = pointMapper.selectByPrimaryKey(equipment.getEquipmentPointId());
+			List<Aisle> aisles = aisleMapper.selectByEquipmentId(equipment.getEquipmentId());
+			for (Aisle aisle : aisles) {
+				AisleMerchandise am = new AisleMerchandise();
+				am.setAisliId(aisle.getAisleId());
+				am.setAisleNumber(aisle.getAisleNumber());
+				
+				AisleInventory ai = aisle.getAisleInventorie();
+				if(ai != null) {
+					Merchandise merchandise = ai.getMerchandise();
+					if(merchandise != null) {
+						am.setMerchandiseName(merchandise.getMerchandiseName());
+					}
+				}
+				list.add(am);
+			}
+		}
+		
+		Msg msg = Msg.success();
+		msg.add("point", point);
+		msg.add("aisles", list);
+		return msg;
+	}
+	
+	/**
+	 * 获取取货码
+	 * @param order
+	 * @return
+	 */
+	public Order getPickupCode(Order order) {
+		order = orderMapper.getPickupCode(order);
+		
+		if(order != null) {
+			order.setOrderPickupCode(QRCodeUtil.producePickupCode());
+			orderMapper.updateByPrimaryKeySelective(order);
+		}
+		
+		return order;
+	}
+
+	/**
+	 * 销售报表
+	 * @param startTime
+	 * @param endTime
+	 * @param index
+	 * @param type
+	 * @return
+	 */
+	public Msg salesReportSum(String startTime, String endTime, int index, Integer type) {
+		Map<String,Double> map =new TreeMap<String,Double>();
+		String key = null;
+		double amount = 0;
+		
+		List<Order> orders = orderMapper.getSalesReport(startTime,endTime);
+		for (Order order : orders) {
+			key = order.getOrderCreateTime().substring(5, index);
+			if(type == 0) {//计算金额
+				amount = order.getOrderPrice();
+			}else {//计算数量
+				amount = 1;
+			}
+			if(map.get(key) == null) {
+				map.put(key, amount);
+			}else {
+				map.put(key, map.get(key) + amount);
+			}
+		}
+		
+		return Msg.success(map);
+	}
+
+	/**
+	 * 总销售量销售额
+	 * @return
+	 */
+	public Msg grossSales(String startTime, String endTime) {
+		Msg msg = Msg.success();
+		msg.add("count", orderMapper.getSalesReportCount(startTime,endTime));
+		msg.add("amount", orderMapper.getSalesReportSum(startTime,endTime));
+		return msg;
+	}
+
+	/**
+	 * 点位报表
+	 * @param type
+	 * @param startTime
+	 * @param endTime
+	 * @return
+	 */
+	public List<PointReport> pointReport(String type, String startTime, String endTime) {
+		
+		List<PointReport> pointReports = orderMapper.pointReport(startTime,endTime,type);
+		
+		return pointReports;
+	}
+	
+	/**
+	 * 设备报表
+	 * @param pointId
+	 * @param type
+	 * @param startTime
+	 * @param endTime
+	 * @param index
+	 * @return
+	 */
+	public List<EquipmentReport> equipmentReport(Integer pointId, Integer type, String startTime, String endTime, int index) {
+		Map<String,EquipmentReport> map =new TreeMap<String,EquipmentReport>();//已时间格式来key保存设备报表信息
+		String date = null;//时间格式
+		Equipment equipment = null;//设备
+		List<EquipmentReport> equipmentReports = new ArrayList<EquipmentReport>();//设备报表
+		
+		//按条件查出订单
+		List<Order> orders = orderMapper.equipmentReport(pointId,startTime,endTime);
+		for (Order order : orders) {
+			date = order.getOrderCreateTime().substring(5, index);//时间格式（key）
+			equipment = order.getEquipment();//该订单的设备
+			if(map.get(date) == null) {//判断map是否已存在设备报表信息
+				if(equipment != null) {
+					EquipmentReport equipmentReport = new EquipmentReport();
+					equipmentReport.setEquipmentId(equipment.getEquipmentId());
+					equipmentReport.setEquipmentName(equipment.getEquipmentName());
+					equipmentReport.setAmount(1);
+					equipmentReport.setSum(order.getOrderPrice());
+					equipmentReport.setDate(date);
+					map.put(date, equipmentReport);
+				}
+			}else {//已存在设备报表信息
+				EquipmentReport equipmentReport = map.get(date);
+				equipmentReport.setAmount(equipmentReport.getAmount() + 1);//相同时期的加1，记录该时间的销售量
+				equipmentReport.setSum(equipmentReport.getSum() + order.getOrderPrice());//相同时期的加金额，记录该时间的销售额
+				map.put(date, equipmentReport);
+			}
+		}
+		
+		Set<String> keySet = map.keySet();
+		for (String key : keySet) {
+			equipmentReports.add(map.get(key));
+		}
+		
+		return equipmentReports;
+	}
+
+	/**
+	 * 商户报表
+	 * @param type
+	 * @param startTime
+	 * @param endTime
+	 * @return
+	 */
+	public List<CommercialTenantReport> commercialTenantReport(String type, String startTime, String endTime) {
+		List<CommercialTenantReport> commercialTenantReports = orderMapper.commercialTenantReport(startTime,endTime,type);
+		return commercialTenantReports;
+	}
+	
+	/**
+	 * 某商户的商品在点位的销售报表
+	 * @param commercialTenantId
+	 * @param type
+	 * @param startTime
+	 * @param endTime
+	 * @param index
+	 * @return
+	 */
+	public List<CommercialMerchandiseReport> commercialMerchandiseReport(Integer commercialTenantId, Integer type, String startTime, String endTime, int index) {
+		String name = null;//点位商品名称
+		String date = null;//
+		List<CommercialMerchandiseReport> list = new ArrayList<CommercialMerchandiseReport>();//某商户的商品在点位的销售报表
+		
+		List<Order> orders = orderMapper.commercialMerchandiseReport(commercialTenantId, startTime, endTime);
+		for (Order order : orders) {
+			date = order.getOrderCreateTime().substring(5, index);
+			name = order.getOrderUserName();
+			
+		}
+		return list;
+	}
+
+	/**
+	 * 商品报表
+	 * @param type
+	 * @param startTime
+	 * @param endTime
+	 * @return
+	 */
+	public List<MerchandiseReport> merchandiseReport(String type, String startTime, String endTime) {
+		return orderMapper.merchandiseReport(startTime,endTime,type);
+	}
+	
+}

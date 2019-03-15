@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.SideboardMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Sideboard">
+    <id column="sideboard_id" jdbcType="INTEGER" property="sideboardId" />
+    <result column="sideboard_name" jdbcType="VARCHAR" property="sideboardName" />
+    <result column="sideboard_channel_id" jdbcType="INTEGER" property="sideboardChannelId" />
+    <result column="sideboard_equipment_id" jdbcType="INTEGER" property="sideboardEquipmentId" />
+    <result column="sideboard_merchandise_id" jdbcType="INTEGER" property="sideboardMerchandiseId" />
+    <result column="sideboard_count" jdbcType="INTEGER" property="sideboardCount" />
+    <result column="sideboard_versions" jdbcType="INTEGER" property="sideboardVersions" />
+    <result column="sideboard_create_time" jdbcType="TIMESTAMP" property="sideboardCreateTime" />
+    <result column="sideboard_change_time" jdbcType="TIMESTAMP" property="sideboardChangeTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    sideboard_id, sideboard_name, sideboard_channel_id, sideboard_equipment_id, sideboard_merchandise_id, 
+    sideboard_count, sideboard_versions, sideboard_create_time, sideboard_change_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sideboard
+    where sideboard_id = #{sideboardId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sideboard
+    where sideboard_id = #{sideboardId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.Sideboard">
+    insert into sideboard (sideboard_id, sideboard_name, sideboard_channel_id, 
+      sideboard_equipment_id, sideboard_merchandise_id, 
+      sideboard_count, sideboard_versions, sideboard_create_time, 
+      sideboard_change_time)
+    values (#{sideboardId,jdbcType=INTEGER}, #{sideboardName,jdbcType=VARCHAR}, #{sideboardChannelId,jdbcType=INTEGER}, 
+      #{sideboardEquipmentId,jdbcType=INTEGER}, #{sideboardMerchandiseId,jdbcType=INTEGER}, 
+      #{sideboardCount,jdbcType=INTEGER}, #{sideboardVersions,jdbcType=INTEGER}, #{sideboardCreateTime,jdbcType=TIMESTAMP}, 
+      #{sideboardChangeTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.Sideboard">
+    insert into sideboard
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sideboardId != null">
+        sideboard_id,
+      </if>
+      <if test="sideboardName != null">
+        sideboard_name,
+      </if>
+      <if test="sideboardChannelId != null">
+        sideboard_channel_id,
+      </if>
+      <if test="sideboardEquipmentId != null">
+        sideboard_equipment_id,
+      </if>
+      <if test="sideboardMerchandiseId != null">
+        sideboard_merchandise_id,
+      </if>
+      <if test="sideboardCount != null">
+        sideboard_count,
+      </if>
+      <if test="sideboardVersions != null">
+        sideboard_versions,
+      </if>
+      <if test="sideboardCreateTime != null">
+        sideboard_create_time,
+      </if>
+      <if test="sideboardChangeTime != null">
+        sideboard_change_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sideboardId != null">
+        #{sideboardId,jdbcType=INTEGER},
+      </if>
+      <if test="sideboardName != null">
+        #{sideboardName,jdbcType=VARCHAR},
+      </if>
+      <if test="sideboardChannelId != null">
+        #{sideboardChannelId,jdbcType=INTEGER},
+      </if>
+      <if test="sideboardEquipmentId != null">
+        #{sideboardEquipmentId,jdbcType=INTEGER},
+      </if>
+      <if test="sideboardMerchandiseId != null">
+        #{sideboardMerchandiseId,jdbcType=INTEGER},
+      </if>
+      <if test="sideboardCount != null">
+        #{sideboardCount,jdbcType=INTEGER},
+      </if>
+      <if test="sideboardVersions != null">
+        #{sideboardVersions,jdbcType=INTEGER},
+      </if>
+      <if test="sideboardCreateTime != null">
+        #{sideboardCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sideboardChangeTime != null">
+        #{sideboardChangeTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Sideboard">
+    update sideboard
+    <set>
+      <if test="sideboardName != null">
+        sideboard_name = #{sideboardName,jdbcType=VARCHAR},
+      </if>
+      <if test="sideboardChannelId != null">
+        sideboard_channel_id = #{sideboardChannelId,jdbcType=INTEGER},
+      </if>
+      <if test="sideboardEquipmentId != null">
+        sideboard_equipment_id = #{sideboardEquipmentId,jdbcType=INTEGER},
+      </if>
+      <if test="sideboardMerchandiseId != null">
+        sideboard_merchandise_id = #{sideboardMerchandiseId,jdbcType=INTEGER},
+      </if>
+      <if test="sideboardCount != null">
+        sideboard_count = #{sideboardCount,jdbcType=INTEGER},
+      </if>
+      <if test="sideboardVersions != null">
+        sideboard_versions = sideboard_versions + 1,
+      </if>
+      <if test="sideboardCreateTime != null">
+        sideboard_create_time = #{sideboardCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sideboardChangeTime != null">
+        sideboard_change_time = #{sideboardChangeTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where sideboard_id = #{sideboardId,jdbcType=INTEGER} AND sideboard_versions = #{sideboardVersions,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Sideboard">
+    update sideboard
+    set sideboard_name = #{sideboardName,jdbcType=VARCHAR},
+      sideboard_channel_id = #{sideboardChannelId,jdbcType=INTEGER},
+      sideboard_equipment_id = #{sideboardEquipmentId,jdbcType=INTEGER},
+      sideboard_merchandise_id = #{sideboardMerchandiseId,jdbcType=INTEGER},
+      sideboard_count = #{sideboardCount,jdbcType=INTEGER},
+      sideboard_versions = sideboard_versions + 1,
+      sideboard_create_time = #{sideboardCreateTime,jdbcType=TIMESTAMP},
+      sideboard_change_time = #{sideboardChangeTime,jdbcType=TIMESTAMP}
+    where sideboard_id = #{sideboardId,jdbcType=INTEGER} AND sideboard_versions = #{sideboardVersions,jdbcType=INTEGER}
+  </update>
+  
+  <resultMap id="BaseResultExtendMap" type="com.py.bean.Sideboard">
+    <id column="sideboard_id" jdbcType="INTEGER" property="sideboardId" />
+    <result column="sideboard_name" jdbcType="VARCHAR" property="sideboardName" />
+    <result column="sideboard_channel_id" jdbcType="INTEGER" property="sideboardChannelId" />
+    <result column="sideboard_equipment_id" jdbcType="INTEGER" property="sideboardEquipmentId" />
+    <result column="sideboard_merchandise_id" jdbcType="INTEGER" property="sideboardMerchandiseId" />
+    <result column="sideboard_count" jdbcType="INTEGER" property="sideboardCount" />
+    <result column="sideboard_versions" jdbcType="INTEGER" property="sideboardVersions" />
+    <result column="sideboard_create_time" jdbcType="TIMESTAMP" property="sideboardCreateTime" />
+    <result column="sideboard_change_time" jdbcType="TIMESTAMP" property="sideboardChangeTime" />
+    <collection column="merchandise_id" ofType="com.py.bean.Merchandise" property="merchandise">
+    	<id column="merchandise_id" jdbcType="INTEGER" property="merchandiseId" />
+	    <result column="merchandise_name" jdbcType="VARCHAR" property="merchandiseName" />
+	    <result column="merchandise_number" jdbcType="VARCHAR" property="merchandiseNumber" />
+	    <result column="merchandise_commercial_tenant_number" jdbcType="VARCHAR" property="merchandiseCommercialTenantNumber" />
+	    <result column="merchandise_classify" jdbcType="INTEGER" property="merchandiseClassify" />
+	    <result column="merchandise_price" jdbcType="DOUBLE" property="merchandisePrice" />
+	    <result column="merchandise_image_url" jdbcType="VARCHAR" property="merchandiseImageUrl" />
+	    <result column="merchandise_exhibition_image_url" jdbcType="VARCHAR" property="merchandiseExhibitionImageUrl" />
+	    <result column="merchandise_information_comefrom" jdbcType="INTEGER" property="merchandiseInformationComefrom" />
+	    <result column="merchandise_h5_image_url" jdbcType="VARCHAR" property="merchandiseH5ImageUrl" />
+	    <result column="merchandise_status" jdbcType="INTEGER" property="merchandiseStatus" />
+	    <result column="merchandise_time" jdbcType="TIMESTAMP" property="merchandiseTime" />
+	    <result column="merchandise_upload_time" jdbcType="TIMESTAMP" property="merchandiseUploadTime" />
+	    <result column="merchandise_update_time" jdbcType="TIMESTAMP" property="merchandiseUpdateTime" />
+    </collection>
+  </resultMap>
+  
+  <select id="selectByPrimary" parameterType="com.py.bean.Sideboard" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sideboard
+    <where>
+      <if test="sideboardName != null">
+        and sideboard_name = #{sideboardName,jdbcType=VARCHAR}
+      </if>
+      <if test="sideboardChannelId != null">
+        and sideboard_channel_id = #{sideboardChannelId,jdbcType=INTEGER}
+      </if>
+      <if test="sideboardEquipmentId != null">
+        and sideboard_equipment_id = #{sideboardEquipmentId,jdbcType=INTEGER}
+      </if>
+      <if test="sideboardMerchandiseId != null">
+        and sideboard_merchandise_id = #{sideboardMerchandiseId,jdbcType=INTEGER}
+      </if>
+      <if test="sideboardCount != null">
+        and sideboard_count = #{sideboardCount,jdbcType=INTEGER}
+      </if>
+      <if test="sideboardVersions != null">
+        and sideboard_versions = #{sideboardVersions,jdbcType=INTEGER}
+      </if>
+      <if test="sideboardCreateTime != null">
+        and sideboard_create_time = #{sideboardCreateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="sideboardChangeTime != null">
+        and sideboard_change_time = #{sideboardChangeTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+    order by sideboard_create_time desc limit 1
+  </select>
+  
+  <select id="selectByExample" parameterType="com.py.bean.Sideboard" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sideboard
+    <where>
+      <if test="sideboardName != null">
+        and sideboard_name = #{sideboardName,jdbcType=VARCHAR}
+      </if>+
+      <if test="sideboardChannelId != null">
+        and sideboard_channel_id = #{sideboardChannelId,jdbcType=INTEGER}
+      </if>
+      <if test="sideboardEquipmentId != null">
+        and sideboard_equipment_id = #{sideboardEquipmentId,jdbcType=INTEGER}
+      </if>
+      <if test="sideboardMerchandiseId != null">
+        and sideboard_merchandise_id = #{sideboardMerchandiseId,jdbcType=INTEGER}
+      </if>
+      <if test="sideboardCount != null">
+        and sideboard_count = #{sideboardCount,jdbcType=INTEGER}
+      </if>
+      <if test="sideboardVersions != null">
+        and sideboard_versions = #{sideboardVersions,jdbcType=INTEGER}
+      </if>
+      <if test="sideboardCreateTime != null">
+        and sideboard_create_time = #{sideboardCreateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="sideboardChangeTime != null">
+        and sideboard_change_time = #{sideboardChangeTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+      order by sideboard_create_time desc
+  </select>
+  
+  <select id="findSideboard" parameterType="com.py.bean.Sideboard" resultMap="BaseResultExtendMap">
+    SELECT *
+    FROM sideboard s
+    LEFT JOIN merchandise m ON s.sideboard_merchandise_id = m.merchandise_id
+    <where>
+      <if test="sideboardName != null">
+        and sideboard_name = #{sideboardName,jdbcType=VARCHAR}
+      </if>
+      <if test="sideboardChannelId != null">
+        and sideboard_channel_id = #{sideboardChannelId,jdbcType=INTEGER}
+      </if>
+      <if test="sideboardEquipmentId != null">
+        and sideboard_equipment_id = #{sideboardEquipmentId,jdbcType=INTEGER}
+      </if>
+      <if test="sideboardMerchandiseId != null">
+        and sideboard_merchandise_id = #{sideboardMerchandiseId,jdbcType=INTEGER}
+      </if>
+      <if test="sideboardCount != null">
+        and sideboard_count = #{sideboardCount,jdbcType=INTEGER}
+      </if>
+      <if test="sideboardVersions != null">
+        and sideboard_versions = #{sideboardVersions,jdbcType=INTEGER}
+      </if>
+      <if test="sideboardCreateTime != null">
+        and sideboard_create_time = #{sideboardCreateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="sideboardChangeTime != null">
+        and sideboard_change_time = #{sideboardChangeTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+      order by sideboard_create_time desc
+  </select>
+  
+</mapper>

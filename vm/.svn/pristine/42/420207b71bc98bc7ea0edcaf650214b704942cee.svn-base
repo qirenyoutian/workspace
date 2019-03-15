@@ -1,0 +1,42 @@
+package com.py.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.py.bean.Order;
+import com.py.bean.Sideboard;
+import com.py.dao.OrderMapper;
+import com.py.dao.SideboardMapper;
+import com.py.util.QRCodeUtil;
+
+@Service
+public class AppletService {
+
+	@Autowired
+	OrderMapper orderMapper;
+	@Autowired
+	SideboardMapper sideboardMapper;
+	
+	public List<Sideboard> findSideboard(Sideboard sideboard) {
+		return sideboardMapper.findSideboard(sideboard);
+	}
+	
+	/**
+	 * 获取取货码
+	 * @param order
+	 * @return
+	 */
+	public Order getPickupCode(Order order) {
+		order = orderMapper.getPickupCode(order);
+		
+		if(order != null) {
+			order.setOrderPickupCode(QRCodeUtil.producePickupCode());
+			orderMapper.updateByPrimaryKeySelective(order);
+		}
+		
+		return order;
+	}
+
+}

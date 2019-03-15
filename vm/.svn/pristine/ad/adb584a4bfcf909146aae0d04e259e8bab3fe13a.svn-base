@@ -1,0 +1,21 @@
+package com.py.dao;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.py.bean.Single;
+
+public interface SingleMapper {
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(Single record);
+
+    int insertSelective(Single record);
+
+    Single selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(Single record);
+
+    int updateByPrimaryKey(Single record);
+
+	Single selectByChannelOrderNumber(@Param("order_id")String order_id);
+}

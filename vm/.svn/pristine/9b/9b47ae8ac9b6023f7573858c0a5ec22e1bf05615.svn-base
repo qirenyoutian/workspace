@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.AisleMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Aisle">
+    <id column="aisle_id" jdbcType="INTEGER" property="aisleId" />
+    <result column="aisle_equipment_id" jdbcType="INTEGER" property="aisleEquipmentId" />
+    <result column="aisle_abscissa" jdbcType="INTEGER" property="aisleAbscissa" />
+    <result column="aisle_ordinate" jdbcType="INTEGER" property="aisleOrdinate" />
+    <result column="aisle_number" jdbcType="VARCHAR" property="aisleNumber" />
+    <result column="aisle_status" jdbcType="INTEGER" property="aisleStatus" />
+    <result column="aisle_versions" jdbcType="INTEGER" property="aisleVersions" />
+    <result column="aisle_create_time" jdbcType="TIMESTAMP" property="aisleCreateTime" />
+    <result column="aisle_change_time" jdbcType="TIMESTAMP" property="aisleChangeTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    aisle_id, aisle_equipment_id, aisle_abscissa, aisle_ordinate, aisle_number, aisle_status, 
+    aisle_versions, aisle_create_time, aisle_change_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from aisle
+    where aisle_id = #{aisleId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from aisle
+    where aisle_id = #{aisleId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.Aisle">
+    insert into aisle (aisle_id, aisle_equipment_id, aisle_abscissa, 
+      aisle_ordinate, aisle_number, aisle_status, 
+      aisle_versions, aisle_create_time, aisle_change_time
+      )
+    values (#{aisleId,jdbcType=INTEGER}, #{aisleEquipmentId,jdbcType=INTEGER}, #{aisleAbscissa,jdbcType=INTEGER}, 
+      #{aisleOrdinate,jdbcType=INTEGER}, #{aisleNumber,jdbcType=VARCHAR}, #{aisleStatus,jdbcType=INTEGER}, 
+      #{aisleVersions,jdbcType=INTEGER}, #{aisleCreateTime,jdbcType=TIMESTAMP}, #{aisleChangeTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.Aisle">
+    insert into aisle
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="aisleId != null">
+        aisle_id,
+      </if>
+      <if test="aisleEquipmentId != null">
+        aisle_equipment_id,
+      </if>
+      <if test="aisleAbscissa != null">
+        aisle_abscissa,
+      </if>
+      <if test="aisleOrdinate != null">
+        aisle_ordinate,
+      </if>
+      <if test="aisleNumber != null">
+        aisle_number,
+      </if>
+      <if test="aisleStatus != null">
+        aisle_status,
+      </if>
+      <if test="aisleVersions != null">
+        aisle_versions,
+      </if>
+      <if test="aisleCreateTime != null">
+        aisle_create_time,
+      </if>
+      <if test="aisleChangeTime != null">
+        aisle_change_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="aisleId != null">
+        #{aisleId,jdbcType=INTEGER},
+      </if>
+      <if test="aisleEquipmentId != null">
+        #{aisleEquipmentId,jdbcType=INTEGER},
+      </if>
+      <if test="aisleAbscissa != null">
+        #{aisleAbscissa,jdbcType=INTEGER},
+      </if>
+      <if test="aisleOrdinate != null">
+        #{aisleOrdinate,jdbcType=INTEGER},
+      </if>
+      <if test="aisleNumber != null">
+        #{aisleNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="aisleStatus != null">
+        #{aisleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="aisleVersions != null">
+        #{aisleVersions,jdbcType=INTEGER},
+      </if>
+      <if test="aisleCreateTime != null">
+        #{aisleCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="aisleChangeTime != null">
+        #{aisleChangeTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Aisle">
+    update aisle
+    <set>
+      <if test="aisleEquipmentId != null">
+        aisle_equipment_id = #{aisleEquipmentId,jdbcType=INTEGER},
+      </if>
+      <if test="aisleAbscissa != null">
+        aisle_abscissa = #{aisleAbscissa,jdbcType=INTEGER},
+      </if>
+      <if test="aisleOrdinate != null">
+        aisle_ordinate = #{aisleOrdinate,jdbcType=INTEGER},
+      </if>
+      <if test="aisleNumber != null">
+        aisle_number = #{aisleNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="aisleStatus != null">
+        aisle_status = #{aisleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="aisleVersions != null">
+        aisle_versions = aisle_versions + 1,
+      </if>
+      <if test="aisleCreateTime != null">
+        aisle_create_time = #{aisleCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="aisleChangeTime != null">
+        aisle_change_time = #{aisleChangeTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where aisle_id = #{aisleId,jdbcType=INTEGER} AND aisle_versions = #{aisleVersions,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Aisle">
+    update aisle
+    set aisle_equipment_id = #{aisleEquipmentId,jdbcType=INTEGER},
+      aisle_abscissa = #{aisleAbscissa,jdbcType=INTEGER},
+      aisle_ordinate = #{aisleOrdinate,jdbcType=INTEGER},
+      aisle_number = #{aisleNumber,jdbcType=VARCHAR},
+      aisle_status = #{aisleStatus,jdbcType=INTEGER},
+      aisle_versions = aisle_versions + 1,
+      aisle_create_time = #{aisleCreateTime,jdbcType=TIMESTAMP},
+      aisle_change_time = #{aisleChangeTime,jdbcType=TIMESTAMP}
+    where aisle_id = #{aisleId,jdbcType=INTEGER} AND aisle_versions = #{aisleVersions,jdbcType=INTEGER}
+  </update>
+  	<!-- 根据List插入 -->
+  	 <insert id="insertSelectiveByAisle" keyProperty="aisleId" parameterType="java.util.List" useGeneratedKeys="true">
+  	insert into aisle
+    	(aisle_equipment_id, aisle_abscissa,aisle_ordinate) values
+    <foreach collection="list" index="index" item="aisle" separator=",">
+    	<trim prefix="(" suffix=")" suffixOverrides=",">
+	      <if test="aisle.aisleId != null">
+	        #{aisle.aisleId,jdbcType=INTEGER},
+	      </if>
+	      <if test="aisle.aisleEquipmentId != null">
+	        #{aisle.aisleEquipmentId,jdbcType=INTEGER},
+	      </if>
+	      <if test="aisle.aisleAbscissa != null">
+	        #{aisle.aisleAbscissa,jdbcType=INTEGER},
+	      </if>
+	      <if test="aisle.aisleOrdinate != null">
+	        #{aisle.aisleOrdinate,jdbcType=INTEGER},
+	      </if>
+	      <if test="aisle.aisleNumber != null">
+	        #{aisle.aisleNumber,jdbcType=VARCHAR},
+	      </if>
+	      <if test="aisle.aisleStatus != null">
+	        #{aisle.aisleStatus,jdbcType=INTEGER},
+	      </if>
+	      <if test="aisle.aisleVersions != null">
+	        #{aisle.aisleVersions,jdbcType=INTEGER},
+	      </if>
+	      <if test="aisle.aisleCreateTime != null">
+	        #{aisle.aisleCreateTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="aisle.aisleChangeTime != null">
+	        #{aisle.aisleChangeTime,jdbcType=TIMESTAMP},
+	      </if>
+	    </trim>
+    </foreach>
+  </insert>
+  <!-- 根据设备ID删除货道信息 -->
+  
+  <delete id="deleteByEquipmentId" parameterType="java.lang.Integer">
+    delete from aisle
+    where aisle_equipment_id = #{aisleEquipmentId,jdbcType=INTEGER}
+  </delete>
+  
+  
+	<!-- ByExample -->
+	<select id="selectByExample" parameterType="com.py.bean.Aisle" resultMap="BaseResultMap">
+		select * 
+		from aisle
+		where 1=1
+		<if test="aisleId != null">
+        	AND aisle_id = #{aisleId,jdbcType=INTEGER}
+      	</if>
+		<if test="aisleEquipmentId != null">
+        	AND aisle_equipment_id = #{aisleEquipmentId,jdbcType=INTEGER}
+      	</if>
+      	<if test="aisleAbscissa != null">
+        	AND aisle_abscissa = #{aisleAbscissa,jdbcType=INTEGER}
+      	</if>
+      	<if test="aisleOrdinate != null">
+        	AND aisle_ordinate = #{aisleOrdinate,jdbcType=INTEGER}
+      	</if>
+      	<if test="aisleNumber != null">
+        	AND aisle_number = #{aisleNumber,jdbcType=VARCHAR}
+      	</if>
+      	<if test="aisleStatus != null">
+        	AND	aisle_status = #{aisleStatus,jdbcType=INTEGER}
+      	</if>
+      	<if test="aisleVersions != null">
+        	AND aisle_versions = #{aisleVersions,jdbcType=INTEGER}
+      	</if>
+      	<if test="aisleCreateTime != null">
+        	AND aisle_create_time = #{aisleCreateTime,jdbcType=TIMESTAMP}
+      	</if>
+      	<if test="aisleChangeTime != null">
+        	AND aisle_change_time = #{aisleChangeTime,jdbcType=TIMESTAMP}
+      	</if>
+	</select>
+  <resultMap id="BaseResultExtendMap" type="com.py.bean.Aisle">
+  	<id column="aisle_id" jdbcType="INTEGER" property="aisleId" />
+    <result column="aisle_equipment_id" jdbcType="INTEGER" property="aisleEquipmentId" />
+    <result column="aisle_abscissa" jdbcType="INTEGER" property="aisleAbscissa" />
+    <result column="aisle_ordinate" jdbcType="INTEGER" property="aisleOrdinate" />
+    <result column="aisle_number" jdbcType="VARCHAR" property="aisleNumber" />
+    <result column="aisle_status" jdbcType="INTEGER" property="aisleStatus" />
+    <result column="aisle_versions" jdbcType="INTEGER" property="aisleVersions" />
+    <result column="aisle_create_time" jdbcType="TIMESTAMP" property="aisleCreateTime" />
+    <result column="aisle_change_time" jdbcType="TIMESTAMP" property="aisleChangeTime" />
+    <collection column="aisle_inventory_aisle_id" ofType="com.py.bean.AisleInventory" property="aisleInventorie">
+    	<id column="aisle_inventory_id" jdbcType="INTEGER" property="aisleInventoryId" />
+	    <result column="aisle_inventory_aisle_id" jdbcType="INTEGER" property="aisleInventoryAisleId" />
+	    <result column="aisle_inventory_merchandise_id" jdbcType="INTEGER" property="aisleInventoryMerchandiseId" />
+	    <result column="aisle_inventory_channel_merchandise_id" jdbcType="INTEGER" property="aisleInventoryChannelMerchandiseId" />
+	    <result column="aisle_inventory_count" jdbcType="INTEGER" property="aisleInventoryCount" />
+	    <result column="aisle_inventory_create_time" jdbcType="TIMESTAMP" property="aisleInventoryCreateTime" />
+	    <result column="aisle_inventory_update_time" jdbcType="TIMESTAMP" property="aisleInventoryUpdateTime" />
+	    <collection column="merchandise_id" ofType="com.py.bean.Merchandise" property="merchandise">
+	    	<id column="merchandise_id" jdbcType="INTEGER" property="merchandiseId" />
+		    <result column="merchandise_name" jdbcType="VARCHAR" property="merchandiseName" />
+		    <result column="merchandise_number" jdbcType="VARCHAR" property="merchandiseNumber" />
+		    <result column="merchandise_commercial_tenant_number" jdbcType="VARCHAR" property="merchandiseCommercialTenantNumber" />
+		    <result column="merchandise_classify" jdbcType="INTEGER" property="merchandiseClassify" />
+		    <result column="merchandise_price" jdbcType="DOUBLE" property="merchandisePrice" />
+		    <result column="merchandise_image_url" jdbcType="VARCHAR" property="merchandiseImageUrl" />
+		    <result column="merchandise_exhibition_image_url" jdbcType="VARCHAR" property="merchandiseExhibitionImageUrl" />
+    		<result column="merchandise_h5_image_url" jdbcType="VARCHAR" property="merchandiseH5ImageUrl" />
+		    <result column="merchandise_status" jdbcType="INTEGER" property="merchandiseStatus" />
+		    <result column="merchandise_time" jdbcType="TIMESTAMP" property="merchandiseTime" />
+		    <result column="merchandise_upload_time" jdbcType="TIMESTAMP" property="merchandiseUploadTime" />
+    		<result column="merchandise_update_time" jdbcType="TIMESTAMP" property="merchandiseUpdateTime" />
+    		<collection column="merchandise_classify_id" ofType="com.py.bean.MerchandiseClassify" property="classify">
+    			<id column="merchandise_classify_id" jdbcType="INTEGER" property="merchandiseClassifyId" />
+			    <result column="merchandise_classify_name" jdbcType="VARCHAR" property="merchandiseClassifyName" />
+			    <result column="merchandise_classify_note" jdbcType="VARCHAR" property="merchandiseClassifyNote" />
+			    <result column="merchandise_classify_image" jdbcType="VARCHAR" property="merchandiseClassifyImage" />
+			    <result column="merchandise_classify_time" jdbcType="TIMESTAMP" property="merchandiseClassifyTime" />
+			    <result column="merchandise_classify_update_time" jdbcType="TIMESTAMP" property="merchandiseClassifyUpdateTime" />
+    		</collection>
+	    </collection>
+	    <collection column="channel_merchandise_merchandise_id" ofType="com.py.bean.ChannelMerchandise" property="channelMerchandise">
+	    	<id column="channel_merchandise_id" jdbcType="INTEGER" property="channelMerchandiseId" />
+	    	<result column="channel_merchandise_name" jdbcType="VARCHAR" property="channelMerchandiseName" />
+		    <result column="channel_merchandise_channel_id" jdbcType="INTEGER" property="channelMerchandiseChannelId" />
+		    <result column="channel_merchandise_payment_id" jdbcType="INTEGER" property="channelMerchandisePaymentId" />
+		    <result column="channel_merchandise_equipment_id" jdbcType="INTEGER" property="channelMerchandiseEquipmentId" />
+		    <result column="channel_merchandise_merchandise_id" jdbcType="INTEGER" property="channelMerchandiseMerchandiseId" />
+		    <result column="channel_merchandise_price" jdbcType="DOUBLE" property="channelMerchandisePrice" />
+		    <result column="channel_merchandise_number" jdbcType="VARCHAR" property="channelMerchandiseNumber" />
+		    <result column="channel_merchandise_merchandise_url" jdbcType="VARCHAR" property="channelMerchandiseMerchandiseUrl" />
+		    <result column="channel_merchandise_create_time" jdbcType="TIMESTAMP" property="channelMerchandiseCreateTime" />
+		    <result column="channel_merchandise_update_time" jdbcType="TIMESTAMP" property="channelMerchandiseUpdateTime" />
+	    </collection>
+    </collection>
+  </resultMap>
+  
+  <!-- 获取设备的商品 -->
+  <select id="getMerchandiseByEquipmentNumber" parameterType="java.lang.Integer" resultMap="BaseResultExtendMap">
+  	select a.*,ai.*,m.*,mc.*
+  		from equipment e left join aisle a on e.equipment_id = a.aisle_equipment_id
+  		left join aisle_inventory ai on a.aisle_id = ai.aisle_inventory_aisle_id
+  		left join merchandise m on ai.aisle_inventory_merchandise_id = m.merchandise_id
+  		left join merchandise_classify mc on mc.merchandise_classify_id = m.merchandise_classify
+  		<where>
+  			<if test="equipment_id != null">
+  				and e.equipment_id = #{equipment_id,jdbcType=INTEGER}
+  			</if>
+  			<if test="classify_id != null">
+  				and m.merchandise_classify = #{classify_id,jdbcType=INTEGER}
+  			</if>
+  		</where>
+  </select>
+  <!-- 查找货道商品 -->
+  <select id="selectAisleAndMerchandiseByExample" parameterType="com.py.bean.Aisle" resultMap="BaseResultExtendMap">
+		
+		SELECT
+			*
+		FROM
+			(
+				SELECT
+					*
+				FROM
+					aisle_inventory a1
+				LEFT JOIN merchandise m1 ON m1.merchandise_id = a1.aisle_inventory_merchandise_id
+				LEFT JOIN channel_merchandise cm1 ON cm1.channel_merchandise_merchandise_id = m1.merchandise_id
+			) a2
+		RIGHT JOIN aisle a3 ON a3.aisle_id = a2.aisle_inventory_aisle_id
+		WHERE 1=1
+		<if test="aisleId != null">
+        	AND aisle_id = #{aisleId,jdbcType=INTEGER}
+      	</if>
+		<if test="aisleEquipmentId != null">
+        	AND aisle_equipment_id = #{aisleEquipmentId,jdbcType=INTEGER}
+      	</if>
+      	<if test="aisleAbscissa != null">
+        	AND aisle_abscissa = #{aisleAbscissa,jdbcType=INTEGER}
+      	</if>
+      	<if test="aisleOrdinate != null">
+        	AND aisle_ordinate = #{aisleOrdinate,jdbcType=INTEGER}
+      	</if>
+      	<if test="aisleNumber != null">
+        	AND aisle_number = #{aisleNumber,jdbcType=VARCHAR}
+      	</if>
+      	<if test="aisleStatus != null">
+        	AND	aisle_status = #{aisleStatus,jdbcType=INTEGER}
+      	</if>
+      	<if test="aisleVersions != null">
+        	AND aisle_versions = #{aisleVersions,jdbcType=INTEGER}
+      	</if>
+      	<if test="aisleCreateTime != null">
+        	AND aisle_create_time = #{aisleCreateTime,jdbcType=TIMESTAMP}
+      	</if>
+      	<if test="aisleChangeTime != null">
+        	AND aisle_change_time = #{aisleChangeTime,jdbcType=TIMESTAMP}
+      	</if>
+	</select>
+	
+	
+	
+	
+   <resultMap id="AisleResultExtendMap" type="com.py.bean.Aisle">
+  	<id column="aisle_id" jdbcType="INTEGER" property="aisleId" />
+    <result column="aisle_equipment_id" jdbcType="INTEGER" property="aisleEquipmentId" />
+    <result column="aisle_abscissa" jdbcType="INTEGER" property="aisleAbscissa" />
+    <result column="aisle_ordinate" jdbcType="INTEGER" property="aisleOrdinate" />
+    <result column="aisle_number" jdbcType="VARCHAR" property="aisleNumber" />
+    <result column="aisle_status" jdbcType="INTEGER" property="aisleStatus" />
+    <result column="aisle_versions" jdbcType="INTEGER" property="aisleVersions" />
+    <result column="aisle_create_time" jdbcType="TIMESTAMP" property="aisleCreateTime" />
+    <result column="aisle_change_time" jdbcType="TIMESTAMP" property="aisleChangeTime" />
+    <collection column="aisle_inventory_aisle_id" ofType="com.py.bean.AisleInventory" property="aisleInventorie">
+    	<id column="aisle_inventory_id" jdbcType="INTEGER" property="aisleInventoryId" />
+	    <result column="aisle_inventory_aisle_id" jdbcType="INTEGER" property="aisleInventoryAisleId" />
+	    <result column="aisle_inventory_merchandise_id" jdbcType="INTEGER" property="aisleInventoryMerchandiseId" />
+	    <result column="aisle_inventory_channel_merchandise_id" jdbcType="INTEGER" property="aisleInventoryChannelMerchandiseId" />
+	    <result column="aisle_inventory_count" jdbcType="INTEGER" property="aisleInventoryCount" />
+	    <result column="aisle_inventory_create_time" jdbcType="TIMESTAMP" property="aisleInventoryCreateTime" />
+	    <result column="aisle_inventory_update_time" jdbcType="TIMESTAMP" property="aisleInventoryUpdateTime" />
+    </collection>
+  </resultMap>
+  
+    <!-- 货道库存 -->
+  <select id="selectAisleByAisleInventory" parameterType="java.lang.String" resultMap="AisleResultExtendMap">
+  	SELECT * FROM aisle_inventory AS i ,aisle AS a WHERE i.aisle_inventory_aisle_id = a.aisle_id
+  </select>
+  
+   <!-- 货道库存 -->
+  <select id="selectByEquipmentId" parameterType="java.lang.Integer" resultMap="BaseResultExtendMap">
+  	SELECT * 
+  	FROM `aisle` a 
+  	LEFT JOIN aisle_inventory ai ON a.aisle_id = ai.aisle_inventory_aisle_id
+  	LEFT JOIN merchandise m ON m.merchandise_id = ai.aisle_inventory_merchandise_id
+  	WHERE a.aisle_equipment_id = #{equipmentId,jdbcType=INTEGER}
+  	ORDER BY a.aisle_number ASC
+  </select>
+  
+</mapper>

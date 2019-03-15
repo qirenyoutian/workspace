@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.SingleMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Single">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
+    <result column="channel_order_number" jdbcType="VARCHAR" property="channelOrderNumber" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="channel_merchandise_id" jdbcType="VARCHAR" property="channelMerchandiseId" />
+    <result column="merchandise_id" jdbcType="INTEGER" property="merchandiseId" />
+    <result column="merchandise_amount" jdbcType="INTEGER" property="merchandiseAmount" />
+    <result column="payment_id" jdbcType="INTEGER" property="paymentId" />
+    <result column="price" jdbcType="DOUBLE" property="price" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="versions" jdbcType="INTEGER" property="versions" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="payment_time" jdbcType="VARCHAR" property="paymentTime" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, order_number, channel_order_number, user_name, channel_merchandise_id, merchandise_id, 
+    merchandise_amount, payment_id, price, status, versions, create_time, payment_time, 
+    update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `single`
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from `single`
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.Single">
+    insert into `single` (id, order_number, channel_order_number, 
+      user_name, channel_merchandise_id, merchandise_id, 
+      merchandise_amount, payment_id, price, 
+      status, versions, create_time, 
+      payment_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{orderNumber,jdbcType=VARCHAR}, #{channelOrderNumber,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{channelMerchandiseId,jdbcType=VARCHAR}, #{merchandiseId,jdbcType=INTEGER}, 
+      #{merchandiseAmount,jdbcType=INTEGER}, #{paymentId,jdbcType=INTEGER}, #{price,jdbcType=DOUBLE}, 
+      #{status,jdbcType=INTEGER}, #{versions,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR}, 
+      #{paymentTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.Single">
+    insert into `single`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderNumber != null">
+        order_number,
+      </if>
+      <if test="channelOrderNumber != null">
+        channel_order_number,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="channelMerchandiseId != null">
+        channel_merchandise_id,
+      </if>
+      <if test="merchandiseId != null">
+        merchandise_id,
+      </if>
+      <if test="merchandiseAmount != null">
+        merchandise_amount,
+      </if>
+      <if test="paymentId != null">
+        payment_id,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="versions != null">
+        versions,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="paymentTime != null">
+        payment_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderNumber != null">
+        #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="channelOrderNumber != null">
+        #{channelOrderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="channelMerchandiseId != null">
+        #{channelMerchandiseId,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseId != null">
+        #{merchandiseId,jdbcType=INTEGER},
+      </if>
+      <if test="merchandiseAmount != null">
+        #{merchandiseAmount,jdbcType=INTEGER},
+      </if>
+      <if test="paymentId != null">
+        #{paymentId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="versions != null">
+        #{versions,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentTime != null">
+        #{paymentTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Single">
+    update `single`
+    <set>
+      <if test="orderNumber != null">
+        order_number = #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="channelOrderNumber != null">
+        channel_order_number = #{channelOrderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="channelMerchandiseId != null">
+        channel_merchandise_id = #{channelMerchandiseId,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseId != null">
+        merchandise_id = #{merchandiseId,jdbcType=INTEGER},
+      </if>
+      <if test="merchandiseAmount != null">
+        merchandise_amount = #{merchandiseAmount,jdbcType=INTEGER},
+      </if>
+      <if test="paymentId != null">
+        payment_id = #{paymentId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="versions != null">
+        versions = versions + 1,
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentTime != null">
+        payment_time = #{paymentTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where versions = #{versions,jdbcType=INTEGER} and id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Single">
+    update `single`
+    set order_number = #{orderNumber,jdbcType=VARCHAR},
+      channel_order_number = #{channelOrderNumber,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      channel_merchandise_id = #{channelMerchandiseId,jdbcType=VARCHAR},
+      merchandise_id = #{merchandiseId,jdbcType=INTEGER},
+      merchandise_amount = #{merchandiseAmount,jdbcType=INTEGER},
+      payment_id = #{paymentId,jdbcType=INTEGER},
+      price = #{price,jdbcType=DOUBLE},
+      status = #{status,jdbcType=INTEGER},
+      versions = versions + 1,
+      create_time = #{createTime,jdbcType=VARCHAR},
+      payment_time = #{paymentTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR}
+    where versions = #{versions,jdbcType=INTEGER} and id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByChannelOrderNumber" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `single`
+    where channel_order_number = #{order_id,jdbcType=VARCHAR}
+    order by update_time desc limit 1
+  </select>
+  
+  
+  
+  
+  <resultMap id="PointReportMap" type="com.py.bean.PointReport">
+    <result column="point_id" jdbcType="INTEGER" property="pointId" />
+    <result column="point_name" jdbcType="VARCHAR" property="pointName" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="sum" jdbcType="DOUBLE" property="sum" />
+  </resultMap>
+  
+   <!-- 点位报表——后管用 -->
+  <select id="getPointReport" parameterType="java.lang.String" resultMap="PointReportMap">
+    SELECT
+		p.point_id,
+		p.point_name,
+		COUNT(o.order_id) count,
+		SUM(o.order_price) sum
+	FROM
+		point p
+	LEFT JOIN `order` o ON o.order_point_id = p.point_id
+    <if test="startTime != null">
+		and o.order_create_time &gt; #{startTime,jdbcType=VARCHAR}
+	</if>
+	<if test="endTime != null">
+		and o.order_create_time &lt; #{endTime,jdbcType=VARCHAR}
+	</if>
+	GROUP BY
+		p.point_id
+  </select>
+ 
+  <resultMap id="CommercialTenantReportMap" type="com.py.bean.CommercialTenantReport">
+    <result column="commercial_tenant_id" jdbcType="INTEGER" property="commercialTenantId" />
+    <result column="commercial_tenant_name" jdbcType="VARCHAR" property="commercialTenantName" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="sum" jdbcType="DOUBLE" property="sum" />
+  </resultMap>
+  
+  <!-- 商户报表——后管用 -->
+  <select id="getCommercialTenantReport" parameterType="java.lang.String" resultMap="CommercialTenantReportMap">
+    SELECT ct.commercial_tenant_id,ct.commercial_tenant_name,COUNT(o.id) `count`,SUM(o.price) `sum`
+	FROM commercial_tenant ct LEFT JOIN merchandise m ON m.merchandise_commercial_tenant_number = ct.commercial_tenant_id
+	LEFT JOIN single o ON o.merchandise_id = m.merchandise_id
+	WHERE o.status = 4 
+    <if test="startTime != null">
+		and o.create_time &gt; #{startTime,jdbcType=VARCHAR}
+	</if>
+	<if test="endTime != null">
+		and o.create_time &lt; #{endTime,jdbcType=VARCHAR}
+	</if>
+	GROUP BY ct.commercial_tenant_id
+  </select>
+  
+   <resultMap id="MerchandiseReportMap" type="com.py.bean.MerchandiseReport">
+    <result column="merchandise_id" jdbcType="INTEGER" property="merchandiseId" />
+    <result column="merchandise_name" jdbcType="VARCHAR" property="merchandiseName" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="sum" jdbcType="DOUBLE" property="sum" />
+  </resultMap>
+  
+  <!-- 商品报表——后管用 -->
+  <select id="getMerchandiseReport" parameterType="java.lang.String" resultMap="MerchandiseReportMap">
+    SELECT m.merchandise_id,m.merchandise_name,COUNT(o.id) `count`,SUM(o.price) `sum`
+	FROM merchandise m LEFT JOIN single o ON o.merchandise_id = m.merchandise_id
+	WHERE o.`status` = 4
+    <if test="startTime != null">
+		and o.create_time &gt; #{startTime,jdbcType=VARCHAR}
+	</if>
+	<if test="endTime != null">
+		and o.create_time &lt; #{endTime,jdbcType=VARCHAR}
+	</if>
+	GROUP BY m.merchandise_id
+  </select>
+  
+</mapper>

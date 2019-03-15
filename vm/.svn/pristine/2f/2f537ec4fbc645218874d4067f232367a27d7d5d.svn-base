@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.PavePlanMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.PavePlan">
+    <id column="pave_plan_id" jdbcType="INTEGER" property="pavePlanId" />
+    <result column="pave_plan_title" jdbcType="VARCHAR" property="pavePlanTitle" />
+    <result column="pave_plan_comit" jdbcType="VARCHAR" property="pavePlanComit" />
+    <result column="pave_plan_admin_id" jdbcType="INTEGER" property="pavePlanAdminId" />
+    <result column="pave_plan_status" jdbcType="VARCHAR" property="pavePlanStatus" />
+    <result column="pave_plan_time" jdbcType="VARCHAR" property="pavePlanTime" />
+    <result column="pave_plan_create_time" jdbcType="TIMESTAMP" property="pavePlanCreateTime" />
+    <result column="pave_plan_change_time" jdbcType="TIMESTAMP" property="pavePlanChangeTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    pave_plan_id, pave_plan_title, pave_plan_comit, pave_plan_admin_id, pave_plan_status, 
+    pave_plan_time, pave_plan_create_time, pave_plan_change_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pave_plan
+    where pave_plan_id = #{pavePlanId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pave_plan
+    where pave_plan_id = #{pavePlanId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.PavePlan">
+    insert into pave_plan (pave_plan_id, pave_plan_title, pave_plan_comit, 
+      pave_plan_admin_id, pave_plan_status, pave_plan_time, 
+      pave_plan_create_time, pave_plan_change_time
+      )
+    values (#{pavePlanId,jdbcType=INTEGER}, #{pavePlanTitle,jdbcType=VARCHAR}, #{pavePlanComit,jdbcType=VARCHAR}, 
+      #{pavePlanAdminId,jdbcType=INTEGER}, #{pavePlanStatus,jdbcType=VARCHAR}, #{pavePlanTime,jdbcType=VARCHAR}, 
+      #{pavePlanCreateTime,jdbcType=TIMESTAMP}, #{pavePlanChangeTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.PavePlan">
+    insert into pave_plan
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pavePlanId != null">
+        pave_plan_id,
+      </if>
+      <if test="pavePlanTitle != null">
+        pave_plan_title,
+      </if>
+      <if test="pavePlanComit != null">
+        pave_plan_comit,
+      </if>
+      <if test="pavePlanAdminId != null">
+        pave_plan_admin_id,
+      </if>
+      <if test="pavePlanStatus != null">
+        pave_plan_status,
+      </if>
+      <if test="pavePlanTime != null">
+        pave_plan_time,
+      </if>
+      <if test="pavePlanCreateTime != null">
+        pave_plan_create_time,
+      </if>
+      <if test="pavePlanChangeTime != null">
+        pave_plan_change_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pavePlanId != null">
+        #{pavePlanId,jdbcType=INTEGER},
+      </if>
+      <if test="pavePlanTitle != null">
+        #{pavePlanTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="pavePlanComit != null">
+        #{pavePlanComit,jdbcType=VARCHAR},
+      </if>
+      <if test="pavePlanAdminId != null">
+        #{pavePlanAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="pavePlanStatus != null">
+        #{pavePlanStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="pavePlanTime != null">
+        #{pavePlanTime,jdbcType=VARCHAR},
+      </if>
+      <if test="pavePlanCreateTime != null">
+        #{pavePlanCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pavePlanChangeTime != null">
+        #{pavePlanChangeTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.PavePlan">
+    update pave_plan
+    <set>
+      <if test="pavePlanTitle != null">
+        pave_plan_title = #{pavePlanTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="pavePlanComit != null">
+        pave_plan_comit = #{pavePlanComit,jdbcType=VARCHAR},
+      </if>
+      <if test="pavePlanAdminId != null">
+        pave_plan_admin_id = #{pavePlanAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="pavePlanStatus != null">
+        pave_plan_status = #{pavePlanStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="pavePlanTime != null">
+        pave_plan_time = #{pavePlanTime,jdbcType=VARCHAR},
+      </if>
+      <if test="pavePlanCreateTime != null">
+        pave_plan_create_time = #{pavePlanCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pavePlanChangeTime != null">
+        pave_plan_change_time = #{pavePlanChangeTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where pave_plan_id = #{pavePlanId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.PavePlan">
+    update pave_plan
+    set pave_plan_title = #{pavePlanTitle,jdbcType=VARCHAR},
+      pave_plan_comit = #{pavePlanComit,jdbcType=VARCHAR},
+      pave_plan_admin_id = #{pavePlanAdminId,jdbcType=INTEGER},
+      pave_plan_status = #{pavePlanStatus,jdbcType=VARCHAR},
+      pave_plan_time = #{pavePlanTime,jdbcType=VARCHAR},
+      pave_plan_create_time = #{pavePlanCreateTime,jdbcType=TIMESTAMP},
+      pave_plan_change_time = #{pavePlanChangeTime,jdbcType=TIMESTAMP}
+    where pave_plan_id = #{pavePlanId,jdbcType=INTEGER}
+  </update>
+
+ <!-- ByExample -->
+  <select id="selectByExample" parameterType="com.py.bean.PavePlan" resultMap="BaseResultMap">
+  	 select *
+  	 from pave_plan
+  	 where 1=1
+  	  <if test="pavePlanId != null">
+        and pave_plan_id = #{pavePlanId,jdbcType=INTEGER}
+      </if>
+  	  <if test="pavePlanTitle != null">
+        and pave_plan_title = #{pavePlanTitle,jdbcType=VARCHAR}
+      </if>
+      <if test="pavePlanComit != null">
+        and pave_plan_comit = #{pavePlanComit,jdbcType=VARCHAR}
+      </if>
+      <if test="pavePlanAdminId != null">
+        and pave_plan_admin_id = #{pavePlanAdminId,jdbcType=INTEGER}
+      </if>
+      <if test="pavePlanTime != null">
+        and pave_plan_time = #{pavePlanTime,jdbcType=VARCHAR}
+      </if>
+      <if test="pavePlanCreateTime != null">
+        and pave_plan_create_time = #{pavePlanCreateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="pavePlanChangeTime != null">
+        and pave_plan_change_time = #{pavePlanChangeTime,jdbcType=TIMESTAMP}
+	  </if>
+  </select>
+  
+  <resultMap id="BaseResultMapVarious" type="com.py.bean.PavePlan">
+    <id column="pave_plan_id" jdbcType="INTEGER" property="pavePlanId" />
+    <result column="pave_plan_title" jdbcType="VARCHAR" property="pavePlanTitle" />
+    <result column="pave_plan_comit" jdbcType="VARCHAR" property="pavePlanComit" />
+    <result column="pave_plan_admin_id" jdbcType="INTEGER" property="pavePlanAdminId" />
+    <result column="pave_plan_status" jdbcType="VARCHAR" property="pavePlanStatus" />
+    <result column="pave_plan_time" jdbcType="VARCHAR" property="pavePlanTime" />
+    <result column="pave_plan_create_time" jdbcType="TIMESTAMP" property="pavePlanCreateTime" />
+    <result column="pave_plan_change_time" jdbcType="TIMESTAMP" property="pavePlanChangeTime" />
+    <collection column="admin_id" ofType="com.py.bean.Admin" property="admin">
+    	<id column="admin_id" jdbcType="INTEGER" property="adminId" />
+	    <result column="admin_account" jdbcType="VARCHAR" property="adminAccount" />
+	    <result column="admin_password" jdbcType="VARCHAR" property="adminPassword" />
+	    <result column="admin_realname" jdbcType="VARCHAR" property="adminRealname" />
+	    <result column="admin_phonenum" jdbcType="VARCHAR" property="adminPhonenum" />
+	    <result column="admin_email" jdbcType="VARCHAR" property="adminEmail" />
+	    <result column="admin_registration_id" jdbcType="VARCHAR" property="adminRegistrationId" />
+	    <result column="admin_registration_type" jdbcType="INTEGER" property="adminRegistrationType" />
+	    <result column="admin_position" jdbcType="VARCHAR" property="adminPosition" />
+	    <result column="admin_position_time" jdbcType="TIMESTAMP" property="adminPositionTime" />
+	    <result column="admin_creation_time" jdbcType="TIMESTAMP" property="adminCreationTime" />
+    </collection>
+  </resultMap>
+  
+   <!-- ByExample -->
+  <select id="selectVariousByExample" parameterType="com.py.bean.PavePlan" resultMap="BaseResultMapVarious">
+  	SELECT
+		*
+	FROM
+		pave_plan p1
+	LEFT JOIN admin a1 ON a1.admin_id = p1.pave_plan_admin_id
+  	 where 1=1
+  	  <if test="pavePlanId != null">
+        and pave_plan_id = #{pavePlanId,jdbcType=INTEGER}
+      </if>
+  	  <if test="pavePlanTitle != null">
+        and pave_plan_title = #{pavePlanTitle,jdbcType=VARCHAR}
+      </if>
+      <if test="pavePlanComit != null">
+        and pave_plan_comit = #{pavePlanComit,jdbcType=VARCHAR}
+      </if>
+      <if test="pavePlanAdminId != null">
+        and pave_plan_admin_id = #{pavePlanAdminId,jdbcType=INTEGER}
+      </if>
+      <if test="pavePlanTime != null">
+        and pave_plan_time = #{pavePlanTime,jdbcType=VARCHAR}
+      </if>
+      <if test="pavePlanCreateTime != null">
+        and pave_plan_create_time = #{pavePlanCreateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="pavePlanChangeTime != null">
+        and pave_plan_change_time = #{pavePlanChangeTime,jdbcType=TIMESTAMP}
+	  </if>
+  </select>
+  
+  
+</mapper>

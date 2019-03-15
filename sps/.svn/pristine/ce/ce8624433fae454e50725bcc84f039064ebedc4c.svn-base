@@ -1,0 +1,155 @@
+   .container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        min-width: 1400px;
+        min-height: 900px;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+        box-sizing: border-box;
+    }
+
+    .row {
+        display: flex;
+        width: 100%;
+    }
+
+    .row-top {
+        height: 33.33%;
+    }
+
+    .row-bottom {
+        height: 66.66%;
+    }
+
+    .row-bottom-l-t,
+    .row-bottom-r-t {
+        height: 33.33%;
+    }
+
+    .row-bottom-l-b,
+    .row-bottom-r-b {
+        height: 66.66%;
+    }
+
+    .row-bottom-m-t {
+        height: 66.66%;
+    }
+
+    .row-bottom-m-b {
+        height: 33.33%;
+    }
+
+    .col-3 {
+        flex: 0 0 25%;
+        width: 25%;
+        overflow: auto;
+    }
+
+    .col-4 {
+        flex: 0 0 33.33%;
+        width: 33.33%;
+    }
+
+    .col-6 {
+        flex: 0 0 50%;
+        width: 50%;
+        height: 100%;
+    }
+
+    .col-12 {
+        flex: 0 0 100%;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .container .title {
+        font-size: 18px;
+        font-weight: 700;
+        padding: 5px 0 30px 0;
+    }
+
+    #b table {
+        font-size: 12px;
+        text-align: center;
+    }
+
+    #b table tr th {
+        padding: 5px 0;
+        font-weight: 700;
+    }
+
+    #b table tr td {
+        padding: 5px 0;
+    }
+
+    /* #e,#f,#j,#k */
+
+    .content-wrapper {
+        width: 100%;
+        height: 60%;
+    }
+
+    .content-wrapper .content-left {
+        display: inline-block;
+        vertical-align: top;
+        margin: 10px 20px;
+        font-size: 28px;
+    }
+
+    .content-wrapper .content-right {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .content-wrapper .count {
+        color: #429de1;
+    }
+
+    .content-wrapper .content-right .percent {
+        font-size: 16px;
+        color: #ff0000;
+    }
+
+    .content-wrapper .amount,
+    .content-wrapper .online {
+        margin-bottom: 10px;
+        font-size: 28px;
+    }
+
+    .content-wrapper .amount .count,
+    .content-wrapper .online .count {
+        line-height: 35px;
+        padding: 0 20px;
+    }
+
+    #i table {
+        width: 100%;
+        font-size: 16px;
+        text-align: center;
+        border-top: 1px solid #000;
+        border-left: 1px solid #000;
+    }
+
+    #i table tr {
+        width: 100%;
+        display: flex;
+    }
+
+    #i table tr th {
+        flex: 1;
+        font-weight: 700;
+    }
+
+    #i table tr th,
+    #i table tr td {
+        flex: 1;
+        padding: 8px 0;
+        border-right: 1px solid #000;
+        border-bottom: 1px solid #000;
+    }
+

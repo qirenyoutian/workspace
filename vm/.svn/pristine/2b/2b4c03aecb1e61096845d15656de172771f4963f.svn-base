@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.CommercialTenantMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.CommercialTenant">
+    <id column="commercial_tenant_id" jdbcType="INTEGER" property="commercialTenantId" />
+    <result column="commercial_tenant_name" jdbcType="VARCHAR" property="commercialTenantName" />
+    <result column="commercial_tenant_number" jdbcType="VARCHAR" property="commercialTenantNumber" />
+    <result column="commercial_tenant_describe" jdbcType="VARCHAR" property="commercialTenantDescribe" />
+    <result column="commercial_tenant_person" jdbcType="VARCHAR" property="commercialTenantPerson" />
+    <result column="commercial_tenant_attr" jdbcType="VARCHAR" property="commercialTenantAttr" />
+    <result column="commercial_tenant_phone" jdbcType="VARCHAR" property="commercialTenantPhone" />
+    <result column="commercial_tenant_logo" jdbcType="VARCHAR" property="commercialTenantLogo" />
+    <result column="commercial_tenant_official_website" jdbcType="VARCHAR" property="commercialTenantOfficialWebsite" />
+    <result column="commercial_tenant_create_time" jdbcType="TIMESTAMP" property="commercialTenantCreateTime" />
+    <result column="commercial_tenant_change_time" jdbcType="TIMESTAMP" property="commercialTenantChangeTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    commercial_tenant_id, commercial_tenant_name, commercial_tenant_number, commercial_tenant_describe, commercial_tenant_person,
+    commercial_tenant_attr, commercial_tenant_phone, commercial_tenant_logo, commercial_tenant_official_website, 
+    commercial_tenant_create_time, commercial_tenant_change_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from commercial_tenant
+    where commercial_tenant_id = #{commercialTenantId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from commercial_tenant
+    where commercial_tenant_id = #{commercialTenantId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.CommercialTenant">
+    insert into commercial_tenant (commercial_tenant_id, commercial_tenant_name, 
+      commercial_tenant_number, commercial_tenant_describe, 
+      commercial_tenant_attr, commercial_tenant_person, commercial_tenant_phone, 
+      commercial_tenant_logo, commercial_tenant_official_website, 
+      commercial_tenant_create_time, commercial_tenant_change_time
+      )
+    values (#{commercialTenantId,jdbcType=INTEGER}, #{commercialTenantName,jdbcType=VARCHAR}, 
+      #{commercialTenantNumber,jdbcType=VARCHAR}, #{commercialTenantDescribe,jdbcType=VARCHAR}, #{commercialTenantPerson,jdbcType=VARCHAR},
+      #{commercialTenantAttr,jdbcType=VARCHAR}, #{commercialTenantPhone,jdbcType=VARCHAR}, 
+      #{commercialTenantLogo,jdbcType=VARCHAR}, #{commercialTenantOfficialWebsite,jdbcType=VARCHAR}, 
+      #{commercialTenantCreateTime,jdbcType=TIMESTAMP}, #{commercialTenantChangeTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="commercialTenantId" parameterType="com.py.bean.CommercialTenant">
+    insert into commercial_tenant
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="commercialTenantId != null">
+        commercial_tenant_id,
+      </if>
+      <if test="commercialTenantName != null">
+        commercial_tenant_name,
+      </if>
+      <if test="commercialTenantNumber != null">
+        commercial_tenant_number,
+      </if>
+      <if test="commercialTenantDescribe != null">
+        commercial_tenant_describe,
+      </if>
+      <if test="commercialTenantPerson != null">
+        commercial_tenant_person,
+      </if>
+      <if test="commercialTenantAttr != null">
+        commercial_tenant_attr,
+      </if>
+      <if test="commercialTenantPhone != null">
+        commercial_tenant_phone,
+      </if>
+      <if test="commercialTenantLogo != null">
+        commercial_tenant_logo,
+      </if>
+      <if test="commercialTenantOfficialWebsite != null">
+        commercial_tenant_official_website,
+      </if>
+      <if test="commercialTenantCreateTime != null">
+        commercial_tenant_create_time,
+      </if>
+      <if test="commercialTenantChangeTime != null">
+        commercial_tenant_change_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="commercialTenantId != null">
+        #{commercialTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="commercialTenantName != null">
+        #{commercialTenantName,jdbcType=VARCHAR},
+      </if>
+      <if test="commercialTenantNumber != null">
+        #{commercialTenantNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="commercialTenantDescribe != null">
+        #{commercialTenantDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="commercialTenantPerson != null">
+        #{commercialTenantPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="commercialTenantAttr != null">
+        #{commercialTenantAttr,jdbcType=VARCHAR},
+      </if>
+      <if test="commercialTenantPhone != null">
+        #{commercialTenantPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="commercialTenantLogo != null">
+        #{commercialTenantLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="commercialTenantOfficialWebsite != null">
+        #{commercialTenantOfficialWebsite,jdbcType=VARCHAR},
+      </if>
+      <if test="commercialTenantCreateTime != null">
+        #{commercialTenantCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commercialTenantChangeTime != null">
+        #{commercialTenantChangeTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.CommercialTenant">
+    update commercial_tenant
+    <set>
+      <if test="commercialTenantName != null">
+        commercial_tenant_name = #{commercialTenantName,jdbcType=VARCHAR},
+      </if>
+      <if test="commercialTenantNumber != null">
+        commercial_tenant_number = #{commercialTenantNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="commercialTenantDescribe != null">
+        commercial_tenant_describe = #{commercialTenantDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="commercialTenantPerson != null">
+        commercial_tenant_person = #{commercialTenantPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="commercialTenantAttr != null">
+        commercial_tenant_attr = #{commercialTenantAttr,jdbcType=VARCHAR},
+      </if>
+      <if test="commercialTenantPhone != null">
+        commercial_tenant_phone = #{commercialTenantPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="commercialTenantLogo != null">
+        commercial_tenant_logo = #{commercialTenantLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="commercialTenantOfficialWebsite != null">
+        commercial_tenant_official_website = #{commercialTenantOfficialWebsite,jdbcType=VARCHAR},
+      </if>
+      <if test="commercialTenantCreateTime != null">
+        commercial_tenant_create_time = #{commercialTenantCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commercialTenantChangeTime != null">
+        commercial_tenant_change_time = #{commercialTenantChangeTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where commercial_tenant_id = #{commercialTenantId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.CommercialTenant">
+    update commercial_tenant
+    set commercial_tenant_name = #{commercialTenantName,jdbcType=VARCHAR},
+      commercial_tenant_number = #{commercialTenantNumber,jdbcType=VARCHAR},
+      commercial_tenant_describe = #{commercialTenantDescribe,jdbcType=VARCHAR},
+      commercial_tenant_person = #{commercialTenantPerson,jdbcType=VARCHAR},
+      commercial_tenant_attr = #{commercialTenantAttr,jdbcType=VARCHAR},
+      commercial_tenant_phone = #{commercialTenantPhone,jdbcType=VARCHAR},
+      commercial_tenant_logo = #{commercialTenantLogo,jdbcType=VARCHAR},
+      commercial_tenant_official_website = #{commercialTenantOfficialWebsite,jdbcType=VARCHAR},
+      commercial_tenant_create_time = #{commercialTenantCreateTime,jdbcType=TIMESTAMP},
+      commercial_tenant_change_time = #{commercialTenantChangeTime,jdbcType=TIMESTAMP}
+    where commercial_tenant_id = #{commercialTenantId,jdbcType=INTEGER}
+  </update>
+  
+   <select id="selectByExample" parameterType="com.py.bean.CommercialTenant" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from commercial_tenant
+    where 1=1
+    <if test="commercialTenantId != null">
+      and commercial_tenant_id = #{commercialTenantId,jdbcType=INTEGER}
+    </if>
+    <if test="commercialTenantName != null">
+      and commercial_tenant_name like "%"#{commercialTenantName,jdbcType=VARCHAR}"%"
+    </if>
+    <if test="commercialTenantNumber != null">
+      and commercial_tenant_number = #{commercialTenantNumber,jdbcType=VARCHAR}
+    </if>
+    <if test="commercialTenantDescribe != null">
+      and commercial_tenant_describe = #{commercialTenantDescribe,jdbcType=VARCHAR}
+    </if>
+    <if test="commercialTenantPerson != null">
+      and commercial_tenant_person = #{commercialTenantPerson,jdbcType=VARCHAR}
+    </if>
+    <if test="commercialTenantAttr != null">
+      and commercial_tenant_attr = #{commercialTenantAttr,jdbcType=VARCHAR}
+    </if>
+    <if test="commercialTenantPhone != null">
+      and commercial_tenant_phone= #{commercialTenantPhone,jdbcType=INTEGER}
+    </if>
+    <if test="commercialTenantLogo != null">
+      and commercial_tenant_logo = #{commercialTenantLogo,jdbcType=VARCHAR}
+    </if>
+    <if test="commercialTenantOfficialWebsite != null">
+      and commercial_tenant_official_website = #{commercialTenantOfficialWebsite,jdbcType=VARCHAR}
+    </if>
+    <if test="commercialTenantCreateTime != null">
+      and commercial_tenant_create_time = #{commercialTenantCreateTime,jdbcType=VARCHAR}
+    </if>
+    <if test="commercialTenantChangeTime != null">
+      and commercial_tenant_change_time = #{commercialTenantChangeTime,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <!-- 根据时间查找 -->
+  <select id="selectByTime" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select * 
+		from commercial_tenant
+		where 1=1
+		<if test="startTime != null">
+			and commercial_tenant_create_time &gt; #{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and commercial_tenant_change_time &lt; #{endTime,jdbcType=TIMESTAMP}
+		</if>
+	</select>
+	
+	<!-- 批量删除 -->
+  <delete id="deleteByArray">
+  	DELETE
+	FROM
+		commercial_tenant
+	WHERE
+		commercial_tenant_id IN
+			<foreach close=")" collection="array" item="commercial_tenant" open="(" separator=","> 
+				#{commercial_tenant}
+			</foreach>
+  </delete>
+  
+   <resultMap id="BaseResultMapAndPayment" type="com.py.bean.CommercialTenant">
+    <id column="commercial_tenant_id" jdbcType="INTEGER" property="commercialTenantId" />
+    <result column="commercial_tenant_name" jdbcType="VARCHAR" property="commercialTenantName" />
+    <result column="commercial_tenant_number" jdbcType="VARCHAR" property="commercialTenantNumber" />
+    <result column="commercial_tenant_describe" jdbcType="VARCHAR" property="commercialTenantDescribe" />
+    <result column="commercial_tenant_person" jdbcType="VARCHAR" property="commercialTenantPerson" />
+    <result column="commercial_tenant_attr" jdbcType="VARCHAR" property="commercialTenantAttr" />
+    <result column="commercial_tenant_phone" jdbcType="VARCHAR" property="commercialTenantPhone" />
+    <result column="commercial_tenant_logo" jdbcType="VARCHAR" property="commercialTenantLogo" />
+    <result column="commercial_tenant_official_website" jdbcType="VARCHAR" property="commercialTenantOfficialWebsite" />
+    <result column="commercial_tenant_create_time" jdbcType="TIMESTAMP" property="commercialTenantCreateTime" />
+    <result column="commercial_tenant_change_time" jdbcType="TIMESTAMP" property="commercialTenantChangeTime" />
+    <collection property="payments" column="payment_id" ofType="com.py.bean.Payment">
+    	<id column="payment_id" jdbcType="INTEGER" property="paymentId" />
+	    <result column="payment_name" jdbcType="VARCHAR" property="paymentName" />
+	    <result column="payment_create_time" jdbcType="TIMESTAMP" property="paymentCreateTime" />
+	    <result column="payment_update_time" jdbcType="TIMESTAMP" property="paymentUpdateTime" />
+    </collection>
+  </resultMap>
+  <select id="selectCommerAndPaymentByCommerId" parameterType="java.lang.Integer" resultMap="BaseResultMapAndPayment">
+  		SELECT
+			*
+		FROM
+			commercial_tenant c1
+		LEFT JOIN (
+			SELECT
+				*
+			FROM
+				commercial_tenant_payment c2
+			RIGHT JOIN payment p1 ON p1.payment_id = c2.commercial_tenant_payment_payment_id
+		) c3
+		ON c3.commercial_tenant_payment_commercial_tenant_id = c1.commercial_tenant_id
+		WHERE c1.commercial_tenant_id = #{commerId}
+  </select>
+  
+  
+</mapper>

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.ClockInMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.ClockIn">
+    <id column="clock_in_id" jdbcType="INTEGER" property="clockInId" />
+    <result column="clock_in_admin_id" jdbcType="INTEGER" property="clockInAdminId" />
+    <result column="clock_in_type" jdbcType="INTEGER" property="clockInType" />
+    <result column="clock_in_image" jdbcType="VARCHAR" property="clockInImage" />
+    <result column="clock_in_time" jdbcType="VARCHAR" property="clockInTime" />
+    <result column="clock_in_affiliation" jdbcType="INTEGER" property="clockInAffiliation" />
+    <result column="clock_in_create_time" jdbcType="VARCHAR" property="clockInCreateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    clock_in_id, clock_in_admin_id, clock_in_type, clock_in_image, clock_in_time, clock_in_affiliation, 
+    clock_in_create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from clock_in
+    where clock_in_id = #{clockInId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from clock_in
+    where clock_in_id = #{clockInId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.ClockIn">
+    insert into clock_in (clock_in_id, clock_in_admin_id, clock_in_type, 
+      clock_in_image, clock_in_time, clock_in_affiliation, 
+      clock_in_create_time)
+    values (#{clockInId,jdbcType=INTEGER}, #{clockInAdminId,jdbcType=INTEGER}, #{clockInType,jdbcType=INTEGER}, 
+      #{clockInImage,jdbcType=VARCHAR}, #{clockInTime,jdbcType=VARCHAR}, #{clockInAffiliation,jdbcType=INTEGER}, 
+      #{clockInCreateTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.ClockIn">
+    insert into clock_in
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="clockInId != null">
+        clock_in_id,
+      </if>
+      <if test="clockInAdminId != null">
+        clock_in_admin_id,
+      </if>
+      <if test="clockInType != null">
+        clock_in_type,
+      </if>
+      <if test="clockInImage != null">
+        clock_in_image,
+      </if>
+      <if test="clockInTime != null">
+        clock_in_time,
+      </if>
+      <if test="clockInAffiliation != null">
+        clock_in_affiliation,
+      </if>
+      <if test="clockInCreateTime != null">
+        clock_in_create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="clockInId != null">
+        #{clockInId,jdbcType=INTEGER},
+      </if>
+      <if test="clockInAdminId != null">
+        #{clockInAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="clockInType != null">
+        #{clockInType,jdbcType=INTEGER},
+      </if>
+      <if test="clockInImage != null">
+        #{clockInImage,jdbcType=VARCHAR},
+      </if>
+      <if test="clockInTime != null">
+        #{clockInTime,jdbcType=VARCHAR},
+      </if>
+      <if test="clockInAffiliation != null">
+        #{clockInAffiliation,jdbcType=INTEGER},
+      </if>
+      <if test="clockInCreateTime != null">
+        #{clockInCreateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.ClockIn">
+    update clock_in
+    <set>
+      <if test="clockInAdminId != null">
+        clock_in_admin_id = #{clockInAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="clockInType != null">
+        clock_in_type = #{clockInType,jdbcType=INTEGER},
+      </if>
+      <if test="clockInImage != null">
+        clock_in_image = #{clockInImage,jdbcType=VARCHAR},
+      </if>
+      <if test="clockInTime != null">
+        clock_in_time = #{clockInTime,jdbcType=VARCHAR},
+      </if>
+      <if test="clockInAffiliation != null">
+        clock_in_affiliation = #{clockInAffiliation,jdbcType=INTEGER},
+      </if>
+      <if test="clockInCreateTime != null">
+        clock_in_create_time = #{clockInCreateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where clock_in_id = #{clockInId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.ClockIn">
+    update clock_in
+    set clock_in_admin_id = #{clockInAdminId,jdbcType=INTEGER},
+      clock_in_type = #{clockInType,jdbcType=INTEGER},
+      clock_in_image = #{clockInImage,jdbcType=VARCHAR},
+      clock_in_time = #{clockInTime,jdbcType=VARCHAR},
+      clock_in_affiliation = #{clockInAffiliation,jdbcType=INTEGER},
+      clock_in_create_time = #{clockInCreateTime,jdbcType=VARCHAR}
+    where clock_in_id = #{clockInId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByPrimary" parameterType="com.py.bean.ClockIn" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from clock_in
+    <where>
+    	<if test="clockInAdminId != null">
+    		and clock_in_admin_id = #{clockInAdminId,jdbcType=INTEGER}
+    	</if>
+    	<if test="clockInType != null">
+    		and clock_in_type = #{clockInType,jdbcType=INTEGER}
+    	</if>
+    	<if test="clockInAffiliation != null">
+    		and clock_in_affiliation = #{clockInAffiliation,jdbcType=INTEGER}
+    	</if>
+    </where>
+    order by clock_in_create_time desc limit 1
+  </select>
+  
+  <select id="selectByExample" parameterType="com.py.bean.ClockIn" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from clock_in
+    <where>
+    	<if test="clockInAdminId != null">
+    		and clock_in_admin_id = #{clockInAdminId,jdbcType=INTEGER}
+    	</if>
+    	<if test="clockInType != null">
+    		and clock_in_type = #{clockInType,jdbcType=INTEGER}
+    	</if>
+    	<if test="clockInAffiliation != null">
+    		and clock_in_affiliation = #{clockInAffiliation,jdbcType=INTEGER}
+    	</if>
+    </where>
+    order by clock_in_create_time desc
+  </select>
+  
+  <select id="selectByPrimaryToDay" parameterType="com.py.bean.ClockIn" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from clock_in
+    WHERE TO_DAYS(clock_in_create_time) = TO_DAYS(NOW())
+   	<if test="clockInAdminId != null">
+   		and clock_in_admin_id = #{clockInAdminId,jdbcType=INTEGER}
+   	</if>
+   	<if test="clockInType != null">
+   		and clock_in_type = #{clockInType,jdbcType=INTEGER}
+   	</if>
+   	<if test="clockInAffiliation != null">
+   		and clock_in_affiliation = #{clockInAffiliation,jdbcType=INTEGER}
+   	</if>
+    order by clock_in_create_time desc limit 1
+  </select>
+  
+</mapper>

@@ -1,0 +1,10 @@
+// ISocketMessageListener.aidl
+package com.example.admin.serialdemo;
+import com.example.admin.serialdemo.bean.SocketMessage;
+
+// Declare any non-default types here with import statements
+
+//消息监听器，主要用于跟新消息
+interface ISocketMessageListener {
+     void updateMessageList(out SocketMessage message);
+}

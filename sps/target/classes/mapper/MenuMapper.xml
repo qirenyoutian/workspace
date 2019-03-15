@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.MenuMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Menu">
+    <id column="menu_id" jdbcType="INTEGER" property="menuId" />
+    <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
+    <result column="menu_detail" jdbcType="VARCHAR" property="menuDetail" />
+    <result column="menu_url" jdbcType="VARCHAR" property="menuUrl" />
+    <result column="menu_superior" jdbcType="VARCHAR" property="menuSuperior" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    menu_id, menu_name, menu_detail, menu_url, menu_superior
+  </sql>
+  <select id="selectByPrimary" parameterType="com.py.bean.Menu" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from menu
+    where 1=1
+    <if test="menuId != null">
+      and menu_id = #{menuId,jdbcType=INTEGER}
+    </if>
+    <if test="menuName != null">
+      and menu_name = #{menuName,jdbcType=VARCHAR}
+    </if>
+    <if test="menuDetail != null">
+      and menu_detail = #{menuDetail,jdbcType=VARCHAR}
+    </if>
+    <if test="menuUrl != null">
+      and menu_url = #{menuUrl,jdbcType=VARCHAR}
+    </if>
+    <if test="menuSuperior != null">
+      and menu_superior = #{menuSuperior,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.py.bean.Menu" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from menu
+    where 1=1
+    <if test="menuId != null">
+      and menu_id = #{menuId,jdbcType=INTEGER}
+    </if>
+    <if test="menuName != null">
+      and menu_name = #{menuName,jdbcType=VARCHAR}
+    </if>
+    <if test="menuDetail != null">
+      and menu_detail = #{menuDetail,jdbcType=VARCHAR}
+    </if>
+    <if test="menuUrl != null">
+      and menu_url = #{menuUrl,jdbcType=VARCHAR}
+    </if>
+    <if test="menuSuperior != null">
+      and menu_superior = #{menuSuperior,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from menu
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.Menu">
+    insert into menu (menu_id, menu_name, menu_detail, 
+      menu_url, menu_superior)
+    values (#{menuId,jdbcType=INTEGER}, #{menuName,jdbcType=VARCHAR}, #{menuDetail,jdbcType=VARCHAR}, 
+      #{menuUrl,jdbcType=VARCHAR}, #{menuSuperior,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.Menu">
+    insert into menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="menuId != null">
+        menu_id,
+      </if>
+      <if test="menuName != null">
+        menu_name,
+      </if>
+      <if test="menuDetail != null">
+        menu_detail,
+      </if>
+      <if test="menuUrl != null">
+        menu_url,
+      </if>
+      <if test="menuSuperior != null">
+        menu_superior,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="menuId != null">
+        #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="menuName != null">
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuDetail != null">
+        #{menuDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null">
+        #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuSuperior != null">
+        #{menuSuperior,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Menu">
+    update menu
+    <set>
+      <if test="menuName != null">
+        menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuDetail != null">
+        menu_detail = #{menuDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null">
+        menu_url = #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuSuperior != null">
+        menu_superior = #{menuSuperior,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Menu">
+    update menu
+    set menu_name = #{menuName,jdbcType=VARCHAR},
+      menu_detail = #{menuDetail,jdbcType=VARCHAR},
+      menu_url = #{menuUrl,jdbcType=VARCHAR},
+      menu_superior = #{menuSuperior,jdbcType=VARCHAR}
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </update>
+</mapper>

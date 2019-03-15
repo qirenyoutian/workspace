@@ -1,0 +1,40 @@
+package com.example.admin.serialdemo.Utils;
+
+import com.example.admin.serialdemo.Fragment.Fragment_Help;
+import com.example.admin.serialdemo.Fragment.Fragment_Customer;
+import com.example.admin.serialdemo.Fragment.Fragment_Page;
+import com.example.admin.serialdemo.Fragment.Fragment_PickCode;
+
+/**
+ * Created by zrt on 2017/10/8 0001.
+ */
+
+public class FragmentFactory {
+    private static Fragment_Page fragment;
+    private static Fragment_PickCode fragmentPickCode;
+    private static Fragment_Customer fragment3;
+    private static Fragment_Help fragmentHelp;
+
+    public static BaseFragment getFragment(int position) {
+            switch (position) {
+                case 0:
+                    if (fragment == null)
+                        fragment = new Fragment_Page();
+                    return fragment;
+                case 1:
+                    if (fragmentPickCode == null)
+                        fragmentPickCode = new Fragment_PickCode();
+                    return fragmentPickCode;
+                case 2:
+                    if (fragment3 == null)
+                        fragment3 = new Fragment_Customer();
+                    return fragment3;
+                case 3:
+                    if (fragmentHelp == null)
+                        fragmentHelp = new Fragment_Help();
+                    return fragmentHelp;
+                default:
+                    return null;
+            }
+    }
+}

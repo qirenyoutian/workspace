@@ -1,0 +1,32 @@
+package com.py.bean;
+
+public class CommercialTenantReport {
+	private Integer commercialTenantId;
+	private String commercialTenantName;
+	private Integer amount;
+	private Double sum;
+	public Integer getCommercialTenantId() {
+		return commercialTenantId;
+	}
+	public void setCommercialTenantId(Integer commercialTenantId) {
+		this.commercialTenantId = commercialTenantId;
+	}
+	public String getCommercialTenantName() {
+		return commercialTenantName;
+	}
+	public void setCommercialTenantName(String commercialTenantName) {
+		this.commercialTenantName = commercialTenantName;
+	}
+	public Integer getAmount() {
+		return amount;
+	}
+	public void setAmount(Integer amount) {
+		this.amount = amount;
+	}
+	public Double getSum() {
+		return sum;
+	}
+	public void setSum(Double sum) {
+		this.sum = sum;
+	}
+}

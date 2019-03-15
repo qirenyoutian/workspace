@@ -1,0 +1,16 @@
+package com.py.bean;
+
+import java.util.List;
+
+public class CameraExtend extends Camera{
+	private List<TruckSpaceRecord> truckSpaceRecord;
+
+	public List<TruckSpaceRecord> getTruckSpaceRecord() {
+		return truckSpaceRecord;
+	}
+
+	public void setTruckSpaceRecord(List<TruckSpaceRecord> truckSpaceRecord) {
+		this.truckSpaceRecord = truckSpaceRecord;
+	}
+	
+}

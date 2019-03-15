@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pywl.project.mapper.AdminRoleMapper">
+  <resultMap id="BaseResultMap" type="com.pywl.project.bean.AdminRole">
+    <id column="admin_role_id" jdbcType="INTEGER" property="adminRoleId" />
+    <result column="admin_role_admin_id" jdbcType="INTEGER" property="adminRoleAdminId" />
+    <result column="admin_role_role_id" jdbcType="INTEGER" property="adminRoleRoleId" />
+  </resultMap>
+  <resultMap id="WithBaseResultMap" type="com.pywl.project.bean.AdminRole">
+    <id column="admin_role_id" jdbcType="INTEGER" property="adminRoleId" />
+    <result column="admin_role_admin_id" jdbcType="INTEGER" property="adminRoleAdminId" />
+    <result column="admin_role_role_id" jdbcType="INTEGER" property="adminRoleRoleId" />
+    <association property="adminRoleAdmin" javaType="com.pywl.project.bean.Admin">
+	   	<id column="admin_id" jdbcType="INTEGER" property="adminId" />
+	    <result column="admin_account" jdbcType="VARCHAR" property="adminAccount" />
+	    <result column="admin_pass_word" jdbcType="VARCHAR" property="adminPassWord" />
+	    <result column="admin_realname" jdbcType="VARCHAR" property="adminRealname" />
+	    <result column="admin_photo" jdbcType="VARCHAR" property="adminPhoto" />
+	    <result column="admin_email" jdbcType="VARCHAR" property="adminEmail" />
+	    <result column="admin_position" jdbcType="VARCHAR" property="adminPosition" />
+	    <result column="admin_creation_time" jdbcType="VARCHAR" property="adminCreationTime" />
+	    <result column="admin_location" jdbcType="VARCHAR" property="adminLocation" />
+	    <result column="admin_location_time" jdbcType="VARCHAR" property="adminLocationTime" />
+    </association>
+    <association property="adminRoleRole" javaType="com.pywl.project.bean.Role">
+	    <id column="role_id" jdbcType="INTEGER" property="roleId" />
+	    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+	    <result column="role_detail" jdbcType="VARCHAR" property="roleDetail" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    admin_role_id, admin_role_admin_id, admin_role_role_id
+  </sql>
+  <sql id="WithBase_Column_List">
+    ar.admin_role_id, ar.admin_role_admin_id, ar.admin_role_role_id,
+    a.admin_id, a.admin_account, a.admin_pass_word, a.admin_realname, a.admin_photo, a.admin_email, 
+    a.admin_position, a.admin_creation_time, a.admin_location, a.admin_location_time,
+    r.role_id, r.role_name, r.role_detail
+  </sql>
+  <select id="selectByPrimary" parameterType="com.pywl.project.bean.AdminRole" resultMap="WithBaseResultMap">
+    select 
+    <include refid="WithBase_Column_List" />
+    from admin_role ar
+    left join admin a on ar.admin_role_admin_id=a.admin_id
+    left join role r on ar.admin_role_role_id=r.role_id
+    where 1=1
+    <if test="adminRoleId != null">
+      and ar.admin_role_id = #{adminRoleId,jdbcType=INTEGER}
+    </if>
+    <if test="adminRoleAdminId != null">
+      and ar.admin_role_admin_id = #{adminRoleAdminId,jdbcType=INTEGER}
+    </if>
+    <if test="adminRoleRoleId != null">
+      and ar.admin_role_role_id = #{adminRoleRoleId,jdbcType=INTEGER}
+    </if>
+    <if test="adminRoleAdmin != null">
+    	<if test="adminRoleAdmin.adminId != null">
+	      and a.admin_id = #{adminRoleAdmin.adminId,jdbcType=INTEGER}
+	    </if>
+	    <if test="adminRoleAdmin.adminAccount != null">
+	      and a.admin_account = #{adminRoleAdmin.adminAccount,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRoleAdmin.adminPassWord != null">
+	      and a.admin_pass_word = #{adminRoleAdmin.adminPassWord,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRoleAdmin.adminRealname != null">
+	      and a.admin_realname = #{adminRoleAdmin.adminRealname,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRoleAdmin.adminPhoto != null">
+	      and a.admin_photo = #{adminRoleAdmin.adminPhoto,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRoleAdmin.adminEmail != null">
+	      and a.admin_email = #{adminRoleAdmin.adminEmail,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRoleAdmin.adminPosition != null">
+	      and a.admin_position = #{adminRoleAdmin.adminPosition,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRoleAdmin.adminCreationTime != null">
+	      and a.admin_creation_time = #{adminRoleAdmin.adminCreationTime,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRoleAdmin.adminLocation != null">
+	      and a.admin_location = #{adminRoleAdmin.adminLocation,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRoleAdmin.adminLocationTime != null">
+	      and a.admin_location_time = #{adminRoleAdmin.adminLocationTime,jdbcType=VARCHAR}
+	    </if>
+    </if>
+    <if test="adminRoleRole != null">
+    	<if test="adminRoleRole.adminRoleRole.roleId != null">
+	      and r.role_id = #{adminRoleRole.roleId,jdbcType=INTEGER}
+	    </if>
+	    <if test="adminRoleRole.roleName != null">
+	      and r.role_name = #{adminRoleRole.roleName,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRoleRole.roleDetail != null">
+	      and r.role_detail = #{adminRoleRole.roleDetail,jdbcType=VARCHAR}
+	    </if>
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.pywl.project.bean.AdminRole" resultMap="WithBaseResultMap">
+    select 
+    <include refid="WithBase_Column_List" />
+    from admin a
+    left join admin_role ar on ar.admin_role_admin_id=a.admin_id
+    left join role r on ar.admin_role_role_id=r.role_id
+    where 1=1
+    <if test="adminRoleId != null">
+      and ar.admin_role_id = #{adminRoleId,jdbcType=INTEGER}
+    </if>
+    <if test="adminRoleAdminId != null">
+      and ar.admin_role_admin_id = #{adminRoleAdminId,jdbcType=INTEGER}
+    </if>
+    <if test="adminRoleRoleId != null">
+      and ar.admin_role_role_id = #{adminRoleRoleId,jdbcType=INTEGER}
+    </if>
+    <if test="adminRoleAdmin != null">
+    	<if test="adminRoleAdmin.adminId != null">
+	      and a.admin_id = #{adminRoleAdmin.adminId,jdbcType=INTEGER}
+	    </if>
+	    <if test="adminRoleAdmin.adminAccount != null">
+	      and a.admin_account = #{adminRoleAdmin.adminAccount,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRoleAdmin.adminPassWord != null">
+	      and a.admin_pass_word = #{adminRoleAdmin.adminPassWord,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRoleAdmin.adminRealname != null">
+	      and a.admin_realname = #{adminRoleAdmin.adminRealname,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRoleAdmin.adminPhoto != null">
+	      and a.admin_photo = #{adminRoleAdmin.adminPhoto,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRoleAdmin.adminEmail != null">
+	      and a.admin_email = #{adminRoleAdmin.adminEmail,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRoleAdmin.adminPosition != null">
+	      and a.admin_position = #{adminRoleAdmin.adminPosition,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRoleAdmin.adminCreationTime != null">
+	      and a.admin_creation_time = #{adminRoleAdmin.adminCreationTime,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRoleAdmin.adminLocation != null">
+	      and a.admin_location = #{adminRoleAdmin.adminLocation,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRoleAdmin.adminLocationTime != null">
+	      and a.admin_location_time = #{adminRoleAdmin.adminLocationTime,jdbcType=VARCHAR}
+	    </if>
+    </if>
+    <if test="adminRoleRole != null">
+    	<if test="adminRoleRole.roleId != null">
+	      and r.role_id = #{adminRoleRole.roleId,jdbcType=INTEGER}
+	    </if>
+	    <if test="adminRoleRole.roleName != null">
+	      and r.role_name = #{adminRoleRole.roleName,jdbcType=VARCHAR}
+	    </if>
+	    <if test="adminRoleRole.roleDetail != null">
+	      and r.role_detail = #{adminRoleRole.roleDetail,jdbcType=VARCHAR}
+	    </if>
+    </if>
+    order by a.admin_creation_time desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from admin_role
+    where admin_role_id = #{adminRoleId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pywl.project.bean.AdminRole">
+    insert into admin_role (admin_role_id, admin_role_admin_id, admin_role_role_id
+      )
+    values (#{adminRoleId,jdbcType=INTEGER}, #{adminRoleAdminId,jdbcType=INTEGER}, #{adminRoleRoleId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pywl.project.bean.AdminRole">
+    insert into admin_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="adminRoleId != null">
+        admin_role_id,
+      </if>
+      <if test="adminRoleAdminId != null">
+        admin_role_admin_id,
+      </if>
+      <if test="adminRoleRoleId != null">
+        admin_role_role_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="adminRoleId != null">
+        #{adminRoleId,jdbcType=INTEGER},
+      </if>
+      <if test="adminRoleAdminId != null">
+        #{adminRoleAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="adminRoleRoleId != null">
+        #{adminRoleRoleId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pywl.project.bean.AdminRole">
+    update admin_role
+    <set>
+      <if test="adminRoleAdminId != null">
+        admin_role_admin_id = #{adminRoleAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="adminRoleRoleId != null">
+        admin_role_role_id = #{adminRoleRoleId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where admin_role_id = #{adminRoleId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pywl.project.bean.AdminRole">
+    update admin_role
+    set admin_role_admin_id = #{adminRoleAdminId,jdbcType=INTEGER},
+      admin_role_role_id = #{adminRoleRoleId,jdbcType=INTEGER}
+    where admin_role_id = #{adminRoleId,jdbcType=INTEGER}
+  </update>
+</mapper>

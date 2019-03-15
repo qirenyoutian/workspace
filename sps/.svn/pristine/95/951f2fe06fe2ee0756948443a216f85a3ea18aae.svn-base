@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.BillingMethodHourMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.BillingMethodHour">
+    <id column="billing_method_hour_id" jdbcType="INTEGER" property="billingMethodHourId" />
+    <result column="billing_method_hour_start_price" jdbcType="DOUBLE" property="billingMethodHourStartPrice" />
+    <result column="billing_method_hour_day_price" jdbcType="INTEGER" property="billingMethodHourDayPrice" />
+    <result column="billing_method_hour_add_price" jdbcType="DOUBLE" property="billingMethodHourAddPrice" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    billing_method_hour_id, billing_method_hour_start_price, billing_method_hour_day_price, 
+    billing_method_hour_add_price
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from billing_method_hour
+    where billing_method_hour_id = #{billingMethodHourId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from billing_method_hour
+    where billing_method_hour_id = #{billingMethodHourId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.BillingMethodHour">
+    insert into billing_method_hour (billing_method_hour_id, billing_method_hour_start_price, 
+      billing_method_hour_day_price, billing_method_hour_add_price
+      )
+    values (#{billingMethodHourId,jdbcType=INTEGER}, #{billingMethodHourStartPrice,jdbcType=DOUBLE}, 
+      #{billingMethodHourDayPrice,jdbcType=INTEGER}, #{billingMethodHourAddPrice,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.BillingMethodHour">
+    insert into billing_method_hour
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="billingMethodHourId != null">
+        billing_method_hour_id,
+      </if>
+      <if test="billingMethodHourStartPrice != null">
+        billing_method_hour_start_price,
+      </if>
+      <if test="billingMethodHourDayPrice != null">
+        billing_method_hour_day_price,
+      </if>
+      <if test="billingMethodHourAddPrice != null">
+        billing_method_hour_add_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="billingMethodHourId != null">
+        #{billingMethodHourId,jdbcType=INTEGER},
+      </if>
+      <if test="billingMethodHourStartPrice != null">
+        #{billingMethodHourStartPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="billingMethodHourDayPrice != null">
+        #{billingMethodHourDayPrice,jdbcType=INTEGER},
+      </if>
+      <if test="billingMethodHourAddPrice != null">
+        #{billingMethodHourAddPrice,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.BillingMethodHour">
+    update billing_method_hour
+    <set>
+      <if test="billingMethodHourStartPrice != null">
+        billing_method_hour_start_price = #{billingMethodHourStartPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="billingMethodHourDayPrice != null">
+        billing_method_hour_day_price = #{billingMethodHourDayPrice,jdbcType=INTEGER},
+      </if>
+      <if test="billingMethodHourAddPrice != null">
+        billing_method_hour_add_price = #{billingMethodHourAddPrice,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where billing_method_hour_id = #{billingMethodHourId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.BillingMethodHour">
+    update billing_method_hour
+    set billing_method_hour_start_price = #{billingMethodHourStartPrice,jdbcType=DOUBLE},
+      billing_method_hour_day_price = #{billingMethodHourDayPrice,jdbcType=INTEGER},
+      billing_method_hour_add_price = #{billingMethodHourAddPrice,jdbcType=DOUBLE}
+    where billing_method_hour_id = #{billingMethodHourId,jdbcType=INTEGER}
+  </update>
+</mapper>

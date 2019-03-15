@@ -1,0 +1,6 @@
+// SocketMessage.aidl
+package com.example.admin.serialdemo.bean;
+
+import com.example.admin.serialdemo.bean.SocketMessage;
+// Declare any non-default types here with import statements
+parcelable SocketMessage;

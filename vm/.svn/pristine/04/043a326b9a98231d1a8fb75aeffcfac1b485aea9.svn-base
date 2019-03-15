@@ -1,0 +1,36 @@
+package com.py.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.py.bean.Aisle;
+
+public interface AisleMapper {
+    int deleteByPrimaryKey(Integer aisleId);
+
+    int insert(Aisle record);
+
+    int insertSelective(Aisle record);
+
+    Aisle selectByPrimaryKey(Integer aisleId);
+
+    int updateByPrimaryKeySelective(Aisle record);
+
+    int updateByPrimaryKey(Aisle record);
+
+	List<Aisle> selectAisleByAisleInventory(Aisle aisle);
+
+	List<Aisle> getMerchandiseByEquipmentNumber(@Param("equipment_id")Integer equipment_id,
+			@Param("classify_id")Integer classify_id);
+
+	List<Aisle> selectAisleAndMerchandiseByExample(Aisle aisle);
+
+	int insertSelectiveByAisle(List<Aisle> list);
+
+	List<Aisle> selectByExample(Aisle aisle);
+
+	int deleteByEquipmentId(Integer equipmentId);
+
+	List<Aisle> selectByEquipmentId(@Param("equipmentId")Integer equipmentId);
+}

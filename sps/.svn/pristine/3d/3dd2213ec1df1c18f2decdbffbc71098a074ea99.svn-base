@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.AuditPicturesMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.AuditPictures">
+    <id column="audit_pictures_id" jdbcType="INTEGER" property="auditPicturesId" />
+    <result column="audit_pictures_admin_id" jdbcType="INTEGER" property="auditPicturesAdminId" />
+    <result column="audit_pictures_pictures" jdbcType="VARCHAR" property="auditPicturesPictures" />
+    <result column="audit_pictures_license_plate" jdbcType="VARCHAR" property="auditPicturesLicensePlate" />
+    <result column="audit_pictures_route_name" jdbcType="VARCHAR" property="auditPicturesRouteName" />
+    <result column="audit_pictures_truck_space_name" jdbcType="VARCHAR" property="auditPicturesTruckSpaceName" />
+    <result column="audit_pictures_time" jdbcType="TIMESTAMP" property="auditPicturesTime" />
+    <result column="audit_pictures_status" jdbcType="INTEGER" property="auditPicturesStatus" />
+  </resultMap>
+ 
+  <sql id="Base_Column_List">
+    audit_pictures_id, audit_pictures_admin_id, audit_pictures_pictures, audit_pictures_license_plate, 
+    audit_pictures_route_name, audit_pictures_truck_space_name, audit_pictures_time, 
+    audit_pictures_status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from audit_pictures
+    where audit_pictures_id = #{auditPicturesId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from audit_pictures
+    where audit_pictures_id = #{auditPicturesId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.AuditPictures">
+    insert into audit_pictures (audit_pictures_id, audit_pictures_admin_id, 
+      audit_pictures_pictures, audit_pictures_license_plate, 
+      audit_pictures_route_name, audit_pictures_truck_space_name, 
+      audit_pictures_time, audit_pictures_status
+      )
+    values (#{auditPicturesId,jdbcType=INTEGER}, #{auditPicturesAdminId,jdbcType=INTEGER}, 
+      #{auditPicturesPictures,jdbcType=VARCHAR}, #{auditPicturesLicensePlate,jdbcType=VARCHAR}, 
+      #{auditPicturesRouteName,jdbcType=VARCHAR}, #{auditPicturesTruckSpaceName,jdbcType=VARCHAR}, 
+      #{auditPicturesTime,jdbcType=TIMESTAMP}, #{auditPicturesStatus,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.AuditPictures">
+    insert into audit_pictures
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="auditPicturesId != null">
+        audit_pictures_id,
+      </if>
+      <if test="auditPicturesAdminId != null">
+        audit_pictures_admin_id,
+      </if>
+      <if test="auditPicturesPictures != null">
+        audit_pictures_pictures,
+      </if>
+      <if test="auditPicturesLicensePlate != null">
+        audit_pictures_license_plate,
+      </if>
+      <if test="auditPicturesRouteName != null">
+        audit_pictures_route_name,
+      </if>
+      <if test="auditPicturesTruckSpaceName != null">
+        audit_pictures_truck_space_name,
+      </if>
+      <if test="auditPicturesTime != null">
+        audit_pictures_time,
+      </if>
+      <if test="auditPicturesStatus != null">
+        audit_pictures_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="auditPicturesId != null">
+        #{auditPicturesId,jdbcType=INTEGER},
+      </if>
+      <if test="auditPicturesAdminId != null">
+        #{auditPicturesAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="auditPicturesPictures != null">
+        #{auditPicturesPictures,jdbcType=VARCHAR},
+      </if>
+      <if test="auditPicturesLicensePlate != null">
+        #{auditPicturesLicensePlate,jdbcType=VARCHAR},
+      </if>
+      <if test="auditPicturesRouteName != null">
+        #{auditPicturesRouteName,jdbcType=VARCHAR},
+      </if>
+      <if test="auditPicturesTruckSpaceName != null">
+        #{auditPicturesTruckSpaceName,jdbcType=VARCHAR},
+      </if>
+      <if test="auditPicturesTime != null">
+        #{auditPicturesTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditPicturesStatus != null">
+        #{auditPicturesStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.AdminPhotoAudit">
+    update audit_pictures a2,admin a1
+    <set>
+      <if test="auditPicturesAdminId != null">
+        a2.audit_pictures_admin_id = #{auditPicturesAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="auditPicturesPictures != null">
+        a2.audit_pictures_pictures = #{auditPicturesPictures,jdbcType=VARCHAR},
+      </if>
+      <if test="auditPicturesLicensePlate != null">
+        a2.audit_pictures_license_plate = #{auditPicturesLicensePlate,jdbcType=VARCHAR},
+      </if>
+      <if test="auditPicturesRouteName != null">
+        a2.audit_pictures_route_name = #{auditPicturesRouteName,jdbcType=VARCHAR},
+      </if>
+      <if test="auditPicturesTruckSpaceName != null">
+        a2.audit_pictures_truck_space_name = #{auditPicturesTruckSpaceName,jdbcType=VARCHAR},
+      </if>
+      <if test="auditPicturesTime != null">
+        a2.audit_pictures_time = #{auditPicturesTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditPicturesStatus != null">
+        a2.audit_pictures_status = #{auditPicturesStatus,jdbcType=INTEGER},
+      </if>
+      <if test="adminPictures != null">
+    		<if test="adminPictures.adminId != null">
+	      		a1.admin_id = #{adminPictures.adminId,jdbcType=INTEGER}
+	    	</if>
+	    	<if test="adminPictures.adminAccount != null">
+	      		a1.admin_account = #{adminPictures.adminAccount,jdbcType=VARCHAR}
+	    	</if>
+	    	<if test="adminPictures.adminPassWord != null">
+	      		a1.admin_pass_word = #{adminPictures.adminPassWord,jdbcType=VARCHAR}
+	    	</if>
+	    	<if test="adminPictures.adminRealname != null">
+	      		a1.admin_realname = #{adminPictures.adminRealname,jdbcType=VARCHAR}
+	    	</if>
+	    	<if test="adminPictures.adminPhoto != null">
+	      		a1.admin_photo = #{adminPictures.adminPhoto,jdbcType=VARCHAR}
+	    	</if>
+	    	<if test="adminPictures.adminEmail != null">
+	      		a1.admin_email = #{adminPictures.adminEmail,jdbcType=VARCHAR}
+	    	</if>
+	    	<if test="adminPictures.adminPosition != null">
+	      		a1.admin_position = #{adminPictures.adminPosition,jdbcType=VARCHAR}
+	    	</if>
+	    	<if test="adminPictures.adminCreationTime != null">
+	      		a1.admin_creation_time = #{adminPictures.adminCreationTime,jdbcType=VARCHAR}
+	    	</if>
+	    	<if test="adminPictures.adminLocation != null">
+	      		a1.admin_location = #{adminPictures.adminLocation,jdbcType=VARCHAR}
+	    	</if>
+	    	<if test="adminPictures.adminLocationTime != null">
+	      		a1.admin_location_time = #{adminPictures.adminLocationTime,jdbcType=VARCHAR}
+	    	</if>
+    	</if>
+      	
+    </set>
+    where a2.audit_pictures_id = #{auditPicturesId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.AuditPictures">
+    update audit_pictures
+    set audit_pictures_admin_id = #{auditPicturesAdminId,jdbcType=INTEGER},
+      audit_pictures_pictures = #{auditPicturesPictures,jdbcType=VARCHAR},
+      audit_pictures_license_plate = #{auditPicturesLicensePlate,jdbcType=VARCHAR},
+      audit_pictures_route_name = #{auditPicturesRouteName,jdbcType=VARCHAR},
+      audit_pictures_truck_space_name = #{auditPicturesTruckSpaceName,jdbcType=VARCHAR},
+      audit_pictures_time = #{auditPicturesTime,jdbcType=TIMESTAMP},
+      audit_pictures_status = #{auditPicturesStatus,jdbcType=INTEGER}
+    where audit_pictures_id = #{auditPicturesId,jdbcType=INTEGER}
+  </update>
+   <!-- 照片审核 -->
+  <resultMap id="BaseResultMapWithAdmin" type="com.py.bean.AdminPhotoAudit">
+    <id column="audit_pictures_id" jdbcType="INTEGER" property="auditPicturesId" />
+    <result column="audit_pictures_admin_id" jdbcType="INTEGER" property="auditPicturesAdminId" />
+    <result column="audit_pictures_pictures" jdbcType="VARCHAR" property="auditPicturesPictures" />
+    <result column="audit_pictures_license_plate" jdbcType="VARCHAR" property="auditPicturesLicensePlate" />
+    <result column="audit_pictures_route_name" jdbcType="VARCHAR" property="auditPicturesRouteName" />
+    <result column="audit_pictures_truck_space_name" jdbcType="VARCHAR" property="auditPicturesTruckSpaceName" />
+    <result column="audit_pictures_time" jdbcType="TIMESTAMP" property="auditPicturesTime" />
+    <result column="audit_pictures_status" jdbcType="INTEGER" property="auditPicturesStatus" />
+  	<association javaType="com.py.bean.Admin" property="adminPictures">
+	   	<id column="admin_id" jdbcType="INTEGER" property="adminId" />
+	    <result column="admin_account" jdbcType="VARCHAR" property="adminAccount" />
+	    <result column="admin_pass_word" jdbcType="VARCHAR" property="adminPassWord" />
+	    <result column="admin_realname" jdbcType="VARCHAR" property="adminRealname" />
+	    <result column="admin_photo" jdbcType="VARCHAR" property="adminPhoto" />
+	    <result column="admin_email" jdbcType="VARCHAR" property="adminEmail" />
+	    <result column="admin_position" jdbcType="VARCHAR" property="adminPosition" />
+	    <result column="admin_creation_time" jdbcType="VARCHAR" property="adminCreationTime" />
+	    <result column="admin_location" jdbcType="VARCHAR" property="adminLocation" />
+	    <result column="admin_location_time" jdbcType="VARCHAR" property="adminLocationTime" />
+    </association>
+  </resultMap>
+  
+  <select id="selectBySampleWithAdmin" parameterType="com.py.bean.AuditPictures" resultMap="BaseResultMapWithAdmin">
+  		select *
+  		from admin a1,
+  			audit_pictures a2
+  		where
+  			1=1
+	  	<if test="auditPicturesId != null">
+	     	and a2.audit_pictures_id = #{auditPicturesId,jdbcType=INTEGER},
+	    </if>
+  		<if test="auditPicturesAdminId != null">
+        	and a2.audit_pictures_admin_id = #{auditPicturesAdminId,jdbcType=INTEGER},
+      	</if>
+      	<if test="auditPicturesPictures != null">
+        	and a2.audit_pictures_pictures = #{auditPicturesPictures,jdbcType=VARCHAR},
+      	</if>
+      	<if test="auditPicturesLicensePlate != null">
+        	and a2.audit_pictures_license_plate = #{auditPicturesLicensePlate,jdbcType=VARCHAR},
+      	</if>
+      	<if test="auditPicturesRouteName != null">
+        	and a2.audit_pictures_route_name = #{auditPicturesRouteName,jdbcType=VARCHAR},
+      	</if>
+      	<if test="auditPicturesTruckSpaceName != null">
+        	and a2.audit_pictures_truck_space_name = #{auditPicturesTruckSpaceName,jdbcType=VARCHAR},
+      	</if>
+      	<if test="auditPicturesTime != null">
+        	and a2.audit_pictures_time = #{auditPicturesTime,jdbcType=TIMESTAMP},
+      	</if>
+      	<if test="auditPicturesStatus != null">
+        	and a2.audit_pictures_status = #{auditPicturesStatus,jdbcType=INTEGER},
+     	</if>
+  		<if test="adminPictures != null">
+    		<if test="adminPictures.adminId != null">
+	      		and a1.admin_id = #{adminPictures.adminId,jdbcType=INTEGER}
+	    	</if>
+	    	<if test="adminPictures.adminAccount != null">
+	      		and a1.admin_account = #{adminPictures.adminAccount,jdbcType=VARCHAR}
+	    	</if>
+	    	<if test="adminPictures.adminPassWord != null">
+	      		and a1.admin_pass_word = #{adminPictures.adminPassWord,jdbcType=VARCHAR}
+	    	</if>
+	    	<if test="adminPictures.adminRealname != null">
+	      		and a1.admin_realname = #{adminPictures.adminRealname,jdbcType=VARCHAR}
+	    	</if>
+	    	<if test="adminPictures.adminPhoto != null">
+	      		and a1.admin_photo = #{adminPictures.adminPhoto,jdbcType=VARCHAR}
+	    	</if>
+	    	<if test="adminPictures.adminEmail != null">
+	      		and a1.admin_email = #{adminPictures.adminEmail,jdbcType=VARCHAR}
+	    	</if>
+	    	<if test="adminPictures.adminPosition != null">
+	      		and a1.admin_position = #{adminPictures.adminPosition,jdbcType=VARCHAR}
+	    	</if>
+	    	<if test="adminPictures.adminCreationTime != null">
+	      		and a1.admin_creation_time = #{adminPictures.adminCreationTime,jdbcType=VARCHAR}
+	    	</if>
+	    	<if test="adminPictures.adminLocation != null">
+	      		and a1.admin_location = #{adminPictures.adminLocation,jdbcType=VARCHAR}
+	    	</if>
+	    	<if test="adminPictures.adminLocationTime != null">
+	      		and a1.admin_location_time = #{adminPictures.adminLocationTime,jdbcType=VARCHAR}
+	    	</if>
+    	</if>
+    		AND a2.audit_pictures_admin_id = a1.admin_id
+		ORDER BY
+			a2.audit_pictures_time DESC
+  </select>
+	<select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMapWithAdmin">
+		SELECT
+			*
+		FROM
+			admin a1,
+			audit_pictures a2
+		WHERE
+			1 = 1
+		AND a2.audit_pictures_admin_id = a1.admin_id
+		<if test="auditId != null">
+	     	and a2.audit_pictures_id = #{auditId,jdbcType=INTEGER}
+	    </if>	
+	</select>
+ 
+ <!-- 根据Id更新审核状态 -->
+  <update id="updateForStatusById" parameterType="java.lang.Integer">
+  	UPDATE 
+  		audit_pictures
+  	 SET 
+  	 	<if test="adminPhotoAuditResult != null">
+	      	 audit_pictures_status = #{adminPhotoAuditResult,jdbcType=INTEGER}
+	    </if>
+  	 	
+  	 WHERE 
+  	 	<if test="adminPhotoAuditId != null">
+	      	 audit_pictures_id = #{adminPhotoAuditId,jdbcType=INTEGER}
+	    </if>
+  </update>
+  <!-- 根据时间查询审核 -->
+   <select id="selectAuditByTime" parameterType="java.lang.String" resultMap="BaseResultMapWithAdmin">
+	    select 
+	    	*
+	    from 
+			admin a1,
+			audit_pictures a2
+		where 1=1
+	    <if test="startTime != null">
+	      and audit_pictures_time &gt;= #{startTime,jdbcType=TIMESTAMP}
+	    </if>
+		<if test="endTime != null">
+	      and audit_pictures_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+	    </if>
+	    AND a2.audit_pictures_admin_id = a1.admin_id
+		ORDER BY
+			a2.audit_pictures_time DESC
+	    
+	  </select>
+   <select id="selectByStatus" parameterType="java.lang.Integer" resultMap="BaseResultMapWithAdmin">
+	    select 
+	    	*
+	    from 
+			admin a1,
+			audit_pictures a2
+		where 1=1
+	    AND a2.audit_pictures_admin_id = a1.admin_id
+	    <if test="status != null">
+	      and audit_pictures_status = #{status,jdbcType=INTEGER}
+	    </if>
+		ORDER BY
+			a2.audit_pictures_time DESC
+	    
+	  </select>
+   <select id="selectByRealName" parameterType="java.lang.String" resultMap="BaseResultMapWithAdmin">
+	    select 
+	    	*
+	    from 
+			admin a1,
+			audit_pictures a2
+		where 1=1
+	    AND a2.audit_pictures_admin_id = a1.admin_id
+	    <if test="realname != null">
+	      		and a1.admin_realname like "%"#{realname,jdbcType=VARCHAR}"%"
+	    	</if>
+		ORDER BY
+			a2.audit_pictures_time DESC
+	    
+	  </select>
+  
+</mapper>

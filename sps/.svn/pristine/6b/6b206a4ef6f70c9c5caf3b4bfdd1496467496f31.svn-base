@@ -1,0 +1,534 @@
+package com.py.controller;
+
+import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.taglibs.standard.tag.common.fmt.SetTimeZoneSupport;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.py.bean.AdminRole;
+import com.py.bean.BillingMethod;
+import com.py.bean.BillingMethodHour;
+import com.py.bean.BillingMethodMinute15;
+import com.py.bean.BillingMethodRecord;
+import com.py.bean.Camera;
+import com.py.bean.LicensePlate;
+import com.py.bean.Light;
+import com.py.bean.Message;
+import com.py.bean.MonthCardBuy;
+import com.py.bean.MonthCardRecord;
+import com.py.bean.Route;
+import com.py.bean.SingleCar;
+import com.py.bean.SingleCarDetails;
+import com.py.bean.Snapshot;
+import com.py.bean.TruckSpace;
+import com.py.bean.User;
+import com.py.jdpush.Jdpush;
+import com.py.service.AdminRoleService;
+import com.py.service.BillingMethodHourService;
+import com.py.service.BillingMethodMinute15Service;
+import com.py.service.BillingMethodService;
+import com.py.service.CameraService;
+import com.py.service.LicensePlateService;
+import com.py.service.LightService;
+import com.py.service.MessageService;
+import com.py.service.MonthCardService;
+import com.py.service.RouteService;
+import com.py.service.SingleCarDetailsService;
+import com.py.service.SingleCarService;
+import com.py.service.SnapshotService;
+import com.py.service.TruckSpaceService;
+import com.py.service.UserService;
+import com.py.util.BillingMethodUtils;
+import com.py.util.Msg;
+import com.py.util.OfTime;
+
+import cn.jpush.api.push.model.audience.Audience;
+
+@Controller
+public class CameraController {
+	
+	@Autowired
+	CameraService cameraService;
+	@Autowired
+	SingleCarService singleCarService;
+	@Autowired
+	RouteService routeService;
+	@Autowired
+	SingleCarDetailsService singleCarDetailsService;
+	@Autowired
+	LicensePlateService licensePlateService;
+	@Autowired
+	UserService userService;
+	@Autowired
+	TruckSpaceService truckSpaceService;
+	@Autowired
+	BillingMethodService billingMethodService;
+	@Autowired
+	BillingMethodHourService billingMethodHourService;
+	@Autowired
+	BillingMethodMinute15Service billingMethodMinute15Service;
+	@Autowired
+	MonthCardService monthCardService;
+	@Autowired
+	MessageService messageService;
+	@Autowired
+	LightService lightService;
+	@Autowired
+	AdminRoleService adminRoleService;
+	@Autowired
+	SnapshotService snapshotService;
+	
+	
+	/**
+	 * 跳转路段监控
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/jumpcamera")
+	public String jumpcamera(Model model){
+		return "camera/camera";
+	}
+	
+	/**
+	 * 跳转监控信息
+	 * 
+	 */
+	
+	@RequestMapping("/jumpmonitoring")
+	public String jumpmonitoring(Model model){
+		return "camera/monitoring";
+	}
+
+	/**
+	 * 找出当天的停车记录
+	 * 
+	 */
+	
+	@ResponseBody
+	@RequestMapping("/getuserEzStopForDate")
+	public Msg getuserEzStopForDate(@RequestParam(value="pn",defaultValue="1")Integer pn,@RequestParam("cameraId")Integer cameraId) {
+		PageHelper.startPage(pn, 10);
+		
+		Camera camera = new Camera();
+		camera.setCameraId(cameraId);
+		List<Camera> Camera = cameraService.selectByExample(camera);
+		String a = null;
+		for (Camera camera2 : Camera) {
+			a = camera2.getCameraIp();
+			
+		}
+		
+		List<SingleCar> list = singleCarService.selectByCamareIp(a);
+		PageInfo<SingleCar> singlecarList = new PageInfo<SingleCar>(list, 5);
+		return Msg.success().add("pageInfo", singlecarList);
+		
+		
+	}
+	
+	
+	//getcameraAll
+	/**
+	 * 查询全部停车场
+	 * @throws UnsupportedEncodingException 
+	 */
+	@RequestMapping("/getcameraAll")
+	@ResponseBody
+	public Msg getcameraAll(@RequestParam(value = "pn", defaultValue = "1") Integer pn,HttpServletRequest request) throws UnsupportedEncodingException {
+		PageHelper.startPage(pn, 10);
+		List<Camera> cameraList = cameraService.selectByExampleWithRoute();
+		PageInfo<Camera> page = new PageInfo<Camera>(cameraList, 5);
+		return Msg.success().add("pageInfo", page);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/findCamearAll")
+	public Msg findCamearAll() {
+		List<Camera> cameraList = cameraService.selectByExampleWithRoute();
+		return Msg.success(cameraList);
+	}
+	
+	/**
+	 * 查询全部停车场
+	 * @throws UnsupportedEncodingException 
+	 */
+	@RequestMapping("/getcameraRTMP")
+	@ResponseBody
+	public Msg getcameraRTMP(HttpServletRequest request) throws UnsupportedEncodingException {
+		
+		List<Camera> cameraList = cameraService.selectByExampleRtmp();
+		
+		return Msg.success().add("pageInfo", cameraList);
+	}
+	
+	/**
+	 * selectByExsample
+	 */
+	@RequestMapping("/selectByExsample")
+	@ResponseBody
+	public Msg selectByExsample(@RequestParam("CameraName")String CameraName,HttpServletRequest request) throws UnsupportedEncodingException {
+		
+		Camera camera = new Camera();
+		if (!CameraName.equals("") && !CameraName.equals(" ") && !CameraName.equals(null)) {
+			camera.setCameraName(CameraName);
+		}else {
+			return Msg.fail();
+		}
+		List<Camera> cameraList = cameraService.selectByExample(camera);
+		
+		return Msg.success().add("cameraList", cameraList);
+	}
+	/**
+	 * selectById
+	 */
+	@RequestMapping("/getCameraNameById")
+	@ResponseBody
+	public Msg getCameraNameById(@RequestParam("CameraId")Integer CameraId,HttpServletRequest request) throws UnsupportedEncodingException {
+		
+		Camera camera = new Camera();
+		if (CameraId != null) {
+			camera.setCameraId(CameraId);
+		}else {
+			return Msg.fail();
+		}
+		List<Camera> cameraList = cameraService.selectByExample(camera);
+		
+		return Msg.success().add("cameraList", cameraList);
+	}
+	/**
+	 * 修改相机名称
+	 * updateCameraName
+	 */
+	@RequestMapping("/updateCameraName")
+	@ResponseBody
+	public Msg updateCameraName(@RequestParam("cameraid")Integer cameraid,@RequestParam("cameraName")String cameraName,HttpServletRequest request) throws UnsupportedEncodingException {
+		
+		Camera camera = new Camera();
+		if (!cameraName.equals("") && !cameraName.equals(" ") && !cameraName.equals(null)) {
+			camera.setCameraId(cameraid);
+			camera.setCameraName(cameraName);
+		}else {
+			return Msg.fail();
+		}
+		cameraService.updateByPrimaryKeySelective(camera);
+		return Msg.success();
+	}
+	
+	@ResponseBody
+	@RequestMapping("/getCameraRTMPById")
+	public Msg getCameraRTMPById(@RequestParam("cameraId")Integer cameraId){
+		Camera camera = cameraService.selectByPrimaryKey(cameraId);
+		return Msg.success(camera);
+	}
+	
+	/**
+	 * 手动泊车
+	 * @param camera_ip
+	 * @param truck_space
+	 * @param license_plate
+	 * @param type
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/manualEnterOrAppear")
+	public Msg manualEnterOrAppear(@RequestParam("camera_ip")String camera_ip,
+			@RequestParam("truck_space")String truck_space,
+			@RequestParam("license_plate")String license_plate,
+			@RequestParam("type")Integer type) {
+		
+		Date date = new Date();
+		
+		Camera camera = new Camera();//相机
+		
+		if(camera_ip != null) {
+			camera.setCameraIp(camera_ip);
+			camera = cameraService.selectByPrimary(camera);
+		}
+		
+		Route route = new Route();// 根据路段名和ip查找
+		TruckSpace truckSpace = new TruckSpace();								// 根据车位查找
+		
+		if(camera != null) {
+			route = routeService.selectByPrimaryKey(camera.getCameraRouteId());	// 查找
+			truckSpace.setTruckSpaceCameraId(camera.getCameraId()); 			// 相机id
+		}
+		
+		if (route != null) {
+			truckSpace.setTruckSpaceName(truck_space); 							// 车位
+			truckSpace = truckSpaceService.selectByPrimary(truckSpace); 		// 查找
+		}
+
+		// 车单
+		SingleCar singleCar = new SingleCar();
+		singleCar.setSingleCarCameraIp(camera_ip); 			// 摄像头ip
+		singleCar.setSingleCarLicensePlate(license_plate); 	// 车牌
+
+		Integer singleCarId = 0; // 车单id
+		// 车牌
+		LicensePlate licensePlate = new LicensePlate();
+		licensePlate.setLicensePlateNumber(license_plate);
+		licensePlate = licensePlateService.selectByPrimary(licensePlate);
+
+		// 用户
+		User user = null;
+
+		if (licensePlate != null) {
+			user = userService.selectByPrimaryKey(licensePlate.getLicensePlateUserId());// 用户
+		}
+
+		// 消息
+		Message message = new Message();
+		message.setMessageType(1);
+		message.setMessageStaffType(1);
+		message.setMessageTime(OfTime.getLongTime());
+		
+		// 推送的信息
+		Map<String, String> parm = new HashMap<String, String>();
+		parm.put("title", "停车信息");
+		
+		singleCar.setSingleCarType(0);
+		if (type == 0) {// 泊入
+			if (truckSpace != null) {
+				truckSpace.setTruckSpaceStatus(1);// 修改占用状态
+				try {
+					truckSpaceService.updateByPrimaryKeySelective(truckSpace);
+				} catch (Exception e) {
+				}
+			}
+			message.setMessageContent("您于" + message.getMessageTime() + "泊车入位");// 消息内容
+			parm.put("body", "您于" + message.getMessageTime() + "泊车入位");// 推送内容
+			
+			if(route != null) {
+				singleCar.setSingleCarRouteName(route.getRouteLocationName()); // 路段名
+			}
+			singleCar.setSingleCarTruckSpace(truck_space); // 车位
+			// 创建订单时间
+			singleCar.setSingleCarTime(date);
+			singleCar.setSingleCarStartTime(date);
+			// 车单状态 0:未完成停车
+			try {
+				int i = singleCarService.insertSelective(singleCar); // 泊入插入
+				if(i != 1) {
+					return Msg.fail().add("msg", "车单插入失败");
+				}
+				singleCarId = singleCar.getSingleCarId(); // 记录车单id
+			} catch (Exception e) {
+				return Msg.fail().add("msg", "车单插入失败");
+			}
+			
+		}else{//泊出																	
+			if (truckSpace != null) {
+				truckSpace.setTruckSpaceStatus(0);// 修改占用状态
+				try {
+					truckSpaceService.updateByPrimaryKeySelective(truckSpace);
+				} catch (Exception e) {
+				}
+			}
+			message.setMessageContent("您于" + message.getMessageTime() + "泊出");// 消息内容
+			parm.put("body", "您于" + message.getMessageTime() + "泊出");// 推送内容
+			
+			SingleCar car = singleCarService.selectByPrimaryTop1(singleCar);
+			if (car != null) {
+				car.setSingleCarEndTime(date);// 结束时间
+				
+				car.setSingleCarType(1);// 车单状态 1:待付款
+
+				if (route != null) {
+					Double charging = 0d;
+					if(route.getRouteBillingMethodType() == 0) {
+						// 计费规则
+						BillingMethod billingMethod = new BillingMethod();
+						billingMethod.setBillingMethodId(route.getRouteBillingMethodId());
+						BillingMethodRecord billingMethodRecord = billingMethodService.selectByPrimaryRecord(billingMethod);
+						if (billingMethodRecord != null) {
+							try {
+								charging = BillingMethodUtils.charging(billingMethodRecord, car);// 计费工具类
+							} catch (ParseException e) {
+								return Msg.fail().add("msg", "计费错误");
+							}
+						}
+					}else if(route.getRouteBillingMethodType() == 1) {
+						BillingMethodHour billingMethodHour = billingMethodHourService.selectByPrimaryKey(1);
+						try {
+							charging = BillingMethodUtils.chargingHour(car,billingMethodHour);						// 计费工具类
+						} catch (Exception e) {
+							return Msg.fail().add("msg", "计费错误");
+						}
+					}else if(route.getRouteBillingMethodType() == 2) {
+						BillingMethodMinute15 billingMethodMinute15 = billingMethodMinute15Service.selectByPrimaryKey(1);
+						try {
+							charging = BillingMethodUtils.chargingMinute15(car,billingMethodMinute15);				// 计费工具类
+						} catch (ParseException e) {
+							return Msg.fail().add("msg", "计费错误");
+						}
+					}
+					// 计算停车费
+					car.setSingleCarPrice(charging);
+					
+					MonthCardRecord monthCardRecord = new MonthCardRecord();
+					MonthCardBuy monthCardBuy = new MonthCardBuy();
+					if(user != null) {
+						monthCardBuy.setMonthCardBuyUserId(user.getUserId());
+					}
+					monthCardRecord.setMonthCardBuy(monthCardBuy);
+					monthCardRecord.setMonthCardRoute(route.getRouteId());
+					//查看是否有购买了该路段的余额卡
+					monthCardRecord = monthCardService.selectByPrimaryRecord(monthCardRecord);
+					try {
+						if(monthCardRecord != null && monthCardRecord.getMonthCardBuy().getMonthCardBuyEndTime().getTime() >= new Date().getTime() ) {
+							car.setSingleCarType(2);
+						}
+					} catch (Exception e) {
+					}
+				}
+				try {
+					singleCarId = car.getSingleCarId();// 记录车单id
+					singleCarService.updateByPrimaryKeySelective(car);// 泊入修改
+				} catch (Exception e) {
+				}
+			}
+		}
+		
+		if(user != null){
+			message.setMessageUserId(user.getUserId());	// 消息（用户id）
+			try {
+				int i = messageService.insertSelective(message);
+				if(i != 0){
+					// 推送信息
+					try {
+						if (user.getUserPushType() == 0) { // 调用ios的
+							Jdpush.jpushIOS(parm, Audience.registrationId(user.getUserPushRegistrationId()));
+						} else {// 然后调用安卓的
+							Jdpush.jpushAndroid(parm, Audience.registrationId(user.getUserPushRegistrationId()));
+						}
+					} catch (Exception e) {
+					}
+				}
+			} catch (Exception e) {
+			}
+			
+			/*拉黑*/
+			if(user.getUserBlack() == 1) {
+				
+				Light light = lightService.selectByPrimaryKey(1);
+				if(light != null){
+					light.setLightStatus(1);
+					try {
+						lightService.updateByPrimaryKeySelective(light);
+					} catch (Exception e) {
+					}
+				}
+				
+				// 消息
+				Message message1 = new Message();
+				message1.setMessageType(1);
+				message1.setMessageStaffType(1);
+				message1.setMessageUserId(user.getUserId());
+				message1.setMessageTime(OfTime.getLongTime());
+				message1.setMessageContent("您有欠费记录已被管理员拉黑,请及时支付并联系管理员解除黑名单");// 消息内容
+				try {
+					int i = messageService.insertSelective(message1);
+					if(i != 0){
+						// 推送的信息
+						Map<String, String> parm1 = new HashMap<String, String>();
+						parm1.put("title", "缴费信息");
+						parm1.put("body", "您有欠费记录已被管理员拉黑,请及时支付并联系管理员解除黑名单");
+						// 推送信息
+						try {
+							if (user.getUserPushType() == 0) { // 调用ios的
+								Jdpush.jpushIOS(parm1, Audience.registrationId(user.getUserPushRegistrationId()));
+							} else {// 然后调用安卓的
+								Jdpush.jpushAndroid(parm1, Audience.registrationId(user.getUserPushRegistrationId()));
+							}
+						} catch (Exception e) {
+						}
+					}
+				} catch (Exception e) {
+				}
+				
+				if(route != null){
+					// 消息
+					Message mess = new Message();
+					mess.setMessageType(6);
+					mess.setMessageStaffType(2);
+					mess.setMessageTime(OfTime.getLongTime());
+					mess.setMessageContent("有拉黑用户在"+route.getRouteLocationName()+"泊车,车牌号："+license_plate);// 消息内容
+					
+					// 推送的信息
+					Map<String, String> parm1 = new HashMap<String, String>();
+					parm1.put("title", "拉黑警报");
+					parm1.put("body", "有拉黑用户在"+route.getRouteLocationName()+"泊车,车牌号："+license_plate);
+					List<AdminRole> ars = adminRoleService.selectByExample(new AdminRole());
+					for (AdminRole ar : ars) {
+						if(ar != null && ar.getAdminRoleAdmin() != null){
+							if(ar.getAdminRoleRole().getRoleName().equals("路巡人员")){
+								mess.setMessageUserId(ar.getAdminRoleAdminId());
+								try {
+									messageService.insertSelective(mess);
+								} catch (Exception e){
+								}
+								
+								try {// 推送信息
+									if (ar.getAdminRoleAdmin().getAdminRegistrationType() == 0) { // 调用ios的
+										Jdpush.jpushIOS(parm1, Audience.registrationId(ar.getAdminRoleAdmin().getAdminRegistrationId()));
+									} else {// 然后调用安卓的
+										Jdpush.jpushAndroid(parm1, Audience.registrationId(ar.getAdminRoleAdmin().getAdminRegistrationId()));
+									}
+								} catch (Exception e) {
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		SingleCarDetails singleCarDetails = new SingleCarDetails();
+		singleCarDetails.setSingleCarDetailsCameraIp(camera_ip);
+		if(route != null) {
+			singleCarDetails.setSingleCarDetailsRouteName(route.getRouteLocationName());
+		}
+		singleCarDetails.setSingleCarDetailsTruckSpace(truck_space);
+		singleCarDetails.setSingleCarDetailsLicensePlate(license_plate);
+		singleCarDetails.setSingleCarDetailsType(type);
+		singleCarDetails.setSingleCarDetailsTime(OfTime.getLongTime());
+		singleCarDetails.setSingleCarDetailsSingleCarId(singleCarId);
+		singleCarDetailsService.insertSelective(singleCarDetails);
+		
+		//修改相机状态为抓拍
+		if(camera != null){
+			camera.setCameraStatus(1);
+			try {
+				cameraService.updateByPrimaryKeySelective(camera);
+			} catch (Exception e) {
+			}
+		}
+		
+		Snapshot snapshot = new Snapshot();
+		snapshot.setSnapshotCameraIp(camera_ip);
+		snapshot.setSnapshotSingleCarDetailsId(singleCarDetails.getSingleCarDetailsId());
+		snapshot.setSnapshotTime(date);
+		
+		try {
+			snapshotService.insertSelective(snapshot);
+		} catch (Exception e) {
+		}
+		
+		return Msg.success();
+	}
+	
+	
+}

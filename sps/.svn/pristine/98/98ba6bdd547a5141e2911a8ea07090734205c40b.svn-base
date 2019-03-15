@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.SingleCarMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.SingleCar">
+    <id column="single_car_id" jdbcType="INTEGER" property="singleCarId" />
+    <result column="single_car_camera_ip" jdbcType="VARCHAR" property="singleCarCameraIp" />
+    <result column="single_car_route_name" jdbcType="VARCHAR" property="singleCarRouteName" />
+    <result column="single_car_truck_space" jdbcType="VARCHAR" property="singleCarTruckSpace" />
+    <result column="single_car_license_plate" jdbcType="VARCHAR" property="singleCarLicensePlate" />
+    <result column="single_car_start_time" jdbcType="TIMESTAMP" property="singleCarStartTime" />
+    <result column="single_car_end_time" jdbcType="TIMESTAMP" property="singleCarEndTime" />
+    <result column="single_car_time" jdbcType="TIMESTAMP" property="singleCarTime" />
+    <result column="single_car_price" jdbcType="DOUBLE" property="singleCarPrice" />
+    <result column="single_car_type" jdbcType="INTEGER" property="singleCarType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    single_car_id, single_car_camera_ip, single_car_route_name, single_car_truck_space, 
+    single_car_license_plate, single_car_start_time, single_car_end_time, single_car_time, 
+    single_car_price, single_car_type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from single_car
+    where single_car_id = #{singleCarId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from single_car
+    where single_car_id = #{singleCarId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="singleCarId" parameterType="com.py.bean.SingleCar">
+    insert into single_car (single_car_id, single_car_camera_ip, single_car_route_name, 
+      single_car_truck_space, single_car_license_plate, 
+      single_car_start_time, single_car_end_time, 
+      single_car_time, single_car_price, single_car_type
+      )
+    values (#{singleCarId,jdbcType=INTEGER}, #{singleCarCameraIp,jdbcType=VARCHAR}, #{singleCarRouteName,jdbcType=VARCHAR}, 
+      #{singleCarTruckSpace,jdbcType=VARCHAR}, #{singleCarLicensePlate,jdbcType=VARCHAR}, 
+      #{singleCarStartTime,jdbcType=TIMESTAMP}, #{singleCarEndTime,jdbcType=TIMESTAMP}, 
+      #{singleCarTime,jdbcType=TIMESTAMP}, #{singleCarPrice,jdbcType=DOUBLE}, #{singleCarType,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="singleCarId" parameterType="com.py.bean.SingleCar">
+    insert into single_car
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="singleCarId != null">
+        single_car_id,
+      </if>
+      <if test="singleCarCameraIp != null">
+        single_car_camera_ip,
+      </if>
+      <if test="singleCarRouteName != null">
+        single_car_route_name,
+      </if>
+      <if test="singleCarTruckSpace != null">
+        single_car_truck_space,
+      </if>
+      <if test="singleCarLicensePlate != null">
+        single_car_license_plate,
+      </if>
+      <if test="singleCarStartTime != null">
+        single_car_start_time,
+      </if>
+      <if test="singleCarEndTime != null">
+        single_car_end_time,
+      </if>
+      <if test="singleCarTime != null">
+        single_car_time,
+      </if>
+      <if test="singleCarPrice != null">
+        single_car_price,
+      </if>
+      <if test="singleCarType != null">
+        single_car_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="singleCarId != null">
+        #{singleCarId,jdbcType=INTEGER},
+      </if>
+      <if test="singleCarCameraIp != null">
+        #{singleCarCameraIp,jdbcType=VARCHAR},
+      </if>
+      <if test="singleCarRouteName != null">
+        #{singleCarRouteName,jdbcType=VARCHAR},
+      </if>
+      <if test="singleCarTruckSpace != null">
+        #{singleCarTruckSpace,jdbcType=VARCHAR},
+      </if>
+      <if test="singleCarLicensePlate != null">
+        #{singleCarLicensePlate,jdbcType=VARCHAR},
+      </if>
+      <if test="singleCarStartTime != null">
+        #{singleCarStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="singleCarEndTime != null">
+        #{singleCarEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="singleCarTime != null">
+        #{singleCarTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="singleCarPrice != null">
+        #{singleCarPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="singleCarType != null">
+        #{singleCarType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.SingleCar">
+    update single_car
+    <set>
+      <if test="singleCarCameraIp != null">
+        single_car_camera_ip = #{singleCarCameraIp,jdbcType=VARCHAR},
+      </if>
+      <if test="singleCarRouteName != null">
+        single_car_route_name = #{singleCarRouteName,jdbcType=VARCHAR},
+      </if>
+      <if test="singleCarTruckSpace != null">
+        single_car_truck_space = #{singleCarTruckSpace,jdbcType=VARCHAR},
+      </if>
+      <if test="singleCarLicensePlate != null">
+        single_car_license_plate = #{singleCarLicensePlate,jdbcType=VARCHAR},
+      </if>
+      <if test="singleCarStartTime != null">
+        single_car_start_time = #{singleCarStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="singleCarEndTime != null">
+        single_car_end_time = #{singleCarEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="singleCarTime != null">
+        single_car_time = #{singleCarTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="singleCarPrice != null">
+        single_car_price = #{singleCarPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="singleCarType != null">
+        single_car_type = #{singleCarType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where single_car_id = #{singleCarId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.SingleCar">
+    update single_car
+    set single_car_camera_ip = #{singleCarCameraIp,jdbcType=VARCHAR},
+      single_car_route_name = #{singleCarRouteName,jdbcType=VARCHAR},
+      single_car_truck_space = #{singleCarTruckSpace,jdbcType=VARCHAR},
+      single_car_license_plate = #{singleCarLicensePlate,jdbcType=VARCHAR},
+      single_car_start_time = #{singleCarStartTime,jdbcType=TIMESTAMP},
+      single_car_end_time = #{singleCarEndTime,jdbcType=TIMESTAMP},
+      single_car_time = #{singleCarTime,jdbcType=TIMESTAMP},
+      single_car_price = #{singleCarPrice,jdbcType=DOUBLE},
+      single_car_type = #{singleCarType,jdbcType=INTEGER}
+    where single_car_id = #{singleCarId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimary" parameterType="com.py.bean.SingleCar" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from single_car
+    where 1=1
+    <if test="singleCarCameraIp != null">
+        and single_car_camera_ip = #{singleCarCameraIp,jdbcType=VARCHAR}
+      </if>
+      <if test="singleCarRouteName != null">
+        and single_car_route_name = #{singleCarRouteName,jdbcType=VARCHAR}
+      </if>
+      <if test="singleCarTruckSpace != null">
+        and single_car_truck_space = #{singleCarTruckSpace,jdbcType=VARCHAR}
+      </if>
+      <if test="singleCarLicensePlate != null">
+        and single_car_license_plate = #{singleCarLicensePlate,jdbcType=VARCHAR}
+      </if>
+      <if test="singleCarStartTime != null">
+        and single_car_start_time = #{singleCarStartTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="singleCarEndTime != null">
+        and single_car_end_time = #{singleCarEndTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="singleCarTime != null">
+        and single_car_time = #{singleCarTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="singleCarPrice != null">
+        and single_car_price = #{singleCarPrice,jdbcType=DOUBLE}
+      </if>
+      <if test="singleCarType != null">
+        and single_car_type = #{singleCarType,jdbcType=INTEGER}
+      </if>
+      order by single_car_time desc limit 1
+  </select>
+  <select id="selectByExample" parameterType="com.py.bean.SingleCar" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from single_car
+    where 1=1
+    <if test="singleCarCameraIp != null">
+        and single_car_camera_ip = #{singleCarCameraIp,jdbcType=VARCHAR}
+      </if>
+      <if test="singleCarRouteName != null">
+        and single_car_route_name = #{singleCarRouteName,jdbcType=VARCHAR}
+      </if>
+      <if test="singleCarTruckSpace != null">
+        and single_car_truck_space = #{singleCarTruckSpace,jdbcType=VARCHAR}
+      </if>
+      <if test="singleCarLicensePlate != null">
+        and single_car_license_plate = #{singleCarLicensePlate,jdbcType=VARCHAR}
+      </if>
+      <if test="singleCarStartTime != null">
+        and single_car_start_time = #{singleCarStartTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="singleCarEndTime != null">
+        and single_car_end_time = #{singleCarEndTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="singleCarTime != null">
+        and single_car_time = #{singleCarTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="singleCarPrice != null">
+        and single_car_price = #{singleCarPrice,jdbcType=DOUBLE}
+      </if>
+      <if test="singleCarType != null">
+        and single_car_type = #{singleCarType,jdbcType=INTEGER}
+      </if>
+    order by single_car_time desc
+  </select>
+  <select id="selectByLicensePlate" parameterType="java.util.List" resultMap="BaseResultMap">
+	  select 
+	  <include refid="Base_Column_List" />
+	  from single_car
+	  where 1 = 1
+	  <if test="licensePlates != null">
+	  	and 
+	  	<foreach close=")" collection="licensePlates" index="index" item="licensePlate" open="(" separator=" or ">
+	  		single_car_license_plate = #{licensePlate,jdbcType=VARCHAR}
+	  	</foreach>
+	  </if>
+	  order by single_car_time desc limit 20
+  </select>
+  
+  <resultMap type="com.py.bean.SingleCarInvoice" id="BaseSingleCarInvoiceMap">
+  	<id column="single_car_id" jdbcType="INTEGER" property="singleCarId" />
+    <result column="single_car_camera_ip" jdbcType="VARCHAR" property="singleCarCameraIp" />
+    <result column="single_car_route_name" jdbcType="VARCHAR" property="singleCarRouteName" />
+    <result column="single_car_truck_space" jdbcType="VARCHAR" property="singleCarTruckSpace" />
+    <result column="single_car_license_plate" jdbcType="VARCHAR" property="singleCarLicensePlate" />
+    <result column="single_car_start_time" jdbcType="TIMESTAMP" property="singleCarStartTime" />
+    <result column="single_car_end_time" jdbcType="TIMESTAMP" property="singleCarEndTime" />
+    <result column="single_car_time" jdbcType="TIMESTAMP" property="singleCarTime" />
+    <result column="single_car_price" jdbcType="DOUBLE" property="singleCarPrice" />
+    <result column="single_car_type" jdbcType="INTEGER" property="singleCarType" />
+    <collection column="invoice_single_car_id" ofType="com.py.bean.Invoice" property="invoice">
+    	<id column="invoice_id" jdbcType="INTEGER" property="invoiceId" />
+	    <result column="invoice_user_id" jdbcType="INTEGER" property="invoiceUserId" />
+	    <result column="invoice_single_car_id" jdbcType="INTEGER" property="invoiceSingleCarId" />
+	    <result column="invoice_type" jdbcType="INTEGER" property="invoiceType" />
+	    <result column="invoice_rise_type" jdbcType="INTEGER" property="invoiceRiseType" />
+	    <result column="invoice_rise_name" jdbcType="VARCHAR" property="invoiceRiseName" />
+	    <result column="invoice_duty_paragraph" jdbcType="VARCHAR" property="invoiceDutyParagraph" />
+	    <result column="invoice_content" jdbcType="VARCHAR" property="invoiceContent" />
+	    <result column="invoice_sum" jdbcType="DOUBLE" property="invoiceSum" />
+	    <result column="invoice_des" jdbcType="VARCHAR" property="invoiceDes" />
+	    <result column="invoice_receive_mode" jdbcType="INTEGER" property="invoiceReceiveMode" />
+	    <result column="invoice_mailbox" jdbcType="VARCHAR" property="invoiceMailbox" />
+	    <result column="invoice_addressee" jdbcType="VARCHAR" property="invoiceAddressee" />
+	    <result column="invoice_phone" jdbcType="VARCHAR" property="invoicePhone" />
+	    <result column="invoice_address" jdbcType="VARCHAR" property="invoiceAddress" />
+	    <result column="invoice_detailed_address" jdbcType="VARCHAR" property="invoiceDetailedAddress" />
+	    <result column="invoice_time" jdbcType="VARCHAR" property="invoiceTime" />
+	    <result column="invoice_status" jdbcType="INTEGER" property="invoiceStatus" />
+    </collection>
+  </resultMap>
+  
+  <select id="selectByLicensePlateByMap" parameterType="java.util.Map" resultMap="BaseSingleCarInvoiceMap">
+	  select *
+	  from single_car sc left join invoice i on sc.single_car_id = i.invoice_single_car_id
+	  where 1 = 1
+	  <if test="map.licensePlates != null">
+	  	and 
+	  	<foreach close=")" collection="map.licensePlates" index="index" item="licensePlate" open="(" separator=" or ">
+	  		sc.single_car_license_plate = #{licensePlate,jdbcType=VARCHAR}
+	  	</foreach>
+		  <if test="map.singleCarType != null">
+		  	and sc.single_car_type = #{map.singleCarType,jdbcType=INTEGER}
+		  </if>
+	  </if>
+  </select>
+  
+  <select id="selectAllRoute" resultMap="BaseResultMap">
+  	select
+  		*
+  	from
+  		single_car
+  </select>
+  
+  
+  <select id="selectByPrimaryTop1" parameterType="com.py.bean.SingleCar" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from single_car
+    where 1=1
+    <if test="singleCarCameraIp != null">
+        and single_car_camera_ip = #{singleCarCameraIp,jdbcType=VARCHAR}
+      </if>
+      <if test="singleCarRouteName != null">
+        and single_car_route_name = #{singleCarRouteName,jdbcType=VARCHAR}
+      </if>
+      <if test="singleCarTruckSpace != null">
+        and single_car_truck_space = #{singleCarTruckSpace,jdbcType=VARCHAR}
+      </if>
+      <if test="singleCarLicensePlate != null">
+        and single_car_license_plate = #{singleCarLicensePlate,jdbcType=VARCHAR}
+      </if>
+      <if test="singleCarStartTime != null">
+        and single_car_start_time = #{singleCarStartTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="singleCarEndTime != null">
+        and single_car_end_time = #{singleCarEndTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="singleCarTime != null">
+        and single_car_time = #{singleCarTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="singleCarPrice != null">
+        and single_car_price = #{singleCarPrice,jdbcType=DOUBLE}
+      </if>
+      <if test="singleCarType != null">
+        and single_car_type = #{singleCarType,jdbcType=INTEGER}
+      </if>
+      order by single_car_time desc limit 1
+  </select>
+  
+    <select id="selectByCamareIp" parameterType="java.lang.String" resultMap="BaseResultMap">
+	  SELECT
+			*
+		FROM
+			single_car
+		WHERE 1=1
+			and	single_car_end_time &gt;= date(now())
+			<if test="cameraIp != null">
+	  			and single_car_camera_ip = #{cameraIp,jdbcType=VARCHAR}
+	  		</if>
+			AND single_car_end_time &lt; DATE_ADD(date(now()), INTERVAL 1 DAY)
+	  
+  </select>
+  
+  <resultMap type="com.py.bean.SingleCarDetailsRecord" id="BaseSingleCarResultMap">
+  	<id column="single_car_id" jdbcType="INTEGER" property="singleCarId" />
+    <result column="single_car_camera_ip" jdbcType="VARCHAR" property="singleCarCameraIp" />
+    <result column="single_car_route_name" jdbcType="VARCHAR" property="singleCarRouteName" />
+    <result column="single_car_truck_space" jdbcType="VARCHAR" property="singleCarTruckSpace" />
+    <result column="single_car_license_plate" jdbcType="VARCHAR" property="singleCarLicensePlate" />
+    <result column="single_car_start_time" jdbcType="TIMESTAMP" property="singleCarStartTime" />
+    <result column="single_car_end_time" jdbcType="TIMESTAMP" property="singleCarEndTime" />
+    <result column="single_car_time" jdbcType="TIMESTAMP" property="singleCarTime" />
+    <result column="single_car_price" jdbcType="DOUBLE" property="singleCarPrice" />
+    <result column="single_car_type" jdbcType="INTEGER" property="singleCarType" />
+    <collection column="single_car_details_single_car_id" ofType="com.py.bean.SingleCarDetails" property="singleCarDetails">
+    	<id column="single_car_details_id" jdbcType="INTEGER" property="singleCarDetailsId" />
+	    <result column="single_car_details_camera_ip" jdbcType="VARCHAR" property="singleCarDetailsCameraIp" />
+	    <result column="single_car_details_route_name" jdbcType="VARCHAR" property="singleCarDetailsRouteName" />
+	    <result column="single_car_details_truck_space" jdbcType="VARCHAR" property="singleCarDetailsTruckSpace" />
+	    <result column="single_car_details_license_plate" jdbcType="VARCHAR" property="singleCarDetailsLicensePlate" />
+	    <result column="single_car_details_type" jdbcType="INTEGER" property="singleCarDetailsType" />
+	    <result column="single_car_details_license_plate_image" jdbcType="VARCHAR" property="singleCarDetailsLicensePlateImage" />
+	    <result column="single_car_details_photograph1" jdbcType="VARCHAR" property="singleCarDetailsPhotograph1" />
+	    <result column="single_car_details_photograph2" jdbcType="VARCHAR" property="singleCarDetailsPhotograph2" />
+	    <result column="single_car_details_video" jdbcType="VARCHAR" property="singleCarDetailsVideo" />
+	    <result column="single_car_details_single_car_id" jdbcType="INTEGER" property="singleCarDetailsSingleCarId" />
+	    <result column="single_car_details_time" jdbcType="VARCHAR" property="singleCarDetailsTime" />
+    </collection>
+  </resultMap>
+  
+  <select id="selectSingleCarRecordsByLicensePlate" parameterType="java.util.List" resultMap="BaseSingleCarResultMap">
+	  select *
+	  from single_car sc left join single_car_details  scd on sc.single_car_id = scd.single_car_details_single_car_id
+	  where 1 = 1
+	  <if test="licensePlates != null">
+	  	and 
+	  	<foreach close=")" collection="licensePlates" index="index" item="licensePlate" open="(" separator=" or ">
+	  		single_car_license_plate = #{licensePlate,jdbcType=VARCHAR}
+	  	</foreach>
+	  </if>
+	  order by single_car_time desc
+  </select>
+  
+  <select id="selectByExampleSingleCarDetailsRecordRecord" parameterType="com.py.bean.SingleCar" resultMap="BaseSingleCarResultMap">
+    select *
+	  from single_car sc,single_car_details  scd
+	  where sc.single_car_id = scd.single_car_details_single_car_id
+    <if test="singleCarCameraIp != null">
+        and sc.single_car_camera_ip = #{singleCarCameraIp,jdbcType=VARCHAR}
+      </if>
+      <if test="singleCarRouteName != null">
+        and sc.single_car_route_name = #{singleCarRouteName,jdbcType=VARCHAR}
+      </if>
+      <if test="singleCarTruckSpace != null">
+        and sc.single_car_truck_space = #{singleCarTruckSpace,jdbcType=VARCHAR}
+      </if>
+      <if test="singleCarLicensePlate != null">
+        and sc.single_car_license_plate = #{singleCarLicensePlate,jdbcType=VARCHAR}
+      </if>
+      <if test="singleCarStartTime != null">
+        and sc.single_car_start_time = #{singleCarStartTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="singleCarEndTime != null">
+        and sc.single_car_end_time = #{singleCarEndTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="singleCarTime != null">
+        and sc.single_car_time = #{singleCarTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="singleCarPrice != null">
+        and sc.single_car_price = #{singleCarPrice,jdbcType=DOUBLE}
+      </if>
+      <if test="singleCarType != null">
+        and sc.single_car_type = #{singleCarType,jdbcType=INTEGER}
+      </if>
+    order by sc.single_car_time desc
+  </select>
+  
+  <select id="selectByExampleSingleCarDetailsRecordRecordByNewFive" parameterType="com.py.bean.SingleCar" resultMap="BaseSingleCarResultMap">
+    select *
+	  from single_car sc,single_car_details  scd
+	  where sc.single_car_id = scd.single_car_details_single_car_id
+    <if test="singleCarCameraIp != null">
+        and sc.single_car_camera_ip = #{singleCarCameraIp,jdbcType=VARCHAR}
+      </if>
+      <if test="singleCarRouteName != null">
+        and sc.single_car_route_name = #{singleCarRouteName,jdbcType=VARCHAR}
+      </if>
+      <if test="singleCarTruckSpace != null">
+        and sc.single_car_truck_space = #{singleCarTruckSpace,jdbcType=VARCHAR}
+      </if>
+      <if test="singleCarLicensePlate != null">
+        and sc.single_car_license_plate = #{singleCarLicensePlate,jdbcType=VARCHAR}
+      </if>
+      <if test="singleCarStartTime != null">
+        and sc.single_car_start_time = #{singleCarStartTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="singleCarEndTime != null">
+        and sc.single_car_end_time = #{singleCarEndTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="singleCarTime != null">
+        and sc.single_car_time = #{singleCarTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="singleCarPrice != null">
+        and sc.single_car_price = #{singleCarPrice,jdbcType=DOUBLE}
+      </if>
+      <if test="singleCarType != null">
+        and sc.single_car_type = #{singleCarType,jdbcType=INTEGER}
+      </if>
+    order by sc.single_car_time desc limit 10
+  </select>
+  
+  <select id="selectByExampleRecordTop20" parameterType="com.py.bean.SingleCar" resultMap="BaseSingleCarResultMap">
+    select *
+	  from single_car sc,single_car_details  scd
+	  where sc.single_car_id = scd.single_car_details_single_car_id
+	  <if test="singleCarId != null">
+        and sc.single_car_id = #{singleCarId,jdbcType=INTEGER}
+      </if>
+      <if test="singleCarCameraIp != null">
+        and sc.single_car_camera_ip = #{singleCarCameraIp,jdbcType=VARCHAR}
+      </if>
+      <if test="singleCarRouteName != null">
+        and sc.single_car_route_name = #{singleCarRouteName,jdbcType=VARCHAR}
+      </if>
+      <if test="singleCarTruckSpace != null">
+        and sc.single_car_truck_space = #{singleCarTruckSpace,jdbcType=VARCHAR}
+      </if>
+      <if test="singleCarLicensePlate != null">
+        and sc.single_car_license_plate = #{singleCarLicensePlate,jdbcType=VARCHAR}
+      </if>
+      <if test="singleCarStartTime != null">
+        and sc.single_car_start_time = #{singleCarStartTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="singleCarEndTime != null">
+        and sc.single_car_end_time = #{singleCarEndTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="singleCarTime != null">
+        and sc.single_car_time = #{singleCarTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="singleCarPrice != null">
+        and sc.single_car_price = #{singleCarPrice,jdbcType=DOUBLE}
+      </if>
+      <if test="singleCarType != null">
+        and sc.single_car_type = #{singleCarType,jdbcType=INTEGER}
+      </if>
+    order by scd.single_car_details_time desc limit 16
+  </select>
+  
+</mapper>

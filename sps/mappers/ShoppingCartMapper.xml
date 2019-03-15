@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pywl.project.mapper.ShoppingCartMapper">
+	<!--List<ShoppingCart> selectShopping(Long userId);  -->
+	<select id="selectShopping" parameterType="java.lang.Long" resultType="com.pywl.project.bean.ShoppingCart">
+		SELECT id,goods_id as goodsId,goods_num as goodsNum,goods_price as goodsPrice,user_id as userId
+		FROM shoppingCart
+		WHERE user_id=#{userId}
+	</select>
+	
+	<!--  Integer delShopping(Long id);-->
+	<delete id="delShopping" parameterType="java.lang.Long">
+		DELETE FROM shoppingCart WHERE id=#{id}
+	</delete>
+	
+	<!-- void insertShopping(ShoppingCart sc); -->
+	<insert id="insertShopping" parameterType="com.pywl.project.bean.ShoppingCart">
+	INSERT INTO shoppingCart(goods_id,goods_num,goods_price,user_id) VALUES(
+	#{goodsId},#{goodsNum},#{goodsPrice},#{userId}
+	)
+	</insert>
+	
+	<!--void updateShopping(ShoppingCart sc);  -->
+	<update id="updateShopping" parameterType="com.pywl.project.bean.ShoppingCart">
+	UPDATE shoppingCart 
+	<set>
+		<if test="goodsId!=null and goodsId!=''">
+		goods_id=#{goodsId},
+		</if>
+		<if test="goodsNum!=null and goodsNum!=''">
+		goods_num=#{goodsNum},
+		</if>
+		<if test="goodsPrice!=null and goodsPrice!=''">
+		goods_price=#{goodsPrice},
+		</if>
+	</set>
+	WHERE id=#{id}
+	</update>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

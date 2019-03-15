@@ -1,0 +1,157 @@
+package com.example.admin.serialdemo.Activity;
+
+import android.Manifest;
+import android.app.ActivityManager;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.telephony.TelephonyManager;
+import android.text.format.Formatter;
+import android.util.Log;
+import android.view.KeyEvent;
+
+import com.example.admin.serialdemo.Portutil.DeviceInfoManager;
+import com.example.admin.serialdemo.R;
+import com.example.admin.serialdemo.Utils.BaseActivity;
+import com.example.admin.serialdemo.Utils.Constant;
+import com.squareup.okhttp.Request;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+import butterknife.ButterKnife;
+
+public class SplashActivity extends BaseActivity {
+
+    DeviceInfoManager manger;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
+        ButterKnife.bind(this);
+
+        new Thread() {
+            @Override
+            public void run() {
+//                    TelephonyManager tm = (TelephonyManager) SplashActivity.this.getSystemService(TELEPHONY_SERVICE);
+//                    String imei = tm.getDeviceId();
+//                sendMessage("AA " + "620580247" + " BB");
+                enterActivity(MainActivity.class);
+                finish();
+            }
+        }.start();
+    }
+
+    /**
+     * 阻止程序在回退到最后一步被杀死，而是保持后台运行
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            moveTaskToBack(false);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+//    @Override
+//    protected void onDestroy() {
+//        try {
+//            //取消消息监听
+//            mSocket.removeMessageListener(messageListener);
+//        } catch (RemoteException e) {
+//            e.printStackTrace();
+//        }
+//        //解绑服务
+//        unbindService(serviceConnection);
+//        super.onDestroy();
+//    }
+
+
+    /**
+     * 获取手机内存大小
+     *
+     * @return
+     */
+    private String getTotalMemory() {
+        String str1 = "/proc/meminfo";// 系统内存信息文件
+        String str2;
+        String[] arrayOfString;
+        long initial_memory = 0;
+        try {
+            FileReader localFileReader = new FileReader(str1);
+            BufferedReader localBufferedReader = new BufferedReader(localFileReader, 8192);
+            str2 = localBufferedReader.readLine();// 读取meminfo第一行，系统总内存大小
+            arrayOfString = str2.split("\\s+");
+            for (String num : arrayOfString) {
+                Log.i(str2, num + "\t");
+            }
+            initial_memory = Integer.valueOf(arrayOfString[1]).intValue() * 1024;// 获得系统总内存，单位是KB，乘以1024转换为Byte
+            localBufferedReader.close();
+
+        } catch (IOException e) {
+        }
+        return Formatter.formatFileSize(this.getBaseContext(), initial_memory);// Byte转换为KB或者MB，内存大小规格化
+    }
+
+
+    /**
+     * 获取当前可用内存大小
+     *
+     * @return
+     */
+    private String getAvailMemory() {
+        ActivityManager am = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
+        am.getMemoryInfo(mi);
+        return Formatter.formatFileSize(this.getBaseContext(), mi.availMem);
+    }
+
+    /**
+     * GPS获取定位方式
+     */
+    public Location getGPSLocation(@NonNull Context context) {
+        Location location = null;
+        LocationManager manager = getLocationManager(context);
+        //高版本的权限检查
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return null;
+        }
+        if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {//是否支持GPS定位
+            //获取最后的GPS定位信息，如果是第一次打开，一般会拿不到定位信息，一般可以请求监听，在有效的时间范围可以获取定位信息
+            location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            TelephonyManager tm = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);
+            OkHttpUtils.post()
+                    .url(Constant.Infomation)
+                    .addParams("cpu_occupy", String.valueOf(manger.getTotalCpuRate()))//cpu占用率
+                    .addParams("memory_occupy", manger.getUsedPercentValue(this))//内存占用率
+                    .addParams("memory_size", getTotalMemory())//内存大小
+                    .addParams("serial_number", Build.SERIAL)//序列号
+                    .addParams("equipment_id", tm.getDeviceId())//设备id
+                    .addParams("GPS", String.valueOf(location))//GPS
+                    .build().execute(new StringCallback() {
+                @Override
+                public void onError(Request request, Exception e) { }
+
+                @Override
+                public void onResponse(String response) {
+
+                }
+            });
+        }
+        return location;
+    }
+
+    private static LocationManager getLocationManager(@NonNull Context context) {
+        return (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+    }
+}

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.TruckSpaceMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.TruckSpace">
+    <id column="truck_space_id" jdbcType="INTEGER" property="truckSpaceId" />
+    <result column="truck_space_name" jdbcType="VARCHAR" property="truckSpaceName" />
+    <result column="truck_space_route_id" jdbcType="INTEGER" property="truckSpaceRouteId" />
+    <result column="truck_space_status" jdbcType="INTEGER" property="truckSpaceStatus" />
+    <result column="truck_space_time" jdbcType="TIMESTAMP" property="truckSpaceTime" />
+    <result column="truck_space_versions" jdbcType="INTEGER" property="truckSpaceVersions" />
+    <result column="truck_space_delfalg" jdbcType="INTEGER" property="truckSpaceDelfalg" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    truck_space_id, truck_space_name, truck_space_route_id, truck_space_status, truck_space_time, 
+    truck_space_versions, truck_space_delfalg
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from truck_space
+    where truck_space_id = #{truckSpaceId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from truck_space
+    where truck_space_id = #{truckSpaceId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.TruckSpace">
+    insert into truck_space (truck_space_id, truck_space_name, truck_space_route_id, 
+      truck_space_status, truck_space_time, truck_space_versions, 
+      truck_space_delfalg)
+    values (#{truckSpaceId,jdbcType=INTEGER}, #{truckSpaceName,jdbcType=VARCHAR}, #{truckSpaceRouteId,jdbcType=INTEGER}, 
+      #{truckSpaceStatus,jdbcType=INTEGER}, #{truckSpaceTime,jdbcType=TIMESTAMP}, #{truckSpaceVersions,jdbcType=INTEGER}, 
+      #{truckSpaceDelfalg,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.TruckSpace">
+    insert into truck_space
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="truckSpaceId != null">
+        truck_space_id,
+      </if>
+      <if test="truckSpaceName != null">
+        truck_space_name,
+      </if>
+      <if test="truckSpaceRouteId != null">
+        truck_space_route_id,
+      </if>
+      <if test="truckSpaceStatus != null">
+        truck_space_status,
+      </if>
+      <if test="truckSpaceTime != null">
+        truck_space_time,
+      </if>
+      <if test="truckSpaceVersions != null">
+        truck_space_versions,
+      </if>
+      <if test="truckSpaceDelfalg != null">
+        truck_space_delfalg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="truckSpaceId != null">
+        #{truckSpaceId,jdbcType=INTEGER},
+      </if>
+      <if test="truckSpaceName != null">
+        #{truckSpaceName,jdbcType=VARCHAR},
+      </if>
+      <if test="truckSpaceRouteId != null">
+        #{truckSpaceRouteId,jdbcType=INTEGER},
+      </if>
+      <if test="truckSpaceStatus != null">
+        #{truckSpaceStatus,jdbcType=INTEGER},
+      </if>
+      <if test="truckSpaceTime != null">
+        #{truckSpaceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="truckSpaceVersions != null">
+        #{truckSpaceVersions,jdbcType=INTEGER},
+      </if>
+      <if test="truckSpaceDelfalg != null">
+        #{truckSpaceDelfalg,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.TruckSpace">
+    update truck_space
+    <set>
+      <if test="truckSpaceName != null">
+        truck_space_name = #{truckSpaceName,jdbcType=VARCHAR},
+      </if>
+      <if test="truckSpaceRouteId != null">
+        truck_space_route_id = #{truckSpaceRouteId,jdbcType=INTEGER},
+      </if>
+      <if test="truckSpaceStatus != null">
+        truck_space_status = #{truckSpaceStatus,jdbcType=INTEGER},
+      </if>
+      <if test="truckSpaceTime != null">
+        truck_space_time = #{truckSpaceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="truckSpaceVersions != null">
+        truck_space_versions = truck_space_versions + 1,
+      </if>
+      <if test="truckSpaceDelfalg != null">
+        truck_space_delfalg = #{truckSpaceDelfalg,jdbcType=INTEGER},
+      </if>
+    </set>
+    where truck_space_id = #{truckSpaceId,jdbcType=INTEGER} and truck_space_versions = #{truckSpaceVersions,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.TruckSpace">
+    update truck_space
+    set truck_space_name = #{truckSpaceName,jdbcType=VARCHAR},
+      truck_space_route_id = #{truckSpaceRouteId,jdbcType=INTEGER},
+      truck_space_status = #{truckSpaceStatus,jdbcType=INTEGER},
+      truck_space_time = #{truckSpaceTime,jdbcType=TIMESTAMP},
+      truck_space_versions = truck_space_versions + 1,
+      truck_space_delfalg = #{truckSpaceDelfalg,jdbcType=INTEGER}
+    where truck_space_id = #{truckSpaceId,jdbcType=INTEGER} and truck_space_versions = #{truckSpaceVersions,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimary" parameterType="com.py.bean.TruckSpace" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from truck_space
+  	where 1 = 1
+  	<if test="truckSpaceName != null">
+      and truck_space_name = #{truckSpaceName,jdbcType=VARCHAR}
+     </if>
+     <if test="truckSpaceRouteId != null">
+      and  truck_space_route_id = #{truckSpaceRouteId,jdbcType=INTEGER}
+     </if>
+     <if test="truckSpaceStatus != null">
+      and truck_space_status = #{truckSpaceStatus,jdbcType=INTEGER}
+     </if>
+     <if test="truckSpaceTime != null">
+      and truck_space_time = #{truckSpaceTime,jdbcType=TIMESTAMP}
+     </if>
+     <if test="truckSpaceVersions != null">
+      and truck_space_versions = #{truckSpaceVersions,jdbcType=INTEGER}
+     </if>
+     <if test="truckSpaceDelfalg != null">
+      and truck_space_delfalg = #{truckSpaceDelfalg,jdbcType=INTEGER}
+     </if>
+  </select>
+  <select id="selectByExample" parameterType="com.py.bean.TruckSpace" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from truck_space
+  	where 1 = 1
+  	<if test="truckSpaceName != null">
+      and truck_space_name = #{truckSpaceName,jdbcType=VARCHAR}
+     </if>
+     <if test="truckSpaceRouteId != null">
+      and  truck_space_route_id = #{truckSpaceRouteId,jdbcType=INTEGER}
+     </if>
+     <if test="truckSpaceStatus != null">
+      and truck_space_status = #{truckSpaceStatus,jdbcType=INTEGER}
+     </if>
+     <if test="truckSpaceTime != null">
+      and truck_space_time = #{truckSpaceTime,jdbcType=TIMESTAMP}
+     </if>
+     <if test="truckSpaceVersions != null">
+      and truck_space_versions = #{truckSpaceVersions,jdbcType=INTEGER}
+     </if>
+     <if test="truckSpaceDelfalg != null">
+      and truck_space_delfalg = #{truckSpaceDelfalg,jdbcType=INTEGER}
+     </if>
+  </select>
+  
+</mapper>

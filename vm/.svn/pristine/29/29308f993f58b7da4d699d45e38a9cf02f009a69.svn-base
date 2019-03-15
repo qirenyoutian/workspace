@@ -1,0 +1,89 @@
+package com.py.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.py.bean.CommercialTenantReport;
+import com.py.bean.MerchandiseReport;
+import com.py.bean.Order;
+import com.py.bean.OrderSelectBy;
+import com.py.bean.PointReport;
+
+public interface OrderMapper {
+    int deleteByPrimaryKey(Integer orderId);
+
+    int insert(Order record);
+
+    int insertSelective(Order record);
+
+    Order selectByPrimaryKey(Integer orderId);
+
+    int updateByPrimaryKeySelective(Order record);
+
+    int updateByPrimaryKey(Order record);
+
+    Order selectByPrimary(Order order);
+    
+	List<Order> selectByExample(Order order);
+
+	Order getPickupCode(Order order);
+
+	List<Order> selectOrderByExample(
+			@Param("orderNumber")String orderNumber,
+			@Param("orderPaymentId")String orderPaymentId,
+			@Param("orderStatus")String orderStatus,
+			@Param("createStartTime")String createStartTime,
+			@Param("createEndTime")String createEndTime,
+			@Param("updateStartTime")String updateStartTime, 
+			@Param("updateEndTime")String updateEndTime);
+
+	Integer getSalesReportCount(
+			@Param("startTime")String startTime,
+			@Param("endTime")String endTime);
+	
+	Double getSalesReportSum(
+			@Param("startTime")String startTime,
+			@Param("endTime")String endTime);
+
+	List<Order> getSalesReport(
+			@Param("startTime")String startTime,
+			@Param("endTime")String endTime);
+	
+	//点位报表-----后管用
+	List<PointReport> getPointReport(@Param("startTime")String startTime,
+			@Param("endTime")String endTime);
+	
+	
+	//点位报表
+	List<PointReport> pointReport(@Param("startTime")String startTime,
+			@Param("endTime")String endTime,
+			@Param("type")String type);
+
+	//设备报表
+	List<Order> equipmentReport(
+			@Param("pointId")Integer pointId,
+			@Param("startTime")String startTime,
+			@Param("endTime")String endTime);
+
+	//商户报表
+	List<CommercialTenantReport> commercialTenantReport(
+			@Param("startTime")String startTime,
+			@Param("endTime")String endTime,
+			@Param("type")String type);
+	
+	//某商户的商品在点位的销售报表
+	List<Order> commercialMerchandiseReport(
+			@Param("commercialTenantId")Integer commercialTenantId,
+			@Param("startTime")String startTime,
+			@Param("endTime")String endTime);
+
+	//商品报表
+	List<MerchandiseReport> merchandiseReport(@Param("startTime")String startTime,
+			@Param("endTime")String endTime,
+			@Param("type")String type);
+	
+	//多维度查询订单
+	List<Order> selectOrderByExample(OrderSelectBy orderSelectBy);
+	
+}

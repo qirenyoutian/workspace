@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.BigWarehouseInventoryMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.BigWarehouseInventory">
+    <id column="big_warehouse_inventory_id" jdbcType="INTEGER" property="bigWarehouseInventoryId" />
+    <result column="big_warehouse_inventory_big_warehouse_id" jdbcType="INTEGER" property="bigWarehouseInventoryBigWarehouseId" />
+    <result column="big_warehouse_inventory_merchandise_id" jdbcType="INTEGER" property="bigWarehouseInventoryMerchandiseId" />
+    <result column="big_warehouse_inventory_count" jdbcType="INTEGER" property="bigWarehouseInventoryCount" />
+    <result column="big_warehouse_inventory_versions" jdbcType="INTEGER" property="bigWarehouseInventoryVersions" />
+    <result column="big_warehouse_inventory_crete_time" jdbcType="TIMESTAMP" property="bigWarehouseInventoryCreteTime" />
+    <result column="big_warehouse_inventory_update_time" jdbcType="TIMESTAMP" property="bigWarehouseInventoryUpdateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    big_warehouse_inventory_id, big_warehouse_inventory_big_warehouse_id, big_warehouse_inventory_merchandise_id, 
+    big_warehouse_inventory_count, big_warehouse_inventory_versions, big_warehouse_inventory_crete_time, 
+    big_warehouse_inventory_update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from big_warehouse_inventory
+    where big_warehouse_inventory_id = #{bigWarehouseInventoryId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from big_warehouse_inventory
+    where big_warehouse_inventory_id = #{bigWarehouseInventoryId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.BigWarehouseInventory">
+    insert into big_warehouse_inventory (big_warehouse_inventory_id, big_warehouse_inventory_big_warehouse_id, 
+      big_warehouse_inventory_merchandise_id, big_warehouse_inventory_count, 
+      big_warehouse_inventory_versions, big_warehouse_inventory_crete_time, 
+      big_warehouse_inventory_update_time)
+    values (#{bigWarehouseInventoryId,jdbcType=INTEGER}, #{bigWarehouseInventoryBigWarehouseId,jdbcType=INTEGER}, 
+      #{bigWarehouseInventoryMerchandiseId,jdbcType=INTEGER}, #{bigWarehouseInventoryCount,jdbcType=INTEGER}, 
+      #{bigWarehouseInventoryVersions,jdbcType=INTEGER}, #{bigWarehouseInventoryCreteTime,jdbcType=TIMESTAMP}, 
+      #{bigWarehouseInventoryUpdateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.BigWarehouseInventory">
+    insert into big_warehouse_inventory
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bigWarehouseInventoryId != null">
+        big_warehouse_inventory_id,
+      </if>
+      <if test="bigWarehouseInventoryBigWarehouseId != null">
+        big_warehouse_inventory_big_warehouse_id,
+      </if>
+      <if test="bigWarehouseInventoryMerchandiseId != null">
+        big_warehouse_inventory_merchandise_id,
+      </if>
+      <if test="bigWarehouseInventoryCount != null">
+        big_warehouse_inventory_count,
+      </if>
+      <if test="bigWarehouseInventoryVersions != null">
+        big_warehouse_inventory_versions,
+      </if>
+      <if test="bigWarehouseInventoryCreteTime != null">
+        big_warehouse_inventory_crete_time,
+      </if>
+      <if test="bigWarehouseInventoryUpdateTime != null">
+        big_warehouse_inventory_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bigWarehouseInventoryId != null">
+        #{bigWarehouseInventoryId,jdbcType=INTEGER},
+      </if>
+      <if test="bigWarehouseInventoryBigWarehouseId != null">
+        #{bigWarehouseInventoryBigWarehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="bigWarehouseInventoryMerchandiseId != null">
+        #{bigWarehouseInventoryMerchandiseId,jdbcType=INTEGER},
+      </if>
+      <if test="bigWarehouseInventoryCount != null">
+        #{bigWarehouseInventoryCount,jdbcType=INTEGER},
+      </if>
+      <if test="bigWarehouseInventoryVersions != null">
+        #{bigWarehouseInventoryVersions,jdbcType=INTEGER},
+      </if>
+      <if test="bigWarehouseInventoryCreteTime != null">
+        #{bigWarehouseInventoryCreteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bigWarehouseInventoryUpdateTime != null">
+        #{bigWarehouseInventoryUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.BigWarehouseInventory">
+    update big_warehouse_inventory
+    <set>
+      <if test="bigWarehouseInventoryBigWarehouseId != null">
+        big_warehouse_inventory_big_warehouse_id = #{bigWarehouseInventoryBigWarehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="bigWarehouseInventoryMerchandiseId != null">
+        big_warehouse_inventory_merchandise_id = #{bigWarehouseInventoryMerchandiseId,jdbcType=INTEGER},
+      </if>
+      <if test="bigWarehouseInventoryCount != null">
+        big_warehouse_inventory_count = #{bigWarehouseInventoryCount,jdbcType=INTEGER},
+      </if>
+      <if test="bigWarehouseInventoryVersions != null">
+        big_warehouse_inventory_versions = big_warehouse_inventory_versions + 1,
+      </if>
+      <if test="bigWarehouseInventoryCreteTime != null">
+        big_warehouse_inventory_crete_time = #{bigWarehouseInventoryCreteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bigWarehouseInventoryUpdateTime != null">
+        big_warehouse_inventory_update_time = #{bigWarehouseInventoryUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where big_warehouse_inventory_id = #{bigWarehouseInventoryId,jdbcType=INTEGER}
+    	AND big_warehouse_inventory_versions = #{bigWarehouseInventoryVersions,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.BigWarehouseInventory">
+    update big_warehouse_inventory
+    set big_warehouse_inventory_big_warehouse_id = #{bigWarehouseInventoryBigWarehouseId,jdbcType=INTEGER},
+      big_warehouse_inventory_merchandise_id = #{bigWarehouseInventoryMerchandiseId,jdbcType=INTEGER},
+      big_warehouse_inventory_count = #{bigWarehouseInventoryCount,jdbcType=INTEGER},
+      big_warehouse_inventory_versions = big_warehouse_inventory_versions + 1,
+      big_warehouse_inventory_crete_time = #{bigWarehouseInventoryCreteTime,jdbcType=TIMESTAMP},
+      big_warehouse_inventory_update_time = #{bigWarehouseInventoryUpdateTime,jdbcType=TIMESTAMP}
+    where big_warehouse_inventory_id = #{bigWarehouseInventoryId,jdbcType=INTEGER}
+    	AND big_warehouse_inventory_versions = #{bigWarehouseInventoryVersions,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByPrimary" parameterType="com.py.bean.BigWarehouseInventory" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from big_warehouse_inventory
+    <where>
+    	<if test="bigWarehouseInventoryBigWarehouseId != null">
+    		and big_warehouse_inventory_big_warehouse_id = #{bigWarehouseInventoryBigWarehouseId,jdbcType=INTEGER}
+    	</if>
+    	<if test="bigWarehouseInventoryMerchandiseId != null">
+    		and big_warehouse_inventory_merchandise_id = #{bigWarehouseInventoryMerchandiseId,jdbcType=INTEGER}
+    	</if>
+    </where>
+    order by big_warehouse_inventory_crete_time desc limit 1
+  </select>
+  
+  <resultMap id="BaseResultMapAndMerchandise" type="com.py.bean.BigWarehouseInventory">
+    <id column="big_warehouse_inventory_id" jdbcType="INTEGER" property="bigWarehouseInventoryId" />
+    <result column="big_warehouse_inventory_big_warehouse_id" jdbcType="INTEGER" property="bigWarehouseInventoryBigWarehouseId" />
+    <result column="big_warehouse_inventory_merchandise_id" jdbcType="INTEGER" property="bigWarehouseInventoryMerchandiseId" />
+    <result column="big_warehouse_inventory_count" jdbcType="INTEGER" property="bigWarehouseInventoryCount" />
+    <result column="big_warehouse_inventory_versions" jdbcType="INTEGER" property="bigWarehouseInventoryVersions" />
+    <result column="big_warehouse_inventory_crete_time" jdbcType="TIMESTAMP" property="bigWarehouseInventoryCreteTime" />
+    <result column="big_warehouse_inventory_update_time" jdbcType="TIMESTAMP" property="bigWarehouseInventoryUpdateTime" />
+   	<collection column="big_warehouse_id" ofType="com.py.bean.BigWarehouse" property="bigWarehouse">
+    	<id column="big_warehouse_id" jdbcType="INTEGER" property="bigWarehouseId" />
+	    <result column="big_warehouse_name" jdbcType="VARCHAR" property="bigWarehouseName" />
+	    <result column="big_warehouse_province" jdbcType="INTEGER" property="bigWarehouseProvince" />
+	    <result column="big_warehouse_city" jdbcType="INTEGER" property="bigWarehouseCity" />
+	    <result column="big_warehouse_district" jdbcType="INTEGER" property="bigWarehouseDistrict" />
+	    <result column="big_warehouse_address" jdbcType="VARCHAR" property="bigWarehouseAddress" />
+	    <result column="big_warehouse_create_time" jdbcType="TIMESTAMP" property="bigWarehouseCreateTime" />
+	    <result column="big_warehouse_update_time" jdbcType="TIMESTAMP" property="bigWarehouseUpdateTime" />
+    </collection>
+    <collection column="merchandise_id" ofType="com.py.bean.Merchandise" property="merchandises">
+    	<id column="merchandise_id" jdbcType="INTEGER" property="merchandiseId" />
+	    <result column="merchandise_name" jdbcType="VARCHAR" property="merchandiseName" />
+	    <result column="merchandise_number" jdbcType="VARCHAR" property="merchandiseNumber" />
+	    <result column="merchandise_commercial_tenant_number" jdbcType="VARCHAR" property="merchandiseCommercialTenantNumber" />
+	    <result column="merchandise_classify" jdbcType="INTEGER" property="merchandiseClassify" />
+	    <result column="merchandise_price" jdbcType="DOUBLE" property="merchandisePrice" />
+	    <result column="merchandise_image_url" jdbcType="VARCHAR" property="merchandiseImageUrl" />
+	    <result column="merchandise_exhibition_image_url" jdbcType="VARCHAR" property="merchandiseExhibitionImageUrl" />
+	    <result column="merchandise_information_comefrom" jdbcType="INTEGER" property="merchandiseInformationComefrom" />
+	    <result column="merchandise_h5_image_url" jdbcType="VARCHAR" property="merchandiseH5ImageUrl" />
+	    <result column="merchandise_status" jdbcType="INTEGER" property="merchandiseStatus" />
+	    <result column="merchandise_time" jdbcType="TIMESTAMP" property="merchandiseTime" />
+	    <result column="merchandise_upload_time" jdbcType="TIMESTAMP" property="merchandiseUploadTime" />
+	    <result column="merchandise_update_time" jdbcType="TIMESTAMP" property="merchandiseUpdateTime" />
+    </collection>
+    <collection column="commercial_tenant_id" ofType="com.py.bean.CommercialTenant" property="commer">
+    	<id column="commercial_tenant_id" jdbcType="INTEGER" property="commercialTenantId" />
+    <result column="commercial_tenant_name" jdbcType="VARCHAR" property="commercialTenantName" />
+    <result column="commercial_tenant_number" jdbcType="VARCHAR" property="commercialTenantNumber" />
+    <result column="commercial_tenant_describe" jdbcType="VARCHAR" property="commercialTenantDescribe" />
+    <result column="commercial_tenant_person" jdbcType="VARCHAR" property="commercialTenantPerson" />
+    <result column="commercial_tenant_attr" jdbcType="VARCHAR" property="commercialTenantAttr" />
+    </collection>
+  </resultMap>
+  
+  <!-- selectByExample -->
+  
+  <select id="selectByExample" parameterType="com.py.bean.BigWarehouseInventory" resultMap="BaseResultMapAndMerchandise">
+    SELECT
+		*
+	FROM
+		big_warehouse_inventory b1
+	LEFT JOIN big_warehouse b2 ON b2.big_warehouse_id = b1.big_warehouse_inventory_big_warehouse_id
+	LEFT JOIN merchandise m ON m.merchandise_id = b1.big_warehouse_inventory_merchandise_id
+	LEFT JOIN commercial_tenant c1 ON c1.commercial_tenant_id = b1.big_warehouse_inventory_merchandise_id
+    <where>
+    	<if test="bigWarehouseInventoryId != null">
+    		and big_warehouse_inventory_id = #{bigWarehouseInventoryId,jdbcType=INTEGER}
+    	</if>
+    	<if test="bigWarehouseInventoryBigWarehouseId != null">
+    		and big_warehouse_inventory_big_warehouse_id = #{bigWarehouseInventoryBigWarehouseId,jdbcType=INTEGER}
+    	</if>
+    	<if test="bigWarehouseInventoryMerchandiseId != null">
+    		and big_warehouse_inventory_merchandise_id = #{bigWarehouseInventoryMerchandiseId,jdbcType=INTEGER}
+    	</if>
+    </where>
+  </select>
+  
+  
+</mapper>

@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.CameraMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Camera">
+    <id column="camera_id" jdbcType="INTEGER" property="cameraId" />
+    <result column="camera_name" jdbcType="VARCHAR" property="cameraName" />
+    <result column="camera_ip" jdbcType="VARCHAR" property="cameraIp" />
+    <result column="camera_mem_total" jdbcType="INTEGER" property="cameraMemTotal" />
+    <result column="camera_mem_used" jdbcType="INTEGER" property="cameraMemUsed" />
+    <result column="camera_mem_free" jdbcType="INTEGER" property="cameraMemFree" />
+    <result column="camera_cpu_rate" jdbcType="DOUBLE" property="cameraCpuRate" />
+    <result column="camera_app" jdbcType="INTEGER" property="cameraApp" />
+    <result column="camera_RTMP" jdbcType="VARCHAR" property="cameraRTMP" />
+    <result column="camera_lng" jdbcType="DOUBLE" property="cameraLng" />
+    <result column="camera_lat" jdbcType="DOUBLE" property="cameraLat" />
+    <result column="camera_status" jdbcType="INTEGER" property="cameraStatus" />
+    <result column="camera_route_id" jdbcType="INTEGER" property="cameraRouteId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    camera_id, camera_name, camera_ip, camera_mem_total, camera_mem_used, camera_mem_free, 
+    camera_cpu_rate, camera_app, camera_RTMP, camera_lng, camera_lat, camera_status, 
+    camera_route_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from camera
+    where camera_id = #{cameraId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from camera
+    where camera_id = #{cameraId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.Camera">
+    insert into camera (camera_id, camera_name, camera_ip, 
+      camera_mem_total, camera_mem_used, camera_mem_free, 
+      camera_cpu_rate, camera_app, camera_RTMP, 
+      camera_lng, camera_lat, camera_status, 
+      camera_route_id)
+    values (#{cameraId,jdbcType=INTEGER}, #{cameraName,jdbcType=VARCHAR}, #{cameraIp,jdbcType=VARCHAR}, 
+      #{cameraMemTotal,jdbcType=INTEGER}, #{cameraMemUsed,jdbcType=INTEGER}, #{cameraMemFree,jdbcType=INTEGER}, 
+      #{cameraCpuRate,jdbcType=DOUBLE}, #{cameraApp,jdbcType=INTEGER}, #{cameraRTMP,jdbcType=VARCHAR}, 
+      #{cameraLng,jdbcType=DOUBLE}, #{cameraLat,jdbcType=DOUBLE}, #{cameraStatus,jdbcType=INTEGER}, 
+      #{cameraRouteId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.Camera">
+    insert into camera
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cameraId != null">
+        camera_id,
+      </if>
+      <if test="cameraName != null">
+        camera_name,
+      </if>
+      <if test="cameraIp != null">
+        camera_ip,
+      </if>
+      <if test="cameraMemTotal != null">
+        camera_mem_total,
+      </if>
+      <if test="cameraMemUsed != null">
+        camera_mem_used,
+      </if>
+      <if test="cameraMemFree != null">
+        camera_mem_free,
+      </if>
+      <if test="cameraCpuRate != null">
+        camera_cpu_rate,
+      </if>
+      <if test="cameraApp != null">
+        camera_app,
+      </if>
+      <if test="cameraRTMP != null">
+        camera_RTMP,
+      </if>
+      <if test="cameraLng != null">
+        camera_lng,
+      </if>
+      <if test="cameraLat != null">
+        camera_lat,
+      </if>
+      <if test="cameraStatus != null">
+        camera_status,
+      </if>
+      <if test="cameraRouteId != null">
+        camera_route_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cameraId != null">
+        #{cameraId,jdbcType=INTEGER},
+      </if>
+      <if test="cameraName != null">
+        #{cameraName,jdbcType=VARCHAR},
+      </if>
+      <if test="cameraIp != null">
+        #{cameraIp,jdbcType=VARCHAR},
+      </if>
+      <if test="cameraMemTotal != null">
+        #{cameraMemTotal,jdbcType=INTEGER},
+      </if>
+      <if test="cameraMemUsed != null">
+        #{cameraMemUsed,jdbcType=INTEGER},
+      </if>
+      <if test="cameraMemFree != null">
+        #{cameraMemFree,jdbcType=INTEGER},
+      </if>
+      <if test="cameraCpuRate != null">
+        #{cameraCpuRate,jdbcType=DOUBLE},
+      </if>
+      <if test="cameraApp != null">
+        #{cameraApp,jdbcType=INTEGER},
+      </if>
+      <if test="cameraRTMP != null">
+        #{cameraRTMP,jdbcType=VARCHAR},
+      </if>
+      <if test="cameraLng != null">
+        #{cameraLng,jdbcType=DOUBLE},
+      </if>
+      <if test="cameraLat != null">
+        #{cameraLat,jdbcType=DOUBLE},
+      </if>
+      <if test="cameraStatus != null">
+        #{cameraStatus,jdbcType=INTEGER},
+      </if>
+      <if test="cameraRouteId != null">
+        #{cameraRouteId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Camera">
+    update camera
+    <set>
+      <if test="cameraName != null">
+        camera_name = #{cameraName,jdbcType=VARCHAR},
+      </if>
+      <if test="cameraIp != null">
+        camera_ip = #{cameraIp,jdbcType=VARCHAR},
+      </if>
+      <if test="cameraMemTotal != null">
+        camera_mem_total = #{cameraMemTotal,jdbcType=INTEGER},
+      </if>
+      <if test="cameraMemUsed != null">
+        camera_mem_used = #{cameraMemUsed,jdbcType=INTEGER},
+      </if>
+      <if test="cameraMemFree != null">
+        camera_mem_free = #{cameraMemFree,jdbcType=INTEGER},
+      </if>
+      <if test="cameraCpuRate != null">
+        camera_cpu_rate = #{cameraCpuRate,jdbcType=DOUBLE},
+      </if>
+      <if test="cameraApp != null">
+        camera_app = #{cameraApp,jdbcType=INTEGER},
+      </if>
+      <if test="cameraRTMP != null">
+        camera_RTMP = #{cameraRTMP,jdbcType=VARCHAR},
+      </if>
+      <if test="cameraLng != null">
+        camera_lng = #{cameraLng,jdbcType=DOUBLE},
+      </if>
+      <if test="cameraLat != null">
+        camera_lat = #{cameraLat,jdbcType=DOUBLE},
+      </if>
+      <if test="cameraStatus != null">
+        camera_status = #{cameraStatus,jdbcType=INTEGER},
+      </if>
+      <if test="cameraRouteId != null">
+        camera_route_id = #{cameraRouteId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where camera_id = #{cameraId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Camera">
+    update camera
+    set camera_name = #{cameraName,jdbcType=VARCHAR},
+      camera_ip = #{cameraIp,jdbcType=VARCHAR},
+      camera_mem_total = #{cameraMemTotal,jdbcType=INTEGER},
+      camera_mem_used = #{cameraMemUsed,jdbcType=INTEGER},
+      camera_mem_free = #{cameraMemFree,jdbcType=INTEGER},
+      camera_cpu_rate = #{cameraCpuRate,jdbcType=DOUBLE},
+      camera_app = #{cameraApp,jdbcType=INTEGER},
+      camera_RTMP = #{cameraRTMP,jdbcType=VARCHAR},
+      camera_lng = #{cameraLng,jdbcType=DOUBLE},
+      camera_lat = #{cameraLat,jdbcType=DOUBLE},
+      camera_status = #{cameraStatus,jdbcType=INTEGER},
+      camera_route_id = #{cameraRouteId,jdbcType=INTEGER}
+    where camera_id = #{cameraId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimary" parameterType="com.py.bean.Camera" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+    from camera
+    where 1 = 1
+     <if test="cameraIp != null">
+        and camera_ip = #{cameraIp,jdbcType=VARCHAR}
+      </if>
+      <if test="cameraMemTotal != null">
+        and camera_mem_total = #{cameraMemTotal,jdbcType=INTEGER}
+      </if>
+      <if test="cameraMemUsed != null">
+        and camera_mem_used = #{cameraMemUsed,jdbcType=INTEGER}
+      </if>
+      <if test="cameraMemFree != null">
+        and camera_mem_free = #{cameraMemFree,jdbcType=INTEGER}
+      </if>
+      <if test="cameraCpuRate != null">
+        and camera_cpu_rate = #{cameraCpuRate,jdbcType=DOUBLE}
+      </if>
+      <if test="cameraApp != null">
+        and camera_app = #{cameraApp,jdbcType=INTEGER}
+      </if>
+      <if test="cameraRouteId != null">
+        and camera_route_id = #{cameraRouteId,jdbcType=INTEGER}
+      </if>
+      <if test="cameraRTMP != null">
+        and camera_RTMP = #{cameraRTMP,jdbcType=VARCHAR}
+      </if>
+  </select>
+  <select id="selectByExample" parameterType="com.py.bean.Camera" resultMap="BaseResultMap">
+  	 select 
+    <include refid="Base_Column_List" />
+    from camera
+    where 1=1
+    	<if test="cameraId != null">
+        and camera_id = #{cameraId,jdbcType=INTEGER}
+      </if>
+    	<if test="cameraName != null">
+        and camera_name = #{cameraName,jdbcType=VARCHAR}
+      </if>
+    	<if test="cameraIp != null">
+        and camera_ip = #{cameraIp,jdbcType=VARCHAR}
+      </if>
+   	  <if test="cameraMemTotal != null">
+        and camera_mem_total = #{cameraMemTotal,jdbcType=INTEGER}
+      </if>
+      <if test="cameraMemUsed != null">
+        and camera_mem_used = #{cameraMemUsed,jdbcType=INTEGER}
+      </if>
+      <if test="cameraMemFree != null">
+        and camera_mem_free = #{cameraMemFree,jdbcType=INTEGER}
+      </if>
+      <if test="cameraCpuRate != null">
+        and camera_cpu_rate = #{cameraCpuRate,jdbcType=DOUBLE}
+      </if>
+      <if test="cameraApp != null">
+        and camera_app = #{cameraApp,jdbcType=INTEGER}
+      </if>
+      <if test="cameraRouteId != null">
+        and camera_route_id = #{cameraRouteId,jdbcType=INTEGER}
+      </if>
+  	  <if test="cameraRTMP != null">
+        and camera_RTMP = #{cameraRTMP,jdbcType=VARCHAR}
+      </if>
+      <if test="cameraRouteId != null">
+        and camera_route_id = #{cameraRouteId,jdbcType=INTEGER}
+      </if>
+  </select>
+  
+  <select id="selectByNotCameraId" parameterType="java.util.List" resultMap="BaseResultMap">
+	  select 
+	  <include refid="Base_Column_List" />
+	  from camera
+	  where 1=1 
+	  <if test="cameraIds != null">
+	  	and camera_id NOT IN
+	  	<foreach close=")" collection="cameraIds" index="index" item="cameraId" open="(" separator=",">
+	  		#{cameraId,jdbcType=INTEGER}
+	  	</foreach>
+	  </if>
+  </select>
+  
+  <!-- 查询所有 -->
+  
+  <select id="selectByExampleRTMP" resultMap="BaseResultMap">
+  	SELECT
+		*
+	FROM
+		camera
+	WHERE
+		camera_RTMP IS NOT NULL
+  </select>
+  
+  
+  <!-- 摄像头对应多个路段 -->
+  <resultMap id="BaseResultMapWithRoute" type="com.py.bean.Camera">
+    <id column="camera_id" jdbcType="INTEGER" property="cameraId" />
+    <result column="camera_name" jdbcType="VARCHAR" property="cameraName" />
+    <result column="camera_ip" jdbcType="VARCHAR" property="cameraIp" />
+    <result column="camera_mem_total" jdbcType="INTEGER" property="cameraMemTotal" />
+    <result column="camera_mem_used" jdbcType="INTEGER" property="cameraMemUsed" />
+    <result column="camera_mem_free" jdbcType="INTEGER" property="cameraMemFree" />
+    <result column="camera_cpu_rate" jdbcType="DOUBLE" property="cameraCpuRate" />
+    <result column="camera_app" jdbcType="INTEGER" property="cameraApp" />
+    <result column="camera_RTMP" jdbcType="VARCHAR" property="cameraRTMP" />
+    <result column="camera_lng" jdbcType="DOUBLE" property="cameraLng" />
+    <result column="camera_lat" jdbcType="DOUBLE" property="cameraLat" />
+    <result column="camera_status" jdbcType="INTEGER" property="cameraStatus" />
+    <result column="camera_route_id" jdbcType="INTEGER" property="cameraRouteId" />
+    	<association javaType="com.py.bean.Route" property="cameraAppRoute">
+    		<id column="route_id" jdbcType="INTEGER" property="routeId" />
+		    <result column="route_location_name" jdbcType="VARCHAR" property="routeLocationName" />
+		    <result column="route_longitude" jdbcType="DOUBLE" property="routeLongitude" />
+		    <result column="route_latitude" jdbcType="DOUBLE" property="routeLatitude" />
+		    <result column="route_billing_method_type" jdbcType="INTEGER" property="routeBillingMethodType" />
+		    <result column="route_billing_method_id" jdbcType="INTEGER" property="routeBillingMethodId" />
+		    <result column="route_time" jdbcType="TIMESTAMP" property="routeTime" />
+		    <result column="route_delfalg" jdbcType="INTEGER" property="routeDelfalg" />
+    	</association>
+  </resultMap>
+  <select id="selectByExampleWithRoute" resultMap="BaseResultMap">
+  		 SELECT *
+			FROM
+			camera c1
+		LEFT JOIN route t1 ON c1.camera_route_id = t1.route_id
+  </select>
+</mapper>

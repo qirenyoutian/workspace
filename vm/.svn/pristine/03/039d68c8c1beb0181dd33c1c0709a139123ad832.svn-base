@@ -1,0 +1,36 @@
+package com.py.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.py.bean.ChannelMerchandise;
+
+public interface ChannelMerchandiseMapper {
+    int deleteByPrimaryKey(Integer channelMerchandiseId);
+
+    int insert(ChannelMerchandise record);
+
+    int insertSelective(ChannelMerchandise record);
+
+    ChannelMerchandise selectByPrimaryKey(Integer channelMerchandiseId);
+
+    int updateByPrimaryKeySelective(ChannelMerchandise record);
+
+    int updateByPrimaryKey(ChannelMerchandise record);
+
+    ChannelMerchandise selectByPrimary(ChannelMerchandise channelMerchandise);
+    
+	List<ChannelMerchandise> selectByExample(ChannelMerchandise channelMerchandise);
+
+	ChannelMerchandise getQRCodeByUrl(@Param("payment_id")Integer payment_id,
+			@Param("aisle_id")Integer aisle_id,
+			@Param("merchandise_id")Integer merchandise_id);
+
+	ChannelMerchandise selectByProductId(ChannelMerchandise channelMerchandise);
+
+	List<ChannelMerchandise> selectChannelMerchandiseByExample(ChannelMerchandise channelMerchandise);
+
+	int updateByEquipmentId(ChannelMerchandise channelMerchandise);
+
+}

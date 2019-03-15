@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.PushMessageMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.PushMessage">
+    <id column="push_message_id" jdbcType="INTEGER" property="pushMessageId" />
+    <result column="push_message_type" jdbcType="INTEGER" property="pushMessageType" />
+    <result column="push_message_title" jdbcType="VARCHAR" property="pushMessageTitle" />
+    <result column="push_message_comit" jdbcType="VARCHAR" property="pushMessageComit" />
+    <result column="push_message_time" jdbcType="VARCHAR" property="pushMessageTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    push_message_id, push_message_type, push_message_title, push_message_comit, push_message_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from push_message
+    where push_message_id = #{pushMessageId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from push_message
+    where push_message_id = #{pushMessageId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.PushMessage">
+    insert into push_message (push_message_id, push_message_type, push_message_title, 
+      push_message_comit, push_message_time)
+    values (#{pushMessageId,jdbcType=INTEGER}, #{pushMessageType,jdbcType=INTEGER}, #{pushMessageTitle,jdbcType=VARCHAR}, 
+      #{pushMessageComit,jdbcType=VARCHAR}, #{pushMessageTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.PushMessage">
+    insert into push_message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pushMessageId != null">
+        push_message_id,
+      </if>
+      <if test="pushMessageType != null">
+        push_message_type,
+      </if>
+      <if test="pushMessageTitle != null">
+        push_message_title,
+      </if>
+      <if test="pushMessageComit != null">
+        push_message_comit,
+      </if>
+      <if test="pushMessageTime != null">
+        push_message_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pushMessageId != null">
+        #{pushMessageId,jdbcType=INTEGER},
+      </if>
+      <if test="pushMessageType != null">
+        #{pushMessageType,jdbcType=INTEGER},
+      </if>
+      <if test="pushMessageTitle != null">
+        #{pushMessageTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="pushMessageComit != null">
+        #{pushMessageComit,jdbcType=VARCHAR},
+      </if>
+      <if test="pushMessageTime != null">
+        #{pushMessageTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.PushMessage">
+    update push_message
+    <set>
+      <if test="pushMessageType != null">
+        push_message_type = #{pushMessageType,jdbcType=INTEGER},
+      </if>
+      <if test="pushMessageTitle != null">
+        push_message_title = #{pushMessageTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="pushMessageComit != null">
+        push_message_comit = #{pushMessageComit,jdbcType=VARCHAR},
+      </if>
+      <if test="pushMessageTime != null">
+        push_message_time = #{pushMessageTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where push_message_id = #{pushMessageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.PushMessage">
+    update push_message
+    set push_message_type = #{pushMessageType,jdbcType=INTEGER},
+      push_message_title = #{pushMessageTitle,jdbcType=VARCHAR},
+      push_message_comit = #{pushMessageComit,jdbcType=VARCHAR},
+      push_message_time = #{pushMessageTime,jdbcType=VARCHAR}
+    where push_message_id = #{pushMessageId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimary" parameterType="com.py.bean.PushMessage" resultMap="BaseResultMap">
+  		select 
+	    	<include refid="Base_Column_List" />
+	    from 
+	    	push_message
+    	where 1=1
+    	and push_message_id = #{pushMessageId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByExample" parameterType="com.py.bean.PushMessage" resultMap="BaseResultMap">
+  	select 
+  		<include refid="Base_Column_List" />
+  	from 
+  		push_message
+  	where 1=1
+  		<if test="pushMessageId != null">
+        	and push_message_id = #{pushMessageId,jdbcType=INTEGER},
+      	</if>
+      	<if test="pushMessageType != null">
+        	and push_message_type = #{pushMessageType,jdbcType=INTEGER},
+     	 </if>
+      	<if test="pushMessageTitle != null">
+        	and push_message_title = #{pushMessageTitle,jdbcType=VARCHAR},
+     	 </if>
+      	<if test="pushMessageComit != null">
+        	and push_message_comit = #{pushMessageComit,jdbcType=VARCHAR},
+      	</if>
+      	<if test="pushMessageTime != null">
+        	and push_message_time = #{pushMessageTime,jdbcType=VARCHAR},
+      	</if>
+      	order by push_message_time desc
+  </select>
+  
+</mapper>

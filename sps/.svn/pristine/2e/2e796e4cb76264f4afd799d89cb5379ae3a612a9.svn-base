@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.LicensePlateMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.LicensePlate">
+    <id column="license_plate_id" jdbcType="INTEGER" property="licensePlateId" />
+    <result column="license_plate_number" jdbcType="VARCHAR" property="licensePlateNumber" />
+    <result column="license_plate_information" jdbcType="VARCHAR" property="licensePlateInformation" />
+    <result column="license_plate_the_owner" jdbcType="VARCHAR" property="licensePlateTheOwner" />
+    <result column="license_plate_photo_url" jdbcType="VARCHAR" property="licensePlatePhotoUrl" />
+    <result column="license_plate_user_id" jdbcType="INTEGER" property="licensePlateUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    license_plate_id, license_plate_number, license_plate_information, license_plate_the_owner, 
+    license_plate_photo_url, license_plate_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from license_plate
+    where license_plate_id = #{licensePlateId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from license_plate
+    where license_plate_id = #{licensePlateId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="licensePlateId" parameterType="com.py.bean.LicensePlate">
+    insert into license_plate (license_plate_id, license_plate_number, 
+      license_plate_information, license_plate_the_owner, 
+      license_plate_photo_url, license_plate_user_id
+      )
+    values (#{licensePlateId,jdbcType=INTEGER}, #{licensePlateNumber,jdbcType=VARCHAR}, 
+      #{licensePlateInformation,jdbcType=VARCHAR}, #{licensePlateTheOwner,jdbcType=VARCHAR}, 
+      #{licensePlatePhotoUrl,jdbcType=VARCHAR}, #{licensePlateUserId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="licensePlateId" parameterType="com.py.bean.LicensePlate">
+    insert into license_plate
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="licensePlateId != null">
+        license_plate_id,
+      </if>
+      <if test="licensePlateNumber != null">
+        license_plate_number,
+      </if>
+      <if test="licensePlateInformation != null">
+        license_plate_information,
+      </if>
+      <if test="licensePlateTheOwner != null">
+        license_plate_the_owner,
+      </if>
+      <if test="licensePlatePhotoUrl != null">
+        license_plate_photo_url,
+      </if>
+      <if test="licensePlateUserId != null">
+        license_plate_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="licensePlateId != null">
+        #{licensePlateId,jdbcType=INTEGER},
+      </if>
+      <if test="licensePlateNumber != null">
+        #{licensePlateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="licensePlateInformation != null">
+        #{licensePlateInformation,jdbcType=VARCHAR},
+      </if>
+      <if test="licensePlateTheOwner != null">
+        #{licensePlateTheOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="licensePlatePhotoUrl != null">
+        #{licensePlatePhotoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="licensePlateUserId != null">
+        #{licensePlateUserId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.LicensePlate">
+    update license_plate
+    <set>
+      <if test="licensePlateNumber != null">
+        license_plate_number = #{licensePlateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="licensePlateInformation != null">
+        license_plate_information = #{licensePlateInformation,jdbcType=VARCHAR},
+      </if>
+      <if test="licensePlateTheOwner != null">
+        license_plate_the_owner = #{licensePlateTheOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="licensePlatePhotoUrl != null">
+        license_plate_photo_url = #{licensePlatePhotoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="licensePlateUserId != null">
+        license_plate_user_id = #{licensePlateUserId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where license_plate_id = #{licensePlateId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.LicensePlate">
+    update license_plate
+    set license_plate_number = #{licensePlateNumber,jdbcType=VARCHAR},
+      license_plate_information = #{licensePlateInformation,jdbcType=VARCHAR},
+      license_plate_the_owner = #{licensePlateTheOwner,jdbcType=VARCHAR},
+      license_plate_photo_url = #{licensePlatePhotoUrl,jdbcType=VARCHAR},
+      license_plate_user_id = #{licensePlateUserId,jdbcType=INTEGER}
+    where license_plate_id = #{licensePlateId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimary" parameterType="com.py.bean.LicensePlate" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from license_plate
+    where 1=1
+    <if test="licensePlateId != null">
+      and license_plate_id = #{licensePlateId,jdbcType=INTEGER}
+    </if>
+    <if test="licensePlateNumber != null">
+      and license_plate_number = #{licensePlateNumber,jdbcType=VARCHAR}
+    </if>
+    <if test="licensePlateInformation != null">
+      and license_plate_information = #{licensePlateInformation,jdbcType=VARCHAR}
+    </if>
+    <if test="licensePlateTheOwner != null">
+      and license_plate_the_owner = #{licensePlateTheOwner,jdbcType=VARCHAR}
+    </if>
+    <if test="licensePlatePhotoUrl != null">
+      and license_plate_photo_url = #{licensePlatePhotoUrl,jdbcType=VARCHAR}
+    </if>
+    <if test="licensePlateUserId != null">
+      and license_plate_user_id = #{licensePlateUserId,jdbcType=INTEGER}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.py.bean.LicensePlate" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from license_plate
+    where 1=1
+    <if test="licensePlateId != null">
+      and license_plate_id = #{licensePlateId,jdbcType=INTEGER}
+    </if>
+    <if test="licensePlateNumber != null">
+      and license_plate_number = #{licensePlateNumber,jdbcType=VARCHAR}
+    </if>
+    <if test="licensePlateInformation != null">
+      and license_plate_information = #{licensePlateInformation,jdbcType=VARCHAR}
+    </if>
+    <if test="licensePlateTheOwner != null">
+      and license_plate_the_owner = #{licensePlateTheOwner,jdbcType=VARCHAR}
+    </if>
+    <if test="licensePlatePhotoUrl != null">
+      and license_plate_photo_url = #{licensePlatePhotoUrl,jdbcType=VARCHAR}
+    </if>
+    <if test="licensePlateUserId != null">
+      and license_plate_user_id = #{licensePlateUserId,jdbcType=INTEGER}
+    </if>
+  </select>
+</mapper>

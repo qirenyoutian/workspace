@@ -1,0 +1,179 @@
+package com.py.controller;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.py.bean.Camera;
+import com.py.bean.LicensePlate;
+import com.py.bean.Route;
+import com.py.bean.SingleCar;
+import com.py.bean.User;
+import com.py.service.CameraService;
+import com.py.service.SingleCarService;
+import com.py.util.Msg;
+
+@Controller
+public class CameraController {
+	
+	@Autowired
+	CameraService cameraService;
+	@Autowired
+	SingleCarService singleCarService;
+	
+	
+	
+	/**
+	 * 跳转路段监控
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/jumpcamera")
+	public String jumpcamera(Model model){
+		return "camera/camera";
+	}
+	
+	/**
+	 * 跳转监控信息
+	 * 
+	 */
+	
+	@RequestMapping("/jumpmonitoring")
+	public String jumpmonitoring(Model model){
+		return "camera/monitoring";
+	}
+
+	/**
+	 * 找出当天的停车记录
+	 * 
+	 */
+	
+	@ResponseBody
+	@RequestMapping("/getuserEzStopForDate")
+	public Msg getuserEzStopForDate(@RequestParam(value="pn",defaultValue="1")Integer pn,@RequestParam("cameraId")Integer cameraId) {
+		PageHelper.startPage(pn, 10);
+		
+		Camera camera = new Camera();
+		camera.setCameraId(cameraId);
+		List<Camera> Camera = cameraService.selectByExample(camera);
+		String a = null;
+		for (Camera camera2 : Camera) {
+			a = camera2.getCameraIp();
+			
+		}
+		
+		List<SingleCar> list = singleCarService.selectByCamareIp(a);
+		PageInfo<SingleCar> singlecarList = new PageInfo<SingleCar>(list, 5);
+		return Msg.success().add("pageInfo", singlecarList);
+		
+		
+	}
+	
+	
+	//getcameraAll
+	/**
+	 * 查询全部停车场
+	 * @throws UnsupportedEncodingException 
+	 */
+	@RequestMapping("/getcameraAll")
+	@ResponseBody
+	public Msg getcameraAll(@RequestParam(value = "pn", defaultValue = "1") Integer pn,HttpServletRequest request) throws UnsupportedEncodingException {
+		PageHelper.startPage(pn, 10);
+		List<Camera> cameraList = cameraService.selectByExampleWithRoute();
+		PageInfo<Camera> page = new PageInfo<Camera>(cameraList, 5);
+		return Msg.success().add("pageInfo", page);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/findCamearAll")
+	public Msg findCamearAll() {
+		List<Camera> cameraList = cameraService.selectByExampleWithRoute();
+		return Msg.success(cameraList);
+	}
+	
+	/**
+	 * 查询全部停车场
+	 * @throws UnsupportedEncodingException 
+	 */
+	@RequestMapping("/getcameraRTMP")
+	@ResponseBody
+	public Msg getcameraRTMP(HttpServletRequest request) throws UnsupportedEncodingException {
+		
+		List<Camera> cameraList = cameraService.selectByExampleRtmp();
+		
+		return Msg.success().add("pageInfo", cameraList);
+	}
+	
+	/**
+	 * selectByExsample
+	 */
+	@RequestMapping("/selectByExsample")
+	@ResponseBody
+	public Msg selectByExsample(@RequestParam("CameraName")String CameraName,HttpServletRequest request) throws UnsupportedEncodingException {
+		
+		Camera camera = new Camera();
+		if (!CameraName.equals("") && !CameraName.equals(" ") && !CameraName.equals(null)) {
+			camera.setCameraName(CameraName);
+		}else {
+			return Msg.fail();
+		}
+		List<Camera> cameraList = cameraService.selectByExample(camera);
+		
+		return Msg.success().add("cameraList", cameraList);
+	}
+	/**
+	 * selectById
+	 */
+	@RequestMapping("/getCameraNameById")
+	@ResponseBody
+	public Msg getCameraNameById(@RequestParam("CameraId")Integer CameraId,HttpServletRequest request) throws UnsupportedEncodingException {
+		
+		Camera camera = new Camera();
+		if (CameraId != null) {
+			camera.setCameraId(CameraId);
+		}else {
+			return Msg.fail();
+		}
+		List<Camera> cameraList = cameraService.selectByExample(camera);
+		
+		return Msg.success().add("cameraList", cameraList);
+	}
+	/**
+	 * 修改相机名称
+	 * updateCameraName
+	 */
+	@RequestMapping("/updateCameraName")
+	@ResponseBody
+	public Msg updateCameraName(@RequestParam("cameraid")Integer cameraid,@RequestParam("cameraName")String cameraName,HttpServletRequest request) throws UnsupportedEncodingException {
+		
+		Camera camera = new Camera();
+		if (!cameraName.equals("") && !cameraName.equals(" ") && !cameraName.equals(null)) {
+			camera.setCameraId(cameraid);
+			camera.setCameraName(cameraName);
+		}else {
+			return Msg.fail();
+		}
+		cameraService.updateByPrimaryKeySelective(camera);
+		return Msg.success();
+	}
+	
+	@ResponseBody
+	@RequestMapping("/getCameraRTMPById")
+	public Msg getCameraRTMPById(@RequestParam("cameraId")Integer cameraId){
+		Camera camera = cameraService.selectByPrimaryKey(cameraId);
+		return Msg.success(camera);
+	}
+	
+}

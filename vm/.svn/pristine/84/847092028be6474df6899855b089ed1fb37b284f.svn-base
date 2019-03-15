@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.PaveRecordMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.PaveRecord">
+    <id column="pave_record_id" jdbcType="INTEGER" property="paveRecordId" />
+    <result column="pave_record_point_id" jdbcType="INTEGER" property="paveRecordPointId" />
+    <result column="pave_record_admin_id" jdbcType="INTEGER" property="paveRecordAdminId" />
+    <result column="pave_record_lat" jdbcType="VARCHAR" property="paveRecordLat" />
+    <result column="pave_record_lon" jdbcType="VARCHAR" property="paveRecordLon" />
+    <result column="pave_record_before_photo" jdbcType="VARCHAR" property="paveRecordBeforePhoto" />
+    <result column="pave_record_after_photo" jdbcType="VARCHAR" property="paveRecordAfterPhoto" />
+    <result column="pave_record_pave_date" jdbcType="DATE" property="paveRecordPaveDate" />
+    <result column="pave_record_create_time" jdbcType="TIMESTAMP" property="paveRecordCreateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    pave_record_id, pave_record_point_id, pave_record_admin_id, pave_record_lat, pave_record_lon, 
+    pave_record_before_photo, pave_record_after_photo, pave_record_pave_date, pave_record_create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pave_record
+    where pave_record_id = #{paveRecordId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pave_record
+    where pave_record_id = #{paveRecordId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.PaveRecord">
+    insert into pave_record (pave_record_id, pave_record_point_id, 
+      pave_record_admin_id, pave_record_lat, pave_record_lon, 
+      pave_record_before_photo, pave_record_after_photo, 
+      pave_record_pave_date, pave_record_create_time
+      )
+    values (#{paveRecordId,jdbcType=INTEGER}, #{paveRecordPointId,jdbcType=INTEGER}, 
+      #{paveRecordAdminId,jdbcType=INTEGER}, #{paveRecordLat,jdbcType=VARCHAR}, #{paveRecordLon,jdbcType=VARCHAR}, 
+      #{paveRecordBeforePhoto,jdbcType=VARCHAR}, #{paveRecordAfterPhoto,jdbcType=VARCHAR}, 
+      #{paveRecordPaveDate,jdbcType=DATE}, #{paveRecordCreateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.PaveRecord">
+    insert into pave_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="paveRecordId != null">
+        pave_record_id,
+      </if>
+      <if test="paveRecordPointId != null">
+        pave_record_point_id,
+      </if>
+      <if test="paveRecordAdminId != null">
+        pave_record_admin_id,
+      </if>
+      <if test="paveRecordLat != null">
+        pave_record_lat,
+      </if>
+      <if test="paveRecordLon != null">
+        pave_record_lon,
+      </if>
+      <if test="paveRecordBeforePhoto != null">
+        pave_record_before_photo,
+      </if>
+      <if test="paveRecordAfterPhoto != null">
+        pave_record_after_photo,
+      </if>
+      <if test="paveRecordPaveDate != null">
+        pave_record_pave_date,
+      </if>
+      <if test="paveRecordCreateTime != null">
+        pave_record_create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="paveRecordId != null">
+        #{paveRecordId,jdbcType=INTEGER},
+      </if>
+      <if test="paveRecordPointId != null">
+        #{paveRecordPointId,jdbcType=INTEGER},
+      </if>
+      <if test="paveRecordAdminId != null">
+        #{paveRecordAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="paveRecordLat != null">
+        #{paveRecordLat,jdbcType=VARCHAR},
+      </if>
+      <if test="paveRecordLon != null">
+        #{paveRecordLon,jdbcType=VARCHAR},
+      </if>
+      <if test="paveRecordBeforePhoto != null">
+        #{paveRecordBeforePhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="paveRecordAfterPhoto != null">
+        #{paveRecordAfterPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="paveRecordPaveDate != null">
+        #{paveRecordPaveDate,jdbcType=DATE},
+      </if>
+      <if test="paveRecordCreateTime != null">
+        #{paveRecordCreateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.PaveRecord">
+    update pave_record
+    <set>
+      <if test="paveRecordPointId != null">
+        pave_record_point_id = #{paveRecordPointId,jdbcType=INTEGER},
+      </if>
+      <if test="paveRecordAdminId != null">
+        pave_record_admin_id = #{paveRecordAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="paveRecordLat != null">
+        pave_record_lat = #{paveRecordLat,jdbcType=VARCHAR},
+      </if>
+      <if test="paveRecordLon != null">
+        pave_record_lon = #{paveRecordLon,jdbcType=VARCHAR},
+      </if>
+      <if test="paveRecordBeforePhoto != null">
+        pave_record_before_photo = #{paveRecordBeforePhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="paveRecordAfterPhoto != null">
+        pave_record_after_photo = #{paveRecordAfterPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="paveRecordPaveDate != null">
+        pave_record_pave_date = #{paveRecordPaveDate,jdbcType=DATE},
+      </if>
+      <if test="paveRecordCreateTime != null">
+        pave_record_create_time = #{paveRecordCreateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where pave_record_id = #{paveRecordId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.PaveRecord">
+    update pave_record
+    set pave_record_point_id = #{paveRecordPointId,jdbcType=INTEGER},
+      pave_record_admin_id = #{paveRecordAdminId,jdbcType=INTEGER},
+      pave_record_lat = #{paveRecordLat,jdbcType=VARCHAR},
+      pave_record_lon = #{paveRecordLon,jdbcType=VARCHAR},
+      pave_record_before_photo = #{paveRecordBeforePhoto,jdbcType=VARCHAR},
+      pave_record_after_photo = #{paveRecordAfterPhoto,jdbcType=VARCHAR},
+      pave_record_pave_date = #{paveRecordPaveDate,jdbcType=DATE},
+      pave_record_create_time = #{paveRecordCreateTime,jdbcType=TIMESTAMP}
+    where pave_record_id = #{paveRecordId,jdbcType=INTEGER}
+  </update>
+  
+  
+   <!-- ByExample -->
+  <select id="selectByExample" parameterType="com.py.bean.PaveRecord" resultMap="BaseResultMap">
+  	 select *
+  	 from pave_record
+  	 where 1=1
+  	   <if test="paveRecordId != null">
+        and pave_record_id = #{paveRecordId,jdbcType=INTEGER}
+      </if>
+  	   <if test="paveRecordPointId != null">
+        and pave_record_point_id = #{paveRecordPointId,jdbcType=INTEGER}
+      </if>
+      <if test="paveRecordAdminId != null">
+        and pave_record_admin_id = #{paveRecordAdminId,jdbcType=INTEGER}
+      </if>
+      <if test="paveRecordLon != null">
+        and pave_record_lon = #{paveRecordLon,jdbcType=VARCHAR}
+      </if>
+      <if test="paveRecordLat != null">
+        and pave_record_lat = #{paveRecordLat,jdbcType=VARCHAR}
+      </if>
+      <if test="paveRecordBeforePhoto != null">
+        and pave_record_before_photo = #{paveRecordBeforePhoto,jdbcType=VARCHAR}
+      </if>
+      <if test="paveRecordAfterPhoto != null">
+        and pave_record_after_photo = #{paveRecordAfterPhoto,jdbcType=VARCHAR}
+      </if>
+      <if test="paveRecordCreateTime != null">
+        and pave_record_create_time = #{paveRecordCreateTime,jdbcType=TIMESTAMP}
+      </if>
+  </select>
+  
+  
+  
+  <resultMap id="BaseResultMapVarious" type="com.py.bean.PaveRecord">
+    <id column="pave_record_id" jdbcType="INTEGER" property="paveRecordId" />
+    <result column="pave_record_point_id" jdbcType="INTEGER" property="paveRecordPointId" />
+    <result column="pave_record_admin_id" jdbcType="INTEGER" property="paveRecordAdminId" />
+    <result column="pave_record_lat" jdbcType="VARCHAR" property="paveRecordLat" />
+    <result column="pave_record_lon" jdbcType="VARCHAR" property="paveRecordLon" />
+    <result column="pave_record_before_photo" jdbcType="VARCHAR" property="paveRecordBeforePhoto" />
+    <result column="pave_record_after_photo" jdbcType="VARCHAR" property="paveRecordAfterPhoto" />
+    <result column="pave_record_pave_date" jdbcType="DATE" property="paveRecordPaveDate" />
+    <result column="pave_record_create_time" jdbcType="TIMESTAMP" property="paveRecordCreateTime" />
+    <collection column="point_id" ofType="com.py.bean.Point" property="point">
+    	<id column="point_id" jdbcType="INTEGER" property="pointId" />
+	    <result column="point_name" jdbcType="VARCHAR" property="pointName" />
+	    <result column="point_province" jdbcType="INTEGER" property="pointProvince" />
+	    <result column="point_city" jdbcType="INTEGER" property="pointCity" />
+	    <result column="point_district" jdbcType="INTEGER" property="pointDistrict" />
+	    <result column="point_address" jdbcType="VARCHAR" property="pointAddress" />
+	    <result column="point_create_time" jdbcType="TIMESTAMP" property="pointCreateTime" />
+	    <result column="point_change_time" jdbcType="TIMESTAMP" property="pointChangeTime" />
+    </collection>
+    <collection column="admin_id" ofType="com.py.bean.Admin" property="admin">
+    	<id column="admin_id" jdbcType="INTEGER" property="adminId" />
+	    <result column="admin_account" jdbcType="VARCHAR" property="adminAccount" />
+	    <result column="admin_password" jdbcType="VARCHAR" property="adminPassword" />
+	    <result column="admin_realname" jdbcType="VARCHAR" property="adminRealname" />
+	    <result column="admin_phonenum" jdbcType="VARCHAR" property="adminPhonenum" />
+	    <result column="admin_email" jdbcType="VARCHAR" property="adminEmail" />
+	    <result column="admin_registration_id" jdbcType="VARCHAR" property="adminRegistrationId" />
+	    <result column="admin_registration_type" jdbcType="INTEGER" property="adminRegistrationType" />
+	    <result column="admin_position" jdbcType="VARCHAR" property="adminPosition" />
+	    <result column="admin_position_time" jdbcType="TIMESTAMP" property="adminPositionTime" />
+	    <result column="admin_creation_time" jdbcType="TIMESTAMP" property="adminCreationTime" />
+    </collection>
+  </resultMap>
+  
+  
+  
+ 
+   <!-- ByExample -->
+  <select id="selectVariousByExample" parameterType="com.py.bean.PaveRecord" resultMap="BaseResultMapVarious">
+  	 SELECT
+		*
+	FROM
+		pave_record pr
+	LEFT JOIN point p1 ON p1.point_id = pr.pave_record_point_id
+	LEFT JOIN admin a1 ON a1.admin_id = pr.pave_record_admin_id
+  	 where 1=1
+  	   <if test="paveRecordId != null">
+        and pave_record_id = #{paveRecordId,jdbcType=INTEGER}
+      </if>
+  	   <if test="paveRecordPointId != null">
+        and pave_record_point_id = #{paveRecordPointId,jdbcType=INTEGER}
+      </if>
+      <if test="paveRecordAdminId != null">
+        and pave_record_admin_id = #{paveRecordAdminId,jdbcType=INTEGER}
+      </if>
+      <if test="paveRecordLon != null">
+        and pave_record_lon = #{paveRecordLon,jdbcType=VARCHAR}
+      </if>
+      <if test="paveRecordLat != null">
+        and pave_record_lat = #{paveRecordLat,jdbcType=VARCHAR}
+      </if>
+      <if test="paveRecordBeforePhoto != null">
+        and pave_record_before_photo = #{paveRecordBeforePhoto,jdbcType=VARCHAR}
+      </if>
+      <if test="paveRecordAfterPhoto != null">
+        and pave_record_after_photo = #{paveRecordAfterPhoto,jdbcType=VARCHAR}
+      </if>
+      <if test="paveRecordCreateTime != null">
+        and pave_record_create_time = #{paveRecordCreateTime,jdbcType=TIMESTAMP}
+      </if>
+  </select>
+  
+  
+  
+</mapper>

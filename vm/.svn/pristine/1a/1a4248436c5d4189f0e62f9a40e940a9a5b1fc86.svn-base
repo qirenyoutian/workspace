@@ -1,0 +1,263 @@
+package com.py.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.py.bean.CommercialTenantReport;
+import com.py.bean.EquipmentReport;
+import com.py.bean.Order;
+import com.py.bean.PointReport;
+import com.py.service.AisleService;
+import com.py.service.AppletService;
+import com.py.service.EquipmentService;
+import com.py.service.PointService;
+import com.py.util.Msg;
+
+@Controller
+@RequestMapping("/applet")
+public class AppletController {
+
+	@Autowired
+	AppletService appletService;
+	@Autowired
+	PointService pointService;
+	@Autowired
+	EquipmentService equipmentService;
+	@Autowired
+	AisleService aisleService;
+	
+	
+	/*--------------------------------C端用户-----------------------------------------*/
+	
+	/**
+	 * 获取点位和货道信息
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/findPointAndAisle")
+	public Msg findPointAndAisle(@RequestParam("longitude")Double longitude,
+			@RequestParam("latitude")Double latitude) {
+		
+		Msg msg = appletService.findPointAndAisle(longitude, latitude);
+		
+		return msg;
+	}
+	
+	/**
+	 * 获取取货码
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/getPickupCode")
+	public Msg getPickupCode(@RequestParam("aisle_id")Integer aisle_id) {
+		Order order = new Order();
+		order.setOrderAisleId(aisle_id);
+		try {
+			order = appletService.getPickupCode(order);
+			if(order == null) {
+				return Msg.fail().add("msg", "未查询到相关订单信息");
+			}
+		} catch (Exception e) {
+			return Msg.fail().add("msg", "处理失败");
+		}
+		
+		return Msg.success(order.getOrderPickupCode());
+	}
+	
+	/*--------------------------------C端用户-----------------------------------------*/
+	
+	
+	
+	/*--------------------------------运营人员-----------------------------------------*/
+	
+	/**
+	 * 铺货打卡
+	 * @return
+	 */
+	public Msg clockIn() {
+		return Msg.success();
+	}
+	
+	/**
+	 * 上报库存
+	 * @return
+	 */
+	public Msg inventoryReport() {
+		return Msg.success();
+	}
+	
+	/*--------------------------------运营人员-----------------------------------------*/
+	
+	/**
+	 * 设备监控信息查询
+	 * @return
+	 */
+	public Msg findEquipmentMessage() {
+		return Msg.success();
+	}
+	
+	
+	/*---------------------------------管理员-----------------------------------------*/
+	
+	/**
+	 * 设备报表
+	 * @param pointId
+	 * @param type
+	 * @param year
+	 * @param month
+	 * @return
+	 */
+	public Msg equipmentReport(@RequestParam("pointId")Integer pointId,@RequestParam("type")Integer type,@RequestParam("year")Integer year,@RequestParam("month")Integer month) {
+		int index = 0;
+		String startTime = null;
+		String endTime = null;
+		if(year != null) {
+			if(month != null) {
+				startTime = year + "-" + month;
+				int i = month + 1;
+				if(i < 10) {
+					endTime = year + "-0" + i;
+				}else {
+					endTime = year + "-" + i;
+				}
+				index = 10;
+			}else {
+				startTime = String.valueOf(year);
+				endTime = String.valueOf(year + 1);
+				index = 7;
+			}
+		}else {
+			return Msg.fail().add("msg", "请选择年份");
+		}
+		
+		List<EquipmentReport> equipmentReports = appletService.equipmentReport(pointId,type,startTime,endTime,index);
+		
+		return Msg.success(equipmentReports);
+	}
+	
+	/**
+	 * 点位报表
+	 * @return
+	 */
+	public Msg pointReport(@RequestParam("type")String type,@RequestParam("year")Integer year,@RequestParam("month")Integer month) {
+		
+		String startTime = null;
+		String endTime = null;
+		if(year != null) {
+			if(month != null) {
+				startTime = year + "-" + month;
+				int i = month + 1;
+				if(i < 10) {
+					endTime = year + "-0" + i;
+				}else {
+					endTime = year + "-" + i;
+				}
+			}else {
+				startTime = String.valueOf(year);
+				endTime = String.valueOf(year + 1);
+			}
+		}else {
+			return Msg.fail().add("msg", "请选择年份");
+		}
+		
+		List<PointReport> pointReport = appletService.pointReport(type,startTime,endTime);
+		
+		return Msg.success(pointReport);
+	}
+	
+	/**
+	 * 销售报表-金额
+	 * @return
+	 */
+	public Msg salesReportSum(@RequestParam("year")Integer year,@RequestParam("month")Integer month,@RequestParam("type")Integer type) {
+		int index = 0;
+		String startTime = null;
+		String endTime = null;
+		if(year != null) {
+			if(month != null) {
+				startTime = year + "-" + month;
+				int i = month + 1;
+				if(i < 10) {
+					endTime = year + "-0" + i;
+				}else {
+					endTime = year + "-" + i;
+				}
+				index = 10;
+			}else {
+				startTime = String.valueOf(year);
+				endTime = String.valueOf(year + 1);
+				index = 7;
+			}
+		}else {
+			return Msg.fail().add("msg", "请选择年份");
+		}
+		
+		Msg msg = appletService.salesReportSum(startTime,endTime,index,type);
+		return msg;
+	}
+	
+	/**
+	 * 总销售量销售额
+	 * @return
+	 */
+	public Msg grossSales(@RequestParam("year")Integer year,@RequestParam("month")Integer month) {
+		String startTime = null;
+		String endTime = null;
+		if(year != null) {
+			if(month != null) {
+				startTime = year + "-" + month;
+				int i = month + 1;
+				if(i < 10) {
+					endTime = year + "-0" + i;
+				}else {
+					endTime = year + "-" + i;
+				}
+			}else {
+				startTime = String.valueOf(year);
+				endTime = String.valueOf(year + 1);
+			}
+		}
+		Msg msg = appletService.grossSales(startTime,endTime);
+		return msg;
+	}
+	
+	/**
+	 * 商户报表
+	 * @return
+	 */
+	public Msg commercialTenantReport(@RequestParam("type")String type,@RequestParam("year")Integer year,@RequestParam("month")Integer month) {
+		
+		String startTime = null;
+		String endTime = null;
+		if(year != null) {
+			if(month != null) {
+				startTime = year + "-" + month;
+				int i = month + 1;
+				if(i < 10) {
+					endTime = year + "-0" + i;
+				}else {
+					endTime = year + "-" + i;
+				}
+			}else {
+				startTime = String.valueOf(year);
+				endTime = String.valueOf(year + 1);
+			}
+		}else {
+			return Msg.fail().add("msg", "请选择年份");
+		}
+		
+		List<CommercialTenantReport> pointReport = appletService.commercialTenantReport(type,startTime,endTime);
+		
+		return Msg.success(pointReport);
+	}
+	
+	
+	
+	/*---------------------------------管理员-----------------------------------------*/
+	
+}

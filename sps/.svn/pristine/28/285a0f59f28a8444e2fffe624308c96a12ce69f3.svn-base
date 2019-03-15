@@ -1,0 +1,16 @@
+package com.py.bean;
+
+import java.util.List;
+
+public class TruckSpaceRecord extends TruckSpace{
+	private List<SingleCarRecord> singleCarRecord;
+
+	public List<SingleCarRecord> getSingleCarRecord() {
+		return singleCarRecord;
+	}
+
+	public void setSingleCarRecord(List<SingleCarRecord> singleCarRecord) {
+		this.singleCarRecord = singleCarRecord;
+	}
+	
+}

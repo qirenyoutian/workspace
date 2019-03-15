@@ -1,0 +1,19 @@
+package com.example.admin.serialdemo.Portutil;
+
+
+
+public class SerialPortJNI {
+    static {
+     //   Log.w("NativeClass", "before load library");
+        System.loadLibrary("native-lib");
+    //    Log.w("NativeClass", "after load library");
+    }
+
+    public native int open(String Path, int Rate, int nBits, char nEvent, int nStop);
+
+    public native int close(String Path);
+
+    public native byte[] read(String Path);
+
+    public native int write(String Path, byte[] buffer, int len);
+}

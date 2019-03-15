@@ -1,0 +1,250 @@
+package com.py.messageListener;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import com.py.bean.Aisle;
+import com.py.bean.AisleInventory;
+import com.py.bean.ChannelMerchandise;
+import com.py.bean.Equipment;
+import com.py.bean.Order;
+import com.py.dao.AisleInventoryMapper;
+import com.py.dao.ChannelMerchandiseMapper;
+import com.py.dao.EquipmentMapper;
+import com.py.dao.OrderMapper;
+import com.py.socket.HairUtil;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+public class MessageThread implements Runnable {
+
+	private ChannelMerchandiseMapper channelMerchandiseMapper;
+	private OrderMapper orderMapper;
+	private EquipmentMapper equipmentMapper;
+	private AisleInventoryMapper aisleInventoryMapper;
+	private String json;
+	
+	public MessageThread(ChannelMerchandiseMapper channelMerchandiseMapper, OrderMapper orderMapper, EquipmentMapper equipmentMapper, AisleInventoryMapper aisleInventoryMapper, String json) {
+		this.channelMerchandiseMapper = channelMerchandiseMapper;
+		this.orderMapper = orderMapper;
+		this.equipmentMapper = equipmentMapper;
+		this.aisleInventoryMapper = aisleInventoryMapper;
+		this.json = json;
+	}
+	
+	@Override
+	public void run() {
+		JSONArray jsonArray = null;
+		try {
+			JSONObject jsonObject = JSONObject.fromObject(json);
+			String order_list = jsonObject.getString("order_list");
+			jsonArray = JSONArray.fromObject(order_list);
+			//循环订单,数据库无则添加,有则修改状态;当订单状态为待出货时则控制出货
+		} catch (Exception e) {
+			System.out.println("解析json数据报错："+json);
+		}
+		this.shipment(jsonArray);
+		
+	}
+	//循环订单,数据库无则添加,有则修改状态;当订单状态为待出货时则控制出货
+	public synchronized void shipment(JSONArray jsonArray) {
+		
+		for (int i = 0; i < jsonArray.size(); i++) {
+			JSONObject object = jsonArray.getJSONObject(i);
+			String order_id = (String)object.get("order_id");//渠道订单id
+			String product_id = (String)object.get("product_id");//渠道商品id
+			String order_status = (String)object.get("order_status");//订单状态
+			String order_create_time = (String)object.get("order_create_time");//创建时间
+			String order_modify_time = (String)object.get("order_modify_time");//更新时间
+			//根据渠道商品id查到本系统的商品id，设备id...
+			ChannelMerchandise channelMerchandise = new ChannelMerchandise();
+			channelMerchandise.setChannelMerchandiseNumber(product_id);
+			channelMerchandise = channelMerchandiseMapper.selectByProductId(channelMerchandise);
+			
+			if(channelMerchandise != null) {
+				Order order = new Order();
+				order.setOrderChannelNumber(order_id);//渠道订单编号
+				Order findOrder = orderMapper.selectByPrimary(order);//
+				if(findOrder == null) {//未存在该渠道订单编号的订单
+					order = this.insertOrder(channelMerchandise, order, order_status, order_create_time, order_modify_time);
+				}else {//已存在该渠道订单编号的订单
+					order = this.updateOrder(channelMerchandise, findOrder, order_status, order_create_time, order_modify_time);
+				}
+				//判断订单是否为待发货,为待发货的订单发送指令给安卓控制出货
+				this.shippingInstruction(order,channelMerchandise);
+			}else {
+				System.out.println("未找到渠道商品编号对应本系统的商品");
+			}
+		}
+		
+	}
+	
+	//插入
+	public Order insertOrder(ChannelMerchandise channelMerchandise,Order order,String order_status,String order_create_time,String order_modify_time) {
+		
+		Date date = new Date();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		Equipment equipment = null;
+		AisleInventory ai = aisleInventoryMapper.selectByChannelMerchandiseId(channelMerchandise.getChannelMerchandiseId());
+		if(ai != null) {
+			Aisle aisle = ai.getAisle();
+			if(aisle != null) {
+				equipment = equipmentMapper.selectByPrimaryKey(aisle.getAisleEquipmentId());
+			}
+		}
+		
+		order.setOrderUserName(null);// 下单人
+		order.setOrderPaymentId(channelMerchandise.getChannelMerchandisePaymentId());// 支付方式
+		if(equipment != null) {
+			order.setOrderPointId(equipment.getEquipmentPointId());//点位id
+			order.setOrderEquipmentId(equipment.getEquipmentId());//设备id
+		}
+		order.setOrderMerchandiseId(channelMerchandise.getChannelMerchandiseMerchandiseId());// 商品id
+		order.setOrderMerchandiseAmount(1);// 购买数量
+		order.setOrderVersions(1);//
+		order.setOrderCreateTime(order_create_time);//订单创建时间
+		order.setOrderUpdateTime(order_modify_time);//最后更新时间
+		
+		try {
+			order.setOrderStatus(transformOrderStatus(order_status));//订单状态
+			if("02".equals(order_status) || "03".equals(order_status)) {
+				if(date.getTime() - format.parse(order_create_time).getTime() >= 5000*60*5) {//5分钟
+					order.setOrderStatus(8);//超时出货
+				}
+				order.setOrderPaymentTime(order_modify_time);//支付时间
+			}
+		} catch (ParseException e1) {
+			System.out.println("日期格式转换出错");
+		}
+		
+		try {
+			orderMapper.insertSelective(order);
+		} catch (Exception e) {
+			System.out.println("重复数据插入失败");
+		}
+		return order;
+	}
+	
+	//修改
+	public Order updateOrder(ChannelMerchandise channelMerchandise,Order findOrder,String order_status,String order_create_time,String order_modify_time) {
+		Date date = new Date();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			findOrder.setOrderStatus(updateStatus(findOrder.getOrderStatus(),order_status));//订单状态
+			if(transformOrderStatus(order_status) == 2) {
+				if(date.getTime() - format.parse(order_create_time).getTime() >= 5000*60*5) {//判断是否超时
+					findOrder.setOrderStatus(8);//超时出货
+				}
+			}
+		} catch (ParseException e) {
+			System.out.println("日期格式转换出错");
+		}
+		findOrder.setOrderCreateTime(order_create_time);//订单创建时间
+		findOrder.setOrderUpdateTime(order_modify_time);//最后更新时间
+		try {
+			orderMapper.updateByPrimaryKeySelective(findOrder);
+		} catch (Exception e) {
+			System.out.println("修改状态失败");
+		}
+		return orderMapper.selectByPrimaryKey(findOrder.getOrderId());
+	}
+	
+	//待出货的订单发指令给安卓控制出货
+	public void shippingInstruction(Order order,ChannelMerchandise channelMerchandise) {
+		if(order.getOrderStatus() == 2) {//待出货
+			AisleInventory ai = aisleInventoryMapper.selectByChannelMerchandiseId(channelMerchandise.getChannelMerchandiseId());
+			if(ai != null) {
+				Aisle aisle = ai.getAisle();
+				if(aisle != null) {
+					if(ai != null && ai.getAisleInventoryMerchandiseId().equals(channelMerchandise.getChannelMerchandiseMerchandiseId()) && ai.getAisleInventoryCount() > 0) {
+						Equipment equipment = equipmentMapper.selectByPrimaryKey(aisle.getAisleEquipmentId());
+						if(equipment != null && equipment.getEquipmentStatus() == 1) {//在线
+							String str = "BB "+aisle.getAisleNumber()+" "+order.getOrderId()+" CC";
+							if(HairUtil.put(str, equipment.getEquipmentSocketKey())) {//发送出货指令
+								order.setOrderStatus(3);//状态改为待确认收货
+								order.setOrderAisleId(aisle.getAisleId());//订单记录货道信息
+								try {
+									int i = orderMapper.updateByPrimaryKeySelective(order);
+									if(i == 0) {//预防万一,修改失败了就再修改一次,再错就不管了
+										order = orderMapper.selectByPrimaryKey(order.getOrderId());
+										order.setOrderStatus(3);//状态改为待确认收货
+										order.setOrderAisleId(aisle.getAisleId());//订单记录货道信息
+										
+										try {
+											orderMapper.updateByPrimaryKeySelective(order);
+										} catch (Exception e1) {}
+									}
+								} catch (Exception e) {//发送出货指令后，修改状态失败
+									try {//那就再修改一次,再失败就不做处理（第一次修改失败的几率是很小很小的，第二次就更小了）
+										orderMapper.updateByPrimaryKeySelective(order);
+									} catch (Exception e1) {}
+								}
+							}
+						}else {//当设备离线时，逻辑待定
+							order.setOrderStatus(7);//设备锁定未出货
+							try {
+								orderMapper.updateByPrimaryKeySelective(order);
+							} catch (Exception e) {}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	//修改状态逻辑操作
+	public int updateStatus(int orderStatus,String order_status) {//以本平台的状态为准
+		switch (orderStatus) {
+		case 1://当本平台的状态为未付款时,融e购的是什么状态就改为什么状态
+			orderStatus = transformOrderStatus(order_status);
+			break;
+		case 2://当本平台的状态为待发货时,融e购的是什么状态不改变
+			break;
+		case 3://当本平台的状态为待确认收货时,融e购的是什么状态不改变
+			break;
+		case 4://当本平台的状态为交易完成时,融e购的是什么状态不改变
+			break;
+		case 5://当本平台的状态为交易取消时,融e购的是什么状态就改为什么状态
+			orderStatus = transformOrderStatus(order_status);
+			break;
+		case 6://当本平台的状态为交易关闭时,融e购的是什么状态就改为什么状态
+			orderStatus = transformOrderStatus(order_status);
+			break;
+		case 7://当本平台的状态为设备锁定未出货时,融e购的是什么状态不改变（一般不会发生）
+			break;
+		case 8://当本平台的状态为超时出货时,融e购的是什么状态不改变
+			break;
+		}
+		return orderStatus;
+	}
+	
+	//转换状态
+	public int transformOrderStatus(String order_status) {
+		int orderStatus = 0;
+		switch (order_status) {
+		case "01":
+			orderStatus = 1;
+			break;
+		case "02":
+			orderStatus = 2;
+			break;
+		case "03":
+			orderStatus = 3;
+			break;
+		case "04":
+			orderStatus = 4;
+			break;
+		case "05":
+			orderStatus = 5;
+			break;
+		case "06":
+			orderStatus = 6;
+			break;
+		}
+		return orderStatus;
+	}
+	
+}

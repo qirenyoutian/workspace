@@ -1,0 +1,158 @@
+package com.py.controller;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.py.bean.BigWarehouse;
+import com.py.bean.Sideboard;
+import com.py.service.InventoryService;
+import com.py.util.Msg;
+
+@Controller
+public class InventoryController {
+	@Autowired
+	InventoryService inventoryService;
+	
+	
+	
+	
+	/****************************************************** 边柜库存 ************************************************************/
+	
+	/**
+	 * 根据设备ID获取边柜库存
+	 * @return
+	 */
+	@RequestMapping("/getsideboardById")
+	@ResponseBody
+	public Msg getsideboardById(@RequestParam("equipmentId")Integer equipmentId){
+		
+		List<Sideboard> sideboard = inventoryService.selectByEquipment(equipmentId);
+		
+		return Msg.success().add("msg", sideboard);
+	}
+	
+	@RequestMapping("/saveSideboard")
+	@ResponseBody
+	public Msg saveSideboard(@RequestParam("sideboardEquipmentId")Integer sideboardEquipmentId,
+							 @RequestParam("sideboardMerchandiseId")Integer sideboardMerchandiseId,
+							 @RequestParam("sideboardCount")Integer sideboardCount){
+		
+		
+		Sideboard sideboard = new Sideboard();
+		sideboard.setSideboardEquipmentId(sideboardEquipmentId);
+		sideboard.setSideboardMerchandiseId(sideboardMerchandiseId);
+		sideboard.setSideboardCount(sideboardCount);
+		sideboard.setSideboardCreateTime(new Date());
+		sideboard.setSideboardChangeTime(new Date());
+		
+		int a = inventoryService.insertBySideborad(sideboard);
+		if (a == 1){
+			return Msg.success();
+		}else{
+			return Msg.fail();
+		}
+	}
+	
+	
+	
+	/****************************************************** 大仓库存 ************************************************************/
+	
+	
+	
+	/**
+	 * 获取大仓
+	 * @return
+	 */
+	@RequestMapping("/getBigWarehouse")
+	@ResponseBody
+	public Msg getBigWarehouse(){
+		
+		
+		BigWarehouse bigWarehouse = new BigWarehouse();
+		
+		List<BigWarehouse> bw = inventoryService.selectByExample(bigWarehouse);
+		
+		return Msg.success().add("list", bw);
+	}
+	/**
+	 * 保存大仓
+	 * @param bigWarehouseName
+	 * @param bigWarehouseProvince
+	 * @param bigWarehouseCity
+	 * @param bigWarehouseDistrict
+	 * @param bigWarehouseAddress
+	 * @return
+	 */
+	@RequestMapping("/saveBigware")
+	@ResponseBody
+	public Msg saveBigware(@RequestParam("bigWarehouseName")String bigWarehouseName,
+						   @RequestParam("bigWarehouseProvince")String bigWarehouseProvince,
+						   @RequestParam("bigWarehouseCity")String bigWarehouseCity,
+						   @RequestParam("bigWarehouseDistrict")String bigWarehouseDistrict,
+						   @RequestParam("bigWarehouseAddress")String bigWarehouseAddress){
+		
+		BigWarehouse bigWarehouse = new BigWarehouse();
+			bigWarehouse.setBigWarehouseName(bigWarehouseName);
+			bigWarehouse.setBigWarehouseProvince(Integer.parseInt(bigWarehouseProvince));
+			bigWarehouse.setBigWarehouseCity(Integer.parseInt(bigWarehouseCity));
+			bigWarehouse.setBigWarehouseDistrict(Integer.parseInt(bigWarehouseDistrict));
+			bigWarehouse.setBigWarehouseAddress(bigWarehouseAddress);
+			bigWarehouse.setBigWarehouseCreateTime(new Date());
+			bigWarehouse.setBigWarehouseUpdateTime(new Date());
+		
+		int a = inventoryService.saveBigWarewHouse(bigWarehouse);
+		if (a == 1) {
+			return Msg.success();
+		}else{
+			return Msg.fail();
+		}
+	}
+
+	
+	/**
+	 * 修改大仓
+	 * @param bigWarehouseName
+	 * @param bigWarehouseProvince
+	 * @param bigWarehouseCity
+	 * @param bigWarehouseDistrict
+	 * @param bigWarehouseAddress
+	 * @return
+	 */
+	@RequestMapping("/EditBigware")
+	@ResponseBody
+	public Msg EditBigware(@RequestParam("bigWarehouseId")Integer bigWarehouseId,
+						   @RequestParam("bigWarehouseName")String bigWarehouseName,
+						   @RequestParam("bigWarehouseProvince")String bigWarehouseProvince,
+						   @RequestParam("bigWarehouseCity")String bigWarehouseCity,
+						   @RequestParam("bigWarehouseDistrict")String bigWarehouseDistrict,
+						   @RequestParam("bigWarehouseAddress")String bigWarehouseAddress){
+		
+		BigWarehouse bigWarehouse = new BigWarehouse();
+		bigWarehouse.setBigWarehouseId(bigWarehouseId);
+		bigWarehouse.setBigWarehouseName(bigWarehouseName);
+		bigWarehouse.setBigWarehouseProvince(Integer.parseInt(bigWarehouseProvince));
+		bigWarehouse.setBigWarehouseCity(Integer.parseInt(bigWarehouseCity));
+		bigWarehouse.setBigWarehouseDistrict(Integer.parseInt(bigWarehouseDistrict));
+		bigWarehouse.setBigWarehouseAddress(bigWarehouseAddress);
+		bigWarehouse.setBigWarehouseCreateTime(new Date());
+		bigWarehouse.setBigWarehouseUpdateTime(new Date());
+		
+		int a = inventoryService.editBigWarewHouse(bigWarehouse);
+		if (a == 1) {
+			return Msg.success();
+		}else{
+			return Msg.fail();
+		}
+	}
+	
+	
+
+}

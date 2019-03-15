@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pywl.project.mapper.ImageMapper">
+	<!--  	//获取所有管理图片
+	List<Image> addImage();-->
+	<insert id="addImage" parameterType="com.pywl.project.bean.Image">
+	INSERT INTO image(url,goods_id) values(#{url},#{goodsId})
+	</insert>
+	
+	<!--查询指定订单的图片  -->
+	<select id="getAllImageByOrderId" resultType="com.pywl.project.bean.Image" parameterType="java.lang.Long">
+	SELECT 
+		id,url,goods_id as goodsId
+	FROM 
+		image
+	WHERE
+		goods_id=#{goodsId}
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

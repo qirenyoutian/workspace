@@ -1,0 +1,21 @@
+package com.py.dao;
+
+import com.py.bean.AisleInventory;
+
+public interface AisleInventoryMapper {
+    int deleteByPrimaryKey(Integer aisleInventoryId);
+
+    int insert(AisleInventory record);
+
+    int insertSelective(AisleInventory record);
+
+    AisleInventory selectByPrimaryKey(Integer aisleInventoryId);
+
+    int updateByPrimaryKeySelective(AisleInventory record);
+
+    int updateByPrimaryKey(AisleInventory record);
+
+	int updateByAisleIdSelective(AisleInventory aislein);
+
+	AisleInventory selectByExample(AisleInventory aisleinventory);
+}

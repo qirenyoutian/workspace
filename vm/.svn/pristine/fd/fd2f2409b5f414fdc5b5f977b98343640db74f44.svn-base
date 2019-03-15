@@ -1,0 +1,98 @@
+package com.py.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.py.bean.Merchandise;
+import com.py.bean.MerchandiseClassify;
+import com.py.dao.MerchandiseClassifyMapper;
+import com.py.dao.MerchandiseMapper;
+import com.py.util.Msg;
+
+@Service
+public class MerchandiseService {
+
+	@Autowired
+	MerchandiseMapper merchandiseMapper;
+	@Autowired
+	MerchandiseClassifyMapper classifyMapper;
+
+	public int updateByPrimaryKeySelective(Merchandise record) {
+		return merchandiseMapper.updateByPrimaryKeySelective(record);
+	}
+	
+	public int deleteByPrimaryKey(Integer merchandiseId) {
+		return merchandiseMapper.deleteByPrimaryKey(merchandiseId);
+	}
+	
+	public int insert(Merchandise record) {
+		return merchandiseMapper.insert(record);
+	}
+
+	public int insertSelective(Merchandise record) {
+		return merchandiseMapper.insertSelective(record);
+	}
+
+	public int updateByPrimaryKey(Merchandise record) {
+		return merchandiseMapper.updateByPrimaryKey(record);
+	}
+	
+	public Merchandise selectByPrimary(Merchandise merchandise) {
+		return merchandiseMapper.selectByPrimary(merchandise);
+	}
+	
+	public List<Merchandise> selectByExample(Merchandise merchandise) {
+		return merchandiseMapper.selectByExample(merchandise);
+	}
+	
+	public Merchandise selectByPrimaryKey(Integer merchandiseId) {
+		return merchandiseMapper.selectByPrimaryKey(merchandiseId);
+	}
+
+	public List<Merchandise> selectByTime(String startTime,String endTime) {
+		return merchandiseMapper.selectByTime(startTime, endTime);
+	}
+
+	/**
+	 * 获取所有的商品分类
+	 * @param classify
+	 * @return
+	 */
+	public List<MerchandiseClassify> getClassify(MerchandiseClassify classify) {
+		return classifyMapper.selectByExample(classify);
+	}
+
+	/**
+	 * 根据id删除数据
+	 * @param id
+	 * @param ids
+	 * @return
+	 */
+	public Msg deleteById(Integer merchandiseId, String[] merchandiseIds) {
+		
+		if (merchandiseId == 0) {
+			int a = merchandiseMapper.deleteByArray(merchandiseIds); 
+			if (a > 0) {
+				return Msg.success();
+			}else{
+				return Msg.fail();
+			}
+			
+		}else{
+			int a = merchandiseMapper.deleteByPrimaryKey(merchandiseId);
+			if (a == 1) {
+				return Msg.success();
+			}else{
+				return Msg.fail();
+			}
+		}
+	}
+
+	public List<Merchandise> selectByStatus(Merchandise merchandise) {
+		// TODO Auto-generated method stub
+		return merchandiseMapper.selectByStatus(merchandise);
+	}
+	
+}

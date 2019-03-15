@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.EquipmentMessageMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.EquipmentMessage">
+    <id column="equipment_message_id" jdbcType="INTEGER" property="equipmentMessageId" />
+    <result column="equipment_message_equipment_id" jdbcType="INTEGER" property="equipmentMessageEquipmentId" />
+    <result column="equipment_message_signal_strength" jdbcType="VARCHAR" property="equipmentMessageSignalStrength" />
+    <result column="equipment_message_cpu_occupy" jdbcType="INTEGER" property="equipmentMessageCpuOccupy" />
+    <result column="equipment_message_memory_occupy" jdbcType="INTEGER" property="equipmentMessageMemoryOccupy" />
+    <result column="equipment_message_memory_size" jdbcType="DOUBLE" property="equipmentMessageMemorySize" />
+    <result column="equipment_message_sd_capacity" jdbcType="DOUBLE" property="equipmentMessageSdCapacity" />
+    <result column="equipment_message_battery_status" jdbcType="INTEGER" property="equipmentMessageBatteryStatus" />
+    <result column="equipment_message_battery_capacity" jdbcType="INTEGER" property="equipmentMessageBatteryCapacity" />
+    <result column="equipment_message_sim_status" jdbcType="INTEGER" property="equipmentMessageSimStatus" />
+    <result column="equipment_message_imei_information" jdbcType="VARCHAR" property="equipmentMessageImeiInformation" />
+    <result column="equipment_message_ip_address" jdbcType="VARCHAR" property="equipmentMessageIpAddress" />
+    <result column="equipment_message_wlanmac_address" jdbcType="VARCHAR" property="equipmentMessageWlanmacAddress" />
+    <result column="equipment_message_bluetooth_address" jdbcType="VARCHAR" property="equipmentMessageBluetoothAddress" />
+    <result column="equipment_message_serial_number" jdbcType="VARCHAR" property="equipmentMessageSerialNumber" />
+    <result column="equipment_message_versions" jdbcType="VARCHAR" property="equipmentMessageVersions" />
+    <result column="equipment_message_create_time" jdbcType="TIMESTAMP" property="equipmentMessageCreateTime" />
+    <result column="equipment_message_change_time" jdbcType="TIMESTAMP" property="equipmentMessageChangeTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    equipment_message_id, equipment_message_equipment_id, equipment_message_signal_strength, 
+    equipment_message_cpu_occupy, equipment_message_memory_occupy, equipment_message_memory_size, 
+    equipment_message_sd_capacity, equipment_message_battery_status, equipment_message_battery_capacity, 
+    equipment_message_sim_status, equipment_message_imei_information, equipment_message_ip_address, 
+    equipment_message_wlanmac_address, equipment_message_bluetooth_address, equipment_message_serial_number, 
+    equipment_message_versions, equipment_message_create_time, equipment_message_change_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from equipment_message
+    where equipment_message_id = #{equipmentMessageId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from equipment_message
+    where equipment_message_id = #{equipmentMessageId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.EquipmentMessage">
+    insert into equipment_message (equipment_message_id, equipment_message_equipment_id, 
+      equipment_message_signal_strength, equipment_message_cpu_occupy, 
+      equipment_message_memory_occupy, equipment_message_memory_size, 
+      equipment_message_sd_capacity, equipment_message_battery_status, 
+      equipment_message_battery_capacity, equipment_message_sim_status, 
+      equipment_message_imei_information, equipment_message_ip_address, 
+      equipment_message_wlanmac_address, equipment_message_bluetooth_address, 
+      equipment_message_serial_number, equipment_message_versions, 
+      equipment_message_create_time, equipment_message_change_time
+      )
+    values (#{equipmentMessageId,jdbcType=INTEGER}, #{equipmentMessageEquipmentId,jdbcType=INTEGER}, 
+      #{equipmentMessageSignalStrength,jdbcType=VARCHAR}, #{equipmentMessageCpuOccupy,jdbcType=INTEGER}, 
+      #{equipmentMessageMemoryOccupy,jdbcType=INTEGER}, #{equipmentMessageMemorySize,jdbcType=DOUBLE}, 
+      #{equipmentMessageSdCapacity,jdbcType=DOUBLE}, #{equipmentMessageBatteryStatus,jdbcType=INTEGER}, 
+      #{equipmentMessageBatteryCapacity,jdbcType=INTEGER}, #{equipmentMessageSimStatus,jdbcType=INTEGER}, 
+      #{equipmentMessageImeiInformation,jdbcType=VARCHAR}, #{equipmentMessageIpAddress,jdbcType=VARCHAR}, 
+      #{equipmentMessageWlanmacAddress,jdbcType=VARCHAR}, #{equipmentMessageBluetoothAddress,jdbcType=VARCHAR}, 
+      #{equipmentMessageSerialNumber,jdbcType=VARCHAR}, #{equipmentMessageVersions,jdbcType=VARCHAR}, 
+      #{equipmentMessageCreateTime,jdbcType=TIMESTAMP}, #{equipmentMessageChangeTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.EquipmentMessage">
+    insert into equipment_message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="equipmentMessageId != null">
+        equipment_message_id,
+      </if>
+      <if test="equipmentMessageEquipmentId != null">
+        equipment_message_equipment_id,
+      </if>
+      <if test="equipmentMessageSignalStrength != null">
+        equipment_message_signal_strength,
+      </if>
+      <if test="equipmentMessageCpuOccupy != null">
+        equipment_message_cpu_occupy,
+      </if>
+      <if test="equipmentMessageMemoryOccupy != null">
+        equipment_message_memory_occupy,
+      </if>
+      <if test="equipmentMessageMemorySize != null">
+        equipment_message_memory_size,
+      </if>
+      <if test="equipmentMessageSdCapacity != null">
+        equipment_message_sd_capacity,
+      </if>
+      <if test="equipmentMessageBatteryStatus != null">
+        equipment_message_battery_status,
+      </if>
+      <if test="equipmentMessageBatteryCapacity != null">
+        equipment_message_battery_capacity,
+      </if>
+      <if test="equipmentMessageSimStatus != null">
+        equipment_message_sim_status,
+      </if>
+      <if test="equipmentMessageImeiInformation != null">
+        equipment_message_imei_information,
+      </if>
+      <if test="equipmentMessageIpAddress != null">
+        equipment_message_ip_address,
+      </if>
+      <if test="equipmentMessageWlanmacAddress != null">
+        equipment_message_wlanmac_address,
+      </if>
+      <if test="equipmentMessageBluetoothAddress != null">
+        equipment_message_bluetooth_address,
+      </if>
+      <if test="equipmentMessageSerialNumber != null">
+        equipment_message_serial_number,
+      </if>
+      <if test="equipmentMessageVersions != null">
+        equipment_message_versions,
+      </if>
+      <if test="equipmentMessageCreateTime != null">
+        equipment_message_create_time,
+      </if>
+      <if test="equipmentMessageChangeTime != null">
+        equipment_message_change_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="equipmentMessageId != null">
+        #{equipmentMessageId,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentMessageEquipmentId != null">
+        #{equipmentMessageEquipmentId,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentMessageSignalStrength != null">
+        #{equipmentMessageSignalStrength,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentMessageCpuOccupy != null">
+        #{equipmentMessageCpuOccupy,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentMessageMemoryOccupy != null">
+        #{equipmentMessageMemoryOccupy,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentMessageMemorySize != null">
+        #{equipmentMessageMemorySize,jdbcType=DOUBLE},
+      </if>
+      <if test="equipmentMessageSdCapacity != null">
+        #{equipmentMessageSdCapacity,jdbcType=DOUBLE},
+      </if>
+      <if test="equipmentMessageBatteryStatus != null">
+        #{equipmentMessageBatteryStatus,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentMessageBatteryCapacity != null">
+        #{equipmentMessageBatteryCapacity,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentMessageSimStatus != null">
+        #{equipmentMessageSimStatus,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentMessageImeiInformation != null">
+        #{equipmentMessageImeiInformation,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentMessageIpAddress != null">
+        #{equipmentMessageIpAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentMessageWlanmacAddress != null">
+        #{equipmentMessageWlanmacAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentMessageBluetoothAddress != null">
+        #{equipmentMessageBluetoothAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentMessageSerialNumber != null">
+        #{equipmentMessageSerialNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentMessageVersions != null">
+        #{equipmentMessageVersions,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentMessageCreateTime != null">
+        #{equipmentMessageCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="equipmentMessageChangeTime != null">
+        #{equipmentMessageChangeTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.EquipmentMessage">
+    update equipment_message
+    <set>
+      <if test="equipmentMessageEquipmentId != null">
+        equipment_message_equipment_id = #{equipmentMessageEquipmentId,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentMessageSignalStrength != null">
+        equipment_message_signal_strength = #{equipmentMessageSignalStrength,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentMessageCpuOccupy != null">
+        equipment_message_cpu_occupy = #{equipmentMessageCpuOccupy,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentMessageMemoryOccupy != null">
+        equipment_message_memory_occupy = #{equipmentMessageMemoryOccupy,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentMessageMemorySize != null">
+        equipment_message_memory_size = #{equipmentMessageMemorySize,jdbcType=DOUBLE},
+      </if>
+      <if test="equipmentMessageSdCapacity != null">
+        equipment_message_sd_capacity = #{equipmentMessageSdCapacity,jdbcType=DOUBLE},
+      </if>
+      <if test="equipmentMessageBatteryStatus != null">
+        equipment_message_battery_status = #{equipmentMessageBatteryStatus,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentMessageBatteryCapacity != null">
+        equipment_message_battery_capacity = #{equipmentMessageBatteryCapacity,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentMessageSimStatus != null">
+        equipment_message_sim_status = #{equipmentMessageSimStatus,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentMessageImeiInformation != null">
+        equipment_message_imei_information = #{equipmentMessageImeiInformation,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentMessageIpAddress != null">
+        equipment_message_ip_address = #{equipmentMessageIpAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentMessageWlanmacAddress != null">
+        equipment_message_wlanmac_address = #{equipmentMessageWlanmacAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentMessageBluetoothAddress != null">
+        equipment_message_bluetooth_address = #{equipmentMessageBluetoothAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentMessageSerialNumber != null">
+        equipment_message_serial_number = #{equipmentMessageSerialNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentMessageVersions != null">
+        equipment_message_versions = equipment_message_versions + 1,
+      </if>
+      <if test="equipmentMessageCreateTime != null">
+        equipment_message_create_time = #{equipmentMessageCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="equipmentMessageChangeTime != null">
+        equipment_message_change_time = #{equipmentMessageChangeTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where equipment_message_id = #{equipmentMessageId,jdbcType=INTEGER}
+    	AND equipment_message_versions = #{equipmentMessageVersions,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.EquipmentMessage">
+    update equipment_message
+    set equipment_message_equipment_id = #{equipmentMessageEquipmentId,jdbcType=INTEGER},
+      equipment_message_signal_strength = #{equipmentMessageSignalStrength,jdbcType=VARCHAR},
+      equipment_message_cpu_occupy = #{equipmentMessageCpuOccupy,jdbcType=INTEGER},
+      equipment_message_memory_occupy = #{equipmentMessageMemoryOccupy,jdbcType=INTEGER},
+      equipment_message_memory_size = #{equipmentMessageMemorySize,jdbcType=DOUBLE},
+      equipment_message_sd_capacity = #{equipmentMessageSdCapacity,jdbcType=DOUBLE},
+      equipment_message_battery_status = #{equipmentMessageBatteryStatus,jdbcType=INTEGER},
+      equipment_message_battery_capacity = #{equipmentMessageBatteryCapacity,jdbcType=INTEGER},
+      equipment_message_sim_status = #{equipmentMessageSimStatus,jdbcType=INTEGER},
+      equipment_message_imei_information = #{equipmentMessageImeiInformation,jdbcType=VARCHAR},
+      equipment_message_ip_address = #{equipmentMessageIpAddress,jdbcType=VARCHAR},
+      equipment_message_wlanmac_address = #{equipmentMessageWlanmacAddress,jdbcType=VARCHAR},
+      equipment_message_bluetooth_address = #{equipmentMessageBluetoothAddress,jdbcType=VARCHAR},
+      equipment_message_serial_number = #{equipmentMessageSerialNumber,jdbcType=VARCHAR},
+      equipment_message_versions = #{equipmentMessageVersions,jdbcType=VARCHAR},
+      equipment_message_create_time = #{equipmentMessageCreateTime,jdbcType=TIMESTAMP},
+      equipment_message_change_time = #{equipmentMessageChangeTime,jdbcType=TIMESTAMP}
+    where equipment_message_id = #{equipmentMessageId,jdbcType=INTEGER}
+  </update>
+  
+  <resultMap id="BaseResultMapAndEquipment" type="com.py.bean.EquipmentMessage">
+    <id column="equipment_message_id" jdbcType="INTEGER" property="equipmentMessageId" />
+    <result column="equipment_message_equipment_id" jdbcType="INTEGER" property="equipmentMessageEquipmentId" />
+    <result column="equipment_message_signal_strength" jdbcType="VARCHAR" property="equipmentMessageSignalStrength" />
+    <result column="equipment_message_cpu_occupy" jdbcType="VARCHAR" property="equipmentMessageCpuOccupy" />
+    <result column="equipment_message_memory_occupy" jdbcType="VARCHAR" property="equipmentMessageMemoryOccupy" />
+    <result column="equipment_message_memory_size" jdbcType="VARCHAR" property="equipmentMessageMemorySize" />
+    <result column="equipment_message_versions" jdbcType="VARCHAR" property="equipmentMessageVersions" />
+    <result column="equipment_message_create_time" jdbcType="TIMESTAMP" property="equipmentMessageCreateTime" />
+    <result column="equipment_message_change_time" jdbcType="TIMESTAMP" property="equipmentMessageChangeTime" />
+	   <collection column="equipment_id" ofType="com.py.bean.Equipment" property="eqList">
+		    <id column="equipment_id" jdbcType="INTEGER" property="equipmentId" />
+		    <result column="equipment_name" jdbcType="VARCHAR" property="equipmentName" />
+		    <result column="equipment_number" jdbcType="VARCHAR" property="equipmentNumber" />
+		    <result column="equipment_classify_id" jdbcType="INTEGER" property="equipmentClassifyId" />
+		    <result column="equipment_status" jdbcType="INTEGER" property="equipmentStatus" />
+		    <result column="equipment_note" jdbcType="VARCHAR" property="equipmentNote" />
+		    <result column="equipment_socket_key" jdbcType="VARCHAR" property="equipmentSocketKey" />
+		    <result column="equipment_create_time" jdbcType="TIMESTAMP" property="equipmentCreateTime" />
+		    <result column="equipment_change_time" jdbcType="TIMESTAMP" property="equipmentChangeTime" />
+	  </collection>
+  </resultMap>
+  <select id="selectByExample" parameterType="com.py.bean.Equipment" resultMap="BaseResultMapAndEquipment">
+  		SELECT
+			*
+		FROM
+			equipment_message e1
+		LEFT JOIN equipment e2 ON e2.equipment_id = e1.equipment_message_equipment_id
+		<if test="equipmentNumber != null">
+			AND equipment_number = #{equipmentNumber,jdbcType=VARCHAR}
+		</if>
+		
+  </select>
+</mapper>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.BankCardMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.BankCard">
+    <id column="bank_card_id" jdbcType="INTEGER" property="bankCardId" />
+    <result column="bank_card_user_number" jdbcType="VARCHAR" property="bankCardUserNumber" />
+    <result column="bank_card_number" jdbcType="VARCHAR" property="bankCardNumber" />
+    <result column="bank_card_bank_name" jdbcType="VARCHAR" property="bankCardBankName" />
+    <result column="bank_card_binding_time" jdbcType="VARCHAR" property="bankCardBindingTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    bank_card_id, bank_card_user_number, bank_card_number, bank_card_bank_name, bank_card_binding_time
+  </sql>
+  <select id="selectByPrimary" parameterType="com.py.bean.BankCard" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bank_card
+    where 1=1
+    <if test="bankCardId != null">
+      and bank_card_id = #{bankCardId,jdbcType=INTEGER}
+    </if>
+    <if test="bankCardUserNumber != null">
+      and bank_card_user_number = #{bankCardUserNumber,jdbcType=VARCHAR}
+    </if>
+    <if test="bankCardNumber != null">
+      and bank_card_number = #{bankCardNumber,jdbcType=VARCHAR}
+    </if>
+    <if test="bankCardBankName != null">
+      and bank_card_bank_name = #{bankCardBankName,jdbcType=VARCHAR}
+    </if>
+    <if test="bankCardBindingTime != null">
+      and bank_card_binding_time = #{bankCardBindingTime,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.py.bean.BankCard" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bank_card
+    where 1=1
+    <if test="bankCardId != null">
+      and bank_card_id = #{bankCardId,jdbcType=INTEGER}
+    </if>
+    <if test="bankCardUserNumber != null">
+      and bank_card_user_number = #{bankCardUserNumber,jdbcType=VARCHAR}
+    </if>
+    <if test="bankCardNumber != null">
+      and bank_card_number = #{bankCardNumber,jdbcType=VARCHAR}
+    </if>
+    <if test="bankCardBankName != null">
+      and bank_card_bank_name = #{bankCardBankName,jdbcType=VARCHAR}
+    </if>
+    <if test="bankCardBindingTime != null">
+      and bank_card_binding_time = #{bankCardBindingTime,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from bank_card
+    where bank_card_id = #{bankCardId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.BankCard">
+    insert into bank_card (bank_card_id, bank_card_user_number, bank_card_number, 
+      bank_card_bank_name, bank_card_binding_time)
+    values (#{bankCardId,jdbcType=INTEGER}, #{bankCardUserNumber,jdbcType=VARCHAR}, #{bankCardNumber,jdbcType=VARCHAR}, 
+      #{bankCardBankName,jdbcType=VARCHAR}, #{bankCardBindingTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.BankCard">
+    insert into bank_card
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bankCardId != null">
+        bank_card_id,
+      </if>
+      <if test="bankCardUserNumber != null">
+        bank_card_user_number,
+      </if>
+      <if test="bankCardNumber != null">
+        bank_card_number,
+      </if>
+      <if test="bankCardBankName != null">
+        bank_card_bank_name,
+      </if>
+      <if test="bankCardBindingTime != null">
+        bank_card_binding_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bankCardId != null">
+        #{bankCardId,jdbcType=INTEGER},
+      </if>
+      <if test="bankCardUserNumber != null">
+        #{bankCardUserNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCardNumber != null">
+        #{bankCardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCardBankName != null">
+        #{bankCardBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCardBindingTime != null">
+        #{bankCardBindingTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.BankCard">
+    update bank_card
+    <set>
+      <if test="bankCardUserNumber != null">
+        bank_card_user_number = #{bankCardUserNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCardNumber != null">
+        bank_card_number = #{bankCardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCardBankName != null">
+        bank_card_bank_name = #{bankCardBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCardBindingTime != null">
+        bank_card_binding_time = #{bankCardBindingTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where bank_card_id = #{bankCardId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.BankCard">
+    update bank_card
+    set bank_card_user_number = #{bankCardUserNumber,jdbcType=VARCHAR},
+      bank_card_number = #{bankCardNumber,jdbcType=VARCHAR},
+      bank_card_bank_name = #{bankCardBankName,jdbcType=VARCHAR},
+      bank_card_binding_time = #{bankCardBindingTime,jdbcType=VARCHAR}
+    where bank_card_id = #{bankCardId,jdbcType=INTEGER}
+  </update>
+</mapper>

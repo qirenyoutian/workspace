@@ -1,0 +1,65 @@
+package com.py.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.py.bean.Order;
+import com.py.bean.PointReport;
+
+public interface OrderMapper {
+    int deleteByPrimaryKey(Integer orderId);
+
+    int insert(Order record);
+
+    int insertSelective(Order record);
+
+    Order selectByPrimaryKey(Integer orderId);
+
+    int updateByPrimaryKeySelective(Order record);
+
+    int updateByPrimaryKey(Order record);
+
+    Order selectByPrimary(Order order);
+    
+	List<Order> selectByExample(Order order);
+
+	Order getPickupCode(Order order);
+
+	List<Order> selectOrderByExample(
+			@Param("orderNumber")String orderNumber,
+			@Param("orderPaymentId")String orderPaymentId,
+			@Param("orderStatus")String orderStatus,
+			@Param("createStartTime")String createStartTime,
+			@Param("createEndTime")String createEndTime,
+			@Param("updateStartTime")String updateStartTime, 
+			@Param("updateEndTime")String updateEndTime);
+
+	Integer getSalesReportCount(
+			@Param("startTime")String startTime,
+			@Param("endTime")String endTime);
+	
+	Double getSalesReportSum(
+			@Param("startTime")String startTime,
+			@Param("endTime")String endTime);
+
+	List<Order> getSalesReport(
+			@Param("startTime")String startTime,
+			@Param("endTime")String endTime);
+	
+	List<PointReport> pointReport(@Param("startTime")String startTime,
+			@Param("endTime")String endTime,
+			@Param("type")String type);
+
+	List<Order> equipmentReport(
+			@Param("pointId")Integer pointId,
+			@Param("startTime")String startTime,
+			@Param("endTime")String endTime,
+			@Param("type")Integer type);
+
+	List<Order> commercialTenantReport(
+			@Param("startTime")String startTime,
+			@Param("endTime")String endTime,
+			@Param("type")String type);
+	
+}

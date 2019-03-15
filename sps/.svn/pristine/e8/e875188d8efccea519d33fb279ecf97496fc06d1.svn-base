@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.LightMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Light">
+    <id column="light_id" jdbcType="INTEGER" property="lightId" />
+    <result column="light_status" jdbcType="INTEGER" property="lightStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    light_id, light_status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from light
+    where light_id = #{lightId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from light
+    where light_id = #{lightId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.Light">
+    insert into light (light_id, light_status)
+    values (#{lightId,jdbcType=INTEGER}, #{lightStatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.Light">
+    insert into light
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="lightId != null">
+        light_id,
+      </if>
+      <if test="lightStatus != null">
+        light_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="lightId != null">
+        #{lightId,jdbcType=INTEGER},
+      </if>
+      <if test="lightStatus != null">
+        #{lightStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Light">
+    update light
+    <set>
+      <if test="lightStatus != null">
+        light_status = #{lightStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where light_id = #{lightId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Light">
+    update light
+    set light_status = #{lightStatus,jdbcType=INTEGER}
+    where light_id = #{lightId,jdbcType=INTEGER}
+  </update>
+</mapper>

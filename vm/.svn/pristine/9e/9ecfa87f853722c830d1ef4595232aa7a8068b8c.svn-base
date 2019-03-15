@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.DictionaryMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Dictionary">
+    <id column="dictionary_id" jdbcType="INTEGER" property="dictionaryId" />
+    <result column="dictionary_name" jdbcType="VARCHAR" property="dictionaryName" />
+    <result column="dictionary_value" jdbcType="VARCHAR" property="dictionaryValue" />
+    <result column="dictionary_parameter" jdbcType="VARCHAR" property="dictionaryParameter" />
+    <result column="dictionary_parameter2" jdbcType="VARCHAR" property="dictionaryParameter2" />
+    <result column="dictionary_parameter3" jdbcType="VARCHAR" property="dictionaryParameter3" />
+    <result column="dictionary_parameter4" jdbcType="VARCHAR" property="dictionaryParameter4" />
+    <result column="dictionary_time" jdbcType="TIMESTAMP" property="dictionaryTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    dictionary_id, dictionary_name, dictionary_value, dictionary_parameter, dictionary_parameter2, 
+    dictionary_parameter3, dictionary_parameter4, dictionary_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dictionary
+    where dictionary_id = #{dictionaryId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dictionary
+    where dictionary_id = #{dictionaryId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.Dictionary">
+    insert into dictionary (dictionary_id, dictionary_name, dictionary_value, 
+      dictionary_parameter, dictionary_parameter2, 
+      dictionary_parameter3, dictionary_parameter4, 
+      dictionary_time)
+    values (#{dictionaryId,jdbcType=INTEGER}, #{dictionaryName,jdbcType=VARCHAR}, #{dictionaryValue,jdbcType=VARCHAR}, 
+      #{dictionaryParameter,jdbcType=VARCHAR}, #{dictionaryParameter2,jdbcType=VARCHAR}, 
+      #{dictionaryParameter3,jdbcType=VARCHAR}, #{dictionaryParameter4,jdbcType=VARCHAR}, 
+      #{dictionaryTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.Dictionary">
+    insert into dictionary
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dictionaryId != null">
+        dictionary_id,
+      </if>
+      <if test="dictionaryName != null">
+        dictionary_name,
+      </if>
+      <if test="dictionaryValue != null">
+        dictionary_value,
+      </if>
+      <if test="dictionaryParameter != null">
+        dictionary_parameter,
+      </if>
+      <if test="dictionaryParameter2 != null">
+        dictionary_parameter2,
+      </if>
+      <if test="dictionaryParameter3 != null">
+        dictionary_parameter3,
+      </if>
+      <if test="dictionaryParameter4 != null">
+        dictionary_parameter4,
+      </if>
+      <if test="dictionaryTime != null">
+        dictionary_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dictionaryId != null">
+        #{dictionaryId,jdbcType=INTEGER},
+      </if>
+      <if test="dictionaryName != null">
+        #{dictionaryName,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryValue != null">
+        #{dictionaryValue,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryParameter != null">
+        #{dictionaryParameter,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryParameter2 != null">
+        #{dictionaryParameter2,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryParameter3 != null">
+        #{dictionaryParameter3,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryParameter4 != null">
+        #{dictionaryParameter4,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryTime != null">
+        #{dictionaryTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Dictionary">
+    update dictionary
+    <set>
+      <if test="dictionaryName != null">
+        dictionary_name = #{dictionaryName,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryValue != null">
+        dictionary_value = #{dictionaryValue,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryParameter != null">
+        dictionary_parameter = #{dictionaryParameter,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryParameter2 != null">
+        dictionary_parameter2 = #{dictionaryParameter2,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryParameter3 != null">
+        dictionary_parameter3 = #{dictionaryParameter3,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryParameter4 != null">
+        dictionary_parameter4 = #{dictionaryParameter4,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryTime != null">
+        dictionary_time = #{dictionaryTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where dictionary_id = #{dictionaryId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Dictionary">
+    update dictionary
+    set dictionary_name = #{dictionaryName,jdbcType=VARCHAR},
+      dictionary_value = #{dictionaryValue,jdbcType=VARCHAR},
+      dictionary_parameter = #{dictionaryParameter,jdbcType=VARCHAR},
+      dictionary_parameter2 = #{dictionaryParameter2,jdbcType=VARCHAR},
+      dictionary_parameter3 = #{dictionaryParameter3,jdbcType=VARCHAR},
+      dictionary_parameter4 = #{dictionaryParameter4,jdbcType=VARCHAR},
+      dictionary_time = #{dictionaryTime,jdbcType=TIMESTAMP}
+    where dictionary_id = #{dictionaryId,jdbcType=INTEGER}
+  </update>
+ 	
+ 	 <!-- ByExample -->
+  <select id="selectByExample" parameterType="com.py.bean.Dictionary" resultMap="BaseResultMap">
+  	 select *
+  	 from dictionary
+  	 where 1=1
+  	  <if test="dictionaryId != null">
+        and dictionary_id = #{dictionaryId,jdbcType=INTEGER}
+      </if>
+  	  <if test="dictionaryName != null">
+        and dictionary_name = #{dictionaryName,jdbcType=VARCHAR}
+      </if>
+      <if test="dictionaryValue != null">
+        and dictionary_value = #{dictionaryValue,jdbcType=VARCHAR}
+      </if>
+      <if test="dictionaryParameter != null">
+        and dictionary_parameter = #{dictionaryParameter,jdbcType=VARCHAR}
+      </if>
+      <if test="dictionaryParameter2 != null">
+        and dictionary_parameter2 = #{dictionaryParameter2,jdbcType=VARCHAR}
+      </if>
+      <if test="dictionaryParameter3 != null">
+        and dictionary_parameter3 = #{dictionaryParameter3,jdbcType=VARCHAR}
+      </if>
+      <if test="dictionaryParameter4 != null">
+        and dictionary_parameter4 = #{dictionaryParameter4,jdbcType=VARCHAR}
+      </if>
+      <if test="dictionaryTime != null">
+        and dictionary_time = #{dictionaryTime,jdbcType=TIMESTAMP}
+      </if>
+  </select>
+ 	
+ 	
+</mapper>

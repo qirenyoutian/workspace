@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.BannerMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Banner">
+    <id column="banner_id" jdbcType="INTEGER" property="bannerId" />
+    <result column="banner_pic" jdbcType="VARCHAR" property="bannerPic" />
+    <result column="banner_point_id" jdbcType="INTEGER" property="bannerPointId" />
+    <result column="banner_equipment_id" jdbcType="INTEGER" property="bannerEquipmentId" />
+    <result column="banner_create_time" jdbcType="TIMESTAMP" property="bannerCreateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    banner_id, banner_pic, banner_point_id, banner_equipment_id, banner_create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from banner
+    where banner_id = #{bannerId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from banner
+    where banner_id = #{bannerId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.Banner">
+    insert into banner (banner_id, banner_pic, banner_point_id, 
+      banner_equipment_id, banner_create_time)
+    values (#{bannerId,jdbcType=INTEGER}, #{bannerPic,jdbcType=VARCHAR}, #{bannerPointId,jdbcType=INTEGER}, 
+      #{bannerEquipmentId,jdbcType=INTEGER}, #{bannerCreateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.Banner">
+    insert into banner
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bannerId != null">
+        banner_id,
+      </if>
+      <if test="bannerPic != null">
+        banner_pic,
+      </if>
+      <if test="bannerPointId != null">
+        banner_point_id,
+      </if>
+      <if test="bannerEquipmentId != null">
+        banner_equipment_id,
+      </if>
+      <if test="bannerCreateTime != null">
+        banner_create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bannerId != null">
+        #{bannerId,jdbcType=INTEGER},
+      </if>
+      <if test="bannerPic != null">
+        #{bannerPic,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerPointId != null">
+        #{bannerPointId,jdbcType=INTEGER},
+      </if>
+      <if test="bannerEquipmentId != null">
+        #{bannerEquipmentId,jdbcType=INTEGER},
+      </if>
+      <if test="bannerCreateTime != null">
+        #{bannerCreateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Banner">
+    update banner
+    <set>
+      <if test="bannerPic != null">
+        banner_pic = #{bannerPic,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerPointId != null">
+        banner_point_id = #{bannerPointId,jdbcType=INTEGER},
+      </if>
+      <if test="bannerEquipmentId != null">
+        banner_equipment_id = #{bannerEquipmentId,jdbcType=INTEGER},
+      </if>
+      <if test="bannerCreateTime != null">
+        banner_create_time = #{bannerCreateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where banner_id = #{bannerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Banner">
+    update banner
+    set banner_pic = #{bannerPic,jdbcType=VARCHAR},
+      banner_point_id = #{bannerPointId,jdbcType=INTEGER},
+      banner_equipment_id = #{bannerEquipmentId,jdbcType=INTEGER},
+      banner_create_time = #{bannerCreateTime,jdbcType=TIMESTAMP}
+    where banner_id = #{bannerId,jdbcType=INTEGER}
+  </update>
+
+	<resultMap id="BaseResultMapWithPoint" type="com.py.bean.Banner">
+    <id column="banner_id" jdbcType="INTEGER" property="bannerId" />
+    <result column="banner_pic" jdbcType="VARCHAR" property="bannerPic" />
+    <result column="banner_point_id" jdbcType="INTEGER" property="bannerPointId" />
+    <result column="banner_equipment_id" jdbcType="INTEGER" property="bannerEquipmentId" />
+    <result column="banner_create_time" jdbcType="TIMESTAMP" property="bannerCreateTime" />
+    <collection column="point_id" ofType="com.py.bean.Point" property="point">
+    	<id column="point_id" jdbcType="INTEGER" property="pointId" />
+	    <result column="point_name" jdbcType="VARCHAR" property="pointName" />
+	    <result column="point_province" jdbcType="INTEGER" property="pointProvince" />
+	    <result column="point_city" jdbcType="INTEGER" property="pointCity" />
+	    <result column="point_district" jdbcType="INTEGER" property="pointDistrict" />
+	    <result column="point_address" jdbcType="VARCHAR" property="pointAddress" />
+	    <result column="point_create_time" jdbcType="TIMESTAMP" property="pointCreateTime" />
+	    <result column="point_change_time" jdbcType="TIMESTAMP" property="pointChangeTime" />
+    </collection>
+    <collection column="equipment_id" ofType="com.py.bean.Equipment" property="equipment">
+    	<id column="equipment_id" jdbcType="INTEGER" property="equipmentId" />
+	    <result column="equipment_point_id" jdbcType="INTEGER" property="equipmentPointId" />
+	    <result column="equipment_name" jdbcType="VARCHAR" property="equipmentName" />
+	    <result column="equipment_number" jdbcType="VARCHAR" property="equipmentNumber" />
+	    <result column="equipment_classify_id" jdbcType="INTEGER" property="equipmentClassifyId" />
+	    <result column="equipment_status" jdbcType="INTEGER" property="equipmentStatus" />
+    </collection>
+    
+  </resultMap>
+
+
+  <select id="selectBannerAll" resultMap="BaseResultMapWithPoint" parameterType="com.py.bean.Equipment" >
+  	SELECT
+		*
+	FROM
+		banner b
+	LEFT JOIN point p1 ON p1.point_id = b.banner_point_id
+	LEFT JOIN equipment e1 ON e1.equipment_point_id = p1.point_id
+	where 1=1
+	<if test="equipmentId != null">
+       and e1.equipment_id = #{equipmentId,jdbcType=INTEGER}
+    </if>
+		
+  </select>
+  
+  
+</mapper>

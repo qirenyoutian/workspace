@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.ProblemMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Problem">
+    <id column="problem_id" jdbcType="INTEGER" property="problemId" />
+    <result column="problem_type" jdbcType="INTEGER" property="problemType" />
+    <result column="problem_comit" jdbcType="VARCHAR" property="problemComit" />
+    <result column="problem_channel_id" jdbcType="INTEGER" property="problemChannelId" />
+    <result column="problem_point_id" jdbcType="INTEGER" property="problemPointId" />
+    <result column="problem_admin_id" jdbcType="INTEGER" property="problemAdminId" />
+    <result column="problem_status" jdbcType="VARCHAR" property="problemStatus" />
+    <result column="problem_create_time" jdbcType="TIMESTAMP" property="problemCreateTime" />
+    <result column="problem_change_time" jdbcType="TIMESTAMP" property="problemChangeTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    problem_id, problem_type, problem_comit, problem_channel_id, problem_point_id, problem_admin_id, 
+    problem_status, problem_create_time, problem_change_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from problem
+    where problem_id = #{problemId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from problem
+    where problem_id = #{problemId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.Problem">
+    insert into problem (problem_id, problem_type, problem_comit, 
+      problem_channel_id, problem_point_id, problem_admin_id, 
+      problem_status, problem_create_time, problem_change_time
+      )
+    values (#{problemId,jdbcType=INTEGER}, #{problemType,jdbcType=INTEGER}, #{problemComit,jdbcType=VARCHAR}, 
+      #{problemChannelId,jdbcType=INTEGER}, #{problemPointId,jdbcType=INTEGER}, #{problemAdminId,jdbcType=INTEGER}, 
+      #{problemStatus,jdbcType=VARCHAR}, #{problemCreateTime,jdbcType=TIMESTAMP}, #{problemChangeTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.Problem">
+    insert into problem
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="problemId != null">
+        problem_id,
+      </if>
+      <if test="problemType != null">
+        problem_type,
+      </if>
+      <if test="problemComit != null">
+        problem_comit,
+      </if>
+      <if test="problemChannelId != null">
+        problem_channel_id,
+      </if>
+      <if test="problemPointId != null">
+        problem_point_id,
+      </if>
+      <if test="problemAdminId != null">
+        problem_admin_id,
+      </if>
+      <if test="problemStatus != null">
+        problem_status,
+      </if>
+      <if test="problemCreateTime != null">
+        problem_create_time,
+      </if>
+      <if test="problemChangeTime != null">
+        problem_change_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="problemId != null">
+        #{problemId,jdbcType=INTEGER},
+      </if>
+      <if test="problemType != null">
+        #{problemType,jdbcType=INTEGER},
+      </if>
+      <if test="problemComit != null">
+        #{problemComit,jdbcType=VARCHAR},
+      </if>
+      <if test="problemChannelId != null">
+        #{problemChannelId,jdbcType=INTEGER},
+      </if>
+      <if test="problemPointId != null">
+        #{problemPointId,jdbcType=INTEGER},
+      </if>
+      <if test="problemAdminId != null">
+        #{problemAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="problemStatus != null">
+        #{problemStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="problemCreateTime != null">
+        #{problemCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="problemChangeTime != null">
+        #{problemChangeTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Problem">
+    update problem
+    <set>
+      <if test="problemType != null">
+        problem_type = #{problemType,jdbcType=INTEGER},
+      </if>
+      <if test="problemComit != null">
+        problem_comit = #{problemComit,jdbcType=VARCHAR},
+      </if>
+      <if test="problemChannelId != null">
+        problem_channel_id = #{problemChannelId,jdbcType=INTEGER},
+      </if>
+      <if test="problemPointId != null">
+        problem_point_id = #{problemPointId,jdbcType=INTEGER},
+      </if>
+      <if test="problemAdminId != null">
+        problem_admin_id = #{problemAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="problemStatus != null">
+        problem_status = #{problemStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="problemCreateTime != null">
+        problem_create_time = #{problemCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="problemChangeTime != null">
+        problem_change_time = #{problemChangeTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where problem_id = #{problemId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Problem">
+    update problem
+    set problem_type = #{problemType,jdbcType=INTEGER},
+      problem_comit = #{problemComit,jdbcType=VARCHAR},
+      problem_channel_id = #{problemChannelId,jdbcType=INTEGER},
+      problem_point_id = #{problemPointId,jdbcType=INTEGER},
+      problem_admin_id = #{problemAdminId,jdbcType=INTEGER},
+      problem_status = #{problemStatus,jdbcType=VARCHAR},
+      problem_create_time = #{problemCreateTime,jdbcType=TIMESTAMP},
+      problem_change_time = #{problemChangeTime,jdbcType=TIMESTAMP}
+    where problem_id = #{problemId,jdbcType=INTEGER}
+  </update>
+</mapper>

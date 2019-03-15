@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pywl.project.mapper.BillMapper">
+	<!-- List<Bill> getBillByUserId(String parameter); -->
+	<select id="getBillByUserId" parameterType="java.lang.String" resultType="com.pywl.project.bean.Bill">
+		SELECT id,user_id as userId,deal,details,time FROM bill
+		<if test="userId!=null and userId!=''">
+		WHERE user_id=#{userId}
+		</if>
+	</select>
+	
+	<!--void delBillById(String parameter); -->
+	<delete id="delBillById" parameterType="java.lang.String">
+		DELETE FROM bill WHERE id=#{id}
+	</delete>
+	
+	<!-- void addBillById(Bill bill); -->
+	<insert id="addBillById" parameterType="com.pywl.project.bean.Bill">
+		INSERT INTO bill(user_id,deal,details,time) values(#{userId},#{deal},#{details},#{time})
+	</insert>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

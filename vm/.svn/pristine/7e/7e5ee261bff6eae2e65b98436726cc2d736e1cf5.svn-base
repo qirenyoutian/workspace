@@ -1,0 +1,40 @@
+package com.py.messageListener;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.TextMessage;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.py.dao.ChannelMerchandiseMapper;
+import com.py.dao.EquipmentMapper;
+import com.py.dao.OrderMapper;
+
+public class MyMessageListener implements MessageListener {
+	private static ExecutorService fixedThreadPool = Executors.newFixedThreadPool(10);
+	private ApplicationContext ioc = new ClassPathXmlApplicationContext("applicationContext.xml");
+	private ChannelMerchandiseMapper channelMerchandiseMapper = ioc.getBean(ChannelMerchandiseMapper.class);
+	private OrderMapper orderMapper = ioc.getBean(OrderMapper.class);
+	private EquipmentMapper equipmentMapper = ioc.getBean(EquipmentMapper.class);
+	
+	@Override
+	public void onMessage(Message message) {
+		try {
+			TextMessage textMessage = (TextMessage) message;
+			// 取消息内容
+			String json = textMessage.getText();
+			System.out.println("收到的消息："+json);
+			fixedThreadPool.execute(new MessageThread(channelMerchandiseMapper,orderMapper,equipmentMapper,json));
+		} catch (JMSException e) {
+			//logger.error
+		}
+	}
+	
+	
+	
+}

@@ -1,0 +1,36 @@
+package com.py.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.py.bean.Dictionary;
+import com.py.dao.DictionaryMapper;
+
+@Service
+public class DictionaryService {
+	@Autowired
+	private DictionaryMapper dictionaryMapper;
+
+	
+	/**
+	 * 根据名字找字典
+	 * @param name
+	 * @return
+	 */
+	public List<Dictionary> selectByName(String name) {
+		
+		Dictionary dictionary = new Dictionary();
+		dictionary.setDictionaryName(name);
+		
+		return dictionaryMapper.selectByExample(dictionary);
+	}
+	
+	
+	
+	
+	
+	
+
+}

@@ -1,0 +1,278 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%
+	pageContext.setAttribute("APP_PATH", request.getContextPath());
+%>
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="${APP_PATH }/static/page/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${APP_PATH }/static/login/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${APP_PATH }/static/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${APP_PATH }/static/login/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${APP_PATH }/static/login/css/style.css" />
+
+
+<title>添加管理员</title>
+</head>
+<style>
+.col-sm-3{
+	width:85px;
+	text-align: right;
+	margin-left: 90px;
+}
+
+</style>
+<body>
+<article class="page-container">
+	<form class="form form-horizontal" id="form-admin-add">
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>账号：</label>
+		<div class="formControls col-xs-8 col-sm-9" style="width:250px;">
+			<input type="text" class="input-text" placeholder="格式:(字母+数字)" id="adminName" name="adminName">
+			<span id="adminspan" style="display:none;"><i  style="color:red;"></i></span>
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>密码：</label>
+		<div class="formControls col-xs-8 col-sm-9" style="width:250px;">
+			<input type="password" class="input-text" autocomplete="off" placeholder="密码" id="password" name="password">
+			<span id="pwdspan" style="display:none;"><i  style="color:red;"></i></span>
+		</div>
+	</div>
+	 <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">&nbsp;姓名：</label>
+		<div class="formControls col-xs-8 col-sm-9" style="width:250px;">
+			<input type="text" class="input-text" autocomplete="off"  placeholder="姓名" id="realname" name="realname">
+			<span id="namespan" style="display:none;"><i  style="color:red;"></i></span>
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">&nbsp;手机：</label>
+		<div class="formControls col-xs-8 col-sm-9" style="width:250px;">
+			<input type="text" class="input-text" id="phone" name="phone">
+			<span id="phonespan" style="display:none;"><i  style="color:red;"></i></span>
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">&nbsp;邮箱：</label>
+		<div class="formControls col-xs-8 col-sm-9" style="width:250px;">
+			<input type="text" class="input-text" placeholder="@" name="email" id="email">
+			<span id="eamilspan" style="display:none;"><i  style="color:red;"></i></span>
+		</div>
+	</div>
+	<!-- <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">角色：</label>
+		<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
+			<select class="select" name="adminRole" id="select" size="1">
+				<option value="0">超级管理员</option>
+				<option value="1">总编</option>
+				<option value="2">栏目主辑</option>
+				<option value="3">栏目编辑</option>
+			</select>
+			</span> </div>
+	</div> -->
+	<div class="row cl">
+		<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+			<input class="btn btn-primary radius" id="save_admin" type="button" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+		</div>
+	</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去--> 
+<script type="text/javascript" src="${APP_PATH }/static/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${APP_PATH }/static/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${APP_PATH }/static/page/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="${APP_PATH }/static/login/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="${APP_PATH }/static/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="${APP_PATH }/static/lib/jquery.validation/1.14.0/messages_zh.js"></script> 
+
+<script type="text/javascript">
+$(function(){
+	/* $.ajax({
+		url:"${APP_PATH}/getRole",
+		type:"GET",
+		success:function(result){
+			var role = result.extend.role;
+			$.each(role,function(index,item){
+				var ele = $("#form-admin-add select");
+				var optionEle = $("<option></option>").append(this.roleName).attr("value",this.roleId);
+				optionEle.appendTo(ele);
+			})
+		}
+	}); */
+	
+	
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
+	});
+	function reset_form(ele){
+		$(ele).hide();
+	}
+	//显示校验结果的提示信息
+	function show_validate_msg(ele,status,msg){
+		//清除当前元素的校验状态
+		$(ele).next("span").text("");
+		if("success"==status){
+			$(ele).parent().addClass("has-success");
+			$(ele).next("span").text(msg);
+		}else if("error" == status){
+			$(ele).parent().addClass("has-error");
+			$(ele).next("span").text(msg);
+		}
+	}
+	
+	//检测用户名
+	//$("#adminName").blur(function(){
+		function checkAdmin(){
+		var adminname = $("#adminName").val();
+		var checkusername = /[a-zA-Z][a-zA-Z0-9_]{4,15}$/;
+		if (adminname == "" || adminname == " ") {
+			$("#adminspan").show();
+			$("#adminspan i").text("用户名不能为空！");
+			return false;
+		}else if (checkusername.test(adminname)) {
+			var b = false;
+			$.ajax({
+				url:"${APP_PATH}/checkAdmin",
+				data:{"adminname":adminname},
+				type:'POST',
+				async:false,
+				success:function(result){
+					var a = result.code;
+					if (a == 200) {
+						$("#adminspan").show();
+						$("#adminspan i").text("用户已存在！");
+						b = false;
+						return b;
+					}else{
+						$("#adminspan").hide();
+						b = true;
+						return b;
+					}
+				}
+			})
+			return b;
+		}else{
+			$("#adminspan").show();
+			$("#adminspan i").text("用户格式不正确！");
+			return false;
+		}
+	}
+	//检测手机号
+	//$("#phone").blur(function(){
+		function checkphone(){
+		var phone = $("#phone").val();
+		var checkphonenum = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
+		if (phone == "" || phone == " ") {
+			$("#phonespan").show();
+			$("#phonespan i").text("手机号码不能为空！");
+			return false;
+		}else if (checkphonenum.test(phone)) {
+			$("#phonespan").hide();
+			return true;
+		}else{
+			$("#phonespan").show();
+			$("#phonespan i").text("手机号码不正确！");
+			return false;
+		}
+	}
+	//检测邮箱
+	//$("#email").blur(function(){
+		function checkEmail(){		
+		var email = $("#email").val();
+		var checkeamil = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+		/* if (email == "" || email == " ") {
+			$("#eamilspan").show();
+			$("#eamilspan i").text("邮箱不能为空！");
+			return false;
+		}else 
+		if (checkeamil.test(email)) {
+			$("#eamilspan").hide();
+			return true;
+		}else{
+			$("#eamilspan").show();
+			$("#eamilspan i").text("邮箱不正确！");
+			return false;
+		}*/
+		if(email==null||email == "" || email == " "){
+			return true;
+		}else{
+			if(checkeamil.test(email)){
+				$("#eamilspan").hide();
+				return true;
+			}else{
+				$("#eamilspan").show();
+				$("#eamilspan i").text("邮箱不正确！");
+				return false;
+			}
+		}
+		
+	}
+	//检测密码不为空
+	//$("#password").blur(function(){
+		function checkPassword(){
+		var pwd = $("#password").val();
+		if (pwd == "" || pwd == " ") {
+			$("#pwdspan").show();
+			$("#pwdspan i").text("密码不能为空！");
+			return false;
+		}else{
+			$("#pwdspan").hide();
+			return true;
+		}
+	}
+	//保存系统用户
+	$("#save_admin").click(function(){
+		var a = checkAdmin();
+	 	var b = checkphone();
+		var c = checkEmail();
+		var d = checkPassword(); 
+		//alert(a);
+		if (a == true && b== true && c == true && d == true) {
+			$.ajax({
+				url: "${APP_PATH}/saveAdmin",
+				type: 'POST',
+				data: $("#form-admin-add").serialize(),
+				async:false,
+				success: function(result){
+					 var a = result.extend.msg;
+					if (a == 1) {
+						//alert("1111");
+						layer.msg('添加成功!',{icon:1,time:2000},function(){
+							var index = parent.layer.getFrameIndex(window.name);
+							parent.to_page(1);
+							parent.layer.close(index);
+						});
+					}else{
+						layer.msg('添加失败!',{icon:5,time:3000});
+					} 
+				}
+			});
+			return;
+		}else{
+			layer.msg('验证出问题',{icon:5});
+			return;
+		}
+		});
+		
+	
+});
+</script> 
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

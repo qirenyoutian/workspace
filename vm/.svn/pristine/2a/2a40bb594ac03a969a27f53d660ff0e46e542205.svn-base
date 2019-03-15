@@ -1,0 +1,152 @@
+package com.py.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.py.bean.Aisle;
+import com.py.bean.AisleInventory;
+import com.py.bean.AisleMerchandise;
+import com.py.bean.Equipment;
+import com.py.bean.Merchandise;
+import com.py.bean.Order;
+import com.py.bean.Point;
+import com.py.bean.User;
+import com.py.dao.UserMapper;
+import com.py.service.AisleService;
+import com.py.service.AppletService;
+import com.py.service.EquipmentService;
+import com.py.service.PointService;
+import com.py.util.CommonUtil;
+import com.py.util.Msg;
+import com.py.util.OfTime;
+import com.py.util.SMSBean;
+
+@Controller
+@RequestMapping("/applet")
+public class AppletController {
+
+	@Autowired
+	AppletService appletService;
+	@Autowired
+	PointService pointService;
+	@Autowired
+	EquipmentService equipmentService;
+	@Autowired
+	AisleService aisleService;
+	
+	
+	/*--------------------------------C端用户-----------------------------------------*/
+	
+	/**
+	 * 获取点位和货道信息
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/findPointAndAisle")
+	public Msg findPointAndAisle(@RequestParam("longitude")Double longitude,
+			@RequestParam("latitude")Double latitude) {
+		
+		Equipment equipment = equipmentService.selectByLongitudeAndLatitude(longitude,latitude);
+		
+		Point point = null;
+		List<AisleMerchandise> list = new ArrayList<AisleMerchandise>();
+		if(equipment != null) {
+			point = pointService.selectByPrimaryKey(equipment.getEquipmentPointId());
+			List<Aisle> aisles = aisleService.selectByEquipmentId(equipment.getEquipmentId());
+			for (Aisle aisle : aisles) {
+				AisleMerchandise am = new AisleMerchandise();
+				am.setAisliId(aisle.getAisleId());
+				am.setAisleNumber(aisle.getAisleNumber());
+				
+				AisleInventory ai = aisle.getAisleInventorie();
+				if(ai != null) {
+					Merchandise merchandise = ai.getMerchandise();
+					if(merchandise != null) {
+						am.setMerchandiseName(merchandise.getMerchandiseName());
+					}
+				}
+				list.add(am);
+			}
+		}
+		
+		Msg msg = Msg.success();
+		msg.add("point", point);
+		msg.add("aisles", list);
+		return Msg.success(msg);
+	}
+	
+	/**
+	 * 获取取货码
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/getPickupCode")
+	public Msg getPickupCode(@RequestParam("aisle_id")Integer aisle_id) {
+		Order order = new Order();
+		order.setOrderAisleId(aisle_id);
+		try {
+			order = appletService.getPickupCode(order);
+			if(order == null) {
+				return Msg.fail().add("msg", "未查询到相关订单信息");
+			}
+		} catch (Exception e) {
+			return Msg.fail().add("msg", "处理失败");
+		}
+		
+		return Msg.success(order.getOrderPickupCode());
+	}
+	
+	/*--------------------------------C端用户-----------------------------------------*/
+	
+	
+	
+	/*--------------------------------运营人员-----------------------------------------*/
+	
+	/**
+	 * 铺货打卡
+	 * @return
+	 */
+	public Msg clockIn() {
+		return Msg.success();
+	}
+	
+	/**
+	 * 上报库存
+	 * @return
+	 */
+	public Msg inventoryReport() {
+		return Msg.success();
+	}
+	
+	/*--------------------------------运营人员-----------------------------------------*/
+	
+	/**
+	 * 设备监控信息查询
+	 * @return
+	 */
+	public Msg findEquipmentMessage() {
+		return Msg.success();
+	}
+	
+	
+	/*---------------------------------管理员-----------------------------------------*/
+	
+	/**
+	 * 销售报表
+	 * @return
+	 */
+	public Msg salesReport(@RequestParam("phonenum")String phonenum,@RequestParam("month")String month) {
+		SMSBean smsBean = (SMSBean) CommonUtil.MSG_MAP.get(phonenum);
+		Msg msg = appletService.salesReport(smsBean.getId(),month);
+		return msg;
+	}
+	
+	/*---------------------------------管理员-----------------------------------------*/
+	
+}

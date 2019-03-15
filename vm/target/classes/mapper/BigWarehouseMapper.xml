@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.BigWarehouseMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.BigWarehouse">
+    <id column="big_warehouse_id" jdbcType="INTEGER" property="bigWarehouseId" />
+    <result column="big_warehouse_name" jdbcType="VARCHAR" property="bigWarehouseName" />
+    <result column="big_warehouse_province" jdbcType="INTEGER" property="bigWarehouseProvince" />
+    <result column="big_warehouse_city" jdbcType="INTEGER" property="bigWarehouseCity" />
+    <result column="big_warehouse_district" jdbcType="INTEGER" property="bigWarehouseDistrict" />
+    <result column="big_warehouse_address" jdbcType="VARCHAR" property="bigWarehouseAddress" />
+    <result column="big_warehouse_create_time" jdbcType="TIMESTAMP" property="bigWarehouseCreateTime" />
+    <result column="big_warehouse_update_time" jdbcType="TIMESTAMP" property="bigWarehouseUpdateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    big_warehouse_id, big_warehouse_name, big_warehouse_province, big_warehouse_city, 
+    big_warehouse_district, big_warehouse_address, big_warehouse_create_time, big_warehouse_update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from big_warehouse
+    where big_warehouse_id = #{bigWarehouseId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from big_warehouse
+    where big_warehouse_id = #{bigWarehouseId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.BigWarehouse">
+    insert into big_warehouse (big_warehouse_id, big_warehouse_name, 
+      big_warehouse_province, big_warehouse_city, 
+      big_warehouse_district, big_warehouse_address, 
+      big_warehouse_create_time, big_warehouse_update_time
+      )
+    values (#{bigWarehouseId,jdbcType=INTEGER}, #{bigWarehouseName,jdbcType=VARCHAR}, 
+      #{bigWarehouseProvince,jdbcType=INTEGER}, #{bigWarehouseCity,jdbcType=INTEGER}, 
+      #{bigWarehouseDistrict,jdbcType=INTEGER}, #{bigWarehouseAddress,jdbcType=VARCHAR}, 
+      #{bigWarehouseCreateTime,jdbcType=TIMESTAMP}, #{bigWarehouseUpdateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.BigWarehouse">
+    insert into big_warehouse
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bigWarehouseId != null">
+        big_warehouse_id,
+      </if>
+      <if test="bigWarehouseName != null">
+        big_warehouse_name,
+      </if>
+      <if test="bigWarehouseProvince != null">
+        big_warehouse_province,
+      </if>
+      <if test="bigWarehouseCity != null">
+        big_warehouse_city,
+      </if>
+      <if test="bigWarehouseDistrict != null">
+        big_warehouse_district,
+      </if>
+      <if test="bigWarehouseAddress != null">
+        big_warehouse_address,
+      </if>
+      <if test="bigWarehouseCreateTime != null">
+        big_warehouse_create_time,
+      </if>
+      <if test="bigWarehouseUpdateTime != null">
+        big_warehouse_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bigWarehouseId != null">
+        #{bigWarehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="bigWarehouseName != null">
+        #{bigWarehouseName,jdbcType=VARCHAR},
+      </if>
+      <if test="bigWarehouseProvince != null">
+        #{bigWarehouseProvince,jdbcType=INTEGER},
+      </if>
+      <if test="bigWarehouseCity != null">
+        #{bigWarehouseCity,jdbcType=INTEGER},
+      </if>
+      <if test="bigWarehouseDistrict != null">
+        #{bigWarehouseDistrict,jdbcType=INTEGER},
+      </if>
+      <if test="bigWarehouseAddress != null">
+        #{bigWarehouseAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="bigWarehouseCreateTime != null">
+        #{bigWarehouseCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bigWarehouseUpdateTime != null">
+        #{bigWarehouseUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.BigWarehouse">
+    update big_warehouse
+    <set>
+      <if test="bigWarehouseName != null">
+        big_warehouse_name = #{bigWarehouseName,jdbcType=VARCHAR},
+      </if>
+      <if test="bigWarehouseProvince != null">
+        big_warehouse_province = #{bigWarehouseProvince,jdbcType=INTEGER},
+      </if>
+      <if test="bigWarehouseCity != null">
+        big_warehouse_city = #{bigWarehouseCity,jdbcType=INTEGER},
+      </if>
+      <if test="bigWarehouseDistrict != null">
+        big_warehouse_district = #{bigWarehouseDistrict,jdbcType=INTEGER},
+      </if>
+      <if test="bigWarehouseAddress != null">
+        big_warehouse_address = #{bigWarehouseAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="bigWarehouseCreateTime != null">
+        big_warehouse_create_time = #{bigWarehouseCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bigWarehouseUpdateTime != null">
+        big_warehouse_update_time = #{bigWarehouseUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where big_warehouse_id = #{bigWarehouseId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.BigWarehouse">
+    update big_warehouse
+    set big_warehouse_name = #{bigWarehouseName,jdbcType=VARCHAR},
+      big_warehouse_province = #{bigWarehouseProvince,jdbcType=INTEGER},
+      big_warehouse_city = #{bigWarehouseCity,jdbcType=INTEGER},
+      big_warehouse_district = #{bigWarehouseDistrict,jdbcType=INTEGER},
+      big_warehouse_address = #{bigWarehouseAddress,jdbcType=VARCHAR},
+      big_warehouse_create_time = #{bigWarehouseCreateTime,jdbcType=TIMESTAMP},
+      big_warehouse_update_time = #{bigWarehouseUpdateTime,jdbcType=TIMESTAMP}
+    where big_warehouse_id = #{bigWarehouseId,jdbcType=INTEGER}
+  </update>
+  
+  <resultMap id="BaseResultMapAndArea" type="com.py.bean.BigWarehouse">
+    <id column="big_warehouse_id" jdbcType="INTEGER" property="bigWarehouseId" />
+    <result column="big_warehouse_name" jdbcType="VARCHAR" property="bigWarehouseName" />
+    <result column="big_warehouse_province" jdbcType="INTEGER" property="bigWarehouseProvince" />
+    <result column="big_warehouse_city" jdbcType="INTEGER" property="bigWarehouseCity" />
+    <result column="big_warehouse_district" jdbcType="INTEGER" property="bigWarehouseDistrict" />
+    <result column="big_warehouse_address" jdbcType="VARCHAR" property="bigWarehouseAddress" />
+    <result column="big_warehouse_create_time" jdbcType="TIMESTAMP" property="bigWarehouseCreateTime" />
+    <result column="big_warehouse_update_time" jdbcType="TIMESTAMP" property="bigWarehouseUpdateTime" />
+    <collection column="id" ofType="com.py.bean.Area" property="areas">
+    	<id column="id" jdbcType="INTEGER" property="id" />
+	    <result column="parent" jdbcType="INTEGER" property="parent" />
+	    <result column="type" jdbcType="CHAR" property="type" />
+	    <result column="name" jdbcType="VARCHAR" property="name" />
+    </collection>
+  </resultMap>
+ 
+  
+  <select id="selectByPrimary" parameterType="com.py.bean.BigWarehouse" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from big_warehouse
+    <where>
+    	<if test="bigWarehouseName != null">
+    		and big_warehouse_name = #{bigWarehouseName,jdbcType=VARCHAR}
+    	</if>
+    	<if test="bigWarehouseProvince != null">
+    		and big_warehouse_province = #{bigWarehouseProvince,jdbcType=INTEGER}
+    	</if>
+    	<if test="bigWarehouseCity != null">
+    		and big_warehouse_city = #{bigWarehouseCity,jdbcType=INTEGER}
+    	</if>
+    	<if test="bigWarehouseDistrict != null">
+    		and big_warehouse_district = #{bigWarehouseDistrict,jdbcType=INTEGER}
+    	</if>
+    </where>
+    order by big_warehouse_create_time desc limit 1
+  </select>
+  
+  <select id="selectByExample" parameterType="com.py.bean.BigWarehouse" resultMap="BaseResultMapAndArea">
+    select 
+    <include refid="Base_Column_List" />
+    from big_warehouse
+    <where>
+    	<if test="bigWarehouseId != null">
+    		and big_warehouse_id = #{bigWarehouseId,jdbcType=INTEGER}
+    	</if>
+    	<if test="bigWarehouseName != null">
+    		and big_warehouse_name = #{bigWarehouseName,jdbcType=VARCHAR}
+    	</if>
+    	<if test="bigWarehouseProvince != null">
+    		and big_warehouse_province = #{bigWarehouseProvince,jdbcType=INTEGER}
+    	</if>
+    	<if test="bigWarehouseCity != null">
+    		and big_warehouse_city = #{bigWarehouseCity,jdbcType=INTEGER}
+    	</if>
+    	<if test="bigWarehouseDistrict != null">
+    		and big_warehouse_district = #{bigWarehouseDistrict,jdbcType=INTEGER}
+    	</if>
+    </where>
+    order by big_warehouse_create_time desc
+  </select>
+</mapper>

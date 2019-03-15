@@ -1,0 +1,68 @@
+package com.py.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.py.bean.Order;
+import com.py.dao.MerchandiseMapper;
+import com.py.dao.OrderMapper;
+import com.py.dao.PaymentMapper;
+
+
+@Service
+public class OrderService {
+	@Autowired
+	private OrderMapper orderMapper;
+	@Autowired
+	MerchandiseMapper merchandiseMapper;
+	@Autowired
+	PaymentMapper paymentMapper;
+	
+	public int deleteByPrimaryKey(Integer orderId) {
+		return orderMapper.deleteByPrimaryKey(orderId);
+	}
+
+	public int insert(Order record) {
+		return orderMapper.insert(record);
+	}
+
+	public int insertSelective(Order record) {
+		return orderMapper.insertSelective(record);
+	}
+
+	public Order selectByPrimaryKey(Integer orderId) {
+		return orderMapper.selectByPrimaryKey(orderId);
+	}
+
+	public int updateByPrimaryKeySelective(Order record) {
+		return orderMapper.updateByPrimaryKeySelective(record);
+	}
+
+	public int updateByPrimaryKey(Order record) {
+		return orderMapper.updateByPrimaryKey(record);
+	}
+
+	public List<Order> selectByExample(Order order) {
+		return orderMapper.selectByExample(order);
+	}
+
+	public Order selectByPrimary(Order order) {
+		return orderMapper.selectByPrimary(order);
+	}
+
+	public Order getPickupCode(Order order) {
+		return orderMapper.getPickupCode(order);
+	}
+
+	public List<Order> selectOrderByExample(String orderNumber, String orderPaymentId, String orderStatus, String createStartTime, String createEndTime, String updateStartTime, String updateEndTime) {
+		List<Order> orders = orderMapper.selectOrderByExample(orderNumber,orderPaymentId,orderStatus,createStartTime,createEndTime,updateStartTime,updateEndTime);
+		for (Order order : orders) {
+			order.setMerchandise(merchandiseMapper.selectByPrimaryKey(order.getOrderMerchandiseId()));
+			order.setPayment(paymentMapper.selectByPrimaryKey(order.getOrderPaymentId()));
+		}
+		return orders;
+	}
+
+}

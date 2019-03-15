@@ -1,0 +1,167 @@
+package com.py.controller;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.py.bean.EquipmentMessage;
+import com.py.bean.Order;
+import com.py.service.AndroidService;
+import com.py.service.EquipmentMessageService;
+import com.py.socket.HairUtil;
+import com.py.util.Msg;
+
+@Controller
+public class AndroidController {
+	
+	@Autowired
+	AndroidService androidService;
+	@Autowired
+	EquipmentMessageService equipmentMessageService;
+	
+	/**
+	 * 获取设备的商品
+	 * @param equipment_number  设备编号
+	 * @param classify_id  		分类id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/getMerchandiseByEquipmentNumber")
+	public  Msg getMerchandiseByEquipmentNumber(@RequestParam("pn") Integer pn,
+			@RequestParam("equipment_number") String equipment_number,
+			@RequestParam("classify_id") Integer classify_id) {
+		if(equipment_number == null || "".equals(equipment_number)) {
+			return Msg.fail().add("msg", "请提供设备编号");
+		}
+		Msg msg = androidService.getMerchandiseByEquipmentNumber(pn,equipment_number,classify_id);
+		return msg;
+	}
+	
+	/**
+	 * 获取该货道的商品支持的支付方式
+	 * @param aisle_id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/getPayment")
+	public Msg getPayment(@RequestParam("aisle_id")Integer aisle_id){
+		return androidService.getPaymentByAisleId(aisle_id);
+	}
+	
+	/**
+	 * 获取商品渠道的url
+	 * @param payment_id 		支付方式id
+	 * @param aisle_id			货道id
+	 * @param merchandise_id	商品id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/getQRCodeByUrl")
+	public Msg getQRCodeByUrl(@RequestParam("payment_id")Integer payment_id,
+			@RequestParam("aisle_id")Integer aisle_id,
+			@RequestParam("merchandise_id")Integer merchandise_id,
+			HttpServletResponse response) {
+		
+		return androidService.getQRCodeByUrl(payment_id,aisle_id,merchandise_id);
+		
+		//QRCodeUtil.QRCode(url, response);
+	}
+	
+	/**
+	 * 出货成功,减掉库存;出货失败,二次出货
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/successfulDelivery")
+	public Msg successfulDelivery(@RequestParam("order_id")Integer order_id,
+			@RequestParam("status")Integer status) {
+		String msg = null;
+		try {
+			msg = androidService.successfulDelivery(order_id,status);
+			if(msg != null) {
+				return Msg.fail().add("msg", msg);
+			}
+		} catch (Exception e) {
+			return Msg.fail().add("msg", "处理失败");
+		}
+		
+		return Msg.success();
+	}
+	
+	/**
+	 * 用取货码获取
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/fetchByPickupCode")
+	public Msg fetchByPickupCode(@RequestParam("equipment_id")Integer equipment_id,
+			@RequestParam("code")String code) {
+		
+		Order order = new Order();
+		order.setOrderEquipmentId(equipment_id);
+		order.setOrderPickupCode(code);
+		String msg = null;
+		try {
+			msg = androidService.fetchByPickupCode(order);
+			if(msg != null) {
+				return Msg.fail().add("msg", msg);
+			}
+		} catch (Exception e) {
+			return Msg.fail().add("msg", "处理失败");
+		}
+		return Msg.success();
+		
+	}
+	
+	/**
+	 * 设备信息
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/equipmentMessage")
+	public Msg equipmentMessage(
+			@RequestParam("equipment_id")Integer equipment_id,
+			@RequestParam("signal_strength")Integer signal_strength,
+			@RequestParam("cpu_occupy")Integer cpu_occupy,
+			@RequestParam("memory_occupy")Integer memory_occupy,
+			@RequestParam("memory_size")Double memory_size,
+			@RequestParam("sd_capacity")Double sd_capacity,
+			@RequestParam("battery_capacity")Integer battery_capacity,
+			@RequestParam("sim_status")Integer sim_status,
+			@RequestParam("imei_information")String imei_information,
+			@RequestParam("ip_address")String ip_address,
+			@RequestParam("wlanmac_address")String wlanmac_address,
+			@RequestParam("bluetooth_address")String bluetooth_address,
+			@RequestParam("serial_number")String serial_number) {
+		
+		EquipmentMessage equipmentMessage = new EquipmentMessage();
+		equipmentMessage.setEquipmentMessageEquipmentId(equipment_id);
+		equipmentMessage.setEquipmentMessageSignalStrength(signal_strength);
+		equipmentMessage.setEquipmentMessageCpuOccupy(cpu_occupy);
+		equipmentMessage.setEquipmentMessageMemoryOccupy(memory_occupy);
+		equipmentMessage.setEquipmentMessageMemorySize(memory_size);
+		equipmentMessage.setEquipmentMessageSdCapacity(sd_capacity);
+		equipmentMessage.setEquipmentMessageBatteryCapacity(battery_capacity);
+		equipmentMessage.setEquipmentMessageSimStatus(sim_status);
+		equipmentMessage.setEquipmentMessageImeiInformation(imei_information);
+		equipmentMessage.setEquipmentMessageIpAddress(ip_address);
+		equipmentMessage.setEquipmentMessageWlanmacAddress(wlanmac_address);
+		equipmentMessage.setEquipmentMessageBluetoothAddress(bluetooth_address);
+		equipmentMessage.setEquipmentMessageSerialNumber(serial_number);
+		
+		equipmentMessageService.updateByPrimaryKeySelective(equipmentMessage);
+		return Msg.success();
+	}
+	
+	@ResponseBody
+	@RequestMapping("/aa")
+	public Msg aa(@RequestParam("iccid")String iccid) {
+		HairUtil.put("BB 01 1 CC",iccid);
+		return Msg.success();
+	}
+	
+}

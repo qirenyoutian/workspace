@@ -1,0 +1,18 @@
+// Generated code from Butter Knife. Do not modify!
+package com.example.admin.serialdemo.Fragment;
+
+import android.view.View;
+import butterknife.ButterKnife.Finder;
+import butterknife.ButterKnife.ViewBinder;
+
+public class Fragment_Customer$$ViewBinder<T extends com.example.admin.serialdemo.Fragment.Fragment_Customer> implements ViewBinder<T> {
+  @Override public void bind(final Finder finder, final T target, Object source) {
+    View view;
+    view = finder.findRequiredView(source, 2131165248, "field 'dialing'");
+    target.dialing = finder.castView(view, 2131165248, "field 'dialing'");
+  }
+
+  @Override public void unbind(T target) {
+    target.dialing = null;
+  }
+}

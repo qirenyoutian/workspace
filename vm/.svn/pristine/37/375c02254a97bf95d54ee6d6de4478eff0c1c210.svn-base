@@ -1,0 +1,182 @@
+package com.py.controller;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.py.bean.User;
+import com.py.service.AppletService;
+import com.py.service.UserService;
+import com.py.util.CommonUtil;
+import com.py.util.Msg;
+import com.py.util.SMSBean;
+import com.py.util.UUIDUtils;
+
+@Controller
+public class AppletLoginController {
+
+	@Autowired
+	UserService userService;
+	@Autowired
+	AppletService appletService;
+	
+	/**
+	 * 注册
+	 * @param phonenum
+	 * @param password
+	 * @param code
+	 * @param request
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/register",method=RequestMethod.POST)
+	public Msg register(@RequestParam("phonenum")String phonenum,@RequestParam("password")String password,
+			@RequestParam("code")String code){
+		User user = new User();
+		if (phonenum != null) {
+			user.setUserAccount(phonenum);
+		}else{
+			return Msg.fail().add("mag", "电话号码不能为空");
+		}
+		if (password != null) {
+			user.setUserPassWord(password);
+		}else{
+			return Msg.fail().add("mag", "密码不能为空");
+		}
+		if(code == null) {
+			return Msg.fail().add("mag", "请输入验证码");
+		}
+		Msg msg = CommonUtil.verifyMobileCode(phonenum, code );
+		if(msg.getCode() != 100) {
+			return msg;
+		}
+		User findUser = userService.selectByPrimary(user);
+		if(findUser != null) {
+			return Msg.fail().add("mag", "该号码已注册过");
+		}
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		user.setUserCreationTime(format.format(new Date()));
+		try {
+			userService.insertSelective(user);
+		} catch (Exception e) {
+			return Msg.fail().add("mag", "注册失败");
+		}
+		
+		return Msg.success();
+	}
+	
+	/**
+	 * 登录
+	 * @param phonenum
+	 * @param password
+	 * @param request
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/appletLogin",method=RequestMethod.POST)
+	public Msg login(@RequestParam("phonenum")String phonenum,
+			@RequestParam("password")String password){
+		
+		User user = new User();
+		if (phonenum != null) {
+			user.setUserAccount(phonenum);
+		}else{
+			return Msg.fail().add("msg", "电话号码不能为空");
+		}
+		if (password != null) {
+			user.setUserPassWord(password);
+		}else{
+			return Msg.fail().add("msg", "密码不能为空");
+		}
+		User findUser = userService.selectByPrimary(user);
+		SMSBean smsBean = (SMSBean) CommonUtil.MSG_MAP.get(phonenum);
+		if(smsBean != null) {
+			CommonUtil.MSG_MAP.remove(phonenum);
+		}
+		if(findUser == null) {
+			return Msg.fail().add("msg", "账号或密码错误");
+		}
+		SMSBean bean = new SMSBean(findUser.getUserId() ,findUser.getUserAccount(),UUIDUtils.getUUID(),null);
+		CommonUtil.MSG_MAP.put(findUser.getUserAccount(), bean);
+		
+		try {
+			userService.updateByPrimaryKeySelective(findUser);
+		} catch (Exception e) {}
+		
+		Msg msg = Msg.success();
+		msg.add("token", bean.getValue());
+		msg.add("phonenum", findUser.getUserAccount());
+		
+        return msg;
+	}
+	
+	/**
+	 * 找回密码
+	 * @param phonenum
+	 * @param password
+	 * @param code
+	 * @param request
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/retrievePassword",method=RequestMethod.POST)
+	public Msg retrievePassword(@RequestParam("phonenum")String phonenum,@RequestParam("password")String password,
+			@RequestParam("code")String code) {
+		User user = new User();
+		if (phonenum != null) {
+			user.setUserAccount(phonenum);
+		}else{
+			return Msg.fail().add("msg", "电话号码不能为空");
+		}
+		if (password == null) {
+			return Msg.fail().add("msg", "密码不能为空");
+		}
+		if(code == null) {
+			return Msg.fail().add("msg", "请输入验证码");
+		}
+		Msg msg = CommonUtil.verifyMobileCode(phonenum, code);
+		if(msg.getCode() != 100) {
+			return msg;
+		}
+		User findUser = userService.selectByPrimary(user);
+		if(findUser == null) {
+			return Msg.fail().add("msg", "该号码未注册");
+		}else {
+			findUser.setUserPassWord(password);
+		}
+		try {
+			userService.updateByPrimaryKeySelective(findUser);
+		} catch (Exception e) {
+			return Msg.fail().add("msg", "修改失败");
+		}
+		
+		return Msg.success();
+	}
+	
+	/**
+	 * 退出登录
+	 * @param phonenum
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/dropOut",method=RequestMethod.POST)
+	public Msg dropOut(@RequestParam("phonenum")String phonenum) {
+		SMSBean smsBean = (SMSBean) CommonUtil.MSG_MAP.get(phonenum);
+		if(smsBean != null) {
+			User findUser = userService.selectByPrimaryKey(smsBean.getId());
+			try {
+				userService.updateByPrimaryKeySelective(findUser);
+			} catch (Exception e) {
+			}
+		}
+		CommonUtil.MSG_MAP.remove(phonenum);
+		return Msg.success();
+	}
+	
+}

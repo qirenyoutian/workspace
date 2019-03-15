@@ -1,0 +1,28 @@
+package com.py.bean;
+
+import java.util.List;
+
+public class RouteRecord extends Route{
+	private List<Camera> cameras;
+	private BillingMethod billingMethod;
+	private List<TruckSpace> truckSpaces;
+	
+	public List<Camera> getCameras() {
+		return cameras;
+	}
+	public void setCameras(List<Camera> cameras) {
+		this.cameras = cameras;
+	}
+	public BillingMethod getBillingMethod() {
+		return billingMethod;
+	}
+	public void setBillingMethod(BillingMethod billingMethod) {
+		this.billingMethod = billingMethod;
+	}
+	public List<TruckSpace> getTruckSpaces() {
+		return truckSpaces;
+	}
+	public void setTruckSpaces(List<TruckSpace> truckSpaces) {
+		this.truckSpaces = truckSpaces;
+	}
+}

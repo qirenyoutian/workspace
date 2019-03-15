@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.DictionaryClassifyMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.DictionaryClassify">
+    <id column="dictionary_classify_id" jdbcType="INTEGER" property="dictionaryClassifyId" />
+    <result column="dictionary_classify_name" jdbcType="VARCHAR" property="dictionaryClassifyName" />
+    <result column="dictionary_classify_note" jdbcType="VARCHAR" property="dictionaryClassifyNote" />
+    <result column="dictionary_classify_create_time" jdbcType="TIMESTAMP" property="dictionaryClassifyCreateTime" />
+    <result column="dictionary_classify_update_time" jdbcType="TIMESTAMP" property="dictionaryClassifyUpdateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    dictionary_classify_id, dictionary_classify_name, dictionary_classify_note, dictionary_classify_create_time, 
+    dictionary_classify_update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dictionary_classify
+    where dictionary_classify_id = #{dictionaryClassifyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dictionary_classify
+    where dictionary_classify_id = #{dictionaryClassifyId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.DictionaryClassify">
+    insert into dictionary_classify (dictionary_classify_id, dictionary_classify_name, 
+      dictionary_classify_note, dictionary_classify_create_time, 
+      dictionary_classify_update_time)
+    values (#{dictionaryClassifyId,jdbcType=INTEGER}, #{dictionaryClassifyName,jdbcType=VARCHAR}, 
+      #{dictionaryClassifyNote,jdbcType=VARCHAR}, #{dictionaryClassifyCreateTime,jdbcType=TIMESTAMP}, 
+      #{dictionaryClassifyUpdateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.DictionaryClassify">
+    insert into dictionary_classify
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dictionaryClassifyId != null">
+        dictionary_classify_id,
+      </if>
+      <if test="dictionaryClassifyName != null">
+        dictionary_classify_name,
+      </if>
+      <if test="dictionaryClassifyNote != null">
+        dictionary_classify_note,
+      </if>
+      <if test="dictionaryClassifyCreateTime != null">
+        dictionary_classify_create_time,
+      </if>
+      <if test="dictionaryClassifyUpdateTime != null">
+        dictionary_classify_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dictionaryClassifyId != null">
+        #{dictionaryClassifyId,jdbcType=INTEGER},
+      </if>
+      <if test="dictionaryClassifyName != null">
+        #{dictionaryClassifyName,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryClassifyNote != null">
+        #{dictionaryClassifyNote,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryClassifyCreateTime != null">
+        #{dictionaryClassifyCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dictionaryClassifyUpdateTime != null">
+        #{dictionaryClassifyUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.DictionaryClassify">
+    update dictionary_classify
+    <set>
+      <if test="dictionaryClassifyName != null">
+        dictionary_classify_name = #{dictionaryClassifyName,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryClassifyNote != null">
+        dictionary_classify_note = #{dictionaryClassifyNote,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryClassifyCreateTime != null">
+        dictionary_classify_create_time = #{dictionaryClassifyCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dictionaryClassifyUpdateTime != null">
+        dictionary_classify_update_time = #{dictionaryClassifyUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where dictionary_classify_id = #{dictionaryClassifyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.DictionaryClassify">
+    update dictionary_classify
+    set dictionary_classify_name = #{dictionaryClassifyName,jdbcType=VARCHAR},
+      dictionary_classify_note = #{dictionaryClassifyNote,jdbcType=VARCHAR},
+      dictionary_classify_create_time = #{dictionaryClassifyCreateTime,jdbcType=TIMESTAMP},
+      dictionary_classify_update_time = #{dictionaryClassifyUpdateTime,jdbcType=TIMESTAMP}
+    where dictionary_classify_id = #{dictionaryClassifyId,jdbcType=INTEGER}
+  </update>
+  
+   <!-- ByExample -->
+  <select id="selectByExample" parameterType="com.py.bean.DictionaryClassify" resultMap="BaseResultMap">
+  	 select *
+  	 from dictionary_classify
+  	 where 1=1
+  	  <if test="dictionaryClassifyName != null">
+        and dictionary_classify_name = #{dictionaryClassifyName,jdbcType=VARCHAR}
+      </if>
+      <if test="dictionaryClassifyNote != null">
+        and dictionary_classify_note = #{dictionaryClassifyNote,jdbcType=VARCHAR}
+      </if>
+      <if test="dictionaryClassifyCreateTime != null">
+        and dictionary_classify_create_time = #{dictionaryClassifyCreateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="dictionaryClassifyUpdateTime != null">
+        and dictionary_classify_update_time = #{dictionaryClassifyUpdateTime,jdbcType=TIMESTAMP}
+      </if>
+  </select>
+  
+
+  
+  
+</mapper>

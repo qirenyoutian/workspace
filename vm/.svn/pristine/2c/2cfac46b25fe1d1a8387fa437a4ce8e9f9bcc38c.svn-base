@@ -1,0 +1,31 @@
+package com.py.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.py.bean.Point;
+import com.py.dao.PointMapper;
+
+@Service
+public class SystemService {
+	@Autowired
+	PointMapper pointMapper;
+	
+	
+	public List<Point> getPoint(String content){
+		
+		Point point = new Point();
+		if (!content.equals("") && !content.equals(" ") && !content.equals(null)) {
+			point.setPointName(content);
+		}
+		
+		List<Point> pp = pointMapper.selectByExample(point);
+		
+		return pp;
+	}
+	
+	
+
+}

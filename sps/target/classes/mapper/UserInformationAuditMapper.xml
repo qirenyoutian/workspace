@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.UserInformationAuditMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.UserInformationAudit">
+    <id column="user_information_audit_id" jdbcType="INTEGER" property="userInformationAuditId" />
+    <result column="user_information_audit_user_number" jdbcType="VARCHAR" property="userInformationAuditUserNumber" />
+    <result column="user_information_audit_photo" jdbcType="VARCHAR" property="userInformationAuditPhoto" />
+    <result column="user_information_audit_state" jdbcType="INTEGER" property="userInformationAuditState" />
+    <result column="user_information_audit_type" jdbcType="INTEGER" property="userInformationAuditType" />
+    <result column="user_information_audit_result" jdbcType="INTEGER" property="userInformationAuditResult" />
+    <result column="user_information_audit_apply_time" jdbcType="VARCHAR" property="userInformationAuditApplyTime" />
+    <result column="user_information_audit_apply_remarks" jdbcType="VARCHAR" property="userInformationAuditApplyRemarks" />
+    <result column="user_information_audit_result_time" jdbcType="VARCHAR" property="userInformationAuditResultTime" />
+    <result column="user_information_audit_result_remarks" jdbcType="VARCHAR" property="userInformationAuditResultRemarks" />
+  </resultMap>
+  <resultMap id="WithBaseResultMap" type="com.py.bean.UserInformationAudit">
+    <id column="user_information_audit_id" jdbcType="INTEGER" property="userInformationAuditId" />
+    <result column="user_information_audit_user_number" jdbcType="VARCHAR" property="userInformationAuditUserNumber" />
+    <result column="user_information_audit_photo" jdbcType="VARCHAR" property="userInformationAuditPhoto" />
+    <result column="user_information_audit_state" jdbcType="INTEGER" property="userInformationAuditState" />
+    <result column="user_information_audit_type" jdbcType="INTEGER" property="userInformationAuditType" />
+    <result column="user_information_audit_result" jdbcType="INTEGER" property="userInformationAuditResult" />
+    <result column="user_information_audit_apply_time" jdbcType="VARCHAR" property="userInformationAuditApplyTime" />
+    <result column="user_information_audit_apply_remarks" jdbcType="VARCHAR" property="userInformationAuditApplyRemarks" />
+    <result column="user_information_audit_result_time" jdbcType="VARCHAR" property="userInformationAuditResultTime" />
+    <result column="user_information_audit_result_remarks" jdbcType="VARCHAR" property="userInformationAuditResultRemarks" />
+  	<association property="userInformationAuditUser" javaType="com.py.bean.User">
+	    <id column="user_id" jdbcType="INTEGER" property="userId" />
+	    <result column="user_number" jdbcType="VARCHAR" property="userNumber" />
+	    <result column="user_account" jdbcType="VARCHAR" property="userAccount" />
+	    <result column="user_pass_word" jdbcType="VARCHAR" property="userPassWord" />
+	    <result column="user_nickname" jdbcType="VARCHAR" property="userNickname" />
+	    <result column="user_gender" jdbcType="VARCHAR" property="userGender" />
+	    <result column="user_full_name" jdbcType="VARCHAR" property="userFullName" />
+	    <result column="user_id_number" jdbcType="VARCHAR" property="userIdNumber" />
+	    <result column="user_head_portrait" jdbcType="VARCHAR" property="userHeadPortrait" />
+	    <result column="user_balance" jdbcType="DOUBLE" property="userBalance" />
+	    <result column="user_integral" jdbcType="DOUBLE" property="userIntegral" />
+	    <result column="user_mailbox" jdbcType="VARCHAR" property="userMailbox" />
+	    <result column="user_creation_time" jdbcType="VARCHAR" property="userCreationTime" />
+	    <result column="user_status" jdbcType="INTEGER" property="userStatus" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_information_audit_id, user_information_audit_user_number, user_information_audit_photo, 
+    user_information_audit_state, user_information_audit_type, user_information_audit_result, 
+    user_information_audit_apply_time, user_information_audit_apply_remarks, user_information_audit_result_time, 
+    user_information_audit_result_remarks
+  </sql>
+  <sql id="WithBase_Column_List">
+    uia.user_information_audit_id, uia.user_information_audit_user_number, uia.user_information_audit_photo, 
+    uia.user_information_audit_state, uia.user_information_audit_type, uia.user_information_audit_result, 
+    uia.user_information_audit_apply_time, uia.user_information_audit_apply_remarks, uia.user_information_audit_result_time, 
+    uia.user_information_audit_result_remarks,
+    u.user_id, u.user_number, u.user_account, u.user_pass_word, u.user_nickname, u.user_gender, u.user_full_name, 
+    u.user_id_number, u.user_head_portrait, u.user_balance, u.user_integral, u.user_mailbox, u.user_creation_time, 
+    u.user_status
+  </sql>
+  <select id="selectByPrimary" parameterType="com.py.bean.UserInformationAudit" resultMap="WithBaseResultMap">
+    select 
+    <include refid="WithBase_Column_List" />
+    from user_information_audit uia
+    left join user u on uia.user_information_audit_user_number=u.user_number
+    where 1=1
+    <if test="userInformationAuditId != null">
+      and uia.user_information_audit_id = #{userInformationAuditId,jdbcType=INTEGER}
+    </if>
+    <if test="userInformationAuditUserNumber != null">
+      and uia.user_information_audit_user_number = #{userInformationAuditUserNumber,jdbcType=VARCHAR}
+    </if>
+    <if test="userInformationAuditPhoto != null">
+      and uia.user_information_audit_photo = #{userInformationAuditPhoto,jdbcType=VARCHAR}
+    </if>
+    <if test="userInformationAuditState != null">
+      and uia.user_information_audit_state = #{userInformationAuditState,jdbcType=INTEGER}
+    </if>
+    <if test="userInformationAuditType != null">
+      and uia.user_information_audit_type = #{userInformationAuditType,jdbcType=INTEGER}
+    </if>
+    <if test="userInformationAuditResult != null">
+      and uia.user_information_audit_result = #{userInformationAuditResult,jdbcType=INTEGER}
+    </if>
+    <if test="userInformationAuditApplyTime != null">
+      and uia.user_information_audit_apply_time = #{userInformationAuditApplyTime,jdbcType=VARCHAR}
+    </if>
+    <if test="userInformationAuditApplyRemarks != null">
+      and uia.user_information_audit_apply_remarks = #{userInformationAuditApplyRemarks,jdbcType=VARCHAR}
+    </if>
+    <if test="userInformationAuditResultTime != null">
+      and uia.user_information_audit_result_time = #{userInformationAuditResultTime,jdbcType=VARCHAR}
+    </if>
+    <if test="userInformationAuditResultRemarks != null">
+      and uia.user_information_audit_result_remarks = #{userInformationAuditResultRemarks,jdbcType=VARCHAR}
+    </if>
+    <if test="userInformationAuditUser != null">
+    	<if test="userInformationAuditUser.userId != null">
+	      and u.user_id = #{userInformationAuditUser.userId,jdbcType=INTEGER}
+	    </if>
+	    <if test="userInformationAuditUser.userNumber != null">
+	      and u.user_number = #{userInformationAuditUser.userNumber,jdbcType=VARCHAR}
+	    </if>
+	    <if test="userInformationAuditUser.userAccount != null">
+	      and u.user_account = #{userInformationAuditUser.userAccount,jdbcType=VARCHAR}
+	    </if>
+	    <if test="userInformationAuditUser.userPassWord != null">
+	      and u.user_pass_word = #{userInformationAuditUser.userPassWord,jdbcType=VARCHAR}
+	    </if>
+	    <if test="userInformationAuditUser.userNickname != null">
+	      and u.user_nickname = #{userInformationAuditUser.userNickname,jdbcType=VARCHAR}
+	    </if>
+	    <if test="userInformationAuditUser.userGender != null">
+	      and u.user_gender = #{userInformationAuditUser.userGender,jdbcType=VARCHAR}
+	    </if>
+	    <if test="userInformationAuditUser.userFullName != null">
+	      and u.user_full_name = #{userInformationAuditUser.userFullName,jdbcType=VARCHAR}
+	    </if>
+	    <if test="userInformationAuditUser.userIdNumber != null">
+	      and u.user_id_number = #{userInformationAuditUser.userIdNumber,jdbcType=VARCHAR}
+	    </if>
+	    <if test="userInformationAuditUser.userHeadPortrait != null">
+	      and u.user_head_portrait = #{userInformationAuditUser.userHeadPortrait,jdbcType=VARCHAR}
+	    </if>
+	    <if test="userInformationAuditUser.userBalance != null">
+	      and u.user_balance = #{userInformationAuditUser.userBalance,jdbcType=DOUBLE}
+	    </if>
+	    <if test="userInformationAuditUser.userIntegral != null">
+	      and u.user_integral = #{userInformationAuditUser.userIntegral,jdbcType=DOUBLE}
+	    </if>
+	    <if test="userInformationAuditUser.userMailbox != null">
+	      and u.user_mailbox = #{userInformationAuditUser.userMailbox,jdbcType=VARCHAR}
+	    </if>
+	    <if test="userInformationAuditUser.userCreationTime != null">
+	      and u.user_creation_time = #{userInformationAuditUser.userCreationTime,jdbcType=VARCHAR}
+	    </if>
+	    <if test="userInformationAuditUser.userStatus != null">
+	      and u.user_status = #{userInformationAuditUser.userStatus,jdbcType=INTEGER}
+	    </if>
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.py.bean.UserInformationAudit" resultMap="WithBaseResultMap">
+    select 
+    <include refid="WithBase_Column_List" />
+    from user_information_audit uia
+    left join user u on uia.user_information_audit_user_number=u.user_number
+    where 1=1
+    <if test="userInformationAuditId != null">
+      and uia.user_information_audit_id = #{userInformationAuditId,jdbcType=INTEGER}
+    </if>
+    <if test="userInformationAuditUserNumber != null">
+      and uia.user_information_audit_user_number = #{userInformationAuditUserNumber,jdbcType=VARCHAR}
+    </if>
+    <if test="userInformationAuditPhoto != null">
+      and uia.user_information_audit_photo = #{userInformationAuditPhoto,jdbcType=VARCHAR}
+    </if>
+    <if test="userInformationAuditState != null">
+      and uia.user_information_audit_state = #{userInformationAuditState,jdbcType=INTEGER}
+    </if>
+    <if test="userInformationAuditType != null">
+      and uia.user_information_audit_type = #{userInformationAuditType,jdbcType=INTEGER}
+    </if>
+    <if test="userInformationAuditResult != null">
+      and uia.user_information_audit_result = #{userInformationAuditResult,jdbcType=INTEGER}
+    </if>
+    <if test="userInformationAuditApplyTime != null">
+      and uia.user_information_audit_apply_time = #{userInformationAuditApplyTime,jdbcType=VARCHAR}
+    </if>
+    <if test="userInformationAuditApplyRemarks != null">
+      and uia.user_information_audit_apply_remarks = #{userInformationAuditApplyRemarks,jdbcType=VARCHAR}
+    </if>
+    <if test="userInformationAuditResultTime != null">
+      and uia.user_information_audit_result_time = #{userInformationAuditResultTime,jdbcType=VARCHAR}
+    </if>
+    <if test="userInformationAuditResultRemarks != null">
+      and uia.user_information_audit_result_remarks = #{userInformationAuditResultRemarks,jdbcType=VARCHAR}
+    </if>
+    <if test="userInformationAuditUser != null">
+    	<if test="userInformationAuditUser.userId != null">
+	      and u.user_id = #{userInformationAuditUser.userId,jdbcType=INTEGER}
+	    </if>
+	    <if test="userInformationAuditUser.userNumber != null">
+	      and u.user_number = #{userInformationAuditUser.userNumber,jdbcType=VARCHAR}
+	    </if>
+	    <if test="userInformationAuditUser.userAccount != null">
+	      and u.user_account = #{userInformationAuditUser.userAccount,jdbcType=VARCHAR}
+	    </if>
+	    <if test="userInformationAuditUser.userPassWord != null">
+	      and u.user_pass_word = #{userInformationAuditUser.userPassWord,jdbcType=VARCHAR}
+	    </if>
+	    <if test="userInformationAuditUser.userNickname != null">
+	      and u.user_nickname = #{userInformationAuditUser.userNickname,jdbcType=VARCHAR}
+	    </if>
+	    <if test="userInformationAuditUser.userGender != null">
+	      and u.user_gender = #{userInformationAuditUser.userGender,jdbcType=VARCHAR}
+	    </if>
+	    <if test="userInformationAuditUser.userFullName != null">
+	      and u.user_full_name = #{userInformationAuditUser.userFullName,jdbcType=VARCHAR}
+	    </if>
+	    <if test="userInformationAuditUser.userIdNumber != null">
+	      and u.user_id_number = #{userInformationAuditUser.userIdNumber,jdbcType=VARCHAR}
+	    </if>
+	    <if test="userInformationAuditUser.userHeadPortrait != null">
+	      and u.user_head_portrait = #{userInformationAuditUser.userHeadPortrait,jdbcType=VARCHAR}
+	    </if>
+	    <if test="userInformationAuditUser.userBalance != null">
+	      and u.user_balance = #{userInformationAuditUser.userBalance,jdbcType=DOUBLE}
+	    </if>
+	    <if test="userInformationAuditUser.userIntegral != null">
+	      and u.user_integral = #{userInformationAuditUser.userIntegral,jdbcType=DOUBLE}
+	    </if>
+	    <if test="userInformationAuditUser.userMailbox != null">
+	      and u.user_mailbox = #{userInformationAuditUser.userMailbox,jdbcType=VARCHAR}
+	    </if>
+	    <if test="userInformationAuditUser.userCreationTime != null">
+	      and u.user_creation_time = #{userInformationAuditUser.userCreationTime,jdbcType=VARCHAR}
+	    </if>
+	    <if test="userInformationAuditUser.userStatus != null">
+	      and u.user_status = #{userInformationAuditUser.userStatus,jdbcType=INTEGER}
+	    </if>
+    </if>
+	   order by uia.user_information_audit_apply_time desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_information_audit
+    where user_information_audit_id = #{userInformationAuditId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.UserInformationAudit">
+    insert into user_information_audit (user_information_audit_id, user_information_audit_user_number, 
+      user_information_audit_photo, user_information_audit_state, 
+      user_information_audit_type, user_information_audit_result, 
+      user_information_audit_apply_time, user_information_audit_apply_remarks, 
+      user_information_audit_result_time, user_information_audit_result_remarks
+      )
+    values (#{userInformationAuditId,jdbcType=INTEGER}, #{userInformationAuditUserNumber,jdbcType=VARCHAR}, 
+      #{userInformationAuditPhoto,jdbcType=VARCHAR}, #{userInformationAuditState,jdbcType=INTEGER}, 
+      #{userInformationAuditType,jdbcType=INTEGER}, #{userInformationAuditResult,jdbcType=INTEGER}, 
+      #{userInformationAuditApplyTime,jdbcType=VARCHAR}, #{userInformationAuditApplyRemarks,jdbcType=VARCHAR}, 
+      #{userInformationAuditResultTime,jdbcType=VARCHAR}, #{userInformationAuditResultRemarks,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.UserInformationAudit">
+    insert into user_information_audit
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userInformationAuditId != null">
+        user_information_audit_id,
+      </if>
+      <if test="userInformationAuditUserNumber != null">
+        user_information_audit_user_number,
+      </if>
+      <if test="userInformationAuditPhoto != null">
+        user_information_audit_photo,
+      </if>
+      <if test="userInformationAuditState != null">
+        user_information_audit_state,
+      </if>
+      <if test="userInformationAuditType != null">
+        user_information_audit_type,
+      </if>
+      <if test="userInformationAuditResult != null">
+        user_information_audit_result,
+      </if>
+      <if test="userInformationAuditApplyTime != null">
+        user_information_audit_apply_time,
+      </if>
+      <if test="userInformationAuditApplyRemarks != null">
+        user_information_audit_apply_remarks,
+      </if>
+      <if test="userInformationAuditResultTime != null">
+        user_information_audit_result_time,
+      </if>
+      <if test="userInformationAuditResultRemarks != null">
+        user_information_audit_result_remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userInformationAuditId != null">
+        #{userInformationAuditId,jdbcType=INTEGER},
+      </if>
+      <if test="userInformationAuditUserNumber != null">
+        #{userInformationAuditUserNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userInformationAuditPhoto != null">
+        #{userInformationAuditPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="userInformationAuditState != null">
+        #{userInformationAuditState,jdbcType=INTEGER},
+      </if>
+      <if test="userInformationAuditType != null">
+        #{userInformationAuditType,jdbcType=INTEGER},
+      </if>
+      <if test="userInformationAuditResult != null">
+        #{userInformationAuditResult,jdbcType=INTEGER},
+      </if>
+      <if test="userInformationAuditApplyTime != null">
+        #{userInformationAuditApplyTime,jdbcType=VARCHAR},
+      </if>
+      <if test="userInformationAuditApplyRemarks != null">
+        #{userInformationAuditApplyRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="userInformationAuditResultTime != null">
+        #{userInformationAuditResultTime,jdbcType=VARCHAR},
+      </if>
+      <if test="userInformationAuditResultRemarks != null">
+        #{userInformationAuditResultRemarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.UserInformationAudit">
+    update user_information_audit
+    <set>
+      <if test="userInformationAuditUserNumber != null">
+        user_information_audit_user_number = #{userInformationAuditUserNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userInformationAuditPhoto != null">
+        user_information_audit_photo = #{userInformationAuditPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="userInformationAuditState != null">
+        user_information_audit_state = #{userInformationAuditState,jdbcType=INTEGER},
+      </if>
+      <if test="userInformationAuditType != null">
+        user_information_audit_type = #{userInformationAuditType,jdbcType=INTEGER},
+      </if>
+      <if test="userInformationAuditResult != null">
+        user_information_audit_result = #{userInformationAuditResult,jdbcType=INTEGER},
+      </if>
+      <if test="userInformationAuditApplyTime != null">
+        user_information_audit_apply_time = #{userInformationAuditApplyTime,jdbcType=VARCHAR},
+      </if>
+      <if test="userInformationAuditApplyRemarks != null">
+        user_information_audit_apply_remarks = #{userInformationAuditApplyRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="userInformationAuditResultTime != null">
+        user_information_audit_result_time = #{userInformationAuditResultTime,jdbcType=VARCHAR},
+      </if>
+      <if test="userInformationAuditResultRemarks != null">
+        user_information_audit_result_remarks = #{userInformationAuditResultRemarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_information_audit_id = #{userInformationAuditId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.UserInformationAudit">
+    update user_information_audit
+    set user_information_audit_user_number = #{userInformationAuditUserNumber,jdbcType=VARCHAR},
+      user_information_audit_photo = #{userInformationAuditPhoto,jdbcType=VARCHAR},
+      user_information_audit_state = #{userInformationAuditState,jdbcType=INTEGER},
+      user_information_audit_type = #{userInformationAuditType,jdbcType=INTEGER},
+      user_information_audit_result = #{userInformationAuditResult,jdbcType=INTEGER},
+      user_information_audit_apply_time = #{userInformationAuditApplyTime,jdbcType=VARCHAR},
+      user_information_audit_apply_remarks = #{userInformationAuditApplyRemarks,jdbcType=VARCHAR},
+      user_information_audit_result_time = #{userInformationAuditResultTime,jdbcType=VARCHAR},
+      user_information_audit_result_remarks = #{userInformationAuditResultRemarks,jdbcType=VARCHAR}
+    where user_information_audit_id = #{userInformationAuditId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryTop1" parameterType="com.py.bean.UserInformationAudit" resultMap="WithBaseResultMap">
+    select 
+    <include refid="WithBase_Column_List" />
+    from user_information_audit uia
+    left join user u on uia.user_information_audit_user_number=u.user_number
+    where 1=1
+    <if test="userInformationAuditUserNumber != null">
+      and uia.user_information_audit_id = #{userInformationAuditId,jdbcType=INTEGER}
+    </if>
+    <if test="userInformationAuditUserNumber != null">
+      and uia.user_information_audit_user_number = #{userInformationAuditUserNumber,jdbcType=VARCHAR}
+    </if>
+    <if test="userInformationAuditPhoto != null">
+      and uia.user_information_audit_photo = #{userInformationAuditPhoto,jdbcType=VARCHAR}
+    </if>
+    <if test="userInformationAuditState != null">
+      and uia.user_information_audit_state = #{userInformationAuditState,jdbcType=INTEGER}
+    </if>
+    <if test="userInformationAuditType != null">
+      and uia.user_information_audit_type = #{userInformationAuditType,jdbcType=INTEGER}
+    </if>
+    <if test="userInformationAuditResult != null">
+      and uia.user_information_audit_result = #{userInformationAuditResult,jdbcType=INTEGER}
+    </if>
+    <if test="userInformationAuditApplyTime != null">
+      and uia.user_information_audit_apply_time = #{userInformationAuditApplyTime,jdbcType=DATE}
+    </if>
+    <if test="userInformationAuditApplyRemarks != null">
+      and uia.user_information_audit_apply_remarks = #{userInformationAuditApplyRemarks,jdbcType=VARCHAR}
+    </if>
+    <if test="userInformationAuditResultTime != null">
+      and uia.user_information_audit_result_time = #{userInformationAuditResultTime,jdbcType=DATE}
+    </if>
+    <if test="userInformationAuditResultRemarks != null">
+      and uia.user_information_audit_result_remarks = #{userInformationAuditResultRemarks,jdbcType=VARCHAR}
+    </if>
+    order by user_information_audit_apply_time limit 1
+  </select>
+</mapper>

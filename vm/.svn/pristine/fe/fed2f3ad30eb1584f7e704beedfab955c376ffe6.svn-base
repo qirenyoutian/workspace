@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.AdminPointMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.AdminPoint">
+    <id column="admin_point_id" jdbcType="INTEGER" property="adminPointId" />
+    <result column="admin_point_admin_id" jdbcType="INTEGER" property="adminPointAdminId" />
+    <result column="amdin_point_num" jdbcType="VARCHAR" property="amdinPointNum" />
+    <result column="admin_point_point_id" jdbcType="INTEGER" property="adminPointPointId" />
+    <result column="admin_point_create_date" jdbcType="TIMESTAMP" property="adminPointCreateDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    admin_point_id, admin_point_admin_id, amdin_point_num, admin_point_point_id, admin_point_create_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from admin_point
+    where admin_point_id = #{adminPointId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from admin_point
+    where admin_point_id = #{adminPointId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.AdminPoint">
+    insert into admin_point (admin_point_id, admin_point_admin_id, 
+      amdin_point_num, admin_point_point_id, admin_point_create_date
+      )
+    values (#{adminPointId,jdbcType=INTEGER}, #{adminPointAdminId,jdbcType=INTEGER}, 
+      #{amdinPointNum,jdbcType=VARCHAR}, #{adminPointPointId,jdbcType=INTEGER}, #{adminPointCreateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.AdminPoint">
+    insert into admin_point
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="adminPointId != null">
+        admin_point_id,
+      </if>
+      <if test="adminPointAdminId != null">
+        admin_point_admin_id,
+      </if>
+      <if test="amdinPointNum != null">
+        amdin_point_num,
+      </if>
+      <if test="adminPointPointId != null">
+        admin_point_point_id,
+      </if>
+      <if test="adminPointCreateDate != null">
+        admin_point_create_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="adminPointId != null">
+        #{adminPointId,jdbcType=INTEGER},
+      </if>
+      <if test="adminPointAdminId != null">
+        #{adminPointAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="amdinPointNum != null">
+        #{amdinPointNum,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPointPointId != null">
+        #{adminPointPointId,jdbcType=INTEGER},
+      </if>
+      <if test="adminPointCreateDate != null">
+        #{adminPointCreateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.AdminPoint">
+    update admin_point
+    <set>
+      <if test="adminPointAdminId != null">
+        admin_point_admin_id = #{adminPointAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="amdinPointNum != null">
+        amdin_point_num = #{amdinPointNum,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPointPointId != null">
+        admin_point_point_id = #{adminPointPointId,jdbcType=INTEGER},
+      </if>
+      <if test="adminPointCreateDate != null">
+        admin_point_create_date = #{adminPointCreateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where admin_point_id = #{adminPointId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.AdminPoint">
+    update admin_point
+    set admin_point_admin_id = #{adminPointAdminId,jdbcType=INTEGER},
+      amdin_point_num = #{amdinPointNum,jdbcType=VARCHAR},
+      admin_point_point_id = #{adminPointPointId,jdbcType=INTEGER},
+      admin_point_create_date = #{adminPointCreateDate,jdbcType=TIMESTAMP}
+    where admin_point_id = #{adminPointId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByAdminId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from admin_point
+    where admin_point_admin_id = #{adminId,jdbcType=INTEGER}
+  </select>
+  
+</mapper>

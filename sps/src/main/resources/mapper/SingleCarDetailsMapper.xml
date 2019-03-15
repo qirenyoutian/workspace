@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.SingleCarDetailsMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.SingleCarDetails">
+    <id column="single_car_details_id" jdbcType="INTEGER" property="singleCarDetailsId" />
+    <result column="single_car_details_camera_ip" jdbcType="VARCHAR" property="singleCarDetailsCameraIp" />
+    <result column="single_car_details_route_name" jdbcType="VARCHAR" property="singleCarDetailsRouteName" />
+    <result column="single_car_details_truck_space" jdbcType="VARCHAR" property="singleCarDetailsTruckSpace" />
+    <result column="single_car_details_license_plate" jdbcType="VARCHAR" property="singleCarDetailsLicensePlate" />
+    <result column="single_car_details_type" jdbcType="INTEGER" property="singleCarDetailsType" />
+    <result column="single_car_details_license_plate_image" jdbcType="VARCHAR" property="singleCarDetailsLicensePlateImage" />
+    <result column="single_car_details_photograph1" jdbcType="VARCHAR" property="singleCarDetailsPhotograph1" />
+    <result column="single_car_details_photograph2" jdbcType="VARCHAR" property="singleCarDetailsPhotograph2" />
+    <result column="single_car_details_video" jdbcType="VARCHAR" property="singleCarDetailsVideo" />
+    <result column="single_car_details_single_car_id" jdbcType="INTEGER" property="singleCarDetailsSingleCarId" />
+    <result column="single_car_details_time" jdbcType="VARCHAR" property="singleCarDetailsTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    single_car_details_id, single_car_details_camera_ip, single_car_details_route_name, 
+    single_car_details_truck_space, single_car_details_license_plate, single_car_details_type, 
+    single_car_details_license_plate_image, single_car_details_photograph1, single_car_details_photograph2, 
+    single_car_details_video, single_car_details_single_car_id, single_car_details_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from single_car_details
+    where single_car_details_id = #{singleCarDetailsId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from single_car_details
+    where single_car_details_id = #{singleCarDetailsId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="singleCarDetailsId"  parameterType="com.py.bean.SingleCarDetails">
+    insert into single_car_details (single_car_details_id, single_car_details_camera_ip, 
+      single_car_details_route_name, single_car_details_truck_space, 
+      single_car_details_license_plate, single_car_details_type, 
+      single_car_details_license_plate_image, single_car_details_photograph1, 
+      single_car_details_photograph2, single_car_details_video, 
+      single_car_details_single_car_id, single_car_details_time
+      )
+    values (#{singleCarDetailsId,jdbcType=INTEGER}, #{singleCarDetailsCameraIp,jdbcType=VARCHAR}, 
+      #{singleCarDetailsRouteName,jdbcType=VARCHAR}, #{singleCarDetailsTruckSpace,jdbcType=VARCHAR}, 
+      #{singleCarDetailsLicensePlate,jdbcType=VARCHAR}, #{singleCarDetailsType,jdbcType=INTEGER}, 
+      #{singleCarDetailsLicensePlateImage,jdbcType=VARCHAR}, #{singleCarDetailsPhotograph1,jdbcType=VARCHAR}, 
+      #{singleCarDetailsPhotograph2,jdbcType=VARCHAR}, #{singleCarDetailsVideo,jdbcType=VARCHAR}, 
+      #{singleCarDetailsSingleCarId,jdbcType=INTEGER}, #{singleCarDetailsTime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="singleCarDetailsId"  parameterType="com.py.bean.SingleCarDetails">
+    insert into single_car_details
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="singleCarDetailsId != null">
+        single_car_details_id,
+      </if>
+      <if test="singleCarDetailsCameraIp != null">
+        single_car_details_camera_ip,
+      </if>
+      <if test="singleCarDetailsRouteName != null">
+        single_car_details_route_name,
+      </if>
+      <if test="singleCarDetailsTruckSpace != null">
+        single_car_details_truck_space,
+      </if>
+      <if test="singleCarDetailsLicensePlate != null">
+        single_car_details_license_plate,
+      </if>
+      <if test="singleCarDetailsType != null">
+        single_car_details_type,
+      </if>
+      <if test="singleCarDetailsLicensePlateImage != null">
+        single_car_details_license_plate_image,
+      </if>
+      <if test="singleCarDetailsPhotograph1 != null">
+        single_car_details_photograph1,
+      </if>
+      <if test="singleCarDetailsPhotograph2 != null">
+        single_car_details_photograph2,
+      </if>
+      <if test="singleCarDetailsVideo != null">
+        single_car_details_video,
+      </if>
+      <if test="singleCarDetailsSingleCarId != null">
+        single_car_details_single_car_id,
+      </if>
+      <if test="singleCarDetailsTime != null">
+        single_car_details_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="singleCarDetailsId != null">
+        #{singleCarDetailsId,jdbcType=INTEGER},
+      </if>
+      <if test="singleCarDetailsCameraIp != null">
+        #{singleCarDetailsCameraIp,jdbcType=VARCHAR},
+      </if>
+      <if test="singleCarDetailsRouteName != null">
+        #{singleCarDetailsRouteName,jdbcType=VARCHAR},
+      </if>
+      <if test="singleCarDetailsTruckSpace != null">
+        #{singleCarDetailsTruckSpace,jdbcType=VARCHAR},
+      </if>
+      <if test="singleCarDetailsLicensePlate != null">
+        #{singleCarDetailsLicensePlate,jdbcType=VARCHAR},
+      </if>
+      <if test="singleCarDetailsType != null">
+        #{singleCarDetailsType,jdbcType=INTEGER},
+      </if>
+      <if test="singleCarDetailsLicensePlateImage != null">
+        #{singleCarDetailsLicensePlateImage,jdbcType=VARCHAR},
+      </if>
+      <if test="singleCarDetailsPhotograph1 != null">
+        #{singleCarDetailsPhotograph1,jdbcType=VARCHAR},
+      </if>
+      <if test="singleCarDetailsPhotograph2 != null">
+        #{singleCarDetailsPhotograph2,jdbcType=VARCHAR},
+      </if>
+      <if test="singleCarDetailsVideo != null">
+        #{singleCarDetailsVideo,jdbcType=VARCHAR},
+      </if>
+      <if test="singleCarDetailsSingleCarId != null">
+        #{singleCarDetailsSingleCarId,jdbcType=INTEGER},
+      </if>
+      <if test="singleCarDetailsTime != null">
+        #{singleCarDetailsTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.SingleCarDetails">
+    update single_car_details
+    <set>
+      <if test="singleCarDetailsCameraIp != null">
+        single_car_details_camera_ip = #{singleCarDetailsCameraIp,jdbcType=VARCHAR},
+      </if>
+      <if test="singleCarDetailsRouteName != null">
+        single_car_details_route_name = #{singleCarDetailsRouteName,jdbcType=VARCHAR},
+      </if>
+      <if test="singleCarDetailsTruckSpace != null">
+        single_car_details_truck_space = #{singleCarDetailsTruckSpace,jdbcType=VARCHAR},
+      </if>
+      <if test="singleCarDetailsLicensePlate != null">
+        single_car_details_license_plate = #{singleCarDetailsLicensePlate,jdbcType=VARCHAR},
+      </if>
+      <if test="singleCarDetailsType != null">
+        single_car_details_type = #{singleCarDetailsType,jdbcType=INTEGER},
+      </if>
+      <if test="singleCarDetailsLicensePlateImage != null">
+        single_car_details_license_plate_image = #{singleCarDetailsLicensePlateImage,jdbcType=VARCHAR},
+      </if>
+      <if test="singleCarDetailsPhotograph1 != null">
+        single_car_details_photograph1 = #{singleCarDetailsPhotograph1,jdbcType=VARCHAR},
+      </if>
+      <if test="singleCarDetailsPhotograph2 != null">
+        single_car_details_photograph2 = #{singleCarDetailsPhotograph2,jdbcType=VARCHAR},
+      </if>
+      <if test="singleCarDetailsVideo != null">
+        single_car_details_video = #{singleCarDetailsVideo,jdbcType=VARCHAR},
+      </if>
+      <if test="singleCarDetailsSingleCarId != null">
+        single_car_details_single_car_id = #{singleCarDetailsSingleCarId,jdbcType=INTEGER},
+      </if>
+      <if test="singleCarDetailsTime != null">
+        single_car_details_time = #{singleCarDetailsTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where single_car_details_id = #{singleCarDetailsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.SingleCarDetails">
+    update single_car_details
+    set single_car_details_camera_ip = #{singleCarDetailsCameraIp,jdbcType=VARCHAR},
+      single_car_details_route_name = #{singleCarDetailsRouteName,jdbcType=VARCHAR},
+      single_car_details_truck_space = #{singleCarDetailsTruckSpace,jdbcType=VARCHAR},
+      single_car_details_license_plate = #{singleCarDetailsLicensePlate,jdbcType=VARCHAR},
+      single_car_details_type = #{singleCarDetailsType,jdbcType=INTEGER},
+      single_car_details_license_plate_image = #{singleCarDetailsLicensePlateImage,jdbcType=VARCHAR},
+      single_car_details_photograph1 = #{singleCarDetailsPhotograph1,jdbcType=VARCHAR},
+      single_car_details_photograph2 = #{singleCarDetailsPhotograph2,jdbcType=VARCHAR},
+      single_car_details_video = #{singleCarDetailsVideo,jdbcType=VARCHAR},
+      single_car_details_single_car_id = #{singleCarDetailsSingleCarId,jdbcType=INTEGER},
+      single_car_details_time = #{singleCarDetailsTime,jdbcType=VARCHAR}
+    where single_car_details_id = #{singleCarDetailsId,jdbcType=INTEGER}
+  </update>
+</mapper>

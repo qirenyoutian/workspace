@@ -1,0 +1,206 @@
+package com.py.socket;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import com.py.bean.Equipment;
+import com.py.dao.EquipmentMapper;
+import com.py.util.OfTime;
+
+/**
+ * 该类为多线程类，用于服务端
+ */
+public class ServerThread implements Runnable {
+	private Socket socket = null;
+    private InputStream is = null;
+	private EquipmentMapper equipmentMapper = null;
+	private String time;
+	private String address;
+	private int num;
+	
+	
+	public ServerThread(Socket client ,EquipmentMapper equipmentMapper) {
+		this.socket = client;
+		this.equipmentMapper = equipmentMapper;
+	}
+
+	@Override
+	public void run() {
+		try {
+			// 获取Socket的输出流，用来向客户端发送数据
+			//PrintStream out = new PrintStream(client.getOutputStream());
+			// 获取Socket的输入流，用来接收从客户端发送过来的数据
+			is = socket.getInputStream();
+			byte b[] = new byte[1024];
+			boolean flag = true;
+			while (flag) {
+				// 接收从客户端发送过来的数据
+				int blen = is.read(b);
+				if (blen <= 0) {
+					flag = false;
+				} else {
+					time = OfTime.getLongTime();
+					this.Timer();//开启定时器去检测心跳,判断设备socket是否断开
+					String data = new String(b);
+					data = HairUtil.replaceSpecialStr(data);//客户端发的数据
+					System.out.println(data);
+					String[] dataArrays = data.replaceAll(" ",",").split(",");
+					address = socket.getInetAddress().getHostAddress();//客户端ip
+					this.mapPut();
+					switch (dataArrays[0]) {//判断是以AA开头的数据为上传设备编号的指令,例如：AA (设备编号) (BB)
+					case "AA":
+						this.uploadDeviceNumber(dataArrays);
+						break;
+					}
+				}
+			}
+		} catch (Exception e) {
+            try {
+            	is.close();
+            	socket.close();
+            } catch (IOException e1) {}
+		}
+	}
+	//判断HairUtil的map是否已存在该socket,无则添加,并且判断数据库是否已有该设备，如有则让它上线
+	public void mapPut() {
+		if(HairUtil.map.get(address) == null) {
+			HairUtil.map.put(address, socket);
+			Equipment equipment = new Equipment();
+			equipment.setEquipmentSocketKey(address);
+			Equipment findEquipment = equipmentMapper.selectByPrimary(equipment);
+			if(findEquipment != null) {
+				findEquipment.setEquipmentStatus(1);//在线
+				findEquipment.setEquipmentIp(address);
+				findEquipment.setEquipmentSocketKey(address);
+				findEquipment.setEquipmentChangeTime(new Date());
+				try {
+					equipmentMapper.updateByPrimaryKeySelective(findEquipment);
+					HairUtil.put(String.valueOf(findEquipment.getEquipmentId()), address);
+				} catch (Exception e) {}
+			}
+		}
+		System.out.println("当前连接数："+HairUtil.map.size());
+	}
+	
+	//上传设备编号指令,为节约数据库资源,心跳不可发AA 开头的指令
+	public void uploadDeviceNumber(String[] dataArrays) throws IOException {
+		Equipment equipment = new Equipment();
+		equipment.setEquipmentNumber(dataArrays[1]);
+		//查询数据库是否有此设备
+		Equipment findEquipment = equipmentMapper.selectByPrimary(equipment);
+		if(findEquipment == null) {//无则添加
+			equipment.setEquipmentIp(address);
+			equipment.setEquipmentSocketKey(address);
+			equipment.setEquipmentCreateTime(new Date());
+			try {
+				equipmentMapper.insertSelective(equipment);
+				HairUtil.put(String.valueOf(equipment.getEquipmentId()), address);
+			} catch (Exception e) {}
+		}else {
+			findEquipment.setEquipmentStatus(1);//在线
+			findEquipment.setEquipmentIp(address);
+			findEquipment.setEquipmentSocketKey(address);
+			findEquipment.setEquipmentChangeTime(new Date());
+			try {
+				equipmentMapper.updateByPrimaryKeySelective(findEquipment);
+				HairUtil.put(String.valueOf(findEquipment.getEquipmentId()), address);
+			} catch (Exception e) {}
+		}
+	}
+	
+	/*
+	 * 四、	读取心跳
+	 */
+	public void D(String[] dataArrays,int num) throws Exception{
+		if(num != 0){
+			Equipment equipment = new Equipment();
+			equipment.setEquipmentSocketKey(address);
+			equipment = equipmentMapper.selectByPrimary(equipment);
+			if(equipment != null) {
+				equipment.setEquipmentStatus(0);//离线
+				equipmentMapper.updateByPrimaryKeySelective(equipment);
+			}
+			if(this.hairD()) {
+				try {
+					is.close();
+	            	socket.close();
+	            } catch (IOException e) {}
+				HairUtil.map.remove(address);
+			}
+		}else{
+			System.out.println("收");
+			for (int i = 0; i < dataArrays.length; i++) {
+				System.out.println("读取心跳--收：i=="+i+"："+dataArrays[i]);
+			}
+		}
+	}
+	
+	public boolean hairD() throws Exception{
+		String data = null;
+		data = address + ",";
+		data = data + "[D],";
+		data = data + "<CR><LF>";
+		return HairUtil.put(data, address);
+	}
+	
+	/**
+	 * 定时器，监听心跳包
+	 */
+	public void Timer(){
+		final String[] dataArrays = null;
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			public void run() {
+				int timeLength = getTimeDifference(OfTime.getLongTime(),time);
+				if(timeLength <= 1){
+					System.out.println(address+"没断开：");
+					time = OfTime.getLongTime();
+					num = 0;
+				}else{
+					System.out.println(address+"已断开："+"第"+num+"次");
+					if(num <= 5){
+						Timer();
+						num++;
+					}else{
+						try {
+							D(dataArrays,num);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		}, 6000);
+	}
+	
+	/*** 
+     * @comments 计算两个时间的时间差 
+     * @param strTime1 
+     * @param strTime2 
+     */  
+    private int getTimeDifference(String strTime1,String strTime2) {  
+        //格式日期格式，在此我用的是"2018-01-24 19:49:50"这种格式  
+        //可以更改为自己使用的格式，例如：yyyy/MM/dd HH:mm:ss 。。。  
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+        int timeLength = 0;
+           try{  
+               Date now = df.parse(strTime1);  
+               Date date=df.parse(strTime2);  
+               long l=now.getTime()-date.getTime();       //获取时间差  
+               long day=l/(24*60*60*1000);  
+               long hour=(l/(60*60*1000)-day*24);  
+               long min=((l/(60*1000))-day*24*60-hour*60);  
+               long s=(l/1000-day*24*60*60-hour*60*60-min*60);  
+               timeLength = (int)s;
+           }catch(Exception e){  
+               e.printStackTrace();  
+           }
+		return timeLength;  
+    }
+	
+}

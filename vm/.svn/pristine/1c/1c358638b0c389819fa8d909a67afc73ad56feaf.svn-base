@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.AisleInventoryMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.AisleInventory">
+    <id column="aisle_inventory_id" jdbcType="INTEGER" property="aisleInventoryId" />
+    <result column="aisle_inventory_aisle_id" jdbcType="INTEGER" property="aisleInventoryAisleId" />
+    <result column="aisle_inventory_merchandise_id" jdbcType="INTEGER" property="aisleInventoryMerchandiseId" />
+    <result column="aisle_inventory_count" jdbcType="INTEGER" property="aisleInventoryCount" />
+    <result column="aisle_inventory_create_time" jdbcType="TIMESTAMP" property="aisleInventoryCreateTime" />
+    <result column="aisle_inventory_update_time" jdbcType="TIMESTAMP" property="aisleInventoryUpdateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    aisle_inventory_id, aisle_inventory_aisle_id, aisle_inventory_merchandise_id, aisle_inventory_count, 
+    aisle_inventory_create_time, aisle_inventory_update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from aisle_inventory
+    where aisle_inventory_id = #{aisleInventoryId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from aisle_inventory
+    where aisle_inventory_id = #{aisleInventoryId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.AisleInventory">
+    insert into aisle_inventory (aisle_inventory_id, aisle_inventory_aisle_id, 
+      aisle_inventory_merchandise_id, aisle_inventory_count, 
+      aisle_inventory_create_time, aisle_inventory_update_time
+      )
+    values (#{aisleInventoryId,jdbcType=INTEGER}, #{aisleInventoryAisleId,jdbcType=INTEGER}, 
+      #{aisleInventoryMerchandiseId,jdbcType=INTEGER}, #{aisleInventoryCount,jdbcType=INTEGER}, 
+      #{aisleInventoryCreateTime,jdbcType=TIMESTAMP}, #{aisleInventoryUpdateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.AisleInventory">
+    insert into aisle_inventory
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="aisleInventoryId != null">
+        aisle_inventory_id,
+      </if>
+      <if test="aisleInventoryAisleId != null">
+        aisle_inventory_aisle_id,
+      </if>
+      <if test="aisleInventoryMerchandiseId != null">
+        aisle_inventory_merchandise_id,
+      </if>
+      <if test="aisleInventoryCount != null">
+        aisle_inventory_count,
+      </if>
+      <if test="aisleInventoryCreateTime != null">
+        aisle_inventory_create_time,
+      </if>
+      <if test="aisleInventoryUpdateTime != null">
+        aisle_inventory_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="aisleInventoryId != null">
+        #{aisleInventoryId,jdbcType=INTEGER},
+      </if>
+      <if test="aisleInventoryAisleId != null">
+        #{aisleInventoryAisleId,jdbcType=INTEGER},
+      </if>
+      <if test="aisleInventoryMerchandiseId != null">
+        #{aisleInventoryMerchandiseId,jdbcType=INTEGER},
+      </if>
+      <if test="aisleInventoryCount != null">
+        #{aisleInventoryCount,jdbcType=INTEGER},
+      </if>
+      <if test="aisleInventoryCreateTime != null">
+        #{aisleInventoryCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="aisleInventoryUpdateTime != null">
+        #{aisleInventoryUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.AisleInventory">
+    update aisle_inventory
+    <set>
+      <if test="aisleInventoryAisleId != null">
+        aisle_inventory_aisle_id = #{aisleInventoryAisleId,jdbcType=INTEGER},
+      </if>
+      <if test="aisleInventoryMerchandiseId != null">
+        aisle_inventory_merchandise_id = #{aisleInventoryMerchandiseId,jdbcType=INTEGER},
+      </if>
+      <if test="aisleInventoryCount != null">
+        aisle_inventory_count = #{aisleInventoryCount,jdbcType=INTEGER},
+      </if>
+      <if test="aisleInventoryCreateTime != null">
+        aisle_inventory_create_time = #{aisleInventoryCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="aisleInventoryUpdateTime != null">
+        aisle_inventory_update_time = #{aisleInventoryUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where aisle_inventory_id = #{aisleInventoryId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.AisleInventory">
+    update aisle_inventory
+    set aisle_inventory_aisle_id = #{aisleInventoryAisleId,jdbcType=INTEGER},
+      aisle_inventory_merchandise_id = #{aisleInventoryMerchandiseId,jdbcType=INTEGER},
+      aisle_inventory_count = #{aisleInventoryCount,jdbcType=INTEGER},
+      aisle_inventory_create_time = #{aisleInventoryCreateTime,jdbcType=TIMESTAMP},
+      aisle_inventory_update_time = #{aisleInventoryUpdateTime,jdbcType=TIMESTAMP}
+    where aisle_inventory_id = #{aisleInventoryId,jdbcType=INTEGER}
+  </update>
+  <!-- 根据货道ID修改库存信息 -->
+   <update id="updateByAisleIdSelective" parameterType="com.py.bean.AisleInventory">
+    update aisle_inventory
+    <set>
+      <if test="aisleInventoryMerchandiseId != null">
+        aisle_inventory_merchandise_id = #{aisleInventoryMerchandiseId,jdbcType=INTEGER},
+      </if>
+      <if test="aisleInventoryCount != null">
+        aisle_inventory_count = #{aisleInventoryCount,jdbcType=INTEGER},
+      </if>
+      <if test="aisleInventoryCreateTime != null">
+        aisle_inventory_create_time = #{aisleInventoryCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="aisleInventoryUpdateTime != null">
+        aisle_inventory_update_time = #{aisleInventoryUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where aisle_inventory_aisle_id = #{aisleInventoryAisleId,jdbcType=INTEGER}
+  </update>
+  <!-- ByExample -->
+  <select id="selectByExample" parameterType="com.py.bean.AisleInventory" resultMap="BaseResultMap">
+  	  select *
+  	  from aisle_inventory
+  	  where 1=1
+  	  <if test="aisleInventoryId != null">
+        and aisle_inventory_id = #{aisleInventoryId,jdbcType=INTEGER}
+      </if>
+  	  <if test="aisleInventoryAisleId != null">
+        and aisle_inventory_aisle_id = #{aisleInventoryAisleId,jdbcType=INTEGER}
+      </if>
+      <if test="aisleInventoryMerchandiseId != null">
+        and aisle_inventory_merchandise_id = #{aisleInventoryMerchandiseId,jdbcType=INTEGER}
+      </if>
+      <if test="aisleInventoryCount != null">
+        and aisle_inventory_count = #{aisleInventoryCount,jdbcType=INTEGER}
+      </if>
+      <if test="aisleInventoryCreateTime != null">
+        and aisle_inventory_create_time = #{aisleInventoryCreateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="aisleInventoryUpdateTime != null">
+        and aisle_inventory_update_time = #{aisleInventoryUpdateTime,jdbcType=TIMESTAMP}
+      </if>
+  </select>
+  
+  
+  <resultMap type="com.py.bean.Aisle" id="BaseResultExtendMap">
+  	<id column="aisle_inventory_id" jdbcType="INTEGER" property="aisleInventoryId" />
+    <result column="aisle_inventory_aisle_id" jdbcType="INTEGER" property="aisleInventoryAisleId" />
+    <result column="aisle_inventory_merchandise_id" jdbcType="INTEGER" property="aisleInventoryMerchandiseId" />
+    <result column="aisle_inventory_count" jdbcType="INTEGER" property="aisleInventoryCount" />
+    <result column="aisle_inventory_create_time" jdbcType="TIMESTAMP" property="aisleInventoryCreateTime" />
+    <result column="aisle_inventory_update_time" jdbcType="TIMESTAMP" property="aisleInventoryUpdateTime" />
+    <collection column="merchandise_id" ofType="com.py.bean.Merchandise" property="merchandise">
+    	<id column="merchandise_id" jdbcType="INTEGER" property="merchandiseId" />
+	    <result column="merchandise_name" jdbcType="VARCHAR" property="merchandiseName" />
+	    <result column="merchandise_number" jdbcType="VARCHAR" property="merchandiseNumber" />
+	    <result column="merchandise_commercial_tenant_number" jdbcType="VARCHAR" property="merchandiseCommercialTenantNumber" />
+	    <result column="merchandise_classify" jdbcType="INTEGER" property="merchandiseClassify" />
+	    <result column="merchandise_price" jdbcType="DOUBLE" property="merchandisePrice" />
+	    <result column="merchandise_image_url" jdbcType="VARCHAR" property="merchandiseImageUrl" />
+	    <result column="merchandise_exhibition_image_url" jdbcType="VARCHAR" property="merchandiseExhibitionImageUrl" />
+    	<result column="merchandise_h5_image_url" jdbcType="VARCHAR" property="merchandiseH5ImageUrl" />
+	    <result column="merchandise_status" jdbcType="INTEGER" property="merchandiseStatus" />
+	    <result column="merchandise_time" jdbcType="TIMESTAMP" property="merchandiseTime" />
+	    <result column="merchandise_upload_time" jdbcType="TIMESTAMP" property="merchandiseUploadTime" />
+    	<result column="merchandise_update_time" jdbcType="TIMESTAMP" property="merchandiseUpdateTime" />
+    </collection>
+  </resultMap>
+  
+</mapper>

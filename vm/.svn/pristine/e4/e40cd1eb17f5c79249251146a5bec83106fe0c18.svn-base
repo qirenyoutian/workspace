@@ -1,0 +1,183 @@
+package com.py.socket;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import com.py.bean.Equipment;
+import com.py.dao.EquipmentMapper;
+import com.py.util.OfTime;
+
+/**
+ * 该类为多线程类，用于服务端
+ */
+public class ServerThread implements Runnable {
+	private Socket client = null;
+	private EquipmentMapper equipmentMapper = null;
+	private String time;
+	private String ICCID;
+	private int num;
+	
+	
+	public ServerThread(Socket client ,EquipmentMapper equipmentMapper) {
+		this.client = client;
+		this.equipmentMapper = equipmentMapper;
+	}
+
+	@Override
+	public void run() {
+		try {
+			// 获取Socket的输出流，用来向客户端发送数据
+			PrintStream out = new PrintStream(client.getOutputStream());
+			// 获取Socket的输入流，用来接收从客户端发送过来的数据
+			InputStream is = client.getInputStream();
+			byte b[] = new byte[1024];
+			boolean flag = true;
+			while (flag) {
+				// 接收从客户端发送过来的数据
+				int blen = is.read(b);
+				if (blen <= 0) {
+					flag = false;
+				} else {
+					System.out.println("开始时间："+OfTime.getLongTime());
+					time = OfTime.getLongTime();
+					this.Timer();
+					System.err.println("blen 是读取到的字节数：" + blen);
+					String data = new String(b);
+					data = HairUtil.replaceSpecialStr(data);
+					System.out.println(data);
+					String[] dataArrays = data.replaceAll(" ",",").split(",");
+					ICCID = dataArrays[1];
+					if(HairUtil.map.get(ICCID) == null) {
+						HairUtil.map.put(ICCID, client);
+					}
+					switch (dataArrays[0]) {
+					case "AA":
+						this.A();
+						break;
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void A() throws IOException {
+		//设备
+		Equipment equipment = new Equipment();
+		equipment.setEquipmentNumber(ICCID);
+		//查询数据库是否有此设备
+		Equipment findEquipment = equipmentMapper.selectByPrimary(equipment);
+		if(findEquipment == null) {//无则添加
+			equipment.setEquipmentSocketKey(ICCID);
+			equipmentMapper.insertSelective(equipment);
+			HairUtil.put(String.valueOf(equipment.getEquipmentId()), ICCID);
+		}else {
+			findEquipment.setEquipmentStatus(1);//在线
+			findEquipment.setEquipmentSocketKey(ICCID);
+			equipmentMapper.updateByPrimaryKeySelective(findEquipment);
+			HairUtil.put(String.valueOf(findEquipment.getEquipmentId()), ICCID);
+		}
+	}
+	
+	/*
+	 * 四、	读取心跳
+	 */
+	public void D(String[] dataArrays,int num) throws Exception{
+		System.out.println("读取心跳");
+		if(num != 0){
+			System.out.println("发");
+			Equipment equipment = new Equipment();
+			equipment.setEquipmentSocketKey(ICCID);
+			equipment = equipmentMapper.selectByPrimary(equipment);
+			if(equipment != null) {
+				equipment.setEquipmentStatus(0);//离线
+				equipmentMapper.updateByPrimaryKeySelective(equipment);
+			}
+			if(this.hairD()) {
+				HairUtil.map.remove(ICCID);
+			}
+		}else{
+			System.out.println("收");
+			for (int i = 0; i < dataArrays.length; i++) {
+				System.out.println("读取心跳--收：i=="+i+"："+dataArrays[i]);
+			}
+		}
+	}
+	
+	public boolean hairD() throws Exception{
+		String data = null;
+		data = ICCID + ",";
+		data = data + "[D],";
+		data = data + "<CR><LF>";
+		return HairUtil.put(data, ICCID);
+	}
+	
+	/**
+	 * 定时器，监听心跳包
+	 */
+	public void Timer(){
+		final String[] dataArrays = null;
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			public void run() {
+				System.out.println("-------设定要指定任务--------");
+				System.out.println("进入定时器时间："+OfTime.getLongTime());
+				System.out.println("time的值："+time);
+				int timeLength = getTimeDifference(OfTime.getLongTime(),time);
+				System.out.println(timeLength);
+				if(timeLength <= 1){
+					System.out.println("没断开："+OfTime.getLongTime());
+					time = OfTime.getLongTime();
+				}else{
+					System.out.println("已断开："+OfTime.getLongTime());
+					if(num <= 5){
+						Timer();
+						num++;
+					}else{
+						System.out.println("num："+num);
+						try {
+							D(dataArrays,num);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					
+				}
+			}
+		}, 6000);
+	}
+	
+	/*** 
+     * @comments 计算两个时间的时间差 
+     * @param strTime1 
+     * @param strTime2 
+     */  
+    private int getTimeDifference(String strTime1,String strTime2) {  
+        //格式日期格式，在此我用的是"2018-01-24 19:49:50"这种格式  
+        //可以更改为自己使用的格式，例如：yyyy/MM/dd HH:mm:ss 。。。  
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+        int timeLength = 0;
+           try{  
+               Date now = df.parse(strTime1);  
+               Date date=df.parse(strTime2);  
+               long l=now.getTime()-date.getTime();       //获取时间差  
+               long day=l/(24*60*60*1000);  
+               long hour=(l/(60*60*1000)-day*24);  
+               long min=((l/(60*1000))-day*24*60-hour*60);  
+               long s=(l/1000-day*24*60*60-hour*60*60-min*60);  
+               timeLength = (int)s;
+               System.out.println(""+day+"天"+hour+"小时"+min+"分"+s+"秒");  
+           }catch(Exception e){  
+               e.printStackTrace();  
+           }
+		return timeLength;  
+    }
+	
+}

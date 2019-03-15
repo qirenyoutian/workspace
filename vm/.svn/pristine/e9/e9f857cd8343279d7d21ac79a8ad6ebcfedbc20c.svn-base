@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.MerchandiseClassifyMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.MerchandiseClassify">
+    <id column="merchandise_classify_id" jdbcType="INTEGER" property="merchandiseClassifyId" />
+    <result column="merchandise_classify_name" jdbcType="VARCHAR" property="merchandiseClassifyName" />
+    <result column="merchandise_classify_note" jdbcType="VARCHAR" property="merchandiseClassifyNote" />
+    <result column="merchandise_classify_image" jdbcType="VARCHAR" property="merchandiseClassifyImage" />
+    <result column="merchandise_classify_time" jdbcType="TIMESTAMP" property="merchandiseClassifyTime" />
+    <result column="merchandise_classify_update_time" jdbcType="TIMESTAMP" property="merchandiseClassifyUpdateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    merchandise_classify_id, merchandise_classify_name, merchandise_classify_note, merchandise_classify_image, 
+    merchandise_classify_time, merchandise_classify_update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from merchandise_classify
+    where merchandise_classify_id = #{merchandiseClassifyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from merchandise_classify
+    where merchandise_classify_id = #{merchandiseClassifyId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.MerchandiseClassify">
+    insert into merchandise_classify (merchandise_classify_id, merchandise_classify_name, 
+      merchandise_classify_note, merchandise_classify_image, 
+      merchandise_classify_time, merchandise_classify_update_time
+      )
+    values (#{merchandiseClassifyId,jdbcType=INTEGER}, #{merchandiseClassifyName,jdbcType=VARCHAR}, 
+      #{merchandiseClassifyNote,jdbcType=VARCHAR}, #{merchandiseClassifyImage,jdbcType=VARCHAR}, 
+      #{merchandiseClassifyTime,jdbcType=TIMESTAMP}, #{merchandiseClassifyUpdateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.MerchandiseClassify">
+    insert into merchandise_classify
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="merchandiseClassifyId != null">
+        merchandise_classify_id,
+      </if>
+      <if test="merchandiseClassifyName != null">
+        merchandise_classify_name,
+      </if>
+      <if test="merchandiseClassifyNote != null">
+        merchandise_classify_note,
+      </if>
+      <if test="merchandiseClassifyImage != null">
+        merchandise_classify_image,
+      </if>
+      <if test="merchandiseClassifyTime != null">
+        merchandise_classify_time,
+      </if>
+      <if test="merchandiseClassifyUpdateTime != null">
+        merchandise_classify_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="merchandiseClassifyId != null">
+        #{merchandiseClassifyId,jdbcType=INTEGER},
+      </if>
+      <if test="merchandiseClassifyName != null">
+        #{merchandiseClassifyName,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseClassifyNote != null">
+        #{merchandiseClassifyNote,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseClassifyImage != null">
+        #{merchandiseClassifyImage,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseClassifyTime != null">
+        #{merchandiseClassifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="merchandiseClassifyUpdateTime != null">
+        #{merchandiseClassifyUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.MerchandiseClassify">
+    update merchandise_classify
+    <set>
+      <if test="merchandiseClassifyName != null">
+        merchandise_classify_name = #{merchandiseClassifyName,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseClassifyNote != null">
+        merchandise_classify_note = #{merchandiseClassifyNote,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseClassifyImage != null">
+        merchandise_classify_image = #{merchandiseClassifyImage,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseClassifyTime != null">
+        merchandise_classify_time = #{merchandiseClassifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="merchandiseClassifyUpdateTime != null">
+        merchandise_classify_update_time = #{merchandiseClassifyUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where merchandise_classify_id = #{merchandiseClassifyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.MerchandiseClassify">
+    update merchandise_classify
+    set merchandise_classify_name = #{merchandiseClassifyName,jdbcType=VARCHAR},
+      merchandise_classify_note = #{merchandiseClassifyNote,jdbcType=VARCHAR},
+      merchandise_classify_image = #{merchandiseClassifyImage,jdbcType=VARCHAR},
+      merchandise_classify_time = #{merchandiseClassifyTime,jdbcType=TIMESTAMP},
+      merchandise_classify_update_time = #{merchandiseClassifyUpdateTime,jdbcType=TIMESTAMP}
+    where merchandise_classify_id = #{merchandiseClassifyId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByExample" parameterType="com.py.bean.MerchandiseClassify" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from merchandise_classify
+    <where>
+      <if test="merchandiseClassifyName != null">
+        and merchandise_classify_name = #{merchandiseClassifyName,jdbcType=VARCHAR}
+      </if>
+      <if test="merchandiseClassifyNote != null">
+        and merchandise_classify_note = #{merchandiseClassifyNote,jdbcType=VARCHAR}
+      </if>
+      <if test="merchandiseClassifyImage != null">
+        and merchandise_classify_image = #{merchandiseClassifyImage,jdbcType=VARCHAR}
+      </if>
+      <if test="merchandiseClassifyTime != null">
+        and merchandise_classify_time = #{merchandiseClassifyTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="merchandiseClassifyUpdateTime != null">
+        and merchandise_classify_update_time = #{merchandiseClassifyUpdateTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+  
+</mapper>

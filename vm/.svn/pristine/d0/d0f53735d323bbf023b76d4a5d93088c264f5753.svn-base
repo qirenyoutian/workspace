@@ -1,0 +1,18 @@
+// Generated code from Butter Knife. Do not modify!
+package com.example.admin.serialdemo.Fragment;
+
+import android.view.View;
+import butterknife.ButterKnife.Finder;
+import butterknife.ButterKnife.ViewBinder;
+
+public class Fragment_Page$$ViewBinder<T extends com.example.admin.serialdemo.Fragment.Fragment_Page> implements ViewBinder<T> {
+  @Override public void bind(final Finder finder, final T target, Object source) {
+    View view;
+    view = finder.findRequiredView(source, 2131165287, "field 'maintain'");
+    target.maintain = finder.castView(view, 2131165287, "field 'maintain'");
+  }
+
+  @Override public void unbind(T target) {
+    target.maintain = null;
+  }
+}

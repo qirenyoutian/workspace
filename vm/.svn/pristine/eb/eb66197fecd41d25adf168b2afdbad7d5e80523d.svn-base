@@ -1,0 +1,107 @@
+package com.example.admin.serialdemo.Activity;
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.widget.FrameLayout;
+import android.widget.Toast;
+
+import com.ashokvarma.bottomnavigation.BottomNavigationBar;
+import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.example.admin.serialdemo.Utils.BaseFragment;
+import com.example.admin.serialdemo.R;
+import com.example.admin.serialdemo.Utils.FragmentFactory;
+
+import butterknife.ButterKnife;
+
+public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "";
+    public String[] items2 = {"商城","取货", "客服","帮助"};
+    private long mPreTime = 0;
+    private FrameLayout mFramelayout;
+    private BottomNavigationBar mBottomBar;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        mBottomBar = (BottomNavigationBar) findViewById(R.id.bottom_bar);
+        mFramelayout = (FrameLayout) findViewById(R.id.framelayout);
+        initView(items2);
+        initEvent();
+    }
+
+    public void initView(String[] items) {
+        mBottomBar.clearAll();
+        mBottomBar.addItem(new BottomNavigationItem(R.mipmap.shop, items[0]))
+                .addItem(new BottomNavigationItem(R.mipmap.erweima, items[1]))
+                .addItem(new BottomNavigationItem(R.mipmap.custowhite, items[2]))
+                .addItem(new BottomNavigationItem(R.mipmap.help, items[3]))
+                .setMode(BottomNavigationBar.MODE_FIXED)
+                .setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC)
+                .setInActiveColor(R.color.inActive)
+                .setActiveColor(R.color.colorPrimary)
+                .setFirstSelectedPosition(0)
+                .initialise();
+        //清空原来的fragment，防止重影
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        for (int i = 0; i < items.length; i++) {
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag(i + "");
+            if (fragment != null)
+                fragmentTransaction.remove(fragment);
+        }
+        fragmentTransaction.commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.framelayout,
+                FragmentFactory.getFragment(0), "0").commit();
+    }
+
+    private void initEvent() {
+        mBottomBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(int position) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                BaseFragment fragment = FragmentFactory.getFragment(position);
+                if (!fragment.isAdded()) {
+                    transaction.add(R.id.framelayout, fragment, "" + position);
+                }
+                transaction.show(fragment).commit();
+            }
+
+            @Override
+            public void onTabUnselected(int position) {
+                getSupportFragmentManager().beginTransaction().hide(FragmentFactory.getFragment(position)).commit();
+            }
+            @Override
+            public void onTabReselected(int position) {}
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    /**
+     * 刷新UI界面
+     * @param data 接收到的串口数据
+     */
+    public static void refreshTextView(String data){
+        Log.i(TAG, "refreshTextView: "+data);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() - mPreTime > 2000) {
+            Toast.makeText(this, "再按一次退出应用", Toast.LENGTH_SHORT).show();
+            mPreTime = System.currentTimeMillis();
+            return;
+        } else {
+            finish();
+            super.onBackPressed();
+        }
+    }
+}

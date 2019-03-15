@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.MerchandiseMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.Merchandise">
+    <id column="merchandise_id" jdbcType="INTEGER" property="merchandiseId" />
+    <result column="merchandise_name" jdbcType="VARCHAR" property="merchandiseName" />
+    <result column="merchandise_number" jdbcType="VARCHAR" property="merchandiseNumber" />
+    <result column="merchandise_commercial_tenant_number" jdbcType="VARCHAR" property="merchandiseCommercialTenantNumber" />
+    <result column="merchandise_classify" jdbcType="INTEGER" property="merchandiseClassify" />
+    <result column="merchandise_price" jdbcType="DOUBLE" property="merchandisePrice" />
+    <result column="merchandise_image_url" jdbcType="VARCHAR" property="merchandiseImageUrl" />
+    <result column="merchandise_exhibition_image_url" jdbcType="VARCHAR" property="merchandiseExhibitionImageUrl" />
+    <result column="merchandise_information_comefrom" jdbcType="INTEGER" property="merchandiseInformationComefrom" />
+    <result column="merchandise_h5_image_url" jdbcType="VARCHAR" property="merchandiseH5ImageUrl" />
+    <result column="merchandise_status" jdbcType="INTEGER" property="merchandiseStatus" />
+    <result column="merchandise_time" jdbcType="TIMESTAMP" property="merchandiseTime" />
+    <result column="merchandise_upload_time" jdbcType="TIMESTAMP" property="merchandiseUploadTime" />
+    <result column="merchandise_update_time" jdbcType="TIMESTAMP" property="merchandiseUpdateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    merchandise_id, merchandise_name, merchandise_number, merchandise_commercial_tenant_number, 
+    merchandise_classify, merchandise_price, merchandise_image_url, merchandise_exhibition_image_url, 
+    merchandise_information_comefrom,merchandise_h5_image_url, merchandise_status, merchandise_time,
+    merchandise_upload_time, merchandise_update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from merchandise
+    where merchandise_id = #{merchandiseId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from merchandise
+    where merchandise_id = #{merchandiseId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.Merchandise">
+    insert into merchandise (merchandise_id, merchandise_name, merchandise_number, 
+      merchandise_commercial_tenant_number, merchandise_classify, 
+      merchandise_price, merchandise_image_url, merchandise_exhibition_image_url,
+      merchandise_information_comefrom, 
+      merchandise_h5_image_url, merchandise_status, 
+      merchandise_time, merchandise_upload_time, 
+      merchandise_update_time)
+    values (#{merchandiseId,jdbcType=INTEGER}, #{merchandiseName,jdbcType=VARCHAR}, #{merchandiseNumber,jdbcType=VARCHAR}, 
+      #{merchandiseCommercialTenantNumber,jdbcType=VARCHAR}, #{merchandiseClassify,jdbcType=INTEGER}, 
+      #{merchandisePrice,jdbcType=DOUBLE}, #{merchandiseImageUrl,jdbcType=VARCHAR}, #{merchandiseExhibitionImageUrl,jdbcType=VARCHAR}, 
+      #{merchandiseInformationComefrom,jdbcType=INTEGER},#{merchandiseH5ImageUrl,jdbcType=VARCHAR}, #{merchandiseStatus,jdbcType=INTEGER}, 
+      #{merchandiseTime,jdbcType=TIMESTAMP}, #{merchandiseUploadTime,jdbcType=TIMESTAMP}, 
+      #{merchandiseUpdateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.Merchandise">
+    insert into merchandise
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="merchandiseId != null">
+        merchandise_id,
+      </if>
+      <if test="merchandiseName != null">
+        merchandise_name,
+      </if>
+      <if test="merchandiseNumber != null">
+        merchandise_number,
+      </if>
+      <if test="merchandiseCommercialTenantNumber != null">
+        merchandise_commercial_tenant_number,
+      </if>
+      <if test="merchandiseClassify != null">
+        merchandise_classify,
+      </if>
+      <if test="merchandisePrice != null">
+        merchandise_price,
+      </if>
+      <if test="merchandiseImageUrl != null">
+        merchandise_image_url,
+      </if>
+      <if test="merchandiseExhibitionImageUrl != null">
+        merchandise_exhibition_image_url,
+      </if>
+      <if test="merchandiseInformationComefrom != null">
+        merchandise_information_comefrom,
+      </if>
+      <if test="merchandiseH5ImageUrl != null">
+        merchandise_h5_image_url,
+      </if>
+      <if test="merchandiseStatus != null">
+        merchandise_status,
+      </if>
+      <if test="merchandiseTime != null">
+        merchandise_time,
+      </if>
+      <if test="merchandiseUploadTime != null">
+        merchandise_upload_time,
+      </if>
+      <if test="merchandiseUpdateTime != null">
+        merchandise_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="merchandiseId != null">
+        #{merchandiseId,jdbcType=INTEGER},
+      </if>
+      <if test="merchandiseName != null">
+        #{merchandiseName,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseNumber != null">
+        #{merchandiseNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseCommercialTenantNumber != null">
+        #{merchandiseCommercialTenantNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseClassify != null">
+        #{merchandiseClassify,jdbcType=INTEGER},
+      </if>
+      <if test="merchandisePrice != null">
+        #{merchandisePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="merchandiseImageUrl != null">
+        #{merchandiseImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseExhibitionImageUrl != null">
+        #{merchandiseExhibitionImageUrl,jdbcType=VARCHAR},
+      </if>
+       <if test="merchandiseInformationComefrom != null">
+       #{merchandiseInformationComefrom,jdbcType=INTEGER},
+      </if>
+      <if test="merchandiseH5ImageUrl != null">
+        #{merchandiseH5ImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseStatus != null">
+        #{merchandiseStatus,jdbcType=INTEGER},
+      </if>
+      <if test="merchandiseTime != null">
+        #{merchandiseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="merchandiseUploadTime != null">
+        #{merchandiseUploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="merchandiseUpdateTime != null">
+        #{merchandiseUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.Merchandise">
+    update merchandise
+    <set>
+      <if test="merchandiseName != null">
+        merchandise_name = #{merchandiseName,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseNumber != null">
+        merchandise_number = #{merchandiseNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseCommercialTenantNumber != null">
+        merchandise_commercial_tenant_number = #{merchandiseCommercialTenantNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseClassify != null">
+        merchandise_classify = #{merchandiseClassify,jdbcType=INTEGER},
+      </if>
+      <if test="merchandisePrice != null">
+        merchandise_price = #{merchandisePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="merchandiseImageUrl != null">
+        merchandise_image_url = #{merchandiseImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseExhibitionImageUrl != null">
+        merchandise_exhibition_image_url = #{merchandiseExhibitionImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseInformationComefrom != null">
+        merchandise_information_comefrom = #{merchandiseInformationComefrom,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseH5ImageUrl != null">
+        merchandise_h5_image_url = #{merchandiseH5ImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandiseStatus != null">
+        merchandise_status = #{merchandiseStatus,jdbcType=INTEGER},
+      </if>
+      <if test="merchandiseTime != null">
+        merchandise_time = #{merchandiseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="merchandiseUploadTime != null">
+        merchandise_upload_time = #{merchandiseUploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="merchandiseUpdateTime != null">
+        merchandise_update_time = #{merchandiseUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where merchandise_id = #{merchandiseId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.Merchandise">
+    update merchandise
+    set merchandise_name = #{merchandiseName,jdbcType=VARCHAR},
+      merchandise_number = #{merchandiseNumber,jdbcType=VARCHAR},
+      merchandise_commercial_tenant_number = #{merchandiseCommercialTenantNumber,jdbcType=VARCHAR},
+      merchandise_classify = #{merchandiseClassify,jdbcType=INTEGER},
+      merchandise_price = #{merchandisePrice,jdbcType=DOUBLE},
+      merchandise_image_url = #{merchandiseImageUrl,jdbcType=VARCHAR},
+      merchandise_exhibition_image_url = #{merchandiseExhibitionImageUrl,jdbcType=VARCHAR},
+      merchandise_information_comefrom = #{merchandiseInformationComefrom,jdbcType=INTEGER},
+      merchandise_h5_image_url = #{merchandiseH5ImageUrl,jdbcType=VARCHAR},
+      merchandise_status = #{merchandiseStatus,jdbcType=INTEGER},
+      merchandise_time = #{merchandiseTime,jdbcType=TIMESTAMP},
+      merchandise_upload_time = #{merchandiseUploadTime,jdbcType=TIMESTAMP},
+      merchandise_update_time = #{merchandiseUpdateTime,jdbcType=TIMESTAMP}
+    where merchandise_id = #{merchandiseId,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 批量删除 -->
+   <delete id="deleteByArray">
+  	DELETE
+	FROM
+		merchandise
+	WHERE
+		merchandise_id IN
+			<foreach close=")" collection="array" item="merchandise" open="(" separator=","> 
+				#{merchandise}
+			</foreach>
+  </delete>
+  
+  
+  <resultMap id="BaseResultExtendMap" type="com.py.bean.Merchandise">
+    <id column="merchandise_id" jdbcType="INTEGER" property="merchandiseId" />
+    <result column="merchandise_name" jdbcType="VARCHAR" property="merchandiseName" />
+    <result column="merchandise_number" jdbcType="VARCHAR" property="merchandiseNumber" />
+    <result column="merchandise_commercial_tenant_number" jdbcType="VARCHAR" property="merchandiseCommercialTenantNumber" />
+    <result column="merchandise_classify" jdbcType="INTEGER" property="merchandiseClassify" />
+    <result column="merchandise_price" jdbcType="DOUBLE" property="merchandisePrice" />
+    <result column="merchandise_image_url" jdbcType="VARCHAR" property="merchandiseImageUrl" />
+    <result column="merchandise_exhibition_image_url" jdbcType="VARCHAR" property="merchandiseExhibitionImageUrl" />
+    <result column="merchandise_information_comefrom" jdbcType="INTEGER" property="merchandiseInformationComefrom" />
+    <result column="merchandise_h5_image_url" jdbcType="VARCHAR" property="merchandiseH5ImageUrl" />
+    <result column="merchandise_status" jdbcType="INTEGER" property="merchandiseStatus" />
+    <result column="merchandise_time" jdbcType="TIMESTAMP" property="merchandiseTime" />
+    <result column="merchandise_upload_time" jdbcType="TIMESTAMP" property="merchandiseUploadTime" />
+    <result column="merchandise_update_time" jdbcType="TIMESTAMP" property="merchandiseUpdateTime" />
+    <collection column="commercial_tenant_number" ofType="com.py.bean.CommercialTenant" property="commercialTenant">
+    	<id column="commercial_tenant_id" jdbcType="INTEGER" property="commercialTenantId" />
+	    <result column="commercial_tenant_name" jdbcType="VARCHAR" property="commercialTenantName" />
+	    <result column="commercial_tenant_number" jdbcType="VARCHAR" property="commercialTenantNumber" />
+	    <result column="commercial_tenant_describe" jdbcType="VARCHAR" property="commercialTenantDescribe" />
+	    <result column="commercial_tenant_attr" jdbcType="VARCHAR" property="commercialTenantAttr" />
+	    <result column="commercial_tenant_phone" jdbcType="VARCHAR" property="commercialTenantPhone" />
+	    <result column="commercial_tenant_logo" jdbcType="VARCHAR" property="commercialTenantLogo" />
+	    <result column="commercial_tenant_official_website" jdbcType="VARCHAR" property="commercialTenantOfficialWebsite" />
+	    <result column="commercial_tenant_create_time" jdbcType="TIMESTAMP" property="commercialTenantCreateTime" />
+	    <result column="commercial_tenant_change_time" jdbcType="TIMESTAMP" property="commercialTenantChangeTime" />
+    </collection>
+    <collection column="merchandise_classify_id" ofType="com.py.bean.MerchandiseClassify" property="classify">
+	   <id column="merchandise_classify_id" jdbcType="INTEGER" property="merchandiseClassifyId" />
+	   <result column="merchandise_classify_name" jdbcType="VARCHAR" property="merchandiseClassifyName" />
+	   <result column="merchandise_classify_note" jdbcType="VARCHAR" property="merchandiseClassifyNote" />
+	   <result column="merchandise_classify_image" jdbcType="VARCHAR" property="merchandiseClassifyImage" />
+	   <result column="merchandise_classify_time" jdbcType="TIMESTAMP" property="merchandiseClassifyTime" />
+	   <result column="merchandise_classify_update_time" jdbcType="TIMESTAMP" property="merchandiseClassifyUpdateTime" />
+	</collection>
+	<collection column="channel_id" ofType="com.py.bean.Channel" property="channel">
+		<id column="channel_id" jdbcType="INTEGER" property="channelId" />
+	    <result column="channel_name" jdbcType="VARCHAR" property="channelName" />
+	    <result column="channel_contact" jdbcType="VARCHAR" property="channelContact" />
+	    <result column="channel_contact_way" jdbcType="VARCHAR" property="channelContactWay" />
+	    <result column="channel_style" jdbcType="VARCHAR" property="channelStyle" />
+	    <result column="channel_pay_type" jdbcType="VARCHAR" property="channelPayType" />
+	    <result column="channel_single_interface_address" jdbcType="VARCHAR" property="channelSingleInterfaceAddress" />
+	    <result column="channel_checkstand_address" jdbcType="VARCHAR" property="channelCheckstandAddress" />
+	    <result column="channel_create_time" jdbcType="TIMESTAMP" property="channelCreateTime" />
+	    <result column="channel_change_time" jdbcType="TIMESTAMP" property="channelChangeTime" />
+	</collection>
+  </resultMap>
+  
+  <select id="selectByPrimary" parameterType="com.py.bean.Merchandise" resultMap="BaseResultExtendMap">
+    SELECT * FROM merchandise m 
+	LEFT JOIN commercial_tenant ct ON m.merchandise_commercial_tenant_number = ct.commercial_tenant_id
+	LEFT JOIN merchandise_classify mc ON m.merchandise_classify = mc.merchandise_classify_id
+	<where>
+	    <if test="merchandiseId != null">
+	      and merchandise_id = #{merchandiseId,jdbcType=INTEGER}
+	    </if>
+	    <if test="merchandiseName != null">
+	      and merchandise_name = #{merchandiseName,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandiseNumber != null">
+	      and merchandise_number = #{merchandiseNumber,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandiseCommercialTenantNumber != null">
+	      and merchandise_commercial_tenant_number = #{merchandiseCommercialTenantNumber,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandiseClassify != null">
+	      and merchandise_classify = #{merchandiseClassify,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandisePrice != null">
+	      and merchandise_price= #{merchandisePrice,jdbcType=INTEGER}
+	    </if>
+	    <if test="merchandiseImageUrl != null">
+	      and merchandise_image_url = #{merchandiseImageUrl,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandiseExhibitionImageUrl != null">
+	        and merchandise_exhibition_image_url = #{merchandiseExhibitionImageUrl,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandiseInformationComefrom != null">
+	        and merchandise_information_comefrom = #{merchandiseInformationComefrom,jdbcType=INTEGER}
+	    </if>
+	    <if test="merchandiseH5ImageUrl != null">
+	      and merchandise_h5_image_url = #{merchandiseH5ImageUrl,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandiseStatus != null">
+	      and merchandise_status = #{merchandiseStatus,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandiseTime != null">
+	      and merchandise_time = #{merchandiseTime,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandiseUploadTime != null">
+	      and merchandise_upload_time = #{merchandiseUploadTime,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandiseUpdateTime != null">
+	      and merchandise_update_time = #{merchandiseUpdateTime,jdbcType=VARCHAR}
+	    </if>
+	</where> 
+  </select>
+  
+  <select id="selectByExample" parameterType="com.py.bean.Merchandise" resultMap="BaseResultExtendMap">
+    SELECT
+		*
+	FROM
+		merchandise m
+	LEFT JOIN commercial_tenant ct ON m.merchandise_commercial_tenant_number = ct.commercial_tenant_id
+	LEFT JOIN merchandise_classify mc ON m.merchandise_classify = mc.merchandise_classify_id
+	LEFT JOIN channel c1 ON c1.channel_id = m.merchandise_information_comefrom
+	where 1=1
+	    <if test="merchandiseId != null">
+	      and merchandise_id = #{merchandiseId,jdbcType=INTEGER}
+	    </if>
+	    <if test="merchandiseName != null">
+	      and merchandise_name like "%"#{merchandiseName,jdbcType=VARCHAR}"%"
+	    </if>
+	    <if test="merchandiseNumber != null">
+	      and merchandise_number like #{merchandiseNumber,jdbcType=VARCHAR}"%"
+	    </if>
+	    <if test="merchandiseCommercialTenantNumber != null">
+	      and merchandise_commercial_tenant_number = #{merchandiseCommercialTenantNumber,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandiseClassify != null">
+	      and merchandise_classify = #{merchandiseClassify,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandisePrice != null">
+	      and merchandise_price= #{merchandisePrice,jdbcType=INTEGER}
+	    </if>
+	    <if test="merchandiseImageUrl != null">
+	      and merchandise_image_url = #{merchandiseImageUrl,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandiseExhibitionImageUrl != null">
+	        and merchandise_exhibition_image_url = #{merchandiseExhibitionImageUrl,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandiseInformationComefrom != null">
+	        and merchandise_information_comefrom = #{merchandiseInformationComefrom,jdbcType=INTEGER}
+	    </if>
+	    <if test="merchandiseH5ImageUrl != null">
+	      and merchandise_h5_image_url = #{merchandiseH5ImageUrl,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandiseStatus != null">
+	      and merchandise_status = #{merchandiseStatus,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandiseTime != null">
+	      and merchandise_time = #{merchandiseTime,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandiseUploadTime != null">
+	      and merchandise_upload_time = #{merchandiseUploadTime,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandiseUpdateTime != null">
+	      and merchandise_update_time = #{merchandiseUpdateTime,jdbcType=VARCHAR}
+	    </if>
+  </select>
+
+  <!-- 寻找已上架商品 -->
+  <select id="selectByStatus" parameterType="com.py.bean.Merchandise" resultMap="BaseResultExtendMap">
+    SELECT * FROM merchandise m 
+	LEFT JOIN commercial_tenant ct ON m.merchandise_commercial_tenant_number = ct.commercial_tenant_id
+	LEFT JOIN merchandise_classify mc ON m.merchandise_classify = mc.merchandise_classify_id
+	<where>
+	    <if test="merchandiseCommercialTenantNumber != null">
+	      and merchandise_commercial_tenant_number = #{merchandiseCommercialTenantNumber,jdbcType=VARCHAR}
+	    </if>
+	    and m.merchandise_status = 1
+	</where> 
+  </select>
+  <!-- 寻找渠道商品的商品 -->
+    <select id="selectByChannelMerchandise" parameterType="com.py.bean.ChannelMerchandise" resultMap="BaseResultExtendMap">
+    SELECT * FROM merchandise m 
+	LEFT JOIN commercial_tenant ct ON m.merchandise_commercial_tenant_number = ct.commercial_tenant_id
+	LEFT JOIN merchandise_classify mc ON m.merchandise_classify = mc.merchandise_classify_id
+	<where>
+	    <if test="merchandiseId != null">
+	      and merchandise_id = #{merchandiseId,jdbcType=INTEGER}
+	    </if>
+	    <if test="merchandiseName != null">
+	      and merchandise_name like "%"#{merchandiseName,jdbcType=VARCHAR}"%"
+	    </if>
+	    <if test="merchandiseNumber != null">
+	      and merchandise_number like #{merchandiseNumber,jdbcType=VARCHAR}"%"
+	    </if>
+	    <if test="merchandiseCommercialTenantNumber != null">
+	      and merchandise_commercial_tenant_number = #{merchandiseCommercialTenantNumber,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandiseClassify != null">
+	      and merchandise_classify = #{merchandiseClassify,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandisePrice != null">
+	      and merchandise_price= #{merchandisePrice,jdbcType=INTEGER}
+	    </if>
+	    <if test="merchandiseImageUrl != null">
+	      and merchandise_image_url = #{merchandiseImageUrl,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandiseExhibitionImageUrl != null">
+	        and merchandise_exhibition_image_url = #{merchandiseExhibitionImageUrl,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandiseInformationComefrom != null">
+	        and merchandise_information_comefrom = #{merchandiseInformationComefrom,jdbcType=INTEGER}
+	    </if>
+	    <if test="merchandiseH5ImageUrl != null">
+	      and merchandise_h5_image_url = #{merchandiseH5ImageUrl,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandiseStatus != null">
+	      and merchandise_status = #{merchandiseStatus,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandiseTime != null">
+	      and merchandise_time = #{merchandiseTime,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandiseUploadTime != null">
+	      and merchandise_upload_time = #{merchandiseUploadTime,jdbcType=VARCHAR}
+	    </if>
+	    <if test="merchandiseUpdateTime != null">
+	      and merchandise_update_time = #{merchandiseUpdateTime,jdbcType=VARCHAR}
+	    </if>
+	</where> 
+  </select>
+  
+  <select id="selectByTime" parameterType="java.lang.String" resultMap="BaseResultExtendMap">
+	 SELECT
+		*
+	FROM
+		merchandise m
+	LEFT JOIN commercial_tenant ct ON m.merchandise_commercial_tenant_number = ct.commercial_tenant_id
+	LEFT JOIN merchandise_classify mc ON m.merchandise_classify = mc.merchandise_classify_id
+	LEFT JOIN channel c1 ON c1.channel_id = m.merchandise_information_comefrom
+	<where>
+		<if test="startTime != null">
+			and merchandise_time &gt; #{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null"> 
+			and merchandise_time &lt; #{endTime,jdbcType=TIMESTAMP}
+		</if>
+	</where>
+   </select>
+  
+</mapper>

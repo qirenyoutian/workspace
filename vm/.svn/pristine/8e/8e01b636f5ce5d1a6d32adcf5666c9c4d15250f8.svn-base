@@ -1,0 +1,185 @@
+package com.example.admin.serialdemo.Utils;
+
+import android.Manifest;
+import android.app.Application;
+import android.app.Service;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.RemoteException;
+import android.os.SystemClock;
+import android.os.Vibrator;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.util.Log;
+
+import com.example.admin.serialdemo.ISocketMessageListener;
+import com.example.admin.serialdemo.ISocketServiceInterface;
+import com.example.admin.serialdemo.Portutil.SerialPort;
+import com.example.admin.serialdemo.Socket.Custom;
+import com.example.admin.serialdemo.Socket.SocketService;
+import com.example.admin.serialdemo.Socket.SocketServiceSP;
+import com.example.admin.serialdemo.bean.SocketMessage;
+
+import java.io.File;
+
+import static android.content.ContentValues.TAG;
+
+
+/**
+ * Created by Administrator on 2017/8/17.
+ */
+public class DrinkApp extends Application {
+
+    private ISocketServiceInterface mSocket;
+    private final int MSG_WHAT_UPDATE = 200;
+
+    public static boolean runStatus;
+    private static Context context;
+    public Vibrator mVibrator;
+
+    private SerialPort mSerialPort = null;
+
+    public SerialPort getSerialPort()  {
+        if (mSerialPort == null){
+            /* Read serial port parameters */
+            SharedPreferences sp = getSharedPreferences("com.example.myserial_preferences", MODE_PRIVATE);
+            String path = sp.getString("DEVICE", "");
+            int baudrate = Integer.decode(sp.getString("BAUDRATE", "115200"));
+            int databits = Integer.decode(sp.getString("DATABITS", "8"));
+            char[] checkbit = sp.getString("CHECKBIT","n").toCharArray();
+            int stopbit = Integer.decode(sp.getString("STOPBIT", "1"));
+
+            /* Open the serial port */
+            mSerialPort = new SerialPort(new File(path), baudrate, databits, checkbit[0],stopbit);
+        }
+        return mSerialPort;
+    }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == MSG_WHAT_UPDATE) {//跟新UI界面的消息列表
+                SocketMessage sMessage = (SocketMessage) msg.obj;
+                Log.i(TAG, "handleMessage: "+sMessage);
+            }
+        }
+    };
+
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            //获取操作SocketService的aidl的接口对象（绑定成功后由去Service的onBind方法返回来的）
+            mSocket = ISocketServiceInterface.Stub.asInterface(iBinder);
+            try {
+                //添加消息监听器
+                mSocket.addMessageListener(messageListener);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            mSocket = null;
+        }
+    };
+
+    //消息监听器，用来监听消息的手法，aidl接口
+    private ISocketMessageListener messageListener = new ISocketMessageListener.Stub() {
+        /**
+         * 收到了服务器端发来的消息，或者发送消息到了服务器端都要跟新UI
+         * @param message
+         */
+        @Override
+        public void updateMessageList(SocketMessage message) throws RemoteException {
+            Message data = Message.obtain();
+            data.what = MSG_WHAT_UPDATE;
+            data.obj = message;
+            mHandler.sendMessage(data);
+        }
+    };
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
+        runStatus = true;
+        context = getApplicationContext();
+        if (!SocketServiceSP.getInstance(this).isSocketServiceStarted()) {
+            Intent serviceIntent = new Intent(this, SocketService.class);
+            startService(serviceIntent);
+        }
+        /**
+         * 绑定服务
+         */
+        Intent intent = new Intent(this, SocketService.class);
+        bindService(intent, serviceConnection, BIND_AUTO_CREATE);
+
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    SystemClock.sleep(2000);
+                    mSocket.connectSocket();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+        getGPSLocation(this);
+    }
+
+    /**
+     * 向服务器发消息
+     */
+    private void sendMessage(final String text) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SocketMessage message = new SocketMessage();
+                message.setType(Custom.MESSAGE_EVENT);
+                message.setMessage(text);
+                try {
+                    mSocket.sendMessage(message);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+
+    /**
+     * GPS获取定位方式
+     */
+    public Location getGPSLocation(@NonNull Context context) {
+        Location location = null;
+        LocationManager manager = getLocationManager(context);
+        //高版本的权限检查
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return null;
+        }
+        if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {//是否支持GPS定位
+            //获取最后的GPS定位信息，如果是第一次打开，一般会拿不到定位信息，一般可以请求监听，在有效的时间范围可以获取定位信息
+            location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Log.i(TAG, "getGPSLocation: "+location);
+        }
+        return location;
+    }
+    private static LocationManager getLocationManager(@NonNull Context context) {
+        return (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+    }
+
+    public static Context getContext() {
+        return context;
+    }
+}

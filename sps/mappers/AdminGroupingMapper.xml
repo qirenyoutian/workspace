@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pywl.project.mapper.AdminGroupingMapper">
+  <resultMap id="BaseResultMap" type="com.pywl.project.bean.AdminGrouping">
+    <id column="admin_grouping_id" jdbcType="INTEGER" property="adminGroupingId" />
+    <result column="admin_grouping_admin_id" jdbcType="INTEGER" property="adminGroupingAdminId" />
+    <result column="admin_grouping_grouping_id" jdbcType="INTEGER" property="adminGroupingGroupingId" />
+    <result column="admin_grouping_join_time" jdbcType="VARCHAR" property="adminGroupingJoinTime" />
+  </resultMap>
+  <resultMap id="WithBaseResultMap" type="com.pywl.project.bean.AdminGrouping">
+    <id column="admin_grouping_id" jdbcType="INTEGER" property="adminGroupingId" />
+    <result column="admin_grouping_admin_id" jdbcType="INTEGER" property="adminGroupingAdminId" />
+    <result column="admin_grouping_grouping_id" jdbcType="INTEGER" property="adminGroupingGroupingId" />
+    <result column="admin_grouping_join_time" jdbcType="VARCHAR" property="adminGroupingJoinTime" />
+    <association property="adminGroupingAdmin" javaType="com.pywl.project.bean.Admin">
+	   	<id column="admin_id" jdbcType="INTEGER" property="adminId" />
+	    <result column="admin_account" jdbcType="VARCHAR" property="adminAccount" />
+	    <result column="admin_pass_word" jdbcType="VARCHAR" property="adminPassWord" />
+	    <result column="admin_realname" jdbcType="VARCHAR" property="adminRealname" />
+	    <result column="admin_photo" jdbcType="VARCHAR" property="adminPhoto" />
+	    <result column="admin_email" jdbcType="VARCHAR" property="adminEmail" />
+	    <result column="admin_position" jdbcType="VARCHAR" property="adminPosition" />
+	    <result column="admin_creation_time" jdbcType="VARCHAR" property="adminCreationTime" />
+	    <result column="admin_location" jdbcType="VARCHAR" property="adminLocation" />
+	    <result column="admin_location_time" jdbcType="VARCHAR" property="adminLocationTime" />
+    </association>
+    <association property="adminGroupingGrouping" javaType="com.pywl.project.bean.Grouping">
+	    <id column="grouping_id" jdbcType="INTEGER" property="groupingId" />
+	    <result column="grouping_name" jdbcType="VARCHAR" property="groupingName" />
+	    <result column="grouping_details" jdbcType="VARCHAR" property="groupingDetails" />
+	    <result column="grouping_create_time" jdbcType="VARCHAR" property="groupingCreateTime" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    admin_grouping_id, admin_grouping_admin_id, admin_grouping_grouping_id, admin_grouping_join_time
+  </sql>
+  <sql id="WithBase_Column_List">
+    ag.admin_grouping_id, ag.admin_grouping_admin_id, ag.admin_grouping_grouping_id, ag.admin_grouping_join_time,
+    a.admin_id, a.admin_account, a.admin_pass_word, a.admin_realname, a.admin_photo, a.admin_email, 
+    a.admin_position, a.admin_creation_time, a.admin_location, a.admin_location_time,
+    g.grouping_id, g.grouping_name, g.grouping_details, g.grouping_create_time
+  </sql>
+  <select id="selectByPrimary" parameterType="com.pywl.project.bean.AdminGrouping" resultMap="WithBaseResultMap">
+    select 
+    <include refid="WithBase_Column_List" />
+    from admin_grouping ag
+    left join admin a on ag.admin_grouping_admin_id=a.admin_id
+    left join grouping g on ag.admin_grouping_grouping_id=g.grouping_id
+    where 1=1
+    <if test="adminGroupingId != null">
+      and ag.admin_grouping_id = #{adminGroupingId,jdbcType=INTEGER}
+    </if>
+    <if test="adminGroupingAdminId != null">
+      and ag.admin_grouping_admin_id = #{adminGroupingAdminId,jdbcType=INTEGER}
+    </if>
+    <if test="adminGroupingGroupingId != null">
+      and ag.admin_grouping_grouping_id = #{adminGroupingGroupingId,jdbcType=INTEGER}
+    </if>
+    <if test="adminGroupingJoinTime != null">
+      and ag.admin_grouping_join_time = #{adminGroupingJoinTime,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.pywl.project.bean.AdminGrouping" resultMap="WithBaseResultMap">
+    select 
+    <include refid="WithBase_Column_List" />
+    from admin_grouping ag
+    left join admin a on ag.admin_grouping_admin_id=a.admin_id
+    left join grouping g on ag.admin_grouping_grouping_id=g.grouping_id
+    where 1=1
+    <if test="adminGroupingId != null">
+      and ag.admin_grouping_id = #{adminGroupingId,jdbcType=INTEGER}
+    </if>
+    <if test="adminGroupingAdminId != null">
+      and ag.admin_grouping_admin_id = #{adminGroupingAdminId,jdbcType=INTEGER}
+    </if>
+    <if test="adminGroupingGroupingId != null">
+      and ag.admin_grouping_grouping_id = #{adminGroupingGroupingId,jdbcType=INTEGER}
+    </if>
+    <if test="adminGroupingJoinTime != null">
+      and ag.admin_grouping_join_time = #{adminGroupingJoinTime,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from admin_grouping
+    where admin_grouping_id = #{adminGroupingId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pywl.project.bean.AdminGrouping">
+    insert into admin_grouping (admin_grouping_id, admin_grouping_admin_id, 
+      admin_grouping_grouping_id, admin_grouping_join_time
+      )
+    values (#{adminGroupingId,jdbcType=INTEGER}, #{adminGroupingAdminId,jdbcType=INTEGER}, 
+      #{adminGroupingGroupingId,jdbcType=INTEGER}, #{adminGroupingJoinTime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pywl.project.bean.AdminGrouping">
+    insert into admin_grouping
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="adminGroupingId != null">
+        admin_grouping_id,
+      </if>
+      <if test="adminGroupingAdminId != null">
+        admin_grouping_admin_id,
+      </if>
+      <if test="adminGroupingGroupingId != null">
+        admin_grouping_grouping_id,
+      </if>
+      <if test="adminGroupingJoinTime != null">
+        admin_grouping_join_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="adminGroupingId != null">
+        #{adminGroupingId,jdbcType=INTEGER},
+      </if>
+      <if test="adminGroupingAdminId != null">
+        #{adminGroupingAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="adminGroupingGroupingId != null">
+        #{adminGroupingGroupingId,jdbcType=INTEGER},
+      </if>
+      <if test="adminGroupingJoinTime != null">
+        #{adminGroupingJoinTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pywl.project.bean.AdminGrouping">
+    update admin_grouping
+    <set>
+      <if test="adminGroupingAdminId != null">
+        admin_grouping_admin_id = #{adminGroupingAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="adminGroupingGroupingId != null">
+        admin_grouping_grouping_id = #{adminGroupingGroupingId,jdbcType=INTEGER},
+      </if>
+      <if test="adminGroupingJoinTime != null">
+        admin_grouping_join_time = #{adminGroupingJoinTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where admin_grouping_id = #{adminGroupingId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pywl.project.bean.AdminGrouping">
+    update admin_grouping
+    set admin_grouping_admin_id = #{adminGroupingAdminId,jdbcType=INTEGER},
+      admin_grouping_grouping_id = #{adminGroupingGroupingId,jdbcType=INTEGER},
+      admin_grouping_join_time = #{adminGroupingJoinTime,jdbcType=VARCHAR}
+    where admin_grouping_id = #{adminGroupingId,jdbcType=INTEGER}
+  </update>
+</mapper>

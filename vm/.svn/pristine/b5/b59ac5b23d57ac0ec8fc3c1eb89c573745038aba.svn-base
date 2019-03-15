@@ -1,0 +1,410 @@
+package com.py.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.py.bean.CommercialMerchandiseReport;
+import com.py.bean.CommercialTenantReport;
+import com.py.bean.EquipmentDetails;
+import com.py.bean.EquipmentReport;
+import com.py.bean.Feedback;
+import com.py.bean.MerchandiseReport;
+import com.py.bean.Monitoring;
+import com.py.bean.Order;
+import com.py.bean.PointReport;
+import com.py.service.AisleService;
+import com.py.service.AppletService;
+import com.py.service.EquipmentService;
+import com.py.service.PointService;
+import com.py.util.CommonUtil;
+import com.py.util.Msg;
+
+@RestController
+@RequestMapping("/applet")
+public class AppletController {
+
+	@Autowired
+	AppletService appletService;
+	@Autowired
+	PointService pointService;
+	@Autowired
+	EquipmentService equipmentService;
+	@Autowired
+	AisleService aisleService;
+	
+	
+	/*--------------------------------C端用户-----------------------------------------*/
+	
+	/**
+	 * 获取点位和货道信息
+	 * @return
+	 */
+	@RequestMapping("/findPointAndAisle")
+	public Msg findPointAndAisle(@RequestParam("longitude")Double longitude,
+			@RequestParam("latitude")Double latitude) {
+		
+		Msg msg = appletService.findPointAndAisle(longitude, latitude);
+		
+		return msg;
+	}
+	
+	/**
+	 * 获取取货码
+	 * @return
+	 */
+	@RequestMapping("/getPickupCode")
+	public Msg getPickupCode(@RequestParam("aisle_id")Integer aisle_id) {
+		Order order = new Order();
+		order.setOrderAisleId(aisle_id);
+		try {
+			order = appletService.getPickupCode(order);
+			if(order == null) {
+				return Msg.fail().add("msg", "未查询到相关订单信息");
+			}
+		} catch (Exception e) {
+			return Msg.fail().add("msg", "处理失败");
+		}
+		
+		return Msg.success(order.getOrderPickupCode());
+	}
+	
+	/*--------------------------------C端用户-----------------------------------------*/
+	
+	
+	
+	/*--------------------------------运营人员-----------------------------------------*/
+	
+	/**
+	 * 铺货打卡
+	 * @return
+	 */
+	@RequestMapping("/clockIn")
+	public Msg clockIn() {
+		return Msg.success();
+	}
+	
+	/**
+	 * 上报库存
+	 * @return
+	 */
+	@RequestMapping("/inventoryReport")
+	public Msg inventoryReport() {
+		return Msg.success();
+	}
+	
+	@RequestMapping("/getNameAndPointName")
+	public Msg getNameAndPointName(@RequestParam("phonenum")String phonenum) {
+		Msg msg = appletService.getNameAndPointName(phonenum);
+		return Msg.success(msg);
+	}
+	
+	/**
+	 * 跟办事件-事件反馈
+	 * @param phonenum
+	 * @return
+	 */
+	@RequestMapping("/feedback")
+	public Msg feedback(@RequestParam("phonenum")String phonenum,
+			@RequestParam("maintenanceState")Integer maintenanceState,
+			@RequestParam("problemDescription")String problemDescription,
+			@RequestParam("image")MultipartFile image) {
+		
+		if(maintenanceState == null) {
+			return Msg.fail().add("msg", "请选择维护状态");
+		}
+		if(problemDescription == null || "".equals(problemDescription.trim())) {
+			return Msg.fail().add("msg", "请填写问题描述");
+		}
+		if(image == null) {
+			return Msg.fail().add("msg", "请上传图片");
+		}
+		String path = null;
+		Feedback feedback = new Feedback();
+		feedback.setFeedbackMaintenanceState(maintenanceState);
+		feedback.setFeedbackProblemDescription(problemDescription);
+		try {
+			path = CommonUtil.saveFile(image);
+			feedback.setFeedbackImage(path);
+		} catch (Exception e) {
+			return Msg.fail().add("msg", "图片上传失败");
+		}
+		int i = appletService.feedback(phonenum,feedback);
+		if(i == 0) {
+			return Msg.fail().add("msg", "反馈失败");
+		}
+		return Msg.success();
+	}
+	
+	/*--------------------------------运营人员-----------------------------------------*/
+	
+	/**
+	 * 设备详情(监控查询)
+	 * @param equipmentId
+	 * @return
+	 */
+	@RequestMapping("/equipmentDetails")
+	public Msg equipmentDetails(@RequestParam("equipmentId")Integer equipmentId ) {
+		
+		EquipmentDetails equipmentDetail = appletService.equipmentDetails(equipmentId);
+		
+		return Msg.success(equipmentDetail);
+	}
+	
+	/**
+	 * 点位设备列表(监控查询)
+	 * @return
+	 */
+	@RequestMapping("/pointEquipmentList")
+	public Msg pointEquipmentList(@RequestParam("phonenum")String phonenum,
+			@RequestParam("jobNumber")String jobNumber,
+			@RequestParam("region")String region,
+			@RequestParam("pointName")String pointName) {
+		
+		if("".equals(jobNumber.trim())) {
+			jobNumber = null;
+		}
+		if("".equals(region.trim())) {
+			region = null;	
+		}
+		if("".equals(pointName.trim())) {
+			pointName = null;
+		}
+		
+		List<Monitoring> pointEquipmentList = appletService.pointEquipmentList(phonenum,jobNumber,region,pointName);
+		
+		return Msg.success(pointEquipmentList);
+	}
+	
+	
+	/*---------------------------------管理员-----------------------------------------*/
+	
+	/**
+	 * 设备报表
+	 * @param pointId
+	 * @param type
+	 * @param year
+	 * @param month
+	 * @return
+	 */
+	@RequestMapping("/equipmentReport")
+	public Msg equipmentReport(@RequestParam("pointId")Integer pointId,@RequestParam("type")Integer type,@RequestParam("year")Integer year,@RequestParam("month")Integer month) {
+		int index = 0;
+		String startTime = null;
+		String endTime = null;
+		if(year != null) {
+			if(month != null) {
+				startTime = year + "-" + month;
+				int i = month + 1;
+				if(i < 10) {
+					endTime = year + "-0" + i;
+				}else {
+					endTime = year + "-" + i;
+				}
+				index = 10;
+			}else {
+				startTime = String.valueOf(year);
+				endTime = String.valueOf(year + 1);
+				index = 7;
+			}
+		}else {
+			return Msg.fail().add("msg", "请选择年份");
+		}
+		
+		List<EquipmentReport> equipmentReports = appletService.equipmentReport(pointId,type,startTime,endTime,index);
+		
+		return Msg.success(equipmentReports);
+	}
+	
+	/**
+	 * 点位报表
+	 * @return
+	 */
+	@RequestMapping("/pointReport")
+	public Msg pointReport(@RequestParam("type")String type,@RequestParam("year")Integer year,@RequestParam("month")Integer month) {
+		
+		String startTime = null;
+		String endTime = null;
+		if(year != null) {
+			if(month != null) {
+				startTime = year + "-" + month;
+				int i = month + 1;
+				if(i < 10) {
+					endTime = year + "-0" + i;
+				}else {
+					endTime = year + "-" + i;
+				}
+			}else {
+				startTime = String.valueOf(year);
+				endTime = String.valueOf(year + 1);
+			}
+		}else {
+			return Msg.fail().add("msg", "请选择年份");
+		}
+		
+		List<PointReport> pointReport = appletService.pointReport(type,startTime,endTime);
+		
+		return Msg.success(pointReport);
+	}
+	
+	/**
+	 * 销售报表
+	 * @return
+	 */
+	@RequestMapping("/salesReport")
+	public Msg salesReport(@RequestParam("year")Integer year,@RequestParam("month")Integer month,@RequestParam("type")Integer type) {
+		int index = 0;
+		String startTime = null;
+		String endTime = null;
+		if(year != null) {
+			if(month != null) {
+				startTime = year + "-" + month;
+				int i = month + 1;
+				if(i < 10) {
+					endTime = year + "-0" + i;
+				}else {
+					endTime = year + "-" + i;
+				}
+				index = 10;
+			}else {
+				startTime = String.valueOf(year);
+				endTime = String.valueOf(year + 1);
+				index = 7;
+			}
+		}else {
+			return Msg.fail().add("msg", "请选择年份");
+		}
+		
+		Msg msg = appletService.salesReport(startTime,endTime,index,type);
+		return msg;
+	}
+	
+	/**
+	 * 总销售量销售额
+	 * @return
+	 */
+	@RequestMapping("/grossSales")
+	public Msg grossSales(@RequestParam("year")Integer year,@RequestParam("month")Integer month) {
+		String startTime = null;
+		String endTime = null;
+		if(year != null) {
+			if(month != null) {
+				startTime = year + "-" + month;
+				int i = month + 1;
+				if(i < 10) {
+					endTime = year + "-0" + i;
+				}else {
+					endTime = year + "-" + i;
+				}
+			}else {
+				startTime = String.valueOf(year);
+				endTime = String.valueOf(year + 1);
+			}
+		}
+		Msg msg = appletService.grossSales(startTime,endTime);
+		return msg;
+	}
+	
+	/**
+	 * 商户报表
+	 * @return
+	 */
+	@RequestMapping("/commercialTenantReport")
+	public Msg commercialTenantReport(@RequestParam("type")String type,@RequestParam("year")Integer year,@RequestParam("month")Integer month) {
+		
+		String startTime = null;
+		String endTime = null;
+		if(year != null) {
+			if(month != null) {
+				startTime = year + "-" + month;
+				int i = month + 1;
+				if(i < 10) {
+					endTime = year + "-0" + i;
+				}else {
+					endTime = year + "-" + i;
+				}
+			}else {
+				startTime = String.valueOf(year);
+				endTime = String.valueOf(year + 1);
+			}
+		}else {
+			return Msg.fail().add("msg", "请选择年份");
+		}
+		
+		List<CommercialTenantReport> pointReport = appletService.commercialTenantReport(type,startTime,endTime);
+		
+		return Msg.success(pointReport);
+	}
+	
+	/**
+	 * 某商户的商品在点位的销售报表
+	 * @param commercialTenantId
+	 * @param type
+	 * @param year
+	 * @param month
+	 * @return
+	 */
+	@RequestMapping("/commercialMerchandiseReport")
+	public Msg commercialMerchandiseReport(@RequestParam("commercialTenantId")Integer commercialTenantId,@RequestParam("type")Integer type,@RequestParam("year")Integer year,@RequestParam("month")Integer month) {
+		int index = 0;
+		String startTime = null;
+		String endTime = null;
+		if(year != null) {
+			if(month != null) {
+				startTime = year + "-" + month;
+				int i = month + 1;
+				if(i < 10) {
+					endTime = year + "-0" + i;
+				}else {
+					endTime = year + "-" + i;
+				}
+				index = 10;
+			}else {
+				startTime = String.valueOf(year);
+				endTime = String.valueOf(year + 1);
+				index = 7;
+			}
+		}else {
+			return Msg.fail().add("msg", "请选择年份");
+		}
+		List<CommercialMerchandiseReport> list = appletService.commercialMerchandiseReport(commercialTenantId, type, startTime, endTime, index);
+		return Msg.success(list);
+	}
+	
+	/**
+	 * 商品报表
+	 * @return
+	 */
+	@RequestMapping("/merchandiseReport")
+	public Msg merchandiseReport(@RequestParam("type")String type,@RequestParam("year")Integer year,@RequestParam("month")Integer month) {
+		String startTime = null;
+		String endTime = null;
+		if(year != null) {
+			if(month != null) {
+				startTime = year + "-" + month;
+				int i = month + 1;
+				if(i < 10) {
+					endTime = year + "-0" + i;
+				}else {
+					endTime = year + "-" + i;
+				}
+			}else {
+				startTime = String.valueOf(year);
+				endTime = String.valueOf(year + 1);
+			}
+		}else {
+			return Msg.fail().add("msg", "请选择年份");
+		}
+		
+		List<MerchandiseReport> merchandiseReport = appletService.merchandiseReport(type,startTime,endTime);
+		
+		return Msg.success(merchandiseReport);
+	}
+	
+	/*---------------------------------管理员-----------------------------------------*/
+	
+}

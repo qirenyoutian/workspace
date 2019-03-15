@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.BillingMethodMinute15Mapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.BillingMethodMinute15">
+    <id column="billing_method_minute15_id" jdbcType="INTEGER" property="billingMethodMinute15Id" />
+    <result column="billing_method_minute15_free_minutes" jdbcType="INTEGER" property="billingMethodMinute15FreeMinutes" />
+    <result column="billing_method_minute15_add_price1" jdbcType="DOUBLE" property="billingMethodMinute15AddPrice1" />
+    <result column="billing_method_minute15_add_price2" jdbcType="DOUBLE" property="billingMethodMinute15AddPrice2" />
+    <result column="billing_method_minute15_add_price" jdbcType="DOUBLE" property="billingMethodMinute15AddPrice" />
+    <result column="billing_method_minute15_day_price" jdbcType="DOUBLE" property="billingMethodMinute15DayPrice" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    billing_method_minute15_id, billing_method_minute15_free_minutes, billing_method_minute15_add_price1, 
+    billing_method_minute15_add_price2, billing_method_minute15_add_price, billing_method_minute15_day_price
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from billing_method_minute15
+    where billing_method_minute15_id = #{billingMethodMinute15Id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from billing_method_minute15
+    where billing_method_minute15_id = #{billingMethodMinute15Id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.BillingMethodMinute15">
+    insert into billing_method_minute15 (billing_method_minute15_id, billing_method_minute15_free_minutes, 
+      billing_method_minute15_add_price1, billing_method_minute15_add_price2, 
+      billing_method_minute15_add_price, billing_method_minute15_day_price
+      )
+    values (#{billingMethodMinute15Id,jdbcType=INTEGER}, #{billingMethodMinute15FreeMinutes,jdbcType=INTEGER}, 
+      #{billingMethodMinute15AddPrice1,jdbcType=DOUBLE}, #{billingMethodMinute15AddPrice2,jdbcType=DOUBLE}, 
+      #{billingMethodMinute15AddPrice,jdbcType=DOUBLE}, #{billingMethodMinute15DayPrice,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.BillingMethodMinute15">
+    insert into billing_method_minute15
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="billingMethodMinute15Id != null">
+        billing_method_minute15_id,
+      </if>
+      <if test="billingMethodMinute15FreeMinutes != null">
+        billing_method_minute15_free_minutes,
+      </if>
+      <if test="billingMethodMinute15AddPrice1 != null">
+        billing_method_minute15_add_price1,
+      </if>
+      <if test="billingMethodMinute15AddPrice2 != null">
+        billing_method_minute15_add_price2,
+      </if>
+      <if test="billingMethodMinute15AddPrice != null">
+        billing_method_minute15_add_price,
+      </if>
+      <if test="billingMethodMinute15DayPrice != null">
+        billing_method_minute15_day_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="billingMethodMinute15Id != null">
+        #{billingMethodMinute15Id,jdbcType=INTEGER},
+      </if>
+      <if test="billingMethodMinute15FreeMinutes != null">
+        #{billingMethodMinute15FreeMinutes,jdbcType=INTEGER},
+      </if>
+      <if test="billingMethodMinute15AddPrice1 != null">
+        #{billingMethodMinute15AddPrice1,jdbcType=DOUBLE},
+      </if>
+      <if test="billingMethodMinute15AddPrice2 != null">
+        #{billingMethodMinute15AddPrice2,jdbcType=DOUBLE},
+      </if>
+      <if test="billingMethodMinute15AddPrice != null">
+        #{billingMethodMinute15AddPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="billingMethodMinute15DayPrice != null">
+        #{billingMethodMinute15DayPrice,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.BillingMethodMinute15">
+    update billing_method_minute15
+    <set>
+      <if test="billingMethodMinute15FreeMinutes != null">
+        billing_method_minute15_free_minutes = #{billingMethodMinute15FreeMinutes,jdbcType=INTEGER},
+      </if>
+      <if test="billingMethodMinute15AddPrice1 != null">
+        billing_method_minute15_add_price1 = #{billingMethodMinute15AddPrice1,jdbcType=DOUBLE},
+      </if>
+      <if test="billingMethodMinute15AddPrice2 != null">
+        billing_method_minute15_add_price2 = #{billingMethodMinute15AddPrice2,jdbcType=DOUBLE},
+      </if>
+      <if test="billingMethodMinute15AddPrice != null">
+        billing_method_minute15_add_price = #{billingMethodMinute15AddPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="billingMethodMinute15DayPrice != null">
+        billing_method_minute15_day_price = #{billingMethodMinute15DayPrice,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where billing_method_minute15_id = #{billingMethodMinute15Id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.BillingMethodMinute15">
+    update billing_method_minute15
+    set billing_method_minute15_free_minutes = #{billingMethodMinute15FreeMinutes,jdbcType=INTEGER},
+      billing_method_minute15_add_price1 = #{billingMethodMinute15AddPrice1,jdbcType=DOUBLE},
+      billing_method_minute15_add_price2 = #{billingMethodMinute15AddPrice2,jdbcType=DOUBLE},
+      billing_method_minute15_add_price = #{billingMethodMinute15AddPrice,jdbcType=DOUBLE},
+      billing_method_minute15_day_price = #{billingMethodMinute15DayPrice,jdbcType=DOUBLE}
+    where billing_method_minute15_id = #{billingMethodMinute15Id,jdbcType=INTEGER}
+  </update>
+</mapper>

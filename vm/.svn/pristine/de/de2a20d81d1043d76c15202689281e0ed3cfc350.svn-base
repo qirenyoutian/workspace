@@ -1,0 +1,70 @@
+// Generated code from Butter Knife. Do not modify!
+package com.example.admin.serialdemo.Fragment;
+
+import android.view.View;
+import butterknife.ButterKnife.Finder;
+import butterknife.ButterKnife.ViewBinder;
+
+public class Fragment_Help$$ViewBinder<T extends com.example.admin.serialdemo.Fragment.Fragment_Help> implements ViewBinder<T> {
+  @Override public void bind(final Finder finder, final T target, Object source) {
+    View view;
+    view = finder.findRequiredView(source, 2131165312, "field 'problem1' and method 'onViewClicked'");
+    target.problem1 = finder.castView(view, 2131165312, "field 'problem1'");
+    view.setOnClickListener(
+      new butterknife.internal.DebouncingOnClickListener() {
+        @Override public void doClick(
+          android.view.View p0
+        ) {
+          target.onViewClicked(p0);
+        }
+      });
+    view = finder.findRequiredView(source, 2131165313, "field 'problem2' and method 'onViewClicked'");
+    target.problem2 = finder.castView(view, 2131165313, "field 'problem2'");
+    view.setOnClickListener(
+      new butterknife.internal.DebouncingOnClickListener() {
+        @Override public void doClick(
+          android.view.View p0
+        ) {
+          target.onViewClicked(p0);
+        }
+      });
+    view = finder.findRequiredView(source, 2131165314, "field 'problem3' and method 'onViewClicked'");
+    target.problem3 = finder.castView(view, 2131165314, "field 'problem3'");
+    view.setOnClickListener(
+      new butterknife.internal.DebouncingOnClickListener() {
+        @Override public void doClick(
+          android.view.View p0
+        ) {
+          target.onViewClicked(p0);
+        }
+      });
+    view = finder.findRequiredView(source, 2131165315, "field 'problem4' and method 'onViewClicked'");
+    target.problem4 = finder.castView(view, 2131165315, "field 'problem4'");
+    view.setOnClickListener(
+      new butterknife.internal.DebouncingOnClickListener() {
+        @Override public void doClick(
+          android.view.View p0
+        ) {
+          target.onViewClicked(p0);
+        }
+      });
+    view = finder.findRequiredView(source, 2131165316, "field 'problem5' and method 'onViewClicked'");
+    target.problem5 = finder.castView(view, 2131165316, "field 'problem5'");
+    view.setOnClickListener(
+      new butterknife.internal.DebouncingOnClickListener() {
+        @Override public void doClick(
+          android.view.View p0
+        ) {
+          target.onViewClicked(p0);
+        }
+      });
+  }
+
+  @Override public void unbind(T target) {
+    target.problem1 = null;
+    target.problem2 = null;
+    target.problem3 = null;
+    target.problem4 = null;
+    target.problem5 = null;
+  }
+}

@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.BillingMethodMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.BillingMethod">
+    <id column="billing_method_id" jdbcType="INTEGER" property="billingMethodId" />
+    <result column="billing_method_name" jdbcType="VARCHAR" property="billingMethodName" />
+    <result column="billing_method_start_price" jdbcType="DOUBLE" property="billingMethodStartPrice" />
+    <result column="billing_method_start_minutes" jdbcType="INTEGER" property="billingMethodStartMinutes" />
+    <result column="billing_method_free_minutes" jdbcType="INTEGER" property="billingMethodFreeMinutes" />
+    <result column="billing_method_minimum_consumption" jdbcType="DOUBLE" property="billingMethodMinimumConsumption" />
+    <result column="billing_method_maximum_consumption" jdbcType="DOUBLE" property="billingMethodMaximumConsumption" />
+    <result column="billing_method_timeout_threshold" jdbcType="INTEGER" property="billingMethodTimeoutThreshold" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    billing_method_id, billing_method_name, billing_method_start_price, billing_method_start_minutes, 
+    billing_method_free_minutes, billing_method_minimum_consumption, billing_method_maximum_consumption, 
+    billing_method_timeout_threshold
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from billing_method
+    where billing_method_id = #{billingMethodId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from billing_method
+    where billing_method_id = #{billingMethodId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.BillingMethod">
+    insert into billing_method (billing_method_id, billing_method_name, 
+      billing_method_start_price, billing_method_start_minutes, 
+      billing_method_free_minutes, billing_method_minimum_consumption, 
+      billing_method_maximum_consumption, billing_method_timeout_threshold
+      )
+    values (#{billingMethodId,jdbcType=INTEGER}, #{billingMethodName,jdbcType=VARCHAR}, 
+      #{billingMethodStartPrice,jdbcType=DOUBLE}, #{billingMethodStartMinutes,jdbcType=INTEGER}, 
+      #{billingMethodFreeMinutes,jdbcType=INTEGER}, #{billingMethodMinimumConsumption,jdbcType=DOUBLE}, 
+      #{billingMethodMaximumConsumption,jdbcType=DOUBLE}, #{billingMethodTimeoutThreshold,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.BillingMethod">
+    insert into billing_method
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="billingMethodId != null">
+        billing_method_id,
+      </if>
+      <if test="billingMethodName != null">
+        billing_method_name,
+      </if>
+      <if test="billingMethodStartPrice != null">
+        billing_method_start_price,
+      </if>
+      <if test="billingMethodStartMinutes != null">
+        billing_method_start_minutes,
+      </if>
+      <if test="billingMethodFreeMinutes != null">
+        billing_method_free_minutes,
+      </if>
+      <if test="billingMethodMinimumConsumption != null">
+        billing_method_minimum_consumption,
+      </if>
+      <if test="billingMethodMaximumConsumption != null">
+        billing_method_maximum_consumption,
+      </if>
+      <if test="billingMethodTimeoutThreshold != null">
+        billing_method_timeout_threshold,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="billingMethodId != null">
+        #{billingMethodId,jdbcType=INTEGER},
+      </if>
+      <if test="billingMethodName != null">
+        #{billingMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="billingMethodStartPrice != null">
+        #{billingMethodStartPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="billingMethodStartMinutes != null">
+        #{billingMethodStartMinutes,jdbcType=INTEGER},
+      </if>
+      <if test="billingMethodFreeMinutes != null">
+        #{billingMethodFreeMinutes,jdbcType=INTEGER},
+      </if>
+      <if test="billingMethodMinimumConsumption != null">
+        #{billingMethodMinimumConsumption,jdbcType=DOUBLE},
+      </if>
+      <if test="billingMethodMaximumConsumption != null">
+        #{billingMethodMaximumConsumption,jdbcType=DOUBLE},
+      </if>
+      <if test="billingMethodTimeoutThreshold != null">
+        #{billingMethodTimeoutThreshold,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.BillingMethod">
+    update billing_method
+    <set>
+      <if test="billingMethodName != null">
+        billing_method_name = #{billingMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="billingMethodStartPrice != null">
+        billing_method_start_price = #{billingMethodStartPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="billingMethodStartMinutes != null">
+        billing_method_start_minutes = #{billingMethodStartMinutes,jdbcType=INTEGER},
+      </if>
+      <if test="billingMethodFreeMinutes != null">
+        billing_method_free_minutes = #{billingMethodFreeMinutes,jdbcType=INTEGER},
+      </if>
+      <if test="billingMethodMinimumConsumption != null">
+        billing_method_minimum_consumption = #{billingMethodMinimumConsumption,jdbcType=DOUBLE},
+      </if>
+      <if test="billingMethodMaximumConsumption != null">
+        billing_method_maximum_consumption = #{billingMethodMaximumConsumption,jdbcType=DOUBLE},
+      </if>
+      <if test="billingMethodTimeoutThreshold != null">
+        billing_method_timeout_threshold = #{billingMethodTimeoutThreshold,jdbcType=INTEGER},
+      </if>
+    </set>
+    where billing_method_id = #{billingMethodId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.BillingMethod">
+    update billing_method
+    set billing_method_name = #{billingMethodName,jdbcType=VARCHAR},
+      billing_method_start_price = #{billingMethodStartPrice,jdbcType=DOUBLE},
+      billing_method_start_minutes = #{billingMethodStartMinutes,jdbcType=INTEGER},
+      billing_method_free_minutes = #{billingMethodFreeMinutes,jdbcType=INTEGER},
+      billing_method_minimum_consumption = #{billingMethodMinimumConsumption,jdbcType=DOUBLE},
+      billing_method_maximum_consumption = #{billingMethodMaximumConsumption,jdbcType=DOUBLE},
+      billing_method_timeout_threshold = #{billingMethodTimeoutThreshold,jdbcType=INTEGER}
+    where billing_method_id = #{billingMethodId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimary" parameterType="com.py.bean.BillingMethod" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from billing_method
+    where 1=1
+    <if test="billingMethodId != null">
+      and billing_method_id = #{billingMethodId,jdbcType=INTEGER}
+    </if>
+    <if test="billingMethodName != null">
+       and billing_method_name = #{billingMethodName,jdbcType=VARCHAR}
+     </if>
+    <if test="billingMethodStartPrice != null">
+      and billing_method_start_price = #{billingMethodStartPrice,jdbcType=DOUBLE}
+    </if>
+    <if test="billingMethodStartMinutes != null">
+      and billing_method_start_minutes = #{billingMethodStartMinutes,jdbcType=INTEGER}
+    </if>
+    <if test="billingMethodFreeMinutes != null">
+      and billing_method_free_minutes = #{billingMethodFreeMinutes,jdbcType=INTEGER}
+    </if>
+    <if test="billingMethodMinimumConsumption != null">
+      and billing_method_minimum_consumption = #{billingMethodMinimumConsumption,jdbcType=DOUBLE}
+    </if>
+    <if test="billingMethodMaximumConsumption != null">
+      and billing_method_maximum_consumption = #{billingMethodMaximumConsumption,jdbcType=DOUBLE}
+    </if>
+    <if test="billingMethodTimeoutThreshold != null">
+      and billing_method_timeout_threshold = #{billingMethodTimeoutThreshold,jdbcType=INTEGER}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.py.bean.BillingMethod" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from billing_method
+    where 1=1
+    <if test="billingMethodId != null">
+      and billing_method_id = #{billingMethodId,jdbcType=INTEGER}
+    </if>
+    <if test="billingMethodName != null">
+       and billing_method_name = #{billingMethodName,jdbcType=VARCHAR}
+     </if>
+    <if test="billingMethodStartPrice != null">
+      and billing_method_start_price = #{billingMethodStartPrice,jdbcType=DOUBLE}
+    </if>
+    <if test="billingMethodStartMinutes != null">
+      and billing_method_start_minutes = #{billingMethodStartMinutes,jdbcType=INTEGER}
+    </if>
+    <if test="billingMethodFreeMinutes != null">
+      and billing_method_free_minutes = #{billingMethodFreeMinutes,jdbcType=INTEGER}
+    </if>
+    <if test="billingMethodMinimumConsumption != null">
+      and billing_method_minimum_consumption = #{billingMethodMinimumConsumption,jdbcType=DOUBLE}
+    </if>
+    <if test="billingMethodMaximumConsumption != null">
+      and billing_method_maximum_consumption = #{billingMethodMaximumConsumption,jdbcType=DOUBLE}
+    </if>
+    <if test="billingMethodTimeoutThreshold != null">
+      and billing_method_timeout_threshold = #{billingMethodTimeoutThreshold,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  <resultMap id="BaseResultRecordMap" type="com.py.bean.BillingMethodRecord">
+    <id column="billing_method_id" jdbcType="INTEGER" property="billingMethodId" />
+    <result column="billing_method_name" jdbcType="VARCHAR" property="billingMethodName" />
+    <result column="billing_method_start_price" jdbcType="DOUBLE" property="billingMethodStartPrice" />
+    <result column="billing_method_start_minutes" jdbcType="INTEGER" property="billingMethodStartMinutes" />
+    <result column="billing_method_free_minutes" jdbcType="INTEGER" property="billingMethodFreeMinutes" />
+    <result column="billing_method_minimum_consumption" jdbcType="DOUBLE" property="billingMethodMinimumConsumption" />
+    <result column="billing_method_maximum_consumption" jdbcType="DOUBLE" property="billingMethodMaximumConsumption" />
+    <result column="billing_method_timeout_threshold" jdbcType="INTEGER" property="billingMethodTimeoutThreshold" />
+   	 	<collection column="time_quantum_billing_method_id" ofType="com.py.bean.TimeQuantum" property="timeQuantums">  
+	        <id column="time_quantum_id" jdbcType="INTEGER" property="timeQuantumId" />
+		    <result column="time_quantum_billing_method_id" jdbcType="INTEGER" property="timeQuantumBillingMethodId" />
+		    <result column="time_quantum_start_time" jdbcType="TIMESTAMP" property="timeQuantumStartTime" />
+		    <result column="time_quantum_end_time" jdbcType="TIMESTAMP" property="timeQuantumEndTime" />
+		    <result column="time_quantum_rate" jdbcType="DOUBLE" property="timeQuantumRate" />
+        </collection>
+  </resultMap>
+  
+  <select id="selectByPrimaryRecord" parameterType="com.py.bean.BillingMethod" resultMap="BaseResultRecordMap">
+    select * 
+    from billing_method bm left join time_quantum tq
+    on bm.billing_method_id = tq.time_quantum_billing_method_id
+    where 1 = 1
+    <if test="billingMethodId != null">
+      and bm.billing_method_id = #{billingMethodId,jdbcType=INTEGER}
+    </if>
+    <if test="billingMethodName != null">
+       and billing_method_name = #{billingMethodName,jdbcType=VARCHAR}
+     </if>
+    <if test="billingMethodStartPrice != null">
+      and bm.billing_method_start_price = #{billingMethodStartPrice,jdbcType=DOUBLE}
+    </if>
+    <if test="billingMethodStartMinutes != null">
+      and bm.billing_method_start_minutes = #{billingMethodStartMinutes,jdbcType=INTEGER}
+    </if>
+    <if test="billingMethodFreeMinutes != null">
+      and bm.billing_method_free_minutes = #{billingMethodFreeMinutes,jdbcType=INTEGER}
+    </if>
+    <if test="billingMethodMinimumConsumption != null">
+      and bm.billing_method_minimum_consumption = #{billingMethodMinimumConsumption,jdbcType=DOUBLE}
+    </if>
+    <if test="billingMethodMaximumConsumption != null">
+      and bm.billing_method_maximum_consumption = #{billingMethodMaximumConsumption,jdbcType=DOUBLE}
+    </if>
+    <if test="billingMethodTimeoutThreshold != null">
+      and bm.billing_method_timeout_threshold = #{billingMethodTimeoutThreshold,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  <select id="selectByExampleRecord" parameterType="com.py.bean.BillingMethod" resultMap="BaseResultRecordMap">
+     select * 
+    from billing_method bm left join time_quantum tq
+    on bm.billing_method_id = tq.time_quantum_billing_method_id
+    where 1 = 1
+    <if test="billingMethodId != null">
+      and bm.billing_method_id = #{billingMethodId,jdbcType=INTEGER}
+    </if>
+    <if test="billingMethodName != null">
+       and billing_method_name = #{billingMethodName,jdbcType=VARCHAR}
+     </if>
+    <if test="billingMethodStartPrice != null">
+      and bm.billing_method_start_price = #{billingMethodStartPrice,jdbcType=DOUBLE}
+    </if>
+    <if test="billingMethodStartMinutes != null">
+      and bm.billing_method_start_minutes = #{billingMethodStartMinutes,jdbcType=INTEGER}
+    </if>
+    <if test="billingMethodFreeMinutes != null">
+      and bm.billing_method_free_minutes = #{billingMethodFreeMinutes,jdbcType=INTEGER}
+    </if>
+    <if test="billingMethodMinimumConsumption != null">
+      and bm.billing_method_minimum_consumption = #{billingMethodMinimumConsumption,jdbcType=DOUBLE}
+    </if>
+    <if test="billingMethodMaximumConsumption != null">
+      and bm.billing_method_maximum_consumption = #{billingMethodMaximumConsumption,jdbcType=DOUBLE}
+    </if>
+    <if test="billingMethodTimeoutThreshold != null">
+      and bm.billing_method_timeout_threshold = #{billingMethodTimeoutThreshold,jdbcType=INTEGER}
+    </if>
+  </select>
+</mapper>

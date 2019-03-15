@@ -1,0 +1,256 @@
+package com.py.controller;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.py.bean.AdminGrouping;
+import com.py.bean.Grouping;
+import com.py.service.AdminGroupingService;
+import com.py.service.GroupingService;
+import com.py.util.Msg;
+import com.py.util.OfTime;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+public class GroupingController {
+	@Autowired
+	GroupingService groupingService;
+	@Autowired
+	AdminGroupingService adminGroupingService;
+	/**
+	 * 跳转到分组管理页面
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/jumpGrouping")
+	public String jumpGrouping(Model model){
+		return "grouping/grouping";
+	}
+	/**
+	 * 查询全部分组
+	 * @throws UnsupportedEncodingException 
+	 */
+	@RequestMapping("/getGroupingAll")
+	@ResponseBody
+	public Msg getGroupingAll(@RequestParam(value = "pn", defaultValue = "1") Integer pn,String content,HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException {
+		byte[] b = content.getBytes("ISO-8859-1");//用tomcat的格式（iso-8859-1）方式去读。
+		String string = new String(b,"utf-8");//采用utf-8去接string
+		response.setContentType("text/html;charset=utf-8");//设置页面的字符编码
+		PageHelper.startPage(pn, 10);
+		Grouping grouping = new Grouping();
+		if(!string.equals(null) && !string.equals("") && !string.equals(" ")){
+			grouping.setGroupingName(string);
+		}
+		List<Grouping> groupingList = groupingService.selectByExample(grouping);
+		PageInfo<Grouping> page = new PageInfo<Grouping>(groupingList, 5);
+		return Msg.success().add("pageInfo", page);
+	}
+	/**
+	 * 查询全部分组
+	 * @throws UnsupportedEncodingException 
+	 */
+	@RequestMapping(value="/getGrouping/{id}",method=RequestMethod.GET)
+	@ResponseBody
+	public Msg getGrouping(@PathVariable("id")Integer id){
+		AdminGrouping adminGrouping = new AdminGrouping();
+		adminGrouping.setAdminGroupingAdminId(id);
+		AdminGrouping ag  = adminGroupingService.selectByPrimary(adminGrouping);
+		List<Grouping> groupingList = groupingService.selectByExample(new Grouping());
+		for (int i = 0; i < groupingList.size(); i++) {
+			if(groupingList.get(i).getGroupingId() == ag.getAdminGroupingGroupingId()){
+				groupingList.get(i).setYn(1);
+			}
+		}
+		return Msg.success().add("groupingList", groupingList);
+	}
+	/**
+	 * 添加
+	 * 1、支持JSR303校验
+	 * 2、导入Hibernate-Validator
+	 */
+	@RequestMapping(value="/saveGrouping",method=RequestMethod.POST)
+	@ResponseBody
+	public Msg saveAdmin(@Valid Grouping grouping,BindingResult result,HttpServletRequest request){
+		if(result.hasErrors()){
+			//校验失败，应该返回失败，在模态框中显示校验失败的错误信息
+			Map<String, Object> map = new HashMap<String, Object>();
+			List<FieldError> errors = result.getFieldErrors();
+			for (FieldError fieldError : errors) {
+				System.out.println("错误的字段名："+fieldError.getField());
+				System.out.println("错误信息："+fieldError.getDefaultMessage());
+				map.put(fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			return Msg.fail().add("errorFields", map);
+		}else{
+			if(grouping.getGroupingName()== null || "".equals(grouping.getGroupingName().trim())) {
+				return Msg.fail().add("msg", "分组名称不能为空");
+			}
+			Grouping record = new Grouping();
+			record.setGroupingName(grouping.getGroupingName());
+			Grouping findGrouping = groupingService.selectByPrimary(record);
+			if(findGrouping != null) {
+				return Msg.fail().add("msg", "已存在该分组");
+			}
+			grouping.setGroupingCreateTime(OfTime.getLongTime());
+			int result1 = groupingService.insertSelective(grouping);
+			if(result1 != 0){
+				return Msg.success();
+			}else{
+				return Msg.fail();
+			}
+		}
+	}
+	/**
+	 * 检查分组名称是否可用
+	 */
+	@ResponseBody
+	@RequestMapping(value="/checkGroupingName",method=RequestMethod.POST)
+	public Msg checkGroupingName(@RequestParam("groupingName")String groupingName){
+		if(groupingName== null || "".equals(groupingName.trim())) {
+			return Msg.fail().add("va_msg", "分组名称不能为空");
+		}
+		Grouping grouping = new Grouping();
+		grouping.setGroupingName(groupingName);
+		Grouping g = groupingService.selectByPrimary(grouping);
+		if(g == null){
+			return Msg.success();
+		}else{
+			return Msg.fail().add("va_msg", "分组名称已存在,不能重复");
+		}
+	}
+	/**
+	 * 根据id查询单列
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value="/getGroupingById/{id}",method=RequestMethod.GET)
+	@ResponseBody
+	public Msg getGroupingById(@PathVariable("id")Integer id){
+		Grouping grouping = new Grouping();
+		grouping.setGroupingId(id);
+		Grouping g = groupingService.selectByPrimary(grouping);
+		if(g != null){
+			return Msg.success().add("grouping", g);
+		}else{
+			return Msg.fail().add("va_msg", "未找到该分组信息");
+		}
+	}
+
+	/**
+	 * 更新
+	 */
+	@ResponseBody
+	@RequestMapping(value="/updateGrouping/{id}",method=RequestMethod.PUT)
+	public Msg updateGrouping(@Valid Grouping grouping){
+		if(grouping.getGroupingName()== null || "".equals(grouping.getGroupingName().trim())) {
+			return Msg.fail().add("msg", "分组名称不能为空");
+		}
+		Grouping record = new Grouping();
+		record.setGroupingName(grouping.getGroupingName());
+		record = groupingService.selectByPrimary(record);
+		if(record != null){
+			return Msg.fail().add("msg", "分组名称不能重复");
+		}
+		
+		int result = groupingService.updateByPrimaryKeySelective(grouping);
+		if(result != 0){
+			return Msg.success();
+		}else{
+			return Msg.fail();
+		}
+	}
+	/**
+	 * 单个批量二合一
+	 * 批量删除：1-2-3
+	 * 单个删除：1
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/deleteGrouping/{ids}",method=RequestMethod.DELETE)
+	public Msg deleteGrouping(@PathVariable("ids")String ids){
+		AdminGrouping adminGrouping = new AdminGrouping();
+		List<AdminGrouping> list = null;
+		//批量删除
+		if(ids.contains("-")){
+			List<Integer> del_ids = new ArrayList<Integer>();
+			String[] str_ids = ids.split("-");
+			for (int i = 0; i < str_ids.length; i++){
+				adminGrouping.setAdminGroupingId(Integer.parseInt(str_ids[i]));
+				list = adminGroupingService.selectByExample(adminGrouping);
+				if(list != null && !list.isEmpty()){
+					return Msg.fail().add("msg", "先删除对应的用户");
+				}
+				Integer id = Integer.parseInt(str_ids[i]);
+				String reString = this.delete(id);
+				if(!reString.equals("成功")){
+					return Msg.fail();
+				}else{
+					int re = groupingService.deleteByPrimaryKey(id);
+					if(re == 0){
+						return Msg.fail();
+					}
+				}
+			}
+		}else{
+			adminGrouping.setAdminGroupingId(Integer.parseInt(ids));
+			list = adminGroupingService.selectByExample(adminGrouping);
+			if(list != null && !list.isEmpty()){
+				return Msg.fail().add("msg", "先删除对应的用户");
+			}
+			Integer id = Integer.parseInt(ids);
+			String reString = this.delete(id);
+			if(!reString.equals("成功")){
+				return Msg.fail();
+			}else{
+				int re = groupingService.deleteByPrimaryKey(id);
+				if(re != 0){
+					return Msg.success();
+				}else{
+					return Msg.fail();
+				}
+			}
+		}
+		return Msg.success();
+	}
+	public String delete(int id){
+		//删除用户角色表
+		AdminGrouping adminGrouping = new AdminGrouping();
+		adminGrouping.setAdminGroupingGroupingId(id);
+		AdminGrouping ag = adminGroupingService.selectByPrimary(adminGrouping);
+		Grouping grouping = new Grouping();
+		grouping.setGroupingName("默认分组");
+		if(ag != null){
+			//设置默认分组
+			ag.setAdminGroupingGroupingId(groupingService.selectByPrimary(grouping).getGroupingId());
+			int result = adminGroupingService.updateByPrimaryKeySelective(ag);
+			if(result != 0){
+				return "成功";
+			}else{
+				return "删除用户分组数据失败";
+			}
+		}
+		return "成功";
+	}
+}

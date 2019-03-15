@@ -1,0 +1,28 @@
+package com.py.dao;
+
+import java.util.List;
+
+import com.py.bean.Order;
+
+public interface OrderMapper {
+    int deleteByPrimaryKey(Integer orderId);
+
+    int insert(Order record);
+
+    int insertSelective(Order record);
+
+    Order selectByPrimaryKey(Integer orderId);
+
+    int updateByPrimaryKeySelective(Order record);
+
+    int updateByPrimaryKey(Order record);
+
+	Order selectByPrimary(Order order);
+
+	List<Order> selectByExample(Order order);
+
+	Order getPickupCode(Order order);
+
+	List<Order> selectOrderByExample(String orderNumber, String orderPaymentId, String orderStatus,
+			String createStartTime, String createEndTime, String updateStartTime, String updateEndTime);
+}

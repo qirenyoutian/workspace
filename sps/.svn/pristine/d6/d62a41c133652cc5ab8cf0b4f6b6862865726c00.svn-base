@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.MonthCardMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.MonthCard">
+    <id column="month_card_id" jdbcType="INTEGER" property="monthCardId" />
+    <result column="month_card_name" jdbcType="VARCHAR" property="monthCardName" />
+    <result column="month_card_route" jdbcType="INTEGER" property="monthCardRoute" />
+    <result column="month_card_price" jdbcType="DOUBLE" property="monthCardPrice" />
+    <result column="month_card_status" jdbcType="INTEGER" property="monthCardStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    month_card_id, month_card_name, month_card_route, month_card_price, month_card_status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from month_card
+    where month_card_id = #{monthCardId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from month_card
+    where month_card_id = #{monthCardId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.MonthCard">
+    insert into month_card (month_card_id, month_card_name, month_card_route, 
+      month_card_price, month_card_status)
+    values (#{monthCardId,jdbcType=INTEGER}, #{monthCardName,jdbcType=VARCHAR}, #{monthCardRoute,jdbcType=INTEGER}, 
+      #{monthCardPrice,jdbcType=DOUBLE}, #{monthCardStatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.MonthCard">
+    insert into month_card
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="monthCardId != null">
+        month_card_id,
+      </if>
+      <if test="monthCardName != null">
+        month_card_name,
+      </if>
+      <if test="monthCardRoute != null">
+        month_card_route,
+      </if>
+      <if test="monthCardPrice != null">
+        month_card_price,
+      </if>
+      <if test="monthCardStatus != null">
+        month_card_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="monthCardId != null">
+        #{monthCardId,jdbcType=INTEGER},
+      </if>
+      <if test="monthCardName != null">
+        #{monthCardName,jdbcType=VARCHAR},
+      </if>
+      <if test="monthCardRoute != null">
+        #{monthCardRoute,jdbcType=INTEGER},
+      </if>
+      <if test="monthCardPrice != null">
+        #{monthCardPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="monthCardStatus != null">
+        #{monthCardStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.MonthCard">
+    update month_card
+    <set>
+      <if test="monthCardName != null">
+        month_card_name = #{monthCardName,jdbcType=VARCHAR},
+      </if>
+      <if test="monthCardRoute != null">
+        month_card_route = #{monthCardRoute,jdbcType=INTEGER},
+      </if>
+      <if test="monthCardPrice != null">
+        month_card_price = #{monthCardPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="monthCardStatus != null">
+        month_card_status = #{monthCardStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where month_card_id = #{monthCardId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.MonthCard">
+    update month_card
+    set month_card_name = #{monthCardName,jdbcType=VARCHAR},
+      month_card_route = #{monthCardRoute,jdbcType=INTEGER},
+      month_card_price = #{monthCardPrice,jdbcType=DOUBLE},
+      month_card_status = #{monthCardStatus,jdbcType=INTEGER}
+    where month_card_id = #{monthCardId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultRecordMap" type="com.py.bean.MonthCardRecord">
+    <id column="month_card_id" jdbcType="INTEGER" property="monthCardId" />
+    <result column="month_card_name" jdbcType="VARCHAR" property="monthCardName" />
+    <result column="month_card_route" jdbcType="INTEGER" property="monthCardRoute" />
+    <result column="month_card_price" jdbcType="DOUBLE" property="monthCardPrice" />
+    <result column="month_card_status" jdbcType="INTEGER" property="monthCardStatus" />
+    	<collection column="month_card_id" ofType="com.py.bean.MonthCardBuy" property="monthCardBuy">  
+            <id column="month_card_buy_id" jdbcType="INTEGER" property="monthCardBuyId" />
+		    <result column="month_card_buy_user_id" jdbcType="INTEGER" property="monthCardBuyUserId" />
+		    <result column="month_card_id" jdbcType="INTEGER" property="monthCardId" />
+		    <result column="month_card_buy_start_time" jdbcType="TIMESTAMP" property="monthCardBuyStartTime" />
+		    <result column="month_card_buy_end_time" jdbcType="TIMESTAMP" property="monthCardBuyEndTime" />
+        </collection>
+        <collection column="route_id" ofType="com.py.bean.Route" property="route">  
+            <id column="route_id" jdbcType="INTEGER" property="routeId" />
+		    <result column="route_location_name" jdbcType="VARCHAR" property="routeLocationName" />
+		    <result column="route_longitude" jdbcType="DOUBLE" property="routeLongitude" />
+		    <result column="route_latitude" jdbcType="DOUBLE" property="routeLatitude" />
+		    <result column="route_camera_ip" jdbcType="VARCHAR" property="routeCameraIp" />
+		    <result column="route_billing_method_id" jdbcType="INTEGER" property="routeBillingMethodId" />
+		    <result column="route_time" jdbcType="TIMESTAMP" property="routeTime" />
+		    <result column="route_delfalg" jdbcType="INTEGER" property="routeDelfalg" />
+        </collection>
+  </resultMap>
+  
+  <select id="selectByExampleRecord" parameterType="com.py.bean.MonthCard" resultMap="BaseResultRecordMap">
+  	SELECT
+		*
+	FROM
+		month_card t1,
+		route t2
+	WHERE
+		1 = 1
+	  <if test="monthCardName != null">
+        and t1.month_card_name = #{monthCardName,jdbcType=VARCHAR}
+      </if>
+      <if test="monthCardRoute != null">
+        and t1.month_card_route = #{monthCardRoute,jdbcType=INTEGER}
+      </if>
+      <if test="monthCardPrice != null">
+       and t1.month_card_price = #{monthCardPrice,jdbcType=DOUBLE}
+      </if>
+      <if test="monthCardStatus != null">
+        and t1.month_card_status = #{monthCardStatus,jdbcType=INTEGER}
+      </if>
+	AND t2.route_id = t1.month_card_route
+  	
+  </select>
+  
+  <select id="selectByPrimaryRecord" parameterType="com.py.bean.MonthCardRecord" resultMap="BaseResultRecordMap">
+  	select
+  	*
+  	from month_card_buy mcb LEFT JOIN month_card mc on mcb.month_card_id = mc.month_card_id LEFT JOIN route r on mc.month_card_route = r.route_id
+  	where 1=1
+  	<if test="monthCardBuy.monthCardBuyUserId != null">
+  		and mcb.month_card_buy_user_id = #{monthCardBuy.monthCardBuyUserId,jdbcType=INTEGER}
+  	</if>
+  	<if test="monthCardRoute != null">
+  		and mc.month_card_route = #{monthCardRoute,jdbcType=INTEGER}
+  	</if>
+  </select>
+  
+   <select id="selectmonthCardRoute" resultMap="BaseResultRecordMap">
+	  	SELECT
+			t2.route_location_name
+		FROM
+			month_card t1,
+			route t2
+		WHERE
+			1 = 1
+		AND t2.route_id = t1.month_card_route
+  </select>
+  
+  <update id="updateStatusById" parameterType="java.lang.Integer">
+  	update month_card
+  		set month_card_status =  #{status,jdbcType=INTEGER}
+  	where
+  		month_card_id = #{id,jdbcType=INTEGER}
+  	
+  </update>
+  
+  <select id="selectByPrimary" parameterType="com.py.bean.MonthCard" resultMap="BaseResultMap">
+  		select * 
+  		from month_card
+  		where 1=1
+  		<if test="monthCardId != null">
+	  		and month_card_id = #{monthCardId,jdbcType=INTEGER}
+  		</if>
+  		<if test="monthCardName != null">
+        and month_card_name = #{monthCardName,jdbcType=VARCHAR}
+      </if>
+      <if test="monthCardRoute != null">
+        and month_card_route = #{monthCardRoute,jdbcType=INTEGER}
+      </if>
+      <if test="monthCardPrice != null">
+       and month_card_price = #{monthCardPrice,jdbcType=DOUBLE}
+      </if>
+      <if test="monthCardStatus != null">
+        and month_card_status = #{monthCardStatus,jdbcType=INTEGER}
+      </if>
+  </select>
+</mapper>

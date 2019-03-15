@@ -1,0 +1,52 @@
+package com.example.admin.serialdemo.Portutil;
+
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+
+
+public class SerialPort extends SerialPortJNI{
+
+    private File device;
+    private int Rate;
+    private int nBits;
+    private char nEvent;
+    private int nStop;
+    private String data;
+
+    public SerialPort(File device, int rate, int nBits, char nEvent, int nStop) {
+        super();
+        this.device = device;
+        this.Rate = rate;
+        this.nBits = nBits;
+        this.nEvent = nEvent;
+        this.nStop = nStop;
+        super.open(device.getAbsolutePath(), rate, nBits, nEvent, nStop);
+    }
+
+    public void close() {
+        super.close(device.getAbsolutePath());
+    }
+
+    public void sendData(byte[] buf, int length) {
+        super.write(device.getAbsolutePath(), buf, length);
+    }
+
+    public byte[] receiveData() {
+        return super.read(device.getAbsolutePath());
+    }
+
+    public String receiveData(String charsetName) {
+        byte[] buf = super.read(device.getAbsolutePath());
+        if (buf != null) {
+            int length = buf.length;
+            try {
+                data = new String(buf, 0, length, charsetName);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            return data;
+        } else {
+            return null;
+        }
+    }
+}

@@ -1,0 +1,283 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%
+	pageContext.setAttribute("APP_PATH", request.getContextPath());
+%>
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="${APP_PATH }/static/page/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${APP_PATH }/static/login/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${APP_PATH }/static/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${APP_PATH }/static/login/skin/default/skin.css" id="skin" />
+
+<title>数据分析</title>
+</head>
+<style>
+
+.aaa{
+	width:100px;
+	height:32px;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+.tt{
+	width:75%;
+	height: 90px;
+	margin: auto;
+}
+</style>
+<body>
+<nav class="breadcrumb">
+	<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 数据分析 <span class="c-gray en">&gt;</span> 数据查询
+	<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" >
+		<i class="Hui-iconfont">&#xe68f;</i>
+	</a>
+</nav>
+<div class="text-c">
+	<form method="post" action="#" id="merchandise_form">
+		<table class="tt">
+			<tr>
+				<td>商户名称：</td>
+				<td>
+					<select id="CommerName" name="commerName" style="width:150px;" class="aaa"></select>
+				</td>
+				<td>商品名称：</td>
+				<td>
+					<select id="MerchandiseName" name="MerchandiseName" style="width:150px;" class="aaa">
+						<option value="">---请选择---</option>
+					</select>
+				</td>
+				<td>商品类型：</td>
+				<td>
+					<select id="MerchandiseClassfiy" name="Classfiy" style="width:150px;" class="aaa"></select>
+				</td>
+				<td>上架状态：</td>
+				<td>
+					<select id="Status" style="width:150px;" class="aaa" name="status">
+						<option value="">---请选择---</option>
+						<option value="0">未上架</option>
+						<option value="1">已上架</option>
+					</select>
+				</td>
+			</tr>
+		</table>
+	</form>
+	</div>
+
+    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+    <div id="main" style="width:1000px;height:550px; margin: auto;"></div>
+
+
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="${APP_PATH }/static/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${APP_PATH }/static/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${APP_PATH }/static/page/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="${APP_PATH }/static/login/js/H-ui.admin.js"></script> 
+<!--/_footer 作为公共模版分离出去-->
+
+<script type="text/javascript" src="${APP_PATH }/static/page/js/echarts.min.js"></script> 
+<script type="text/javascript">
+
+$(function(){
+	//getPointReport();
+	initData();
+})
+
+		/* function getPointReport(){
+			var myChart = echarts.init(document.getElementById('main'));
+			var piontName = new Array();
+			var price = new Array();
+			var count;
+			var legendData = ['甲', '乙','丙'];
+			var year = "";
+			var month = "";
+			$.ajax({
+				url:"${APP_PATH}/getPointReport",
+				data:{
+					"year":year,
+					"month":month
+					}, 
+				type:"POST",
+				async:false,
+				success:function(result){
+					var value = result.object;
+					$.each(value,function(index,it){
+						piontName.push(it.pointName);
+						price.push(it.sum);
+						count = it.count;
+					})
+					return piontName+price+count;
+				}
+			});
+			
+			
+			// 指定图表的配置项和数据
+			var option = {
+			    title: {
+			        text: '点位报表'
+			    },
+			    tooltip: {},
+			    legend: {
+			        data:['销量']
+			    },
+			    xAxis: {
+			        data: piontName
+			    },
+			    yAxis: {},
+			    series: [{
+			        name: '销量',
+			        type: 'bar',
+			        data: price
+			    }]
+			};
+		myChart.setOption(option);
+			
+			
+			
+		}
+		 */
+		 
+		 
+		 
+		  //生成数据
+		    function initData() {
+		        var legendData = ['销售额', '销售量'];
+		        var bgColorList = ['#DC143C', '#31BDF2','#6495ED'];
+		       // var axisLabel = ['化学', '数学', '地理', '物理', '英语', '音乐', '语文', '历史', '美术', '生物', '信息技术', '政治', '体育'];
+		        var seriesValue = [];
+		        
+		        var piontName = new Array();
+				var price = new Array();
+				var count = new Array();
+				var year = "";
+				var month = "";
+				$.ajax({
+					url:"${APP_PATH}/getPointReport",
+					data:{
+						"year":year,
+						"month":month
+						}, 
+					type:"POST",
+					async:false,
+					success:function(result){
+						var value = result.object;
+						$.each(value,function(index,it){
+							piontName.push(it.pointName);
+							price.push(it.sum);
+							count.push(it.count);
+							//count = it.count;
+						})
+						return piontName+price+count;
+					}
+				});
+		        buildChart(legendData, piontName, price,count);
+
+		    }
+
+		//生成Echarts图形
+		    function buildChart(legendData, axisLabel, price,count) {
+		        var chart = document.getElementById('main');
+		        var echart = echarts.init(chart);
+		        var option = {
+		            title: {
+		                text: "点位销售报表分析",//正标题
+		                x: "center", //标题水平方向位置
+		                y: "0", //标题竖直方向位置
+		                textStyle: {
+		                    fontSize: 18,
+		                    fontWeight: 'normal',
+		                    color: '#666'
+		                }
+		            },
+		            tooltip: {
+		                trigger: 'axis',
+		                axisPointer: {
+		                    type: 'shadow'//阴影，若需要为直线，则值为'line'
+		                }
+		            },
+		            toolbox: {
+		                show: true,
+		                feature: {
+		                    saveAsImage: {show: true},
+		                    mark : {show: true},
+		                    dataView : {show: true, readOnly: false},
+		                    magicType : {show: true, type: ['line', 'bar']},
+		                    restore : {show: true},
+		                }
+		            },
+		            legend: {
+		                data: legendData,
+		                y: 'bottom'//图例说明文字设置
+
+		            },
+		            grid: {
+		                left: '3%',
+		                right: '4%',
+		                bottom: '10%',
+		                top:'10%',
+		                containLabel: true
+		            },
+		            xAxis: [{
+		                min: 0,
+		                type: 'category', //纵向柱状图，若需要为横向，则此处值为'value'， 下面 yAxis 的type值为'category'
+		                data: axisLabel
+		            }],
+		            yAxis: [{
+		                min: 0,
+		                type: 'value',
+		                splitArea: {show: false}
+		            }],
+		            label: {
+		                normal: { //显示bar数据
+		                    show: true,
+		                    position: 'top'
+		                }
+		            },
+		            series: [
+		                     {
+		                         name:'销售额',
+		                         type:'bar',
+		                         data:price,
+		                         markPoint : {
+		                           data : [
+		                             {type : 'max', name: '最大值'},
+		                             {type : 'min', name: '最小值'}
+		                           ]
+		                         },
+		                         markLine : {
+		                           data : [
+		                             {type : 'average', name: '平均值'}
+		                           ]
+		                         }
+		                       },
+		                       {
+		                         name:'销售量',
+		                         type:'bar',
+		                         data:count,
+		                         markPoint : {
+		                           data : [
+		                             {type : 'max', name: '最大值'},
+		                             {type : 'min', name: '最小值'}
+		                           ]
+		                         },
+		                         markLine : {
+		                           data : [
+		                             {type : 'average', name: '平均值'}
+		                           ]
+		                         }
+		                       }]
+		        };
+
+		        echart.setOption(option);
+		    }
+		 
+		
+
+</script>
+</body>
+</html>

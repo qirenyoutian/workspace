@@ -1,0 +1,445 @@
+package com.example.admin.serialdemo.bean;
+
+import java.util.List;
+
+public class ListOneBean {
+
+
+    /**
+     * code : 100
+     * msg : 处理成功！
+     * extend : {"classifie":[{"merchandiseClassifyId":1,"merchandiseClassifyName":"饮料","merchandiseClassifyNote":null,"merchandiseClassifyImage":null,"merchandiseClassifyTime":null,"merchandiseClassifyUpdateTime":null},{"merchandiseClassifyId":2,"merchandiseClassifyName":"生活用品","merchandiseClassifyNote":null,"merchandiseClassifyImage":null,"merchandiseClassifyTime":null,"merchandiseClassifyUpdateTime":null}],"pageInfo":{"pageNum":1,"pageSize":6,"size":6,"startRow":0,"endRow":5,"total":6,"pages":1,"list":[{"merchandiseId":1,"merchandiseName":"雪碧","merchandiseNumber":"33","merchandisePrice":33,"merchandiseImageUrl":"/pic/aa.jpg","merchandiseStatus":222,"classifyId":1,"classifyName":"饮料","aisleId":1},{"merchandiseId":9,"merchandiseName":"可乐","merchandiseNumber":"22","merchandisePrice":12,"merchandiseImageUrl":"/pic/bb.jpg","merchandiseStatus":2222222,"classifyId":1,"classifyName":"饮料","aisleId":2},{"merchandiseId":10,"merchandiseName":"小茗同学","merchandiseNumber":"11","merchandisePrice":11,"merchandiseImageUrl":"/pic/cc.jpg","merchandiseStatus":11,"classifyId":1,"classifyName":"饮料","aisleId":3},{"merchandiseId":1,"merchandiseName":"雪碧","merchandiseNumber":"33","merchandisePrice":33,"merchandiseImageUrl":"/pic/aa.jpg","merchandiseStatus":222,"classifyId":1,"classifyName":"饮料","aisleId":4},{"merchandiseId":10,"merchandiseName":"小茗同学","merchandiseNumber":"11","merchandisePrice":11,"merchandiseImageUrl":"/pic/cc.jpg","merchandiseStatus":11,"classifyId":1,"classifyName":"饮料","aisleId":5},{"merchandiseId":2,"merchandiseName":"纸巾","merchandiseNumber":"44","merchandisePrice":2.5,"merchandiseImageUrl":"/pic/dd.jpg","merchandiseStatus":0,"classifyId":2,"classifyName":"生活用品","aisleId":6}],"prePage":0,"nextPage":0,"isFirstPage":true,"isLastPage":true,"hasPreviousPage":false,"hasNextPage":false,"navigatePages":8,"navigatepageNums":[1],"navigateFirstPage":1,"navigateLastPage":1,"lastPage":1,"firstPage":1}}
+     * object : null
+     */
+
+    private int code;
+    private String msg;
+    private ExtendBean extend;
+    private Object object;
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public ExtendBean getExtend() {
+        return extend;
+    }
+
+    public void setExtend(ExtendBean extend) {
+        this.extend = extend;
+    }
+
+    public Object getObject() {
+        return object;
+    }
+
+    public void setObject(Object object) {
+        this.object = object;
+    }
+
+    public static class ExtendBean {
+        /**
+         * classifie : [{"merchandiseClassifyId":1,"merchandiseClassifyName":"饮料","merchandiseClassifyNote":null,"merchandiseClassifyImage":null,"merchandiseClassifyTime":null,"merchandiseClassifyUpdateTime":null},{"merchandiseClassifyId":2,"merchandiseClassifyName":"生活用品","merchandiseClassifyNote":null,"merchandiseClassifyImage":null,"merchandiseClassifyTime":null,"merchandiseClassifyUpdateTime":null}]
+         * pageInfo : {"pageNum":1,"pageSize":6,"size":6,"startRow":0,"endRow":5,"total":6,"pages":1,"list":[{"merchandiseId":1,"merchandiseName":"雪碧","merchandiseNumber":"33","merchandisePrice":33,"merchandiseImageUrl":"/pic/aa.jpg","merchandiseStatus":222,"classifyId":1,"classifyName":"饮料","aisleId":1},{"merchandiseId":9,"merchandiseName":"可乐","merchandiseNumber":"22","merchandisePrice":12,"merchandiseImageUrl":"/pic/bb.jpg","merchandiseStatus":2222222,"classifyId":1,"classifyName":"饮料","aisleId":2},{"merchandiseId":10,"merchandiseName":"小茗同学","merchandiseNumber":"11","merchandisePrice":11,"merchandiseImageUrl":"/pic/cc.jpg","merchandiseStatus":11,"classifyId":1,"classifyName":"饮料","aisleId":3},{"merchandiseId":1,"merchandiseName":"雪碧","merchandiseNumber":"33","merchandisePrice":33,"merchandiseImageUrl":"/pic/aa.jpg","merchandiseStatus":222,"classifyId":1,"classifyName":"饮料","aisleId":4},{"merchandiseId":10,"merchandiseName":"小茗同学","merchandiseNumber":"11","merchandisePrice":11,"merchandiseImageUrl":"/pic/cc.jpg","merchandiseStatus":11,"classifyId":1,"classifyName":"饮料","aisleId":5},{"merchandiseId":2,"merchandiseName":"纸巾","merchandiseNumber":"44","merchandisePrice":2.5,"merchandiseImageUrl":"/pic/dd.jpg","merchandiseStatus":0,"classifyId":2,"classifyName":"生活用品","aisleId":6}],"prePage":0,"nextPage":0,"isFirstPage":true,"isLastPage":true,"hasPreviousPage":false,"hasNextPage":false,"navigatePages":8,"navigatepageNums":[1],"navigateFirstPage":1,"navigateLastPage":1,"lastPage":1,"firstPage":1}
+         */
+
+        private PageInfoBean pageInfo;
+        private List<ClassifieBean> classifie;
+
+        public PageInfoBean getPageInfo() {
+            return pageInfo;
+        }
+
+        public void setPageInfo(PageInfoBean pageInfo) {
+            this.pageInfo = pageInfo;
+        }
+
+        public List<ClassifieBean> getClassifie() {
+            return classifie;
+        }
+
+        public void setClassifie(List<ClassifieBean> classifie) {
+            this.classifie = classifie;
+        }
+
+        public static class PageInfoBean {
+            /**
+             * pageNum : 1
+             * pageSize : 6
+             * size : 6
+             * startRow : 0
+             * endRow : 5
+             * total : 6
+             * pages : 1
+             * list : [{"merchandiseId":1,"merchandiseName":"雪碧","merchandiseNumber":"33","merchandisePrice":33,"merchandiseImageUrl":"/pic/aa.jpg","merchandiseStatus":222,"classifyId":1,"classifyName":"饮料","aisleId":1},{"merchandiseId":9,"merchandiseName":"可乐","merchandiseNumber":"22","merchandisePrice":12,"merchandiseImageUrl":"/pic/bb.jpg","merchandiseStatus":2222222,"classifyId":1,"classifyName":"饮料","aisleId":2},{"merchandiseId":10,"merchandiseName":"小茗同学","merchandiseNumber":"11","merchandisePrice":11,"merchandiseImageUrl":"/pic/cc.jpg","merchandiseStatus":11,"classifyId":1,"classifyName":"饮料","aisleId":3},{"merchandiseId":1,"merchandiseName":"雪碧","merchandiseNumber":"33","merchandisePrice":33,"merchandiseImageUrl":"/pic/aa.jpg","merchandiseStatus":222,"classifyId":1,"classifyName":"饮料","aisleId":4},{"merchandiseId":10,"merchandiseName":"小茗同学","merchandiseNumber":"11","merchandisePrice":11,"merchandiseImageUrl":"/pic/cc.jpg","merchandiseStatus":11,"classifyId":1,"classifyName":"饮料","aisleId":5},{"merchandiseId":2,"merchandiseName":"纸巾","merchandiseNumber":"44","merchandisePrice":2.5,"merchandiseImageUrl":"/pic/dd.jpg","merchandiseStatus":0,"classifyId":2,"classifyName":"生活用品","aisleId":6}]
+             * prePage : 0
+             * nextPage : 0
+             * isFirstPage : true
+             * isLastPage : true
+             * hasPreviousPage : false
+             * hasNextPage : false
+             * navigatePages : 8
+             * navigatepageNums : [1]
+             * navigateFirstPage : 1
+             * navigateLastPage : 1
+             * lastPage : 1
+             * firstPage : 1
+             */
+
+            private int pageNum;
+            private int pageSize;
+            private int size;
+            private int startRow;
+            private int endRow;
+            private int total;
+            private int pages;
+            private int prePage;
+            private int nextPage;
+            private boolean isFirstPage;
+            private boolean isLastPage;
+            private boolean hasPreviousPage;
+            private boolean hasNextPage;
+            private int navigatePages;
+            private int navigateFirstPage;
+            private int navigateLastPage;
+            private int lastPage;
+            private int firstPage;
+            private List<ListBean> list;
+            private List<Integer> navigatepageNums;
+
+            public int getPageNum() {
+                return pageNum;
+            }
+
+            public void setPageNum(int pageNum) {
+                this.pageNum = pageNum;
+            }
+
+            public int getPageSize() {
+                return pageSize;
+            }
+
+            public void setPageSize(int pageSize) {
+                this.pageSize = pageSize;
+            }
+
+            public int getSize() {
+                return size;
+            }
+
+            public void setSize(int size) {
+                this.size = size;
+            }
+
+            public int getStartRow() {
+                return startRow;
+            }
+
+            public void setStartRow(int startRow) {
+                this.startRow = startRow;
+            }
+
+            public int getEndRow() {
+                return endRow;
+            }
+
+            public void setEndRow(int endRow) {
+                this.endRow = endRow;
+            }
+
+            public int getTotal() {
+                return total;
+            }
+
+            public void setTotal(int total) {
+                this.total = total;
+            }
+
+            public int getPages() {
+                return pages;
+            }
+
+            public void setPages(int pages) {
+                this.pages = pages;
+            }
+
+            public int getPrePage() {
+                return prePage;
+            }
+
+            public void setPrePage(int prePage) {
+                this.prePage = prePage;
+            }
+
+            public int getNextPage() {
+                return nextPage;
+            }
+
+            public void setNextPage(int nextPage) {
+                this.nextPage = nextPage;
+            }
+
+            public boolean isIsFirstPage() {
+                return isFirstPage;
+            }
+
+            public void setIsFirstPage(boolean isFirstPage) {
+                this.isFirstPage = isFirstPage;
+            }
+
+            public boolean isIsLastPage() {
+                return isLastPage;
+            }
+
+            public void setIsLastPage(boolean isLastPage) {
+                this.isLastPage = isLastPage;
+            }
+
+            public boolean isHasPreviousPage() {
+                return hasPreviousPage;
+            }
+
+            public void setHasPreviousPage(boolean hasPreviousPage) {
+                this.hasPreviousPage = hasPreviousPage;
+            }
+
+            public boolean isHasNextPage() {
+                return hasNextPage;
+            }
+
+            public void setHasNextPage(boolean hasNextPage) {
+                this.hasNextPage = hasNextPage;
+            }
+
+            public int getNavigatePages() {
+                return navigatePages;
+            }
+
+            public void setNavigatePages(int navigatePages) {
+                this.navigatePages = navigatePages;
+            }
+
+            public int getNavigateFirstPage() {
+                return navigateFirstPage;
+            }
+
+            public void setNavigateFirstPage(int navigateFirstPage) {
+                this.navigateFirstPage = navigateFirstPage;
+            }
+
+            public int getNavigateLastPage() {
+                return navigateLastPage;
+            }
+
+            public void setNavigateLastPage(int navigateLastPage) {
+                this.navigateLastPage = navigateLastPage;
+            }
+
+            public int getLastPage() {
+                return lastPage;
+            }
+
+            public void setLastPage(int lastPage) {
+                this.lastPage = lastPage;
+            }
+
+            public int getFirstPage() {
+                return firstPage;
+            }
+
+            public void setFirstPage(int firstPage) {
+                this.firstPage = firstPage;
+            }
+
+            public List<ListBean> getList() {
+                return list;
+            }
+
+            public void setList(List<ListBean> list) {
+                this.list = list;
+            }
+
+            public List<Integer> getNavigatepageNums() {
+                return navigatepageNums;
+            }
+
+            public void setNavigatepageNums(List<Integer> navigatepageNums) {
+                this.navigatepageNums = navigatepageNums;
+            }
+
+            public static class ListBean {
+                /**
+                 * merchandiseId : 1
+                 * merchandiseName : 雪碧
+                 * merchandiseNumber : 33
+                 * merchandisePrice : 33.0
+                 * merchandiseImageUrl : /pic/aa.jpg
+                 * merchandiseStatus : 222
+                 * classifyId : 1
+                 * classifyName : 饮料
+                 * aisleId : 1
+                 */
+
+                private int merchandiseId;
+                private String merchandiseName;
+                private String merchandiseNumber;
+                private double merchandisePrice;
+                private String merchandiseImageUrl;
+                private int merchandiseStatus;
+                private int classifyId;
+                private String classifyName;
+                private int aisleId;
+
+                public int getMerchandiseId() {
+                    return merchandiseId;
+                }
+
+                public void setMerchandiseId(int merchandiseId) {
+                    this.merchandiseId = merchandiseId;
+                }
+
+                public String getMerchandiseName() {
+                    return merchandiseName;
+                }
+
+                public void setMerchandiseName(String merchandiseName) {
+                    this.merchandiseName = merchandiseName;
+                }
+
+                public String getMerchandiseNumber() {
+                    return merchandiseNumber;
+                }
+
+                public void setMerchandiseNumber(String merchandiseNumber) {
+                    this.merchandiseNumber = merchandiseNumber;
+                }
+
+                public double getMerchandisePrice() {
+                    return merchandisePrice;
+                }
+
+                public void setMerchandisePrice(double merchandisePrice) {
+                    this.merchandisePrice = merchandisePrice;
+                }
+
+                public String getMerchandiseImageUrl() {
+                    return merchandiseImageUrl;
+                }
+
+                public void setMerchandiseImageUrl(String merchandiseImageUrl) {
+                    this.merchandiseImageUrl = merchandiseImageUrl;
+                }
+
+                public int getMerchandiseStatus() {
+                    return merchandiseStatus;
+                }
+
+                public void setMerchandiseStatus(int merchandiseStatus) {
+                    this.merchandiseStatus = merchandiseStatus;
+                }
+
+                public int getClassifyId() {
+                    return classifyId;
+                }
+
+                public void setClassifyId(int classifyId) {
+                    this.classifyId = classifyId;
+                }
+
+                public String getClassifyName() {
+                    return classifyName;
+                }
+
+                public void setClassifyName(String classifyName) {
+                    this.classifyName = classifyName;
+                }
+
+                public int getAisleId() {
+                    return aisleId;
+                }
+
+                public void setAisleId(int aisleId) {
+                    this.aisleId = aisleId;
+                }
+            }
+        }
+
+        public static class ClassifieBean {
+            /**
+             * merchandiseClassifyId : 1
+             * merchandiseClassifyName : 饮料
+             * merchandiseClassifyNote : null
+             * merchandiseClassifyImage : null
+             * merchandiseClassifyTime : null
+             * merchandiseClassifyUpdateTime : null
+             */
+
+            private int merchandiseClassifyId;
+            private String merchandiseClassifyName;
+            private Object merchandiseClassifyNote;
+            private Object merchandiseClassifyImage;
+            private Object merchandiseClassifyTime;
+            private Object merchandiseClassifyUpdateTime;
+
+            public int getMerchandiseClassifyId() {
+                return merchandiseClassifyId;
+            }
+
+            public void setMerchandiseClassifyId(int merchandiseClassifyId) {
+                this.merchandiseClassifyId = merchandiseClassifyId;
+            }
+
+            public String getMerchandiseClassifyName() {
+                return merchandiseClassifyName;
+            }
+
+            public void setMerchandiseClassifyName(String merchandiseClassifyName) {
+                this.merchandiseClassifyName = merchandiseClassifyName;
+            }
+
+            public Object getMerchandiseClassifyNote() {
+                return merchandiseClassifyNote;
+            }
+
+            public void setMerchandiseClassifyNote(Object merchandiseClassifyNote) {
+                this.merchandiseClassifyNote = merchandiseClassifyNote;
+            }
+
+            public Object getMerchandiseClassifyImage() {
+                return merchandiseClassifyImage;
+            }
+
+            public void setMerchandiseClassifyImage(Object merchandiseClassifyImage) {
+                this.merchandiseClassifyImage = merchandiseClassifyImage;
+            }
+
+            public Object getMerchandiseClassifyTime() {
+                return merchandiseClassifyTime;
+            }
+
+            public void setMerchandiseClassifyTime(Object merchandiseClassifyTime) {
+                this.merchandiseClassifyTime = merchandiseClassifyTime;
+            }
+
+            public Object getMerchandiseClassifyUpdateTime() {
+                return merchandiseClassifyUpdateTime;
+            }
+
+            public void setMerchandiseClassifyUpdateTime(Object merchandiseClassifyUpdateTime) {
+                this.merchandiseClassifyUpdateTime = merchandiseClassifyUpdateTime;
+            }
+        }
+    }
+}

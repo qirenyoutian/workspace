@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.dao.CommercialTenantPaymentMapper">
+  <resultMap id="BaseResultMap" type="com.py.bean.CommercialTenantPayment">
+    <id column="commercial_tenant_payment_id" jdbcType="INTEGER" property="commercialTenantPaymentId" />
+    <result column="commercial_tenant_payment_commercial_tenant_id" jdbcType="INTEGER" property="commercialTenantPaymentCommercialTenantId" />
+    <result column="commercial_tenant_payment_payment_id" jdbcType="INTEGER" property="commercialTenantPaymentPaymentId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    commercial_tenant_payment_id, commercial_tenant_payment_commercial_tenant_id, commercial_tenant_payment_payment_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from commercial_tenant_payment
+    where commercial_tenant_payment_id = #{commercialTenantPaymentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from commercial_tenant_payment
+    where commercial_tenant_payment_id = #{commercialTenantPaymentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.bean.CommercialTenantPayment">
+    insert into commercial_tenant_payment (commercial_tenant_payment_id, commercial_tenant_payment_commercial_tenant_id, 
+      commercial_tenant_payment_payment_id)
+    values (#{commercialTenantPaymentId,jdbcType=INTEGER}, #{commercialTenantPaymentCommercialTenantId,jdbcType=INTEGER}, 
+      #{commercialTenantPaymentPaymentId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.bean.CommercialTenantPayment">
+    insert into commercial_tenant_payment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="commercialTenantPaymentId != null">
+        commercial_tenant_payment_id,
+      </if>
+      <if test="commercialTenantPaymentCommercialTenantId != null">
+        commercial_tenant_payment_commercial_tenant_id,
+      </if>
+      <if test="commercialTenantPaymentPaymentId != null">
+        commercial_tenant_payment_payment_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="commercialTenantPaymentId != null">
+        #{commercialTenantPaymentId,jdbcType=INTEGER},
+      </if>
+      <if test="commercialTenantPaymentCommercialTenantId != null">
+        #{commercialTenantPaymentCommercialTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="commercialTenantPaymentPaymentId != null">
+        #{commercialTenantPaymentPaymentId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.bean.CommercialTenantPayment">
+    update commercial_tenant_payment
+    <set>
+      <if test="commercialTenantPaymentCommercialTenantId != null">
+        commercial_tenant_payment_commercial_tenant_id = #{commercialTenantPaymentCommercialTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="commercialTenantPaymentPaymentId != null">
+        commercial_tenant_payment_payment_id = #{commercialTenantPaymentPaymentId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where commercial_tenant_payment_id = #{commercialTenantPaymentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.bean.CommercialTenantPayment">
+    update commercial_tenant_payment
+    set commercial_tenant_payment_commercial_tenant_id = #{commercialTenantPaymentCommercialTenantId,jdbcType=INTEGER},
+      commercial_tenant_payment_payment_id = #{commercialTenantPaymentPaymentId,jdbcType=INTEGER}
+    where commercial_tenant_payment_id = #{commercialTenantPaymentId,jdbcType=INTEGER}
+  </update>
+  
+  <!-- ByExample -->
+  <select id="selectByExample" parameterType="com.py.bean.CommercialTenantPayment" resultMap="BaseResultMap">
+		select * 
+		from commercial_tenant_payment
+		where 1=1
+		  <if test="commercialTenantPaymentId != null">
+	        and commercial_tenant_payment_id = #{commercialTenantPaymentId,jdbcType=INTEGER}
+	      </if>
+	      <if test="commercialTenantPaymentCommercialTenantId != null">
+	        and commercial_tenant_payment_commercial_tenant_id = #{commercialTenantPaymentCommercialTenantId,jdbcType=INTEGER}
+	      </if>
+	      <if test="commercialTenantPaymentPaymentId != null">
+	        and commercial_tenant_payment_payment_id = #{commercialTenantPaymentPaymentId,jdbcType=INTEGER}
+	      </if>
+	</select>
+  <!-- 根据商户ID删除 -->
+  
+   <delete id="deleteByCommerId" parameterType="java.lang.Integer">
+  	delete from commercial_tenant_payment
+    where commercial_tenant_payment_commercial_tenant_id = #{commercialTenantPaymentCommercialTenantId,jdbcType=INTEGER}
+  	
+  </delete>
+  
+</mapper>

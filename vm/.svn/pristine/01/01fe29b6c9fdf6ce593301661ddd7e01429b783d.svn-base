@@ -1,0 +1,103 @@
+/*
+ * This file is auto-generated.  DO NOT MODIFY.
+ * Original file: H:\\SerialDemo\\app\\src\\main\\aidl\\com\\example\\admin\\serialdemo\\ISocketMessageListener.aidl
+ */
+package com.example.admin.serialdemo;
+// Declare any non-default types here with import statements
+//消息监听器，主要用于跟新消息
+
+public interface ISocketMessageListener extends android.os.IInterface
+{
+/** Local-side IPC implementation stub class. */
+public static abstract class Stub extends android.os.Binder implements com.example.admin.serialdemo.ISocketMessageListener
+{
+private static final java.lang.String DESCRIPTOR = "com.example.admin.serialdemo.ISocketMessageListener";
+/** Construct the stub at attach it to the interface. */
+public Stub()
+{
+this.attachInterface(this, DESCRIPTOR);
+}
+/**
+ * Cast an IBinder object into an com.example.admin.serialdemo.ISocketMessageListener interface,
+ * generating a proxy if needed.
+ */
+public static com.example.admin.serialdemo.ISocketMessageListener asInterface(android.os.IBinder obj)
+{
+if ((obj==null)) {
+return null;
+}
+android.os.IInterface iin = obj.queryLocalInterface(DESCRIPTOR);
+if (((iin!=null)&&(iin instanceof com.example.admin.serialdemo.ISocketMessageListener))) {
+return ((com.example.admin.serialdemo.ISocketMessageListener)iin);
+}
+return new com.example.admin.serialdemo.ISocketMessageListener.Stub.Proxy(obj);
+}
+@Override public android.os.IBinder asBinder()
+{
+return this;
+}
+@Override public boolean onTransact(int code, android.os.Parcel data, android.os.Parcel reply, int flags) throws android.os.RemoteException
+{
+switch (code)
+{
+case INTERFACE_TRANSACTION:
+{
+reply.writeString(DESCRIPTOR);
+return true;
+}
+case TRANSACTION_updateMessageList:
+{
+data.enforceInterface(DESCRIPTOR);
+com.example.admin.serialdemo.bean.SocketMessage _arg0;
+_arg0 = new com.example.admin.serialdemo.bean.SocketMessage();
+this.updateMessageList(_arg0);
+reply.writeNoException();
+if ((_arg0!=null)) {
+reply.writeInt(1);
+_arg0.writeToParcel(reply, android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE);
+}
+else {
+reply.writeInt(0);
+}
+return true;
+}
+}
+return super.onTransact(code, data, reply, flags);
+}
+private static class Proxy implements com.example.admin.serialdemo.ISocketMessageListener
+{
+private android.os.IBinder mRemote;
+Proxy(android.os.IBinder remote)
+{
+mRemote = remote;
+}
+@Override public android.os.IBinder asBinder()
+{
+return mRemote;
+}
+public java.lang.String getInterfaceDescriptor()
+{
+return DESCRIPTOR;
+}
+@Override public void updateMessageList(com.example.admin.serialdemo.bean.SocketMessage message) throws android.os.RemoteException
+{
+android.os.Parcel _data = android.os.Parcel.obtain();
+android.os.Parcel _reply = android.os.Parcel.obtain();
+try {
+_data.writeInterfaceToken(DESCRIPTOR);
+mRemote.transact(Stub.TRANSACTION_updateMessageList, _data, _reply, 0);
+_reply.readException();
+if ((0!=_reply.readInt())) {
+message.readFromParcel(_reply);
+}
+}
+finally {
+_reply.recycle();
+_data.recycle();
+}
+}
+}
+static final int TRANSACTION_updateMessageList = (android.os.IBinder.FIRST_CALL_TRANSACTION + 0);
+}
+public void updateMessageList(com.example.admin.serialdemo.bean.SocketMessage message) throws android.os.RemoteException;
+}
